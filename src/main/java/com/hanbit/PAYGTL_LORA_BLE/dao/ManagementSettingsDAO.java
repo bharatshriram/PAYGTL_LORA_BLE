@@ -106,9 +106,9 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-				String query = " INSERT INTO user (UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CreatedByID, CreatedByRoleID, ModifiedDate) values(?, ?, ?, ?, 1, <change>, 0, ?, ?, NOW()) ";
+				String query = " INSERT INTO user (UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CreatedByID, CreatedByRoleID, ModifiedDate) values(?, ?, ?, ?, 1, <change>, ?, ?, NOW()) ";
 			
-			    pstmt = con.prepareStatement(query.replaceAll("<change>", (usermanagementvo.getRoleID() == 4) ? "0, 0," : "?, ?,"));
+			    pstmt = con.prepareStatement(query.replaceAll("<change>", (usermanagementvo.getRoleID() == 4) ? "0, 0, 0" : "?, ?, ?"));
 			
 				pstmt.setString(1, usermanagementvo.getUserID());
 				pstmt.setString(2, usermanagementvo.getUserName());
@@ -120,11 +120,24 @@ public class ManagementSettingsDAO {
 				rs = pstmt1.executeQuery();
 				if(rs.next()) {
 					
-				if(usermanagementvo.getRoleID()==5) {
-					pstmt.setInt(5, usermanagementvo.getCommunityID());
-					pstmt.setInt(6, usermanagementvo.getBlockID());
-					pstmt.setInt(7, rs.getInt("ID"));
-					pstmt.setInt(8, usermanagementvo.getLoggedInRoleID());
+				if(usermanagementvo.getRoleID()!=4) {
+					
+					if(usermanagementvo.getRoleID()==3) {
+						
+						pstmt.setInt(5, usermanagementvo.getCommunityID());
+						pstmt.setInt(6, usermanagementvo.getBlockID());
+						pstmt.setInt(7, usermanagementvo.getCustomerID());
+						pstmt.setInt(8, rs.getInt("ID"));
+						pstmt.setInt(9, usermanagementvo.getLoggedInRoleID());
+						
+					}else {
+						pstmt.setInt(5, usermanagementvo.getCommunityID());
+						pstmt.setInt(6, usermanagementvo.getBlockID());
+						pstmt.setInt(7, 0);
+						pstmt.setInt(8, rs.getInt("ID"));
+						pstmt.setInt(9, usermanagementvo.getLoggedInRoleID());
+					}
+					
 				} else {
 					pstmt.setInt(5, rs.getInt("ID"));	
 					pstmt.setInt(6, usermanagementvo.getLoggedInRoleID());

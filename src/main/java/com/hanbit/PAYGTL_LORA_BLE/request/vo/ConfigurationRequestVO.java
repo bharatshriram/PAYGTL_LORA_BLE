@@ -10,55 +10,47 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
 public class ConfigurationRequestVO {
 	
 	private String meterID;
-	private String blockName;
-	private String houseNo;
-	private String commandType;
+	private int communityID;
+	private int blockID;
+	private int customerID;
+	private int commandType;
+	private String transactionID;
 	
-	private String customerID;
-	private String commandTransID;
-	private String commandID;
-
-	public String getBlockName() {
-		return blockName;
-	}
-	public void setBlockName(String blockName) {
-		this.blockName = blockName;
-	}
-	public String getHouseNo() {
-		return houseNo;
-	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
-	}
-	public String getCustomerID() {
-		return customerID;
-	}
-	public void setCustomerID(String customerID) {
-		this.customerID = customerID;
-	}
 	public String getMeterID() {
 		return meterID;
 	}
 	public void setMeterID(String meterID) {
 		this.meterID = meterID;
 	}
-	public String getCommandType() {
+	public int getCommunityID() {
+		return communityID;
+	}
+	public void setCommunityID(int communityID) {
+		this.communityID = communityID;
+	}
+	public int getBlockID() {
+		return blockID;
+	}
+	public void setBlockID(int blockID) {
+		this.blockID = blockID;
+	}
+	public int getCustomerID() {
+		return customerID;
+	}
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+	public int getCommandType() {
 		return commandType;
 	}
-	public void setCommandType(String commandType) {
+	public void setCommandType(int commandType) {
 		this.commandType = commandType;
 	}
-	public String getCommandTransID() {
-		return commandTransID;
+	public String getTransactionID() {
+		return transactionID;
 	}
-	public void setCommandTransID(String commandTransID) {
-		this.commandTransID = commandTransID;
+	public void setTransactionID(String transactionID) {
+		this.transactionID = transactionID;
 	}
-	public String getCommandID() {
-		return commandID;
-	}
-	public void setCommandID(String commandID) {
-		this.commandID = commandID;
-	}
-	
+
 }

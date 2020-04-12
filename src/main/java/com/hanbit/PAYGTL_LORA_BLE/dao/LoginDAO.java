@@ -119,7 +119,7 @@ public class LoginDAO {
 
 		try {
 			con = getConnection();
-			MailDAO maildao = new MailDAO();
+			ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 			MailRequestVO mailrequestvo = new MailRequestVO();
 			pstmt = con.prepareStatement("SELECT CustomerID, UserPassword, CommunityID, BlockID FROM user WHERE UserID = ?");
 			pstmt.setString(1, userid);

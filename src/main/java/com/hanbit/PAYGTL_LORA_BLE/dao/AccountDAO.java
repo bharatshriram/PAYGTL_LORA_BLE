@@ -10,9 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,109 +53,54 @@ public class AccountDAO {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		ResultSet rs4 = null;
-		ResultSet rs5 = null;
 		String result = "Failure";
 		int customerID = 0;
-		int tariffID = 0;
 		try {
 			con = getConnection();
 
-			int community_id = LoginDAO.CommunityID;
-			
-			pstmt2 = con.prepareStatement("select block_id from block where name = ? and com_id=?");
-			pstmt2.setString(1, topupvo.getBlockName());
-			pstmt2.setInt(2, community_id);
-
-			rs4 = pstmt2.executeQuery();
-			if (rs4.next()) {
-				int block_id = rs4.getInt("block_id");
-				pstmt3 = con.prepareStatement("select cust_id from customer where house_no=? and block_id=?");
-				pstmt3.setString(1,topupvo.getHouseNo());
-				pstmt3.setInt(2,block_id);
-				rs5 = pstmt3.executeQuery();
-				if (rs5.next()) {
-					customerID = rs5.getInt("cust_id");
-				}
-			}
-
-			int meter_id = topupvo.getMeterID();
 			String cor_ip = "1";
-			float tariff = topupvo.getTariff();
 			float emr_credit = topupvo.getEmergencyCredit();
 			float alarm_credit = topupvo.getAlarmCredit();
-			float amount = topupvo.getRechargeAmount();
-			String set_tariff = topupvo.getSetTariff();
+			float amount = topupvo.getAmount();
 			
-			String tariff_id = "";
-			String com_name = "";
-			String block_name = "";
-			String house_no = "";
-			String first_name = "";
-			String last_name = "";
-			String email = "";
-			float totconsume;
 			int pstatus = 0;
 			float fcharges = 0;
 			float amnt;
 			int setTariff_Flag;
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-			DateFormat dateFormat_new = new SimpleDateFormat(
-					"yyyy-MM-dd HH:mm:ss");
-			Date date = new Date();
-
-			String sql2 = "select tc.com_name as comname,tb.name as bname,tcu.house_no as hno,tcu.first_name as fname,tcu.last_name as lname,tcu.email as email from community tc,block tb,customer tcu where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=?";
-			PreparedStatement ps2 = con.prepareStatement(sql2);
-			ps2.setInt(1, customerID);
-			ResultSet rs2 = ps2.executeQuery();
-			if (rs2.next()) {
-				com_name = rs2.getString("comname");
-				block_name = rs2.getString("bname");
-				house_no = rs2.getString("hno");
-				first_name = rs2.getString("fname");
-				last_name = rs2.getString("lname");
-				email = rs2.getString("email");
-			}
 
 			String sql10 = "SELECT tc.com_name AS cname,ttf.custid AS cid,tcu.house_no AS hno,tcm.meter_id AS mid,ttf.TotalConsumption AS totconsume,ttf.FixedCharges AS fcharges,ttf.PaidStatus AS pstatus FROM community tc,block tb,customer tcu,customer_meter tcm,tbl_Tr_FixedCharge ttf WHERE tc.com_id=tb.com_id AND tb.block_id=tcu.block_id AND tcu.cust_id=tcm.cust_id AND tcm.meter_id=ttf.MeterNo AND tc.com_id=? and tcu.cust_id=?";
 			PreparedStatement ps3 = con.prepareStatement(sql10);
-			ps3.setInt(1, community_id);
+			ps3.setInt(1, topupvo.getCommunityID());
 			ps3.setInt(2, customerID);
 			ResultSet rs3 = ps3.executeQuery();
 			if (rs3.next()) {
-				totconsume = rs3.getFloat("totconsume");
 				pstatus = rs3.getInt("pstatus");
 				fcharges = rs3.getFloat("fcharges");
 			}
 
-				// if(null==set_tariff)
-				if ("false".equals(set_tariff)) {
+				if (topupvo.getSetTariff()==0) {
 					if (pstatus == 0) {
 						amnt = amount - fcharges;
 						setTariff_Flag = 1;
 						String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
 						ps = con.prepareStatement(sql1);
-						ps.setInt(1, community_id);
+						ps.setInt(1, topupvo.getCommunityID());
 						rs = ps.executeQuery();
 						if (rs.next()) {
 
-							tariff_id = rs.getString("tid");
 							String sql = "INSERT INTO recharge_transaction(meter_id,cust_id,tariff_id,coordinatorip,rechargeamt,alaramcredit,emergencycredit,setTariff_Flag,user_id) VALUES(?,?,?,?,?,?,?,?,?)";
 							ps = con.prepareStatement(sql);
-							ps.setInt(1, meter_id);
+							ps.setString(1, topupvo.getMeterID());
 							ps.setInt(2, customerID);
-							ps.setString(3, tariff_id);
+							ps.setString(3, rs.getString("tid"));
 							ps.setString(4, cor_ip);
 							ps.setFloat(5, amnt);
 							ps.setFloat(6, alarm_credit);
 							ps.setFloat(7, emr_credit);
 							ps.setInt(8, setTariff_Flag);
-							ps.setString(9, topupvo.getUserID());
+//							ps.setString(9, topupvo.getUserID());
 							if (!ps.execute()) {
 								result = "Success";
 								
@@ -179,15 +121,14 @@ public class AccountDAO {
 						setTariff_Flag = 1;
 						String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
 						ps = con.prepareStatement(sql1);
-						ps.setInt(1, community_id);
+						ps.setInt(1, topupvo.getCommunityID());
 						rs = ps.executeQuery();
 						if (rs.next()) {
-							tariff_id = rs.getString("tid");
 							String sql = "INSERT INTO recharge_transaction(meter_id,cust_id,tariff_id,coordinatorip,rechargeamt,alaramcredit,emergencycredit,setTariff_Flag) VALUES(?,?,?,?,?,?,?,?)";
 							ps = con.prepareStatement(sql);
-							ps.setInt(1, meter_id);
+							ps.setString(1, topupvo.getMeterID());
 							ps.setInt(2, customerID);
-							ps.setString(3, tariff_id);
+							ps.setString(3, rs.getString("tid"));
 							ps.setString(4, cor_ip);
 							ps.setFloat(5, amount);
 							ps.setFloat(6, alarm_credit);
@@ -201,7 +142,7 @@ public class AccountDAO {
 						}
 					}
 				}
-				if ("true".equals(set_tariff)) {
+				if (topupvo.getSetTariff()==1) {
 
 					String setTariff_Blockid = "";
 					String setTariff_Custid = "";
@@ -212,13 +153,12 @@ public class AccountDAO {
 					// String setTariff_AlarmCredit="0";
 					String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
 					ps = con.prepareStatement(sql1);
-					ps.setInt(1, community_id);
+					ps.setInt(1, topupvo.getCommunityID());
 					rs = ps.executeQuery();
 					if (rs.next()) {
-						tariff_id = rs.getString("tid");
 						String sql3 = "select block_id from block where com_id=?";
 						ps = con.prepareStatement(sql3);
-						ps.setInt(1, community_id);
+						ps.setInt(1, topupvo.getCommunityID());
 						ResultSet rs1 = ps.executeQuery();
 						while (rs1.next()) {
 							setTariff_Blockid = rs1.getString("block_id");
@@ -233,7 +173,7 @@ public class AccountDAO {
 								ps = con.prepareStatement(sql);
 								ps.setString(1, setTariff_Meterid);
 								ps.setString(2, setTariff_Custid);
-								ps.setString(3, tariff_id);
+								ps.setString(3, rs.getString("tid"));
 								ps.setString(4, cor_ip);
 								ps.setString(5, setTariff_Amount);
 								ps.setFloat(6, alarm_credit);
@@ -268,40 +208,59 @@ public class AccountDAO {
 
 	/* Status */
 
-	public List<StatusResponseVO> getStatusdetails() throws SQLException {
+	public List<StatusResponseVO> getStatusdetails(int roleid, int id) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
+		ResultSet rs1 = null;
 		List<StatusResponseVO> statuslist = null;
 		StatusResponseVO statusvo = null;
 		try {
 			con = getConnection();
 			statuslist = new LinkedList<StatusResponseVO>();
-			String sqlQuery = "select tb.name as bname,tcu.house_no as hno,tcu.first_name as fname,tcu.last_name as lname,tcu.email as email,tcu.mobile as mobile,trt.Meter_id as MID,trt.Transid as TID,trt.CoOrdinatorIP as cop,trt.RechargeAmt as rmt,trt.AlaramCredit as ac,trt.EmergencyCredit as ec,trt.Send_DateTime as dt,trt.RecordInsertTime as ri,trt.Send_Status as ss,acks =CASE trt.ack_status WHEN 0 THEN 0 WHEN 1 THEN 1 ELSE 2 END,trt.user_id as uid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm,Recharge_Transaction trt where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=trt.Meter_id and trt.Meter_id=tmm.meter_id and trt.setTariff_Flag=1 order by trt.RecordInsertTime DESC";
-			pstmt = con.prepareStatement(sqlQuery);
+			
+			// hit tata gateway api for the status of the pending transactions----code from TopupDAO in lora_Gasprepaid project
+			
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, t.MeterID, t.Amount, t.AlarmCredit, t.EmergencyCredit, t.Status, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.CommunityID = b.blockID\r\n" + 
+							"LEFT JOIN customermeterdetails AS cmd ON t.CustomerID = cmd.CustomerID <change>";
+			
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CustomerID = "+id:""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				statusvo = new StatusResponseVO();
-				statusvo.setTransID(rs.getInt("TID"));
-				statusvo.setHouseNo(rs.getString("hno"));
-				statusvo.setMeterID(rs.getString("mid"));
-				statusvo.setRechargeAmount(rs.getString("rmt"));
-				statusvo.setAlarmCredit(rs.getString("ac"));
-				statusvo.setEmergencyCredit(rs.getString("ec"));
-				statusvo.setRecordTime(rs.getString("ri"));
-				statusvo.setUserID(rs.getString("uid"));
+				statusvo.setTransactionID(rs.getInt("TransactionID"));
+				statusvo.setCommunityName(rs.getString("CommunityName"));
+				statusvo.setBlockName(rs.getString("BlockName"));
+				statusvo.setFirstName(rs.getString("FirstName"));
+				statusvo.setLastName(rs.getString("LastName"));
+				statusvo.setHouseNumber(rs.getString("HouseNumber"));
+				statusvo.setMeterID(rs.getString("MeterID"));
+				statusvo.setAmount(rs.getString("Amount"));
+				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
+				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
+				statusvo.setTransactionDate(rs.getString("TransactionDate"));
 
-				if (Integer.parseInt(rs.getString("acks")) == 1) {
-					statusvo.setAckStatus("Passed");
-				} else if (Integer.parseInt(rs.getString("acks")) == 0) {
-					statusvo.setAckStatus("Time Out... Resend");
-				} else if (Integer.parseInt(rs.getString("acks")) == 2) {
-					statusvo.setAckStatus("Pending...waiting for ack");
+				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
+				rs1 = pstmt1.executeQuery();
+				if(rs1.next()) {
+					statusvo.setTransactedByUserName(rs1.getString("UserName"));
+					statusvo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
 				}
-				statusvo.setId(rs.getInt("TID"));
+
+				if (rs.getInt("Status") == 2) {
+					statusvo.setStatus("Passed");
+				} else if (rs.getInt("Status") == 1) {
+					statusvo.setStatus("Pending");
+				} else if (rs.getInt("Status") == 0) {
+					statusvo.setStatus("Pending...waiting for acknowledge");
+				}else {
+					statusvo.setStatus("Failed");
+				}
 				statuslist.add(statusvo);
 			}
 		} catch (Exception ex) {
@@ -324,8 +283,7 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con
-					.prepareStatement("delete from Recharge_Transaction where transid=?");
+			pstmt = con.prepareStatement("DELETE FROM topup where TransactionID = ?");
 			pstmt.setInt(1, statusvo.getTransID());
 
 			if (pstmt.executeUpdate() > 0) {
@@ -556,7 +514,7 @@ public class AccountDAO {
 
 	/* Configuration */
 
-	public List<ConfigurationResponseVO> getConfigurationdetails()
+	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, int id)
 			throws SQLException {
 
 		Connection con = null;
@@ -566,62 +524,52 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 			configurationdetailslist = new LinkedList<ConfigurationResponseVO>();
-			String sqlQuery = "select tb.name as bname,tcu.house_no as hno,tcu.first_name as fname,tcu.last_name as lname,tcu.email as email,tcu.mobile as mobile,trc.Cust_Id as cid,trc.Meter_id as mid,trc.CommandType as ctype,trc.ModifiedDate as date,trc.HW_ACK as status,trc.Cmd_Trans_id AS ctransid,trc.CommandID AS Cmdid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm,CmdRequest trc where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=trc.Meter_id and trc.Meter_id=tmm.meter_id and tc.com_id=? order by trc.ModifiedDate DESC";
-			pstmt = con.prepareStatement(sqlQuery);
-			pstmt.setInt(1, LoginDAO.CommunityID);
+
+			// complete the query for Admin and Superadmin level login
+			
+			
+			pstmt = con.prepareStatement("SELECT TransactionID, CustomerID, MeterID, CommandType, ModifiedDate, HW_ACK FROM command");
+			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;
 
 			while (rs.next()) {
 				configurationvo = new ConfigurationResponseVO();
-				configurationvo.setMeterID(rs.getString("mid"));
-
-				if (Integer.parseInt(rs.getString("ctype")) == 40) {
+				configurationvo.setMeterID(rs.getString("MeterID"));
+				
+				// 5, 3, 1, 40, 0 , 6
+				
+				if (Integer.parseInt(rs.getString("CommandType")) == 40) {
 					configurationvo.setCommandType("Solenoid Open");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 0) {
+				if (Integer.parseInt(rs.getString("CommandType")) == 0) {
 					configurationvo.setCommandType("Solenoid Close");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 3) {
+				if (Integer.parseInt(rs.getString("CommandType")) == 3) {
 					configurationvo.setCommandType("Clear Meter");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 1) {
+				if (Integer.parseInt(rs.getString("CommandType")) == 1) {
 					configurationvo.setCommandType("Clear Tamper");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 5) {
+				if (Integer.parseInt(rs.getString("CommandType")) == 5) {
 					configurationvo.setCommandType("RTC");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 6) {
+				if (Integer.parseInt(rs.getString("CommandType")) == 6) {
 					configurationvo.setCommandType("Set Default Read");
 				}
-				if (Integer.parseInt(rs.getString("ctype")) == 7) {
-					configurationvo.setCommandType("Active Mode");
-				}
-				if (Integer.parseInt(rs.getString("ctype")) == 8) {
-					configurationvo.setCommandType("Shutdown Mode");
-				}
-				if (Integer.parseInt(rs.getString("ctype")) == 9) {
-					configurationvo.setCommandType("Maintenance Mode");
-				}
-				if (Integer.parseInt(rs.getString("ctype")) == 10) {
-					configurationvo.setCommandType("Set Weekend");
-				}
-				if (Integer.parseInt(rs.getString("ctype")) == 50) {
-					configurationvo.setCommandType("Set Weekend For All");
-				}
-
+				
 				configurationvo.setModifiedDate(rs.getString("date"));
 
-				if (Integer.parseInt(rs.getString("status")) == 0) {
+				if (Integer.parseInt(rs.getString("HW_ACK")) == 0) {
 					configurationvo.setStatus("Pending...waiting for ack");
 				}
-				if (Integer.parseInt(rs.getString("status")) == 1) {
+				if (Integer.parseInt(rs.getString("HW_ACK")) == 1) {
 					configurationvo.setStatus("Passed");
 				}
-				if (Integer.parseInt(rs.getString("status")) == 2) {
+				if (Integer.parseInt(rs.getString("HW_ACK")) == 2) {
 					configurationvo.setStatus("Time Out... Resend Command");
 				}
-				configurationvo.setId(rs.getInt("ctransid"));
+				configurationvo.setId(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
 
 			}
@@ -641,195 +589,22 @@ public class AccountDAO {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
 		PreparedStatement ps = null;
-		ResultSet rs1 = null;
-		ResultSet rs2 = null;
-		ResultSet rs3 = null;
-		ResultSet rs4 = null;
 		String result = "Failure";
-		int cmd_id = 0;
-		String get_meterid = "";
-		String get_custid = "";
 
 		try {
 			con = getConnection();
+					
+								ps = con.prepareStatement("INSERT INTO command (CustomerID, MeterID, CommandType, HW_ACK, ModifiedDate) VALUES (?, ?, ?, 0, NOW())");
+								ps.setInt(1, configurationvo.getCustomerID());
+								ps.setString(2, configurationvo.getMeterID());
+								ps.setInt(3, configurationvo.getCommandType());
 
-			int community_id = LoginDAO.CommunityID;
-			int block_id = 0;
-			int customer_id = 0;
-			pstmt2 = con
-					.prepareStatement("select block_id from block where name = ? and com_id=?");
-			pstmt2.setString(1, configurationvo.getBlockName());
-			pstmt2.setInt(2, LoginDAO.CommunityID);
-
-			rs4 = pstmt2.executeQuery();
-			if (rs4.next()) {
-				block_id = rs4.getInt("block_id");
-			}
-
-			pstmt3 = con
-					.prepareStatement("select cust_id from customer where house_no=? and block_id=?");
-			pstmt3.setString(1, configurationvo.getHouseNo());
-			pstmt3.setInt(2, block_id);
-			rs3 = pstmt3.executeQuery();
-			if (rs3.next()) {
-				customer_id = rs3.getInt("cust_id");
-			}
-
-			String meter_id = configurationvo.getMeterID();
-			int command_type = Integer.parseInt(configurationvo
-					.getCommandType());
-			String cor_ip = "";
-			int tariff_id = 0;
-			int cmd_tra_id = 0;
-
-			String sql5 = "SELECT TOP 1 Meter_id,HW_ACK FROM CmdRequest where Meter_id=? order by CommandID desc";
-			String status = "";
-			PreparedStatement ps5 = con.prepareStatement(sql5);
-			ps5.setString(1, meter_id);
-			ResultSet rs5 = ps5.executeQuery();
-			if (rs5.next()) {
-				status = rs5.getString("HW_ACK");
-				if (status.equals("0")) {
-					result = "Failure";
-				} else {
-					if (command_type == 11) {
-						int get_command_type = 10;
-						String sql2 = "select tcm.cust_id as cid,tcm.meter_id as mid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=tmm.meter_id and tc.com_id=?";
-						PreparedStatement ps2 = con.prepareStatement(sql2);
-						ps2.setInt(1, community_id);
-						rs2 = ps2.executeQuery();
-						while (rs2.next()) {
-							get_custid = rs2.getString("cid");
-							get_meterid = rs2.getString("mid");
-
-							String sql1 = "select MAX(CommandID) as cid from CmdRequest";
-							ps = con.prepareStatement(sql1);
-							rs1 = ps.executeQuery();
-							if (rs1.next()) {
-								cmd_id = rs1.getInt("cid");
-								// cmd_tra_id=rs1.getInt("ctd");
-								cmd_id = cmd_id + 1;
-								// cmd_tra_id=cmd_tra_id+1;
-								// System.out.println("cmd_tra_id:"+cmd_tra_id);
-								String sql = "insert into CmdRequest(commandid,Cust_Id,Meter_id,CommandType) values(?,?,?,?)";
-								ps = con.prepareStatement(sql);
-								ps.setInt(1, cmd_id);
-								// ps.setInt(2, cmd_tra_id);
-								ps.setString(2, get_custid);
-								ps.setString(3, get_meterid);
-								ps.setInt(4, get_command_type);
-								// ps.setString(4, cor_ip);
-
-								if (!ps.execute()) {
-
-								} else {
-									result = "Failure";
+								if (ps.executeUpdate() >0) {
+									result = "Success";
+									
+									//send command request to tata gateway
 								}
-							}
-						}
-						result = "Success";
-					} else {
-
-						String sql1 = "select MAX(CommandID) as cid from CmdRequest";
-						ps = con.prepareStatement(sql1);
-						rs1 = ps.executeQuery();
-						if (rs1.next()) {
-							cmd_id = rs1.getInt("cid");
-							// cmd_tra_id=rs1.getInt("ctd");
-							cmd_id = cmd_id + 1;
-							// cmd_tra_id=cmd_tra_id+1;
-							// System.out.println("cmd_tra_id:"+cmd_tra_id); */
-
-							String sql = "insert into CmdRequest(commandid,Cust_Id,Meter_id,CommandType) values(?,?,?,?)";
-							ps = con.prepareStatement(sql);
-							ps.setInt(1, cmd_id);
-							// ps.setInt(2, cmd_tra_id);
-							ps.setInt(2, customer_id);
-							ps.setString(3, meter_id);
-							ps.setInt(4, command_type);
-							// ps.setString(4, cor_ip);
-
-							if (!ps.execute()) {
-								result = "Success";
-							} else {
-								result = "Failure";
-							}
-							// } }
-						}
-					}
-				}
-			}
-			// else goes here
-			else {
-				if (command_type == 11) {
-					int get_command_type = 10;
-					String sql2 = "select tcm.cust_id as cid,tcm.meter_id as mid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=tmm.meter_id and tc.com_id=?";
-					PreparedStatement ps2 = con.prepareStatement(sql2);
-					ps2.setInt(1, community_id);
-					rs2 = ps2.executeQuery();
-
-					while (rs2.next()) {
-						get_custid = rs2.getString("cid");
-						get_meterid = rs2.getString("mid");
-
-						String sql1 = "select MAX(CommandID) as cid from CmdRequest";
-						ps = con.prepareStatement(sql1);
-						rs1 = ps.executeQuery();
-
-						if (rs1.next()) {
-							cmd_id = rs1.getInt("cid");
-							// cmd_tra_id=rs1.getInt("ctd");
-							cmd_id = cmd_id + 1;
-							// cmd_tra_id=cmd_tra_id+1;
-							// System.out.println("cmd_tra_id:"+cmd_tra_id);
-							String sql = "insert into CmdRequest(commandid,Cust_Id,Meter_id,CommandType) values(?,?,?,?)";
-							ps = con.prepareStatement(sql);
-							ps.setInt(1, cmd_id);
-							// ps.setInt(2, cmd_tra_id);
-							ps.setString(2, get_custid);
-							ps.setString(3, get_meterid);
-							ps.setInt(4, get_command_type);
-							// ps.setString(4, cor_ip);
-
-							if (!ps.execute()) {
-							} else {
-								result = "Failure";
-							}
-						}
-					}
-					result = "Success";
-				} else {
-
-					String sql1 = "select MAX(CommandID) as cid from CmdRequest";
-					ps = con.prepareStatement(sql1);
-					rs1 = ps.executeQuery();
-					if (rs1.next()) {
-						cmd_id = rs1.getInt("cid");
-						// cmd_tra_id=rs1.getInt("ctd");
-						cmd_id = cmd_id + 1;
-						// cmd_tra_id=cmd_tra_id+1;
-						// System.out.println("cmd_tra_id:"+cmd_tra_id); */
-
-						String sql = "insert into CmdRequest(commandid,Cust_Id,Meter_id,CommandType) values(?,?,?,?)";
-						ps = con.prepareStatement(sql);
-						ps.setInt(1, cmd_id);
-						// ps.setInt(2, cmd_tra_id);
-						ps.setInt(2, customer_id);
-						ps.setString(3, meter_id);
-						ps.setInt(4, command_type);
-						// ps.setString(4, cor_ip);
-
-						if (!ps.execute()) {
-							result = "Success";
-						} else {
-							result = "Failure";
-						}
-					}
-				}
-			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -854,8 +629,8 @@ public class AccountDAO {
 			con = getConnection();
 
 			pstmt = con
-					.prepareStatement("delete from CmdRequest where Cmd_Trans_id=?");
-			pstmt.setString(1, configurationvo.getCommandTransID());
+					.prepareStatement("DELETE FROM command where TransactionID = ?");
+			pstmt.setString(1, configurationvo.getTransactionID());
 
 			if (pstmt.executeUpdate() > 0) {
 				result = "Success";
@@ -880,8 +655,7 @@ public class AccountDAO {
 
 		try {
 			con = getConnection();
-			String sql5 = "SELECT TOP 1 Meter_id,HW_ACK FROM CmdRequest where Meter_id=? order by CommandID desc";
-			pstmt = con.prepareStatement(sql5);
+			pstmt = con.prepareStatement("SELECT TOP 1 MeterID, HW_ACK FROM command WHERE MeterID = ? order by TransactionID desc");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {

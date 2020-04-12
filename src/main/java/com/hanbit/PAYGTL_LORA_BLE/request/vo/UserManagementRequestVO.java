@@ -11,6 +11,7 @@ public class UserManagementRequestVO {
 	
 	private int communityID;
 	private int blockID;
+	private int customerID;
 	private String userID;
 	private String userName;
 	private String userPassword;
@@ -87,6 +88,12 @@ public class UserManagementRequestVO {
 	}
 	public void setOldPassword(String oldPassword) {
 		this.oldPassword = oldPassword;
+	}
+	public int getCustomerID() {
+		return customerID;
+	}
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
 	
 }

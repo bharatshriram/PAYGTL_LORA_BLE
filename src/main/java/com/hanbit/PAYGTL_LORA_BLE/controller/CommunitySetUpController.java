@@ -4,7 +4,14 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
+import org.codehaus.jettison.json.JSONException;
+import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.bo.CommunitySetUpBO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.CommunitySetUpDAO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.LoginDAO;
@@ -19,6 +27,7 @@ import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CommunityResponseVO;
@@ -329,7 +338,7 @@ public class CommunitySetUpController {
 		return responsevo;
 	}
 	
-	@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
+	/*@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody String dowhile(@PathVariable("i") String userid) throws SQLException {
 		
 		boolean flag;
@@ -356,7 +365,36 @@ public class CommunitySetUpController {
 		}
 		
 		i = 0;
-		return userid;
+		String conv = userid.replace("\"", "");
+		return conv;
+	}*/
+	
+/*	@RequestMapping(value="/dowhile", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody String dowhile(@RequestBody String json) throws SQLException, JSONException {
+		
+		Gson gson = new Gson();
+		
+		RequestVO requestvo = new RequestVO();
+		
+		JSONObject jsonObj = new JSONObject(json);
+		
+		requestvo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), RequestVO.class);
+		
+		System.out.println(requestvo.getPayloads_ul().getDataFrame());
+		
+		return null;
+	}*/
+	
+	@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody String dowhile(@PathVariable("i") String userid) throws SQLException {
+		
+		System.out.println("input date:--"+userid);
+		Instant instant = Instant.parse(userid+".348Z");
+        ZoneId.of("Asia/Kolkata");
+        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+        System.out.println("date time in IST:--- "+datetime.toString().replaceAll("T", " "));
+		
+		return null;
 	}
 	
 }

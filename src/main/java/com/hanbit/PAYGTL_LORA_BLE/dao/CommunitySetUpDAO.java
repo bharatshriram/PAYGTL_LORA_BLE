@@ -214,7 +214,7 @@ public class CommunitySetUpDAO {
 				ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 				UserManagementRequestVO usermanagementvo = new UserManagementRequestVO();
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT MAX(block.BlockID), community.CommunityName FROM Block LEFT JOIN community ON community.CommunityID = block.CommunityID WHERE block.BlockName = ? AND block.CommunityID = ?");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT MAX(block.BlockID) AS BlockID, community.CommunityName FROM block LEFT JOIN community ON community.CommunityID = block.CommunityID WHERE block.BlockName = ? AND block.CommunityID = ?");
 				pstmt1.setString(1, blockvo.getBlockName());
 				pstmt1.setInt(2, blockvo.getCommunityID());
 				ResultSet rs = pstmt1.executeQuery();
@@ -239,17 +239,19 @@ public class CommunitySetUpDAO {
 						usermanagementvo.setUserID(userID);
 					}
 					
-				}
+				
 				usermanagementvo.setUserName(blockvo.getBlockName());
 				usermanagementvo.setUserPassword(Encryptor.encrypt(ExtraConstants.key1, ExtraConstants.key2, blockvo.getBlockName() + "@" + blockvo.getMobileNumber().substring(3, 7)));
 				usermanagementvo.setRoleID(2);
 				usermanagementvo.setCommunityID(blockvo.getCommunityID());
+				usermanagementvo.setBlockID(rs.getInt("BlockID"));
 				usermanagementvo.setLoggedInRoleID(1);
 				usermanagementvo.setLoggedInUserID(blockvo.getLoggedInUserID());
+				}
 				
 				if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
 					
-					MailDAO maildao = new MailDAO();
+					ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 					MailRequestVO mailrequestvo = new MailRequestVO();
 					
 					mailrequestvo.setToEmail(blockvo.getEmail());
@@ -261,7 +263,7 @@ public class CommunitySetUpDAO {
 					if(result.equalsIgnoreCase("Success")) {
 						result = "Success";
 					}else {
-						result = "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
+						result = "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
 					}
 					
 				} else {
@@ -385,7 +387,9 @@ public class CommunitySetUpDAO {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
+		ResultSet rs1 = null;
 		List<CustomerResponseVO> customer_list = null;
 		CustomerResponseVO customervo = null;
 		
@@ -414,8 +418,14 @@ public class CommunitySetUpDAO {
 				customervo.setMobileNumber(rs.getString("MobileNumber"));
 				customervo.setHouseNumber(rs.getString("HouseNumber"));
 				customervo.setCustomerID(rs.getInt("CustomerID"));
-				customervo.setCreatedByID(rs.getInt("CreatedByID"));
-				customervo.setCreatedByRoleID(rs.getInt("CreatedByRoleID"));
+				
+				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
+				rs1 = pstmt1.executeQuery();
+				if(rs1.next()) {
+					customervo.setCreatedByUserName(rs1.getString("UserName"));
+					customervo.setCreatedByRoleDescription(rs1.getString("RoleDescription"));
+				}
+				
 				customervo.setDate(rs.getString("ModifiedDate"));
 				customer_list.add(customervo);
 			}
@@ -494,12 +504,14 @@ public class CommunitySetUpDAO {
 				usermanagementvo.setUserPassword(Encryptor.encrypt(ExtraConstants.key1, ExtraConstants.key2, customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7)));
 				usermanagementvo.setRoleID(3);
 				usermanagementvo.setCommunityID(customervo.getCommunityID());
+				usermanagementvo.setCustomerID(rs.getInt("CustomerID"));
+				usermanagementvo.setBlockID(customervo.getBlockID());
 				usermanagementvo.setLoggedInRoleID(customervo.getLoggedInRoleID());
 				usermanagementvo.setLoggedInUserID(customervo.getLoggedInUserID());
 				
 				if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
 					
-					MailDAO maildao = new MailDAO();
+					ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 					MailRequestVO mailrequestvo = new MailRequestVO();
 					
 					mailrequestvo.setToEmail(customervo.getEmail());

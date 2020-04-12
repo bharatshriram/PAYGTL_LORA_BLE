@@ -23,8 +23,8 @@ public class CustomerResponseVO {
 	private String meterSerialNumber;
 	private String defaultReading;
 	private String date;
-	private int createdByID;
-	private int createdByRoleID;
+	private String createdByUserName;
+	private String createdByRoleDescription;
 	private String userID;
 	private int requestID;
 	
@@ -102,17 +102,17 @@ public class CustomerResponseVO {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	public int getCreatedByID() {
-		return createdByID;
+	public String getCreatedByUserName() {
+		return createdByUserName;
 	}
-	public void setCreatedByID(int createdByID) {
-		this.createdByID = createdByID;
+	public void setCreatedByUserName(String createdByUserName) {
+		this.createdByUserName = createdByUserName;
 	}
-	public int getCreatedByRoleID() {
-		return createdByRoleID;
+	public String getCreatedByRoleDescription() {
+		return createdByRoleDescription;
 	}
-	public void setCreatedByRoleID(int createdByRoleID) {
-		this.createdByRoleID = createdByRoleID;
+	public void setCreatedByRoleDescription(String createdByRoleDescription) {
+		this.createdByRoleDescription = createdByRoleDescription;
 	}
 	public List<CustomerResponseVO> getData() {
 		return data;

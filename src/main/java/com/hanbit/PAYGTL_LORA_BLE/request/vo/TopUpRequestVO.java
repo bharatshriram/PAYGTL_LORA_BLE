@@ -9,47 +9,50 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpRequestVO {
 	
-	private String communityName;
-	private String blockName;
-	private String houseNo;
-	private int meterID;
+	private int CommunityID;
+	private int blockID;
+	private int customerID;
+	private String houseNumber;
+	private String meterID;
 	private float currentBalance;
-	private String dateTime;
 	private float tariff;
 	private float emergencyCredit;
 	private float alarmCredit;
-	private float rechargeAmount;
-	private String setTariff;
-	private String userID;
+	private float amount;
+	private int setTariff;
+	private String cardNumber;
+	private String cardType;
+	private int transactedByID;
+	private int transactedByRoleID;
 	
-	public String getUserID() {
-		return userID;
+	public int getCommunityID() {
+		return CommunityID;
 	}
-	public void setUserID(String userID) {
-		this.userID = userID;
+	public void setCommunityID(int communityID) {
+		CommunityID = communityID;
 	}
-	public String getCommunityName() {
-		return communityName;
+	public int getBlockID() {
+		return blockID;
 	}
-	public void setCommunityName(String communityName) {
-		this.communityName = communityName;
+	public void setBlockID(int blockID) {
+		this.blockID = blockID;
 	}
-	public String getBlockName() {
-		return blockName;
+	public int getCustomerID() {
+		return customerID;
 	}
-	public void setBlockName(String blockName) {
-		this.blockName = blockName;
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
-	public String getHouseNo() {
-		return houseNo;
+	public String getHouseNumber() {
+		return houseNumber;
 	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
 	}
-	public int getMeterID() {
+	public String getMeterID() {
 		return meterID;
 	}
-	public void setMeterID(int meterID) {
+	public void setMeterID(String meterID) {
 		this.meterID = meterID;
 	}
 	public float getCurrentBalance() {
@@ -57,12 +60,6 @@ public class TopUpRequestVO {
 	}
 	public void setCurrentBalance(float currentBalance) {
 		this.currentBalance = currentBalance;
-	}
-	public String getDateTime() {
-		return dateTime;
-	}
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
 	}
 	public float getTariff() {
 		return tariff;
@@ -82,17 +79,41 @@ public class TopUpRequestVO {
 	public void setAlarmCredit(float alarmCredit) {
 		this.alarmCredit = alarmCredit;
 	}
-	public float getRechargeAmount() {
-		return rechargeAmount;
+	public float getAmount() {
+		return amount;
 	}
-	public void setRechargeAmount(float rechargeAmount) {
-		this.rechargeAmount = rechargeAmount;
+	public void setAmount(float amount) {
+		this.amount = amount;
 	}
-	public String getSetTariff() {
+	public int getSetTariff() {
 		return setTariff;
 	}
-	public void setSetTariff(String setTariff) {
+	public void setSetTariff(int setTariff) {
 		this.setTariff = setTariff;
-	}	
-
+	}
+	public String getCardNumber() {
+		return cardNumber;
+	}
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+	public String getCardType() {
+		return cardType;
+	}
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
+	public int getTransactedByID() {
+		return transactedByID;
+	}
+	public void setTransactedByID(int transactedByID) {
+		this.transactedByID = transactedByID;
+	}
+	public int getTransactedByRoleID() {
+		return transactedByRoleID;
+	}
+	public void setTransactedByRoleID(int transactedByRoleID) {
+		this.transactedByRoleID = transactedByRoleID;
+	}
+	
 }

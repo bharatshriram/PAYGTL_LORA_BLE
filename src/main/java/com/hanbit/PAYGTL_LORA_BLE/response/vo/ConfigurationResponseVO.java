@@ -3,6 +3,8 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
+import java.util.List;
+
 /**
  * @author K VimaL Kumar
  *
@@ -13,7 +15,7 @@ public class ConfigurationResponseVO {
 	private String commandType;
 	private String modifiedDate;
 	private String status;
-	
+	private List<ConfigurationResponseVO> data;
 	private int id;
 	
 	
@@ -49,5 +51,10 @@ public class ConfigurationResponseVO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
+	public List<ConfigurationResponseVO> getData() {
+		return data;
+	}
+	public void setData(List<ConfigurationResponseVO> data) {
+		this.data = data;
+	}
 }

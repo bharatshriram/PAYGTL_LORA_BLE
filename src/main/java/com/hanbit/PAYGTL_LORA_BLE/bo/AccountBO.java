@@ -21,17 +21,13 @@ public class AccountBO {
 	public String addtopup(TopUpRequestVO topupvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 		
-		String result = "";
-
 		AccountDAO accountdao = new AccountDAO();
 		
-		if(!(topupvo.getRechargeAmount() > topupvo.getEmergencyCredit()) && !(topupvo.getRechargeAmount() > topupvo.getAlarmCredit())){
+		if(!(topupvo.getAmount() > topupvo.getEmergencyCredit()) && !(topupvo.getAmount() > topupvo.getAlarmCredit())){
 			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND ALARM CREDIT");
 		}
 		
-		result = accountdao.addtopup(topupvo);
-		
-		return result;
+		return accountdao.addtopup(topupvo);
 	}
 	
 	/* Configuration */
