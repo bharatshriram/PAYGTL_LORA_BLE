@@ -135,16 +135,13 @@ public class AccountController {
 
 	@RequestMapping(value = "/configuration/delete/{transactionID}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	ResponseVO editcommunity(@PathVariable("transactionID") String transactionID)
+	ResponseVO editcommunity(@PathVariable("transactionID") int transactionID)
 			throws ClassNotFoundException, SQLException {
 
 		AccountDAO accountdao = new AccountDAO();
-		ConfigurationRequestVO configurationvo = new ConfigurationRequestVO();
 		ResponseVO responsevo = new ResponseVO();
 
-		configurationvo.setTransactionID(transactionID);
-
-		responsevo.setResult(accountdao.deleteconfiguration(configurationvo));
+		responsevo.setResult(accountdao.deleteconfiguration(transactionID));
 
 		return responsevo;
 	}

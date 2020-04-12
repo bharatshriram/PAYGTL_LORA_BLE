@@ -16,17 +16,15 @@ public class ConfigurationResponseVO {
 	private String modifiedDate;
 	private String status;
 	private List<ConfigurationResponseVO> data;
-	private int id;
+	private int transactionID;
 	
 	
-	public int getId() {
-		return id;
+	public int getTransactionID() {
+		return transactionID;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setTransactionID(int transactionID) {
+		this.transactionID = transactionID;
 	}
-
-	
 	public String getMeterID() {
 		return meterID;
 	}

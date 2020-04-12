@@ -158,7 +158,7 @@ public class CommunitySetUpDAO {
 			
 			String query = "SELECT block.BlockID, community.CommunityName, block.BlockName, block.Location, block.MobileNumber, block.Email, block.CreatedDate FROM block LEFT JOIN community ON community.CommunityID = Block.CommunityID <change>";
 			
-			String RoleName = (roleid==2 || roleid==3 || roleid==5) ? "WHERE block.BlockID = "+id+ "ORDER BY block.BlockID ASC" : "ORDER BY block.BlockID ASC" ;
+			String RoleName = (roleid==2 || roleid==3 || roleid==5) ? "WHERE block.BlockID = "+id+ " ORDER BY block.BlockID ASC" : " ORDER BY block.BlockID ASC" ;
 			
 			pstmt = con.prepareStatement(query.replaceAll("<change>", RoleName));
 			rs = pstmt.executeQuery();
@@ -409,6 +409,8 @@ public class CommunitySetUpDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
+				
+				// add tariff Amount after confirmation from the team
 				customervo = new CustomerResponseVO();
 				customervo.setCommunityName(rs.getString("CommunityName"));
 				customervo.setBlockName(rs.getString("BlockName"));
@@ -418,6 +420,9 @@ public class CommunitySetUpDAO {
 				customervo.setMobileNumber(rs.getString("MobileNumber"));
 				customervo.setHouseNumber(rs.getString("HouseNumber"));
 				customervo.setCustomerID(rs.getInt("CustomerID"));
+				customervo.setMeterID(rs.getString("MeterID"));
+				customervo.setDefaultReading(rs.getInt("DefaultReading"));
+				customervo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
@@ -717,7 +722,7 @@ public class CommunitySetUpDAO {
 			
 			if(action == 1) {
 
-				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails urcmd ON cmd.CustomerID = urcmd.CustomerID SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CustomerID = (SELECT CustomerID FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
+				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CustomerID = urcmd.CustomerID SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CustomerID = (SELECT CustomerID FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
 	            pstmt.setInt(1, requestid);
 
 	            if (pstmt.executeUpdate() > 0) {

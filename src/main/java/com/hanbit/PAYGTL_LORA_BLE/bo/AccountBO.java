@@ -27,6 +27,10 @@ public class AccountBO {
 			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND ALARM CREDIT");
 		}
 		
+		if(!accountdao.checktopup(topupvo.getMeterID())) {
+			throw new BusinessException("PREVIOUS TOPUP REQUEST IS PENDING");
+		}
+		
 		return accountdao.addtopup(topupvo);
 	}
 	
