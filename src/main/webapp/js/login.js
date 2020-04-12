@@ -96,9 +96,9 @@ $(document)
 
 															success : function(
 																	data) {
-																alert("data"
+																/*alert("data"
 																		+ JSON
-																				.stringify(data));
+																				.stringify(data));*/
 																if (data.result == "Success") {
 
 																	sessionStorage.setItem("userID",$("#userName").val());
