@@ -1,0 +1,235 @@
+@charset "ISO-8859-1";
+
+#CommunityEdit::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+color: blue;
+	
+}
+#AssignEdit::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+#MeterEdit::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+color: blue;
+	
+}
+#AlertEdit::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+#ConfigurationId::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+#Communitydelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+
+#Managementdelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+#mymanagementedit::before {
+	font-family: Glyphicons Halflings;
+	content: " \270f";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+
+
+#AssignDelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+
+
+
+#BlockEdit::before {
+	font-family: Glyphicons Halflings;
+	/* content: " \e231"; */
+	content: " \270f"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+}
+
+
+#Blockdelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+
+
+#mymanagementedit::before {
+	font-family: Glyphicons Halflings;
+	/* content: " \e231"; */
+	content: " \270f"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+}
+
+
+#Managementdelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+
+
+#CustomerEdit::before {
+	font-family: Glyphicons Halflings;
+	/* content: " \e231"; */
+	content: " \270f"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+}
+
+
+#CustomerDelete::before {
+	font-family: Glyphicons Halflings;
+	content: "\e020";
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+}
+#tariffEdit::before {
+	font-family: Glyphicons Halflings;
+	/* content: " \e231"; */
+	content: " \270f"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+
+
+#printglyphicon::before {
+	font-family: Glyphicons Halflings;
+	/* content: " \e231"; */
+	content: "\e045"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: blue;
+	
+}
+
+#userConsumptionExcel::before {
+	font-family: FontAwesome;
+	/* content: " \e231"; */
+	content: "\f1c3"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: green;
+	
+}
+#userConsumptionPDF::before {
+	font-family: FontAwesome;
+	/* content: " \e231"; */
+	content: "\f1c1"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+	
+}
+
+
+
+#topSummaryExcel::before {
+	font-family: FontAwesome;
+	/* content: " \e231"; */
+	content: "\f1c3"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: green;
+	
+}
+#topSummaryPDF::before {
+	font-family: FontAwesome;
+	/* content: " \e231"; */
+	content: "\f1c1"; 
+	display: inline-block;
+	padding-left: 0px;
+	margin-left: 8px;
+	vertical-align: middle;
+	color: red;
+	
+}
+
