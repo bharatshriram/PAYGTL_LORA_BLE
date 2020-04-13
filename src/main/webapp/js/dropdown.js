@@ -13,6 +13,6 @@ $(function() {
 					+ "</option>";
 		});
 		$('#selectcommunityName').append(Options);
-		$("#selectcommunityName").material_select();
+		//$("#selectcommunityName").material_select();
 	});
 });

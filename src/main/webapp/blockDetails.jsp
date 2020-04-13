@@ -41,7 +41,7 @@
 						<h3>Block Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button"
+						<button type="button" id="blockAddButton"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>
@@ -94,7 +94,7 @@
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Community Name</label> <select
 										class="form-control" id="selectcommunityName" name="selectcommunityName">
-										<option style = "color: Red" value="" disabled selected>Select Community</option><!--  <option>Select Community</option> --> 
+										<option style = "color: Red" value="" disabled>Select Community</option><!--  <option>Select Community</option> --> 
 									</select>
 								</div>
 							</div>
@@ -166,13 +166,9 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formcomunityName" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <!-- <select
-										class="form-control" id="selectcommunityNameEdit">
-										<option>1</option>
-									</select> -->
-									<input
-										type="text" class="form-control" name="blockNameEdit"
-										id="blockCommunityEdit">
+									<label class="bmd-label-floating">Community Name</label> <input
+										type="text" class="form-control" name="communityNameEdit"
+										id="communityNameEdit" disabled>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -203,6 +199,10 @@
 									<label class="bmd-label-floating">Email</label> <input
 										type="email" class="form-control" name="blockEmailEdit"
 										id="blockEmailEdit">
+										
+										 <input
+										type="hidden" id="blockIdhidden">
+										
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -269,6 +269,10 @@
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+		
+		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 	<script>
 		$(document).ready(function() {
@@ -281,7 +285,7 @@
 	</script>
 	<script>
 		$(document).ready(function() {
-			$('#communityTable').DataTable();
+			$('#blockTable').DataTable();
 		});
 	</script>
 

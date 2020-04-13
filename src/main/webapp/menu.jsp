@@ -7,6 +7,20 @@
 <title>Menu</title>
 </head>
 <body>
+
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+		System.out.println("======>" + user_id);
+	%>
+
+	<%
+		if (null == user_id) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
+
+
  <!--sidebar start-->
         <div class="main">
           <aside>
@@ -21,13 +35,33 @@
                 </div>
               </div>
               <ul class="list-sidebar bg-defoult">
-                
+                <%
+			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("3") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {
+				%>	
+				<% if(!user_id.equalsIgnoreCase("2") || !user_id.equalsIgnoreCase("3")) {%>					
                 <li> <a href="communityDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Community</span></a> </li>
-                <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
-                <li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboard</span></a> </li>
+                <%} if(!user_id.equalsIgnoreCase("3")) {%>
+				<li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
+				<%}%>
+				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
                 <li> <a href="TopUp.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">TopUp</span></a> </li>
                 <li> <a href="TopUpDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
+                <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
+                <li> <a href="Consumption.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Consumption History</span></a> </li>
+                
+                <% } else if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {
+                %>
+                     
+                <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
+				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
+                <li> <a href="TopUp.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">TopUp</span></a> </li>
+                <li> <a href="TopUpDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
+                <% } else if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("3") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {%>
+                
+                <% } %>
                 <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
                 <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
                 <li> <a href="Consumption.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Consumption History</span></a> </li>

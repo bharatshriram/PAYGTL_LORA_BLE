@@ -26,6 +26,19 @@
 
 
 <body>
+
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+		System.out.println("======>" + user_id);
+	%>
+
+	<%
+		if (null == user_id) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
+	
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -240,6 +253,9 @@
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 	<script>
 		$(document).ready(function() {

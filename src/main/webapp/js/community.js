@@ -303,14 +303,30 @@ $(document)
 																				.stringify(data));
 																if (data.result == "Success") {
 
-																	alert( "data"
-																			+ data.result);
+																	/*alert( "data"
+																			+ data.result);*/
+																	
+																	bootbox.alert("Added Succesfully!",
+																			function(
+																					result) {
+																					
+																		//alert();
+																		window.location = "communityDetails.jsp";
+																				});
+																	return false
 																	
 
 																} else if(data.result == "Failure"){
 																	
-																	alert("data"
-																			+ data.result);
+																	bootbox.alert(data.result,
+																			function(
+																					result) {
+																					
+																		//alert();
+																		window.location = "communityDetails.jsp";
+																		
+																				});
+																	return false
 																}
 															}
 														});
@@ -351,14 +367,30 @@ $(document)
 																		.stringify(data));
 														if (data.result == "Success") {
 
-															alert( "data"
-																	+ data.result);
+															/*alert( "data"
+																	+ data.result);*/
+															
+															bootbox.alert("Updated Succesfully!",
+																	function(
+																			result) {
+																			
+																//alert();
+																window.location = "communityDetails.jsp";
+																		});
+															return false
 															
 
 														} else if(data.result == "Failure"){
 															
-															alert("data"
-																	+ data.result);
+															bootbox.alert(data.result,
+																	function(
+																			result) {
+																			
+																//alert();
+																window.location = "communityDetails.jsp";
+																
+																		});
+															return false
 														}
 													}
 												});

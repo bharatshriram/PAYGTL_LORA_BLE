@@ -112,7 +112,7 @@ $(document)
 																		sessionStorage
 																				.setItem(
 																						"ID",
-																						data.userDetails.ID);
+																						0);
 																		sessionStorage
 																		.setItem(
 																				"userName",
@@ -127,30 +127,25 @@ $(document)
 
 																		window.location = "LoginAction.jsp?RoleID="
 																				+ Role;
-																	} else if (data.roleId == 2) {
+																	} else if (data.userDetails.roleID == 2) {
 																		sessionStorage
 																		.setItem(
 																				"type",
 																				"Admin");
 																sessionStorage
 																		.setItem(
-																				"ID",
+																				"createdByID",
 																				data.userDetails.ID);
 																
 																sessionStorage
 																.setItem(
-																		"roleId",
+																		"roleID",
 																		data.userDetails.roleID);
 																
 																sessionStorage
 																.setItem(
-																		"blockID",
-																		data.userDetails.blockID);
-																
-																sessionStorage
-																.setItem(
 																		"ID",
-																		data.userDetails.communnityID);
+																		data.userDetails.blockID);
 																
 																sessionStorage
 																.setItem(
@@ -161,19 +156,19 @@ $(document)
 																		window.location = "LoginAction.jsp?RoleID="
 																				+ Role;
 
-																	} else if (data.roleId == 3) {
+																	} else if (data.userDetails.roleID == 3) {
 																		sessionStorage
 																		.setItem(
 																				"type",
 																				"Admin");
 																sessionStorage
 																		.setItem(
-																				"id",
+																				"createdByID",
 																				data.userDetails.ID);
 																
 																sessionStorage
 																.setItem(
-																		"roleId",
+																		"roleID",
 																		data.userDetails.roleID);
 																
 																sessionStorage

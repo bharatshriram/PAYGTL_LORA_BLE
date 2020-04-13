@@ -4,14 +4,7 @@
 
 
 $(document).ready(function() {
-	
-	if(sessionStorage.getItem("roleID") == 1){
-		$("#blockAddButton").show();
-	}else{
-		$("#blockAddButton").hide();
-	}
-	
-table = $('#blockTable')
+table = $('#customerTable')
 .DataTable(
 {
 "processing" : false,
@@ -26,7 +19,7 @@ table = $('#blockTable')
 "scrollY" : 324,
 "scrollX" : true,
 "ajax" : {
-"url":"/PAYGTL_LORA_BLE/block/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+"url":"/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 "type" : "GET",
 "data" : function(search) {
 },
@@ -41,12 +34,27 @@ return json.data;
 },{
 "data" : "blockName"
 },{
-"data" : "Location"
+"data" : "firstName"
+},{
+"data" : "lastName"
+},{
+"data" : "houseNumber"
+},{
+"data" : "mobileNumber"
 },{
 "data" : "email"
-}
-,{
-"data" : "mobile"
+},{
+"data" : "meterSerialNumber"
+},{
+"data" : "meterID"
+},{
+"data" : "defaultReading"
+},{
+"data" : "createdByUserName"
+},{
+"data" : "createdByRoleDescription"
+},{
+"data" : "date"
 }
 ,{
 	"mData" : "action",
@@ -59,8 +67,8 @@ return json.data;
 		</button>*/
 	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
 		
-		return "<a href=# id=BlockEdit data-toggle=modal data-target=#myBlockEdit onclick='getBlockFormEdit("
-																	+ row.blockID
+		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
+																	+ row.customerID
 																	+ ")'>"
 																	+ "ABC"
 																	+ "</a>"
@@ -81,15 +89,7 @@ return json.data;
 $(document)
 				.ready(
 						function() {
-							$('#blockDetails')
-							
-							.find('[name="selectcommunityName"]')
-            .selectpicker()
-            .change(function(e) {
-                $('#blockDetails').bootstrapValidator('revalidateField', 'selectcommunityName');
-            })
-            .end()
-							
+							$('#communityDetails')
 									.bootstrapValidator(
 											{
 												feedbackIcons : {
@@ -98,60 +98,53 @@ $(document)
 													validating : 'glyphicon glyphicon-refresh'
 												},
 												fields : {
-													selectcommunityName: {
-									                    validators: {
-									                        notEmpty: {
-									                            message: 'Please select your native language.'
-									                        }
-									                    }
-									                },
-													blockNameAdd : {
-														message : 'The Block Name is not valid',
+													communityNameAdd : {
+														message : 'The Community Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Name is required and cannot be empty'
+																message : 'The Community Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Block Name must be more than 6 and less than 30 characters long'
+																message : 'The Community Name must be more than 6 and less than 30 characters long'
 															}
 														}
 													},
-													blockLocationAdd : {
-														message : 'The Block Location is not valid',
+													communityAddressAdd : {
+														message : 'The Community Address is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Location is required and cannot be empty'
+																message : 'The Community Address is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Block Locaton must be more than 6 and less than 30 characters long'
+																message : 'The Community Address must be more than 6 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Block Location can only consist of alphabetical and number'
+																message : 'The Community Address can only consist of alphabetical and number'
 															}
 														}
 													},
-													blockMobileAdd : {
-														message : 'The Mobile is not valid',
+													communityMobileAdd : {
+														message : 'The Community Mobile is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Mobile is required and cannot be empty'
-															}/*,
+																message : 'The Community Mobile is required and cannot be empty'
+															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The Mobile can only consist of alphabetical and number'
-															}*/
+																message : 'The Community Address can only consist of alphabetical and number'
+															}
 														}
 													},
-													blockEmailAdd : {
-														message : 'The Block Email is not valid',
+													communityEmailAdd : {
+														message : 'The Community Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Email is required and cannot be empty'
+																message : 'The Community Email is required and cannot be empty'
 															}/*,
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
@@ -165,7 +158,7 @@ $(document)
 							
 							
 							
-							$('#blockEdit')
+							$('#communityEdit')
 							.bootstrapValidator(
 									{
 										feedbackIcons : {
@@ -174,29 +167,29 @@ $(document)
 											validating : 'glyphicon glyphicon-refresh'
 										},
 										fields : {
-											blockNameEdit : {
-												message : 'The Block Name is not valid',
+											communityNameEdit : {
+												message : 'The Community Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Name is required and cannot be empty'
+														message : 'The Community Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Block Name must be more than 6 and less than 30 characters long'
+														message : 'The Community Name must be more than 6 and less than 30 characters long'
 													}
 												}
 											},
-											blockLocationEdit : {
-												message : 'The Block Location is not valid',
+											communityAddressEdit : {
+												message : 'The Community Address is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Location is required and cannot be empty'
+														message : 'The Community Address is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Block Location must be more than 6 and less than 30 characters long'
+														message : 'The Community Address must be more than 6 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
@@ -204,23 +197,23 @@ $(document)
 													}
 												}
 											},
-											blockMobileEdit : {
-												message : 'The Block Mobile is not valid',
+											communityMobileEdit : {
+												message : 'The Community Mobile is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Mobile is required and cannot be empty'
+														message : 'The Community Mobile is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /^[0-9]+$/,
-														message : 'The Block Address can only consist of alphabetical and number'
+														message : 'The Community Address can only consist of alphabetical and number'
 													}
 												}
 											},
-											blockEmailEdit : {
-												message : 'The Block Email is not valid',
+											communityEmailEdit : {
+												message : 'The Community Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Email is required and cannot be empty'
+														message : 'The Community Email is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
@@ -235,7 +228,7 @@ $(document)
 							
 							
 
-							$('#blockDetails')
+							$('#communityDetails')
 									.on(
 											'status.field.bv',
 											function(e, data) {
@@ -268,7 +261,7 @@ $(document)
 							
 							
 							
-							$('#blockEdit').on(
+							$('#communityEdit').on(
 									'status.field.bv',
 									function(e, data) {
 										formIsValid = true;
@@ -287,44 +280,45 @@ $(document)
 														});
 
 										if (formIsValid) {
-											$('#blockEditsave', $(this))
+											$('#communityEditsave', $(this))
 													.attr('disabled',
 															false);
 										} else {
-											$('#blockEditsave', $(this))
+											$('#communityEditsave', $(this))
 													.attr('disabled',
 															true);
 										}
 									});
 							
 							
-							$("#blockAdd")
+							$("#communityAdd")
 									.click(
 											function() {
 
 												var data1 = {}
-												data1["communityID"] = $("#selectcommunityName").val();
-												data1["blockName"] = $("#blockNameAdd").val();
-												data1["location"] = $("#blockLocationAdd").val();
-												data1["mobileNumber"] = $("#blockMobileAdd").val();
-												data1["email"] = $("#blockEmailAdd").val();
-												data1["createdByID"] = sessionStorage.getItem("ID");
-												data1["loggedInUserID"] = sessionStorage.getItem("userID");
-												data1["roleID"] = sessionStorage.getItem("roleID");
-												
-												console.log("===>"
+												data1["communityName"] = $("#communityNameAdd")
+														.val();
+												data1["email"] = $("#communityEmailAdd").val();
+												data1["mobileNumber"] = $("#communityMobileAdd")
+												.val();
+												data1["address"] = $("#communityAddressAdd").val();
+										
+												alert("===>"
 														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
 															contentType : "application/json",
-															url : "/PAYGTL_LORA_BLE/block/add",
+															url : "/PAYGTL_LORA_BLE/community/add",
 															data : JSON
 																	.stringify(data1),
 															dataType : "JSON",
 
 															success : function(
 																	data) {
+																alert("data"
+																		+ JSON
+																				.stringify(data));
 																if (data.result == "Success") {
 
 																	/*alert( "data"
@@ -335,7 +329,7 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																		window.location = "blockDetails.jsp";
+																		window.location = "communityDetails.jsp";
 																				});
 																	return false
 																	
@@ -347,7 +341,8 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																		window.location = "blockDetails.jsp";
+																		window.location = "communityDetails.jsp";
+																		
 																				});
 																	return false
 																}
@@ -358,20 +353,19 @@ $(document)
 							
 							
 							
-							$("#blockEditsave")
+							$("#communityEditsave")
 							.click(
 									function() {
 
 										var data1 = {}
 										
 										var data1 = {}
-										data1["blockName"] = $("#blockNameEdit").val();
-										data1["location"] = $("#blockLocationEdit").val();
-										data1["mobileNumber"] = $("#blockMobileEdit").val();
-										data1["email"] = $("#blockEmailEdit").val();
-										data1["createdByID"] = sessionStorage.getItem("ID");
-										data1["loggedInUserID"] = sessionStorage.getItem("userID");
-										data1["roleID"] = sessionStorage.getItem("roleID");
+										data1["communityName"] = $("#communityNameEdit")
+												.val();
+										data1["email"] = $("#communityEmailEdit").val();
+										data1["mobileNumber"] = $("#communityMobileEdit")
+										.val();
+										data1["address"] = $("#communityAddressEdit").val();
 								
 										alert("===>"
 												+ JSON.stringify(data1));
@@ -379,16 +373,16 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/block/edit/"+$("#blockIdhidden").val(),
+													url : "/PAYGTL_LORA_BLE/community/edit/"+$("#communityIdhidden").val(),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
 
 													success : function(
 															data) {
-														/*alert("data"
+														alert("data"
 																+ JSON
-																		.stringify(data));*/
+																		.stringify(data));
 														if (data.result == "Success") {
 
 															/*alert( "data"
@@ -399,7 +393,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "blockDetails.jsp";
+																window.location = "communityDetails.jsp";
 																		});
 															return false
 															
@@ -411,7 +405,8 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "blockDetails.jsp";
+																window.location = "communityDetails.jsp";
+																
 																		});
 															return false
 														}
@@ -426,33 +421,30 @@ $(document)
 
 
 
-function getBlockFormEdit(id) {
+function getCustomerFormEdit(id) {
 
-  alert(id);
+//	 alert(id);
 
-	$.getJSON("/PAYGTL_LORA_BLE/block/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
 		$.each(data.data, function(i, item) {
-			if (id == item.blockID) {
-				
+			if (id == item.customerID) {
 				$('#communityNameEdit').val(item.communityName).trigger("change");
 				$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#blockNameEdit').val(item.blockName).trigger("change");
-				$("#formblockName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#blockLocationEdit').val(item.Location).trigger("change");
-				$("#formblocklocation").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-			    $('#blockMobileEdit').val(item.mobile).trigger("change");
-				$("#formblockMobile").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#blockEmailEdit').val(item.email).trigger("change");
-				$("#formblockEmail").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$("#blockIdhidden").val(item.blockID);
+				$('#communityEmailEdit').val(item.email).trigger("change");
+				$("#formcomunityEmail").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#communityMobileEdit').val(item.mobileNumber).trigger("change");
+				$("#formcomunityMobile").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			    $('#communityAddressEdit').val(item.address).trigger("change");
+				$("#formcomunityAddress").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$("#communityIdhidden").val(item.communityID);
 			
-				$('#blockEditsave')
+				$('#customerEditsave')
 				.attr('disabled',
 						false);
 				
 			} else {
 			}
 		});
-		$('#myBlockEdit').modal('show');
+		$('#myCommunityEdit').modal('show');
 	});
 }
