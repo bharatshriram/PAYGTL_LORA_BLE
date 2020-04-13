@@ -158,7 +158,7 @@ public class CommunitySetUpDAO {
 			
 			String query = "SELECT block.BlockID, community.CommunityName, block.BlockName, block.Location, block.MobileNumber, block.Email, block.CreatedDate FROM block LEFT JOIN community ON community.CommunityID = Block.CommunityID <change>";
 			
-			String RoleName = (roleid==2 || roleid==3 || roleid==5) ? "WHERE block.BlockID = "+id+ "ORDER BY block.BlockID ASC" : "ORDER BY block.BlockID ASC" ;
+			String RoleName = (roleid==2 || roleid==3 || roleid==5) ? "WHERE block.BlockID = "+id+ " ORDER BY block.BlockID ASC" : " ORDER BY block.BlockID ASC" ;
 			
 			pstmt = con.prepareStatement(query.replaceAll("<change>", RoleName));
 			rs = pstmt.executeQuery();
@@ -418,6 +418,9 @@ public class CommunitySetUpDAO {
 				customervo.setMobileNumber(rs.getString("MobileNumber"));
 				customervo.setHouseNumber(rs.getString("HouseNumber"));
 				customervo.setCustomerID(rs.getInt("CustomerID"));
+				customervo.setMeterID(rs.getString("MeterID"));
+				customervo.setDefaultReading(rs.getInt("DefaultReading"));
+				customervo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
