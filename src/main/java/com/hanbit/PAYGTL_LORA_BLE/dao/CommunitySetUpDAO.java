@@ -409,6 +409,8 @@ public class CommunitySetUpDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
+				
+				// add tariff Amount after confirmation from the team
 				customervo = new CustomerResponseVO();
 				customervo.setCommunityName(rs.getString("CommunityName"));
 				customervo.setBlockName(rs.getString("BlockName"));
@@ -720,7 +722,7 @@ public class CommunitySetUpDAO {
 			
 			if(action == 1) {
 
-				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails urcmd ON cmd.CustomerID = urcmd.CustomerID SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CustomerID = (SELECT CustomerID FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
+				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CustomerID = urcmd.CustomerID SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CustomerID = (SELECT CustomerID FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
 	            pstmt.setInt(1, requestid);
 
 	            if (pstmt.executeUpdate() > 0) {

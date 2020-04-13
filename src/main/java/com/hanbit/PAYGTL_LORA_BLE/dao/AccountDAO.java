@@ -569,7 +569,7 @@ public class AccountDAO {
 				if (Integer.parseInt(rs.getString("HW_ACK")) == 2) {
 					configurationvo.setStatus("Time Out... Resend Command");
 				}
-				configurationvo.setId(rs.getInt("TransactionID"));
+				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
 
 			}
@@ -617,7 +617,7 @@ public class AccountDAO {
 
 	}
 
-	public String deleteconfiguration(ConfigurationRequestVO configurationvo)
+	public String deleteconfiguration(int transactionID)
 			throws SQLException {
 		// TODO Auto-generated method stub
 
@@ -630,7 +630,7 @@ public class AccountDAO {
 
 			pstmt = con
 					.prepareStatement("DELETE FROM command where TransactionID = ?");
-			pstmt.setString(1, configurationvo.getTransactionID());
+			pstmt.setInt(1, transactionID);
 
 			if (pstmt.executeUpdate() > 0) {
 				result = "Success";
@@ -660,6 +660,35 @@ public class AccountDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				if (rs.getString("HW_ACK").equals("0")) {
+					result = true;
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+
+		return result;
+	}
+
+	public boolean checktopup(String meterID) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT TOP 1 MeterID, Status FROM topup WHERE MeterID = ? order by TransactionID desc");
+			pstmt.setString(1, meterID);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1") || rs.getString("Status").equals("4") || rs.getString("Status").equals("5")) {
 					result = true;
 				}
 			}

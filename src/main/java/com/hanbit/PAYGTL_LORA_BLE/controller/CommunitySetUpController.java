@@ -392,7 +392,7 @@ public class CommunitySetUpController {
 		Instant instant = Instant.parse(userid+".348Z");
         ZoneId.of("Asia/Kolkata");
         LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-        System.out.println("date time in IST:--- "+datetime.toString().replaceAll("T", " "));
+        System.out.println("date time in IST:--- "+datetime.toString().replaceAll("T", " ").substring(0, 19));
 		
 		return null;
 	}

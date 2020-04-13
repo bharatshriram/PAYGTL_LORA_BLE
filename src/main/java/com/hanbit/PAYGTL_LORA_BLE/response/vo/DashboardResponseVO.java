@@ -13,50 +13,44 @@ public class DashboardResponseVO {
 
 	private String block;
 	private String HouseNumber;
-	private String reading;
-	private String balance;
-	private String emergencyCredit;
+	private float reading;
+	private float balance;
+	private float emergencyCredit;
 	private String battery;
-	private String valve;
+	private int valve;
 	private float gasTariff;
-	private String tamper;
+	private int tamper;
 	private String timeStamp;
 	private List<DashboardResponseVO> data;
 	
-	public float getGasTariff() {
-		return gasTariff;
-	}
-	public void setGasTariff(float gasTariff) {
-		this.gasTariff = gasTariff;
-	}
-	public String getTamper() {
-		return tamper;
-	}
-	public void setTamper(String tamper) {
-		this.tamper = tamper;
-	}
 	public String getBlock() {
 		return block;
 	}
 	public void setBlock(String block) {
 		this.block = block;
 	}
-	public String getReading() {
+	public String getHouseNumber() {
+		return HouseNumber;
+	}
+	public void setHouseNumber(String houseNumber) {
+		HouseNumber = houseNumber;
+	}
+	public float getReading() {
 		return reading;
 	}
-	public void setReading(String reading) {
+	public void setReading(float reading) {
 		this.reading = reading;
 	}
-	public String getBalance() {
+	public float getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(float balance) {
 		this.balance = balance;
 	}
-	public String getEmergencyCredit() {
+	public float getEmergencyCredit() {
 		return emergencyCredit;
 	}
-	public void setEmergencyCredit(String emergencyCredit) {
+	public void setEmergencyCredit(float emergencyCredit) {
 		this.emergencyCredit = emergencyCredit;
 	}
 	public String getBattery() {
@@ -65,11 +59,23 @@ public class DashboardResponseVO {
 	public void setBattery(String battery) {
 		this.battery = battery;
 	}
-	public String getValve() {
+	public int getValve() {
 		return valve;
 	}
-	public void setValve(String valve) {
+	public void setValve(int valve) {
 		this.valve = valve;
+	}
+	public float getGasTariff() {
+		return gasTariff;
+	}
+	public void setGasTariff(float gasTariff) {
+		this.gasTariff = gasTariff;
+	}
+	public int getTamper() {
+		return tamper;
+	}
+	public void setTamper(int tamper) {
+		this.tamper = tamper;
 	}
 	public String getTimeStamp() {
 		return timeStamp;
@@ -83,11 +89,5 @@ public class DashboardResponseVO {
 	public void setData(List<DashboardResponseVO> data) {
 		this.data = data;
 	}
-	public String getHouseNumber() {
-		return HouseNumber;
-	}
-	public void setHouseNumber(String houseNumber) {
-		HouseNumber = houseNumber;
-	}
-	
+
 }
