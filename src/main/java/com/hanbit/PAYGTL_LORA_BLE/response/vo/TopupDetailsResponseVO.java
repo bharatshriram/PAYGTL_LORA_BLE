@@ -9,41 +9,42 @@ package com.hanbit.PAYGTL_LORA_BLE.response.vo;
  */
 public class TopupDetailsResponseVO {
 	
-	private int meterid;
-	private double currentBalance;
-	private String dateTime;
-	private float unitRate;
-	private double emergencyCredit;
+	private String meterID;
+	private float currentBalance;
+	private String IoTTimeStamp;
+	private String tariffName;
+	private float emergencyCredit;
 	private float alarmCredit;
+	private float tariff;
 	
-	public int getMeterid() {
-		return meterid;
+	public String getMeterID() {
+		return meterID;
 	}
-	public void setMeterid(int meterid) {
-		this.meterid = meterid;
+	public void setMeterID(String meterID) {
+		this.meterID = meterID;
 	}
-	public double getCurrentBalance() {
+	public float getCurrentBalance() {
 		return currentBalance;
 	}
-	public void setCurrentBalance(double currentBalance) {
+	public void setCurrentBalance(float currentBalance) {
 		this.currentBalance = currentBalance;
 	}
-	public String getDateTime() {
-		return dateTime;
+	public String getIoTTimeStamp() {
+		return IoTTimeStamp;
 	}
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
+	public void setIoTTimeStamp(String ioTTimeStamp) {
+		IoTTimeStamp = ioTTimeStamp;
 	}
-	public float getUnitRate() {
-		return unitRate;
+	public String getTariffName() {
+		return tariffName;
 	}
-	public void setUnitRate(float unitRate) {
-		this.unitRate = unitRate;
+	public void setTariffName(String tariffName) {
+		this.tariffName = tariffName;
 	}
-	public double getEmergencyCredit() {
+	public float getEmergencyCredit() {
 		return emergencyCredit;
 	}
-	public void setEmergencyCredit(double emergencyCredit) {
+	public void setEmergencyCredit(float emergencyCredit) {
 		this.emergencyCredit = emergencyCredit;
 	}
 	public float getAlarmCredit() {
@@ -52,6 +53,11 @@ public class TopupDetailsResponseVO {
 	public void setAlarmCredit(float alarmCredit) {
 		this.alarmCredit = alarmCredit;
 	}
-	
+	public float getTariff() {
+		return tariff;
+	}
+	public void setTariff(float tariff) {
+		this.tariff = tariff;
+	}
 	
 }

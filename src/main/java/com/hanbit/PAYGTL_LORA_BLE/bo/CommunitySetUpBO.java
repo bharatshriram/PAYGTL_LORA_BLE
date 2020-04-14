@@ -135,7 +135,8 @@ public class CommunitySetUpBO {
 				|| customervo.getFirstName().isEmpty()
 				|| customervo.getLastName().isEmpty()
 				|| customervo.getEmail().isEmpty()
-				|| customervo.getMobileNumber().isEmpty()) {
+				|| customervo.getMobileNumber().isEmpty()
+				|| customervo.getTariffID()==0) {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 
@@ -220,17 +221,17 @@ public class CommunitySetUpBO {
 	public String addtariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
-		String result = "";
-
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
+		
+		if(communitysetupdao.checktariffamount(tariffvo.getTariff())) {
+			throw new BusinessException("TARIFF AMOUNT ALREADY EXISTS");
+		}
 
-		result = communitysetupdao.addtariff(tariffvo);
-
-		return result;
+		return communitysetupdao.addtariff(tariffvo);
 	}
 
 	/* Validations */

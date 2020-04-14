@@ -27,7 +27,6 @@ import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.RequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CommunityResponseVO;

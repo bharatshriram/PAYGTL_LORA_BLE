@@ -20,6 +20,7 @@ public class CustomerRequestVO {
 	private String meterID;
 	private String meterSerialNumber;
 	private String defaultReading;
+	private int tariffID;
 	private String CRNNumber;
 	private int createdByID;
 	private int createdByRoleID;
@@ -121,6 +122,12 @@ public class CustomerRequestVO {
 	}
 	public void setLoggedInUserID(String loggedInUserID) {
 		this.loggedInUserID = loggedInUserID;
+	}
+	public int getTariffID() {
+		return tariffID;
+	}
+	public void setTariffID(int tariffID) {
+		this.tariffID = tariffID;
 	}
 	
 }

@@ -20,7 +20,7 @@ import org.codehaus.jettison.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.RequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -50,7 +50,7 @@ public class DashboardDAO {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
 			
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, \r\n" + 
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.AlarmCredit, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
@@ -102,20 +102,21 @@ public class DashboardDAO {
 
 			Gson gson = new Gson();
 			
-			RequestVO requestvo = new RequestVO();
+			TataResponseVO requestvo = new TataResponseVO();
 			
 			JSONObject jsonObj = new JSONObject(json);
 			
-			// change accordingly after checking with the json format from tata gateway
-			
-			requestvo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), RequestVO.class);
+			requestvo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
 
 				// String guid="CgAAAED/AQAAAAAAAAAAARc=";
+			
+			System.out.println("in dashboarddao : -- dataframae:--"+requestvo.getPayloads_ul().getDataFrame());
 
 				byte[] decoded = Base64.getDecoder().decode(requestvo.getPayloads_ul().getDataFrame());
 
 				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
 						.substring(0, 2);
+				System.out.println("after decoding :---"+StartByte);
 
 				if (StartByte.equalsIgnoreCase("0A")) {
 
@@ -177,7 +178,7 @@ public class DashboardDAO {
 
 					int valveStatus = DashboardDAO.hexDecimal(valveStatusbyte);
 
-					pstmtch = con.prepareStatement("select Top 1 IoTTimeStamp, MeterID FROM balanceLog where MeterNo = ? order by LogDate desc");
+					pstmtch = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balanceLog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
 					pstmtch.setString(1, DeviceId);
 					rsch = pstmtch.executeQuery();
 
@@ -192,10 +193,10 @@ public class DashboardDAO {
 			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
 			        requestvo.getPayloads_ul().setTimestamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
 					
-					if (requestvo.getPayloads_ul().getTimestamp().equalsIgnoreCase(iot_Timestamp) ) {
+					if (!requestvo.getPayloads_ul().getTimestamp().equalsIgnoreCase(iot_Timestamp)) {
 						
 						
-						PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID from customermeterdetails WHERE MeterID = ?");
+						PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, TariffID from customermeterdetails WHERE MeterID = ?");
 						pstmt2.setString(1, DeviceId);
 						ResultSet rs = pstmt2.executeQuery();
 						if(rs.next()) {
@@ -224,54 +225,62 @@ public class DashboardDAO {
 								
 								responsevo.setResult("Success");
 								
-								PreparedStatement pstmt3 = con.prepareStatement("SELECT * FROM displaybalancelog WHERE MeterID = ? ");
-								pstmt3.setString(1, DeviceId);
-								ResultSet rs1 = pstmt3.executeQuery();
+								PreparedStatement pstmt4 = con.prepareStatement("(SELECT MAX(ReadingID) as ReadingID FROM balancelog WHERE MeterID = ?)");
+								pstmt4.setString(1, DeviceId);
+								ResultSet rs2 = pstmt4.executeQuery();
 								
-								if(rs1.next()) {
+								if(rs2.next()) {
 									
-									pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ((SELECT MAX(ReadingID) FROM balancelog WHERE MeterID = ?)), MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, AlarmCredit = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, LowBattery = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
-									pstmt1.setString(1, DeviceId);
-									pstmt1.setString(2, DeviceId);
-									pstmt1.setInt(3, meterReading);
-									pstmt1.setFloat(4, amountAvailable);
-									pstmt.setInt(5, rs.getInt("CommunityID"));
-									pstmt.setInt(6, rs.getInt("BlockID"));
-									pstmt.setInt(7, rs.getInt("CustomerID"));
-									pstmt.setFloat(8, batterylevel);
-									pstmt.setFloat(9, tariffAvailable);
-									pstmt.setInt(10, 0);
-									pstmt.setFloat(11, emergencyCreditAvailable);
-									pstmt.setInt(12, meterType);
-									pstmt.setInt(13, valveStatus);
-									pstmt.setInt(14, 0);// Balance Pending
-									pstmt.setInt(15, tamper);
-									pstmt.setInt(16, lowbattery);
-									pstmt.setString(17, requestvo.getPayloads_ul().getTimestamp());
-									pstmt.setString(18, DeviceId);
+									PreparedStatement pstmt3 = con.prepareStatement("SELECT * FROM displaybalancelog WHERE MeterID = ? ");
+									pstmt3.setString(1, DeviceId);
+									ResultSet rs1 = pstmt3.executeQuery();
 									
-								} else {
+									if(rs1.next()) {
+										
+										pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, AlarmCredit = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, LowBattery = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
+										pstmt1.setInt(1, rs2.getInt("ReadingID"));
+										pstmt1.setString(2, DeviceId);
+										pstmt1.setInt(3, meterReading);
+										pstmt1.setFloat(4, amountAvailable);
+										pstmt1.setInt(5, rs.getInt("CommunityID"));
+										pstmt1.setInt(6, rs.getInt("BlockID"));
+										pstmt1.setInt(7, rs.getInt("CustomerID"));
+										pstmt1.setFloat(8, batterylevel);
+										pstmt1.setFloat(9, tariffAvailable);
+										pstmt1.setInt(10, 0);
+										pstmt1.setFloat(11, emergencyCreditAvailable);
+										pstmt1.setInt(12, meterType);
+										pstmt1.setInt(13, valveStatus);
+										pstmt1.setInt(14, 0);// Balance Pending
+										pstmt1.setInt(15, tamper);
+										pstmt1.setInt(16, lowbattery);
+										pstmt1.setString(17, requestvo.getPayloads_ul().getTimestamp());
+										pstmt1.setString(18, DeviceId);
+										
+									} else {
+										
+											pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, AlarmCredit, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+											pstmt1.setInt(1, rs2.getInt("ReadingID"));
+											pstmt1.setString(2, DeviceId);
+											pstmt1.setInt(3, meterReading);
+											pstmt1.setFloat(4, amountAvailable);
+											pstmt1.setInt(5, rs.getInt("CommunityID"));
+											pstmt1.setInt(6, rs.getInt("BlockID"));
+											pstmt1.setInt(7, rs.getInt("CustomerID"));
+											pstmt1.setFloat(8, batterylevel);
+											pstmt1.setFloat(9, tariffAvailable);
+											pstmt1.setInt(10, 0);
+											pstmt1.setFloat(11, emergencyCreditAvailable);
+											pstmt1.setInt(12, meterType);
+											pstmt1.setInt(13, valveStatus);
+											pstmt1.setInt(14, 0);// Balance Pending
+											pstmt1.setInt(15, tamper);
+											pstmt1.setInt(16, lowbattery);
+											pstmt1.setString(17, requestvo.getPayloads_ul().getTimestamp());
+											
+									}
 									
-									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, AlarmCredit, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, IoTTimeStamp) VALUES ((SELECT MAX(ReadingID) FROM balancelog WHERE MeterID = ?), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
-									pstmt1.setString(1, DeviceId);
-									pstmt1.setString(2, DeviceId);
-									pstmt1.setInt(3, meterReading);
-									pstmt1.setFloat(4, amountAvailable);
-									pstmt.setInt(5, rs.getInt("CommunityID"));
-									pstmt.setInt(6, rs.getInt("BlockID"));
-									pstmt.setInt(7, rs.getInt("CustomerID"));
-									pstmt.setFloat(8, batterylevel);
-									pstmt.setFloat(9, tariffAvailable);
-									pstmt.setInt(10, 0);
-									pstmt.setFloat(11, emergencyCreditAvailable);
-									pstmt.setInt(12, meterType);
-									pstmt.setInt(13, valveStatus);
-									pstmt.setInt(14, 0);// Balance Pending
-									pstmt.setInt(15, tamper);
-									pstmt.setInt(16, lowbattery);
-									pstmt.setString(17, requestvo.getPayloads_ul().getTimestamp());
 								}
-								
 								
 								pstmt1.executeUpdate();
 							}

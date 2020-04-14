@@ -118,7 +118,7 @@ public class AccountController {
 	ResponseVO addconfiguration(@RequestBody ConfigurationRequestVO configurationvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
 
-		String result = "";
+		String result = "Failure";
 		AccountBO accountbo = new AccountBO();
 		ResponseVO responsevo = new ResponseVO();
 		

@@ -16,5 +16,5 @@ public class DataBaseConstants {
 	public static final String DRIVER_CLASS = "com.mysql.cj.jdbc.Driver";
 	public static final String DRIVER_URL = "jdbc:mysql://localhost/paygtl_lora_ble";
 	public static final String USER_NAME = "root";
-	public static final String PASSWORD = "bharat";
+	public static final String PASSWORD = "vimal";
 }

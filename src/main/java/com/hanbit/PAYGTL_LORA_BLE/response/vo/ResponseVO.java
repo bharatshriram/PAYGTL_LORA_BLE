@@ -31,7 +31,8 @@ public class ResponseVO {
 	private HashMap<Integer, String> dropDownCommunities;
 	private HashMap<Integer, String> dropDownBlocks;
 	private HashMap<Integer, String> dropDownHouses;
-	private List<TopupDetailsResponseVO> topupdetails;
+	private HashMap<Integer, String> dropDownTariffs;
+	private TopupDetailsResponseVO topupdetails;
 	private String result;
 	private String Message;
 	private UserDetails userDetails;
@@ -54,13 +55,12 @@ public class ResponseVO {
 	public void setMessage(String Message) {
 		this.Message = Message;
 	}
-	public List<TopupDetailsResponseVO> getTopupdetails() {
+	public TopupDetailsResponseVO getTopupdetails() {
 		return topupdetails;
 	}
-	public void setTopupdetails(List<TopupDetailsResponseVO> topupdetails) {
+	public void setTopupdetails(TopupDetailsResponseVO topupdetails) {
 		this.topupdetails = topupdetails;
 	}
-
 	public String getResult() {
 		return result;
 	}
@@ -177,5 +177,10 @@ public class ResponseVO {
 	public void setDropDownHouses(HashMap<Integer, String> dropDownHouses) {
 		this.dropDownHouses = dropDownHouses;
 	}
-	
+	public HashMap<Integer, String> getDropDownTariffs() {
+		return dropDownTariffs;
+	}
+	public void setDropDownTariffs(HashMap<Integer, String> dropDownTariffs) {
+		this.dropDownTariffs = dropDownTariffs;
+	}
 }

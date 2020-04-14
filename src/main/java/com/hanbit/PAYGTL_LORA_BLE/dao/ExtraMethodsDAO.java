@@ -17,10 +17,15 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
-
+/**
+ * @author K VimaL Kumar
+ * 
+ */
 public class ExtraMethodsDAO {
 	
 	public String sendmail(MailRequestVO mailrequestvo) {
@@ -59,8 +64,12 @@ public class ExtraMethodsDAO {
 	
 	public String restcall(RestCallVO restcallvo) throws IOException {
 		
-		URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID()+"/"+restcallvo.getUrlExtension()+"/"+restcallvo.getData());
+		URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID()+"/"+restcallvo.getUrlExtension());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        
+        if(restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayloadStatus/latest")) {
+        	urlConnection.setRequestMethod("GET");
+        }
         
         urlConnection.setRequestProperty("Content-Type", ExtraConstants.ContentType); // or any other mime
 		// type
@@ -96,5 +105,5 @@ public class ExtraMethodsDAO {
 		
 		return responses.toString();
 	}
-
+	
 }

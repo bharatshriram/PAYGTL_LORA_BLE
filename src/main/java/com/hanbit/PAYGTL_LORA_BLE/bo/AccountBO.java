@@ -23,7 +23,7 @@ public class AccountBO {
 		
 		AccountDAO accountdao = new AccountDAO();
 		
-		if(!(topupvo.getAmount() > topupvo.getEmergencyCredit()) && !(topupvo.getAmount() > topupvo.getAlarmCredit())){
+		if(accountdao.validateamount(topupvo)){
 			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND ALARM CREDIT");
 		}
 		
@@ -44,12 +44,9 @@ public class AccountBO {
 		AccountDAO accountdao = new AccountDAO();
 		
 		try {
-			boolean flag;
 			
-			flag = accountdao.checkstatus(configurationvo.getMeterID());
-			
-			if (flag) {
-				throw new BusinessException("PREVIOUS COMMAND IS PENDING");
+			if (accountdao.checkstatus(configurationvo.getMeterID())) {
+				throw new BusinessException("PREVIOUS COMMAND REQUEST IS PENDING");
 			}
 			
 			result = accountdao.addconfiguration(configurationvo);

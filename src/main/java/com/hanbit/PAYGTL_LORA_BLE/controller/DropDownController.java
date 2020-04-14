@@ -4,8 +4,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.dao.DropDownDAO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.TopupDetailsResponseVO;
 
 /**
  * @author K VimaL Kumar
@@ -63,20 +60,27 @@ public class DropDownController {
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/topupdetails/{house}",method = RequestMethod.GET, 
+	@RequestMapping(value = "/topupdetails/{customerID}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody String gettopupdetails(@PathVariable ("house") String house) throws SQLException {
+	public @ResponseBody ResponseVO gettopupdetails(@PathVariable ("customerID") int customerID) throws SQLException {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
-		List<TopupDetailsResponseVO> topupdetailslist = new ArrayList<TopupDetailsResponseVO>();
 		ResponseVO responsevo = new ResponseVO();
 		
-		topupdetailslist = dropdowndao.gettopupdetails(house);
-		responsevo.setTopupdetails(topupdetailslist);
+		responsevo.setTopupdetails(dropdowndao.gettopupdetails(customerID));
 		
-		String meterids = gson.toJson(responsevo);
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/tariffs",method = RequestMethod.GET, produces="application/json")
+	public @ResponseBody ResponseVO getalltariffs() throws SQLException {
 		
-		return meterids;
+		DropDownDAO dropdowndao = new DropDownDAO();
+		ResponseVO responsevo = new ResponseVO();
+		
+		responsevo.setDropDownTariffs(dropdowndao.getalltariffs());
+
+		return responsevo;
 	}
 
 }

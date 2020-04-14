@@ -400,9 +400,8 @@ public class CommunitySetUpDAO {
 			String query =
 					"SELECT community.CommunityName, block.BlockName, customermeterdetails.CustomerID, customermeterdetails.HouseNumber, customermeterdetails.FirstName, customermeterdetails.LastName, \r\n" + 
 							"customermeterdetails.Email, customermeterdetails.MobileNumber, customermeterdetails.MeterID, customermeterdetails.MeterSerialNumber, \r\n" + 
-							"customermeterdetails.DefaultReading, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
-							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID \r\n" + 
-							"LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID <change>";
+							"customermeterdetails.DefaultReading, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
+							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID LEFT JOIN tariff ON tariff.TariffID = customermeterdetails.TariffID <change>";
 							
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID ASC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID ASC" : (roleid == 3) ? "WHERE customermeterdetails.CustomerID = "+id:""));
 			
@@ -410,7 +409,6 @@ public class CommunitySetUpDAO {
 
 			while (rs.next()) {
 				
-				// add tariff Amount after confirmation from the team
 				customervo = new CustomerResponseVO();
 				customervo.setCommunityName(rs.getString("CommunityName"));
 				customervo.setBlockName(rs.getString("BlockName"));
@@ -423,6 +421,7 @@ public class CommunitySetUpDAO {
 				customervo.setMeterID(rs.getString("MeterID"));
 				customervo.setDefaultReading(rs.getInt("DefaultReading"));
 				customervo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
+				customervo.setTariffName(rs.getString("TariffName"));
 				
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
@@ -460,7 +459,7 @@ public class CommunitySetUpDAO {
 			int i = 0;
 			
 			pstmt = con.prepareStatement(
-					"INSERT INTO customermeterdetails (CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, DefaultReading, ActiveStatus, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, Now(), Now() )");
+					"INSERT INTO customermeterdetails (CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, DefaultReading, TariffID, ActiveStatus, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, Now(), Now() )");
 			pstmt.setInt(1, customervo.getCommunityID());
 			pstmt.setInt(2, customervo.getBlockID());
 			pstmt.setString(3, customervo.getHouseNumber());
@@ -471,9 +470,10 @@ public class CommunitySetUpDAO {
 			pstmt.setString(8, customervo.getMeterID());
 			pstmt.setString(9, customervo.getMeterSerialNumber());
 			pstmt.setString(10, customervo.getDefaultReading());
-			pstmt.setString(11, customervo.getCRNNumber());
-			pstmt.setInt(12, customervo.getCreatedByID());
-			pstmt.setInt(13, customervo.getCreatedByRoleID());
+			pstmt.setInt(11, customervo.getTariffID());
+			pstmt.setString(12, customervo.getCRNNumber());
+			pstmt.setInt(13, customervo.getCreatedByID());
+			pstmt.setInt(14, customervo.getCreatedByRoleID());
 
 			if (pstmt.executeUpdate() > 0) {
 				
@@ -578,7 +578,7 @@ public class CommunitySetUpDAO {
 				pstmt.setInt(6, customervo.getCustomerID());
 				
 				if (pstmt.executeUpdate() > 0) {
-	            	result = "Request Submitted successfully and is pending for approval by Block Administrator";
+	            	result = "Request Submitted successfully and is pending for approval by Administrator";
 	            }
 				
 			}else {
@@ -872,6 +872,33 @@ public class CommunitySetUpDAO {
 			ex.printStackTrace();
 		} finally {
 			pstmt.close();
+			con.close();
+		}
+
+		return result;
+	}
+
+	public boolean checktariffamount(float tariff) throws SQLException {
+		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT * FROM tariff WHERE Tariff = ?");
+			pstmt.setFloat(1, tariff);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = true;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
 			con.close();
 		}
 

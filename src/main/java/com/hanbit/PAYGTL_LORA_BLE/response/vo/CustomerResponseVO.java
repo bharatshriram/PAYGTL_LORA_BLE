@@ -22,13 +22,12 @@ public class CustomerResponseVO {
 	private String meterID;
 	private String meterSerialNumber;
 	private int defaultReading;
+	private String tariffName;
 	private String date;
 	private String createdByUserName;
 	private String createdByRoleDescription;
 	private String userID;
 	private int requestID;
-	
-	
 	
 	private List<CustomerResponseVO> data;
 	
@@ -92,7 +91,6 @@ public class CustomerResponseVO {
 	public void setMeterSerialNumber(String meterSerialNumber) {
 		this.meterSerialNumber = meterSerialNumber;
 	}
-	
 	public int getDefaultReading() {
 		return defaultReading;
 	}
@@ -134,6 +132,12 @@ public class CustomerResponseVO {
 	}
 	public void setRequestID(int requestID) {
 		this.requestID = requestID;
+	}
+	public String getTariffName() {
+		return tariffName;
+	}
+	public void setTariffName(String tariffName) {
+		this.tariffName = tariffName;
 	}
 	
 }

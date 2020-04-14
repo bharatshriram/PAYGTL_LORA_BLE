@@ -10,17 +10,22 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
+import org.json.simple.JSONObject;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.FixedChargesResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -54,152 +59,118 @@ public class AccountDAO {
 
 		Connection con = null;
 		PreparedStatement ps = null;
-		ResultSet rs = null;
 		String result = "Failure";
-		int customerID = 0;
+		Random randomNumber = new Random();
+		String dataframe = "";
+		String transactionIDForTata = "";
+		String hexaAmount = "";
+		String hexaEmergencyCredit = "";
+		String hexaAlarmCredit = "";
+		String hexaTariff = "";
+		
 		try {
-			con = getConnection();
-
-			String cor_ip = "1";
-			float emr_credit = topupvo.getEmergencyCredit();
-			float alarm_credit = topupvo.getAlarmCredit();
-			float amount = topupvo.getAmount();
-			
-			int pstatus = 0;
-			float fcharges = 0;
-			float amnt;
-			int setTariff_Flag;
-
-			String sql10 = "SELECT tc.com_name AS cname,ttf.custid AS cid,tcu.house_no AS hno,tcm.meter_id AS mid,ttf.TotalConsumption AS totconsume,ttf.FixedCharges AS fcharges,ttf.PaidStatus AS pstatus FROM community tc,block tb,customer tcu,customer_meter tcm,tbl_Tr_FixedCharge ttf WHERE tc.com_id=tb.com_id AND tb.block_id=tcu.block_id AND tcu.cust_id=tcm.cust_id AND tcm.meter_id=ttf.MeterNo AND tc.com_id=? and tcu.cust_id=?";
-			PreparedStatement ps3 = con.prepareStatement(sql10);
-			ps3.setInt(1, topupvo.getCommunityID());
-			ps3.setInt(2, customerID);
-			ResultSet rs3 = ps3.executeQuery();
-			if (rs3.next()) {
-				pstatus = rs3.getInt("pstatus");
-				fcharges = rs3.getFloat("fcharges");
-			}
-
-				if (topupvo.getSetTariff()==0) {
-					if (pstatus == 0) {
-						amnt = amount - fcharges;
-						setTariff_Flag = 1;
-						String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
-						ps = con.prepareStatement(sql1);
-						ps.setInt(1, topupvo.getCommunityID());
-						rs = ps.executeQuery();
-						if (rs.next()) {
-
-							String sql = "INSERT INTO recharge_transaction(meter_id,cust_id,tariff_id,coordinatorip,rechargeamt,alaramcredit,emergencycredit,setTariff_Flag,user_id) VALUES(?,?,?,?,?,?,?,?,?)";
-							ps = con.prepareStatement(sql);
-							ps.setString(1, topupvo.getMeterID());
-							ps.setInt(2, customerID);
-							ps.setString(3, rs.getString("tid"));
-							ps.setString(4, cor_ip);
-							ps.setFloat(5, amnt);
-							ps.setFloat(6, alarm_credit);
-							ps.setFloat(7, emr_credit);
-							ps.setInt(8, setTariff_Flag);
-//							ps.setString(9, topupvo.getUserID());
-							if (!ps.execute()) {
-								result = "Success";
-								
-							} else {
-								result = "Failure";
-							}
-						}
-						String sql15 = "update tbl_Tr_FixedCharge set PaidStatus=1 where custid=?";
-						ps = con.prepareStatement(sql15);
-						ps.setInt(1, customerID);
-						if (!ps.execute()) {
-
-						} else {
-
-						}
-
+				con = getConnection();
+					
+				PreparedStatement pstmt = con.prepareStatement("SELECT MAX(TransactionID) AS TransactionID FROM topup");
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					if(rs.getString("TransactionID") == null) {
+						 transactionIDForTata = "T-" + 1;
 					} else {
-						setTariff_Flag = 1;
-						String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
-						ps = con.prepareStatement(sql1);
-						ps.setInt(1, topupvo.getCommunityID());
-						rs = ps.executeQuery();
-						if (rs.next()) {
-							String sql = "INSERT INTO recharge_transaction(meter_id,cust_id,tariff_id,coordinatorip,rechargeamt,alaramcredit,emergencycredit,setTariff_Flag) VALUES(?,?,?,?,?,?,?,?)";
-							ps = con.prepareStatement(sql);
-							ps.setString(1, topupvo.getMeterID());
-							ps.setInt(2, customerID);
-							ps.setString(3, rs.getString("tid"));
-							ps.setString(4, cor_ip);
-							ps.setFloat(5, amount);
-							ps.setFloat(6, alarm_credit);
-							ps.setFloat(7, emr_credit);
-							ps.setInt(8, setTariff_Flag);
-							if (!ps.execute()) {
-								result = "Success";
-							} else {
-								result = "Failure";
-							}
+						transactionIDForTata = "T-" + rs.getInt("TransactionID");
 						}
 					}
-				}
-				if (topupvo.getSetTariff()==1) {
+					
+					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+					
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
+					pstmt1.setInt(1, topupvo.getCustomerID());
+					ResultSet rs1 = pstmt1.executeQuery();
+					if (rs1.next()) {
 
-					String setTariff_Blockid = "";
-					String setTariff_Custid = "";
-					String setTariff_Meterid = "";
-					setTariff_Flag = 2;
-					String setTariff_Amount = "0";
-					// String setTariff_Emecredit="0";
-					// String setTariff_AlarmCredit="0";
-					String sql1 = "SELECT cu.tariff_id AS tid FROM community cu,tariff tf WHERE cu.tariff_id=tf.tariff_id AND cu.com_id=?";
-					ps = con.prepareStatement(sql1);
-					ps.setInt(1, topupvo.getCommunityID());
-					rs = ps.executeQuery();
-					if (rs.next()) {
-						String sql3 = "select block_id from block where com_id=?";
-						ps = con.prepareStatement(sql3);
-						ps.setInt(1, topupvo.getCommunityID());
-						ResultSet rs1 = ps.executeQuery();
-						while (rs1.next()) {
-							setTariff_Blockid = rs1.getString("block_id");
-							String sql4 = "select tc.cust_id as cid,tcm.meter_id as mid from customer tc,customer_meter tcm,meter_master tmm where tc.cust_id = tcm.cust_id and tcm.meter_id = tmm.meter_id and tc.block_id=? order by tc.cust_id";
-							ps = con.prepareStatement(sql4);
-							ps.setString(1, setTariff_Blockid);
-							ResultSet rs10 = ps.executeQuery();
-							while (rs10.next()) {
-								setTariff_Custid = rs10.getString("cid");
-								setTariff_Meterid = rs10.getString("mid");
-								String sql = "INSERT INTO recharge_transaction(meter_id,cust_id,tariff_id,coordinatorip,rechargeamt,alaramcredit,emergencycredit,setTariff_Flag) VALUES(?,?,?,?,?,?,?,?)";
-								ps = con.prepareStatement(sql);
-								ps.setString(1, setTariff_Meterid);
-								ps.setString(2, setTariff_Custid);
-								ps.setString(3, rs.getString("tid"));
-								ps.setString(4, cor_ip);
-								ps.setString(5, setTariff_Amount);
-								ps.setFloat(6, alarm_credit);
-								ps.setFloat(7, emr_credit);
-								ps.setInt(8, setTariff_Flag);
-								// System.out.println("ps==>" + ps);
-								if (!ps.execute()) {
-									// out.println("AMR ID "+meter_id+" Topup Sent Successfully...");
-									System.out.println("tariff set for "
-											+ setTariff_Meterid
-											+ " Sucessfully...");
-								} else {
-									// out.println("Error...");
-								}
-							}
-						}
+					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
+
+					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
+
+					hexaEmergencyCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("EmergencyCredit"))).toUpperCase();
+
+					hexaTariff = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("Tariff"))).toUpperCase();
+					
+					}
+					
+					dataframe = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaAlarmCredit	+ hexaEmergencyCredit + hexaTariff + "17";
+
+					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
+					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
+
+
+					String HexaToBase64 = Encoding.getHexBase644(dataframe);
+					
+					JSONObject json = new JSONObject();
+
+					JSONObject innerjson = new JSONObject();
+
+					JSONObject payload = new JSONObject();
+
+					JSONObject innerjaonpayload = new JSONObject();
+
+					innerjson.put("ty", 4);
+
+					innerjson.put("cnf", "text/plain:0");
+
+					innerjson.put("cs", 250);
+
+					innerjaonpayload.put("deveui", topupvo.getMeterID());
+
+					innerjaonpayload.put("port", 5);
+
+					innerjaonpayload.put("confirmed", true);
+
+					innerjaonpayload.put("data", HexaToBase64);
+
+					innerjaonpayload.put("on_busy", "fail");
+
+					innerjaonpayload.put("tag", transactionIDForTata);
+
+					payload.put("payload_dl", innerjaonpayload);
+
+					innerjson.put("con", payload);
+					json.put("m2m:cin", innerjson);
+
+					RestCallVO restcallvo = new RestCallVO();
+					restcallvo.setMeterID(topupvo.getMeterID());
+					restcallvo.setUrlExtension("/DownlinkPayload");
+					restcallvo.setData(json.toString());
+					
+					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+					
+					String restcallresponse = extramethodsdao.restcall(restcallvo);
+
+					//perform some action with restcallresponse in future based on requirement
+					
+					//check for payment status with the payment gateway
+				
+					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, NOW())";
+					ps = con.prepareStatement(sql);
+					ps.setString(1, transactionIDForTata);
+					ps.setInt(2, topupvo.getCommunityID());
+					ps.setInt(3, topupvo.getBlockID());
+					ps.setInt(3, topupvo.getCustomerID());
+					ps.setString(5, topupvo.getMeterID());
+					ps.setInt(6, topupvo.getTariffID());
+					ps.setFloat(7, topupvo.getAmount());
+					ps.setFloat(8, topupvo.getTransactedByID());
+					ps.setInt(9, topupvo.getTransactedByRoleID());
+
+					if (ps.execute()) {
 						result = "Success";
+						
 					}
-				}
-
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			// pstmt.close();
 			// ps.close();
-			rs.close();
 			con.close();
 		}
 
@@ -224,8 +195,8 @@ public class AccountDAO {
 			
 			// hit tata gateway api for the status of the pending transactions----code from TopupDAO in lora_Gasprepaid project
 			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, t.MeterID, t.Amount, t.AlarmCredit, t.EmergencyCredit, t.Status, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
-							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.CommunityID = b.blockID\r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.CommunityID = b.blockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CustomerID = cmd.CustomerID <change>";
 			
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CustomerID = "+id:""));
@@ -461,57 +432,6 @@ public class AccountDAO {
 
 	}
 
-	/* Fixed Charges */
-
-	public List<FixedChargesResponseVO> getFixedChargesdetails()
-			throws SQLException {
-		// TODO Auto-generated method stub
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		List<FixedChargesResponseVO> fixedchargeslist = null;
-		try {
-			con = getConnection();
-			fixedchargeslist = new LinkedList<FixedChargesResponseVO>();
-			pstmt = con
-					.prepareStatement("select tc.com_name as cname,tb.name as bname,ttf.custid as cid, tcu.house_no as hno,tcu.first_name as fname,tcu.last_name as lname,tcm.meter_id as mid,ttf.TotalConsumption as totconsume,ttf.BillingMonth as bmonth,ttf.FixedCharges as fcharges,ttf.PaidStatus as pstatus from community tc,block tb,customer tcu,customer_meter tcm,tbl_Tr_FixedCharge ttf where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=ttf.MeterNo and tc.com_id=?");
-			pstmt.setInt(1, LoginDAO.CommunityID);
-			rs = pstmt.executeQuery();
-			FixedChargesResponseVO fixedhargesvo = null;
-
-			while (rs.next()) {
-				fixedhargesvo = new FixedChargesResponseVO();
-
-				fixedhargesvo.setCommunityName(rs.getString("cname"));
-				fixedhargesvo.setBlockName(rs.getString("bname"));
-				fixedhargesvo.setName(rs.getString("fname") + " "
-						+ rs.getString("lname"));
-				fixedhargesvo.setHouseNo(rs.getString("hno"));
-				fixedhargesvo.setMeterNo(rs.getString("mid"));
-				fixedhargesvo.setUnitsConsumed(rs.getString("totconsume"));
-				fixedhargesvo.setBillingMonth(rs.getString("bmonth"));
-				fixedhargesvo.setFixedCharges(rs.getString("fcharges"));
-				if (Integer.parseInt(rs.getString("pstatus")) == 1) {
-					fixedhargesvo.setPaymentStatus("Paid");
-				} else {
-					fixedhargesvo.setPaymentStatus("UnPaid");
-				}
-
-				fixedchargeslist.add(fixedhargesvo);
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			pstmt.close();
-			rs.close();
-			con.close();
-		}
-		return fixedchargeslist;
-
-	}
-
 	/* Configuration */
 
 	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, int id)
@@ -525,10 +445,12 @@ public class AccountDAO {
 			con = getConnection();
 			configurationdetailslist = new LinkedList<ConfigurationResponseVO>();
 
-			// complete the query for Admin and Superadmin level login
+			String query = "SELECT cmd.TransactionID, cmd.CustomerID, cmd.MeterID, cmd.CommandType, cmd.ModifiedDate, cmd.Status FROM command AS cmd \r\n" + 
+					"LEFT JOIN customermeterdetails AS cm ON cm.CustomerID = cmd.CustomerID\r\n" + 
+					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
+					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
 			
-			
-			pstmt = con.prepareStatement("SELECT TransactionID, CustomerID, MeterID, CommandType, ModifiedDate, HW_ACK FROM command");
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CustomerID = "+id+ " ORDER BY cmd.ModifiedDate DESC":""));
 			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;
@@ -537,37 +459,43 @@ public class AccountDAO {
 				configurationvo = new ConfigurationResponseVO();
 				configurationvo.setMeterID(rs.getString("MeterID"));
 				
-				// 5, 3, 1, 40, 0 , 6
+				// 5, 3, 1, 40, 0 , 6, 10
 				
 				if (Integer.parseInt(rs.getString("CommandType")) == 40) {
 					configurationvo.setCommandType("Solenoid Open");
 				}
-				if (Integer.parseInt(rs.getString("CommandType")) == 0) {
+				else if (Integer.parseInt(rs.getString("CommandType")) == 0) {
 					configurationvo.setCommandType("Solenoid Close");
 				}
-				if (Integer.parseInt(rs.getString("CommandType")) == 3) {
+				else if (Integer.parseInt(rs.getString("CommandType")) == 3) {
 					configurationvo.setCommandType("Clear Meter");
 				}
-				if (Integer.parseInt(rs.getString("CommandType")) == 1) {
+				else if (Integer.parseInt(rs.getString("CommandType")) == 1) {
 					configurationvo.setCommandType("Clear Tamper");
 				}
-				if (Integer.parseInt(rs.getString("CommandType")) == 5) {
+				else if (Integer.parseInt(rs.getString("CommandType")) == 5) {
 					configurationvo.setCommandType("RTC");
 				}
-				if (Integer.parseInt(rs.getString("CommandType")) == 6) {
+				else if (Integer.parseInt(rs.getString("CommandType")) == 6) {
 					configurationvo.setCommandType("Set Default Read");
 				}
+				else if (Integer.parseInt(rs.getString("CommandType")) == 10) {
+					configurationvo.setCommandType("Set Tariff");
+				}
 				
-				configurationvo.setModifiedDate(rs.getString("date"));
+				configurationvo.setModifiedDate(rs.getString("ModifiedDate"));
 
-				if (Integer.parseInt(rs.getString("HW_ACK")) == 0) {
+				if (Integer.parseInt(rs.getString("Status")) == 0) {
 					configurationvo.setStatus("Pending...waiting for ack");
 				}
-				if (Integer.parseInt(rs.getString("HW_ACK")) == 1) {
+				else if (Integer.parseInt(rs.getString("Status")) == 1) {
 					configurationvo.setStatus("Passed");
 				}
-				if (Integer.parseInt(rs.getString("HW_ACK")) == 2) {
+				else if (Integer.parseInt(rs.getString("Status")) == 2) {
 					configurationvo.setStatus("Time Out... Resend Command");
+				}
+				else {
+					configurationvo.setStatus("Status Unknown");
 				}
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
@@ -591,21 +519,159 @@ public class AccountDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String result = "Failure";
+		Random randomNumber = new Random();
+		String dataframe = "";
+		String transactionIDForTata = "";
 
 		try {
-			con = getConnection();
+				con = getConnection();
+				//send command request to tata gateway
+				
+				PreparedStatement pstmt = con.prepareStatement("SELECT MAX(TransactionID) AS TransactionID FROM command");
+				ResultSet rs = pstmt.executeQuery();
+				if(rs.next()) {
+					if(rs.getString("TransactionID") == null) {
+						 transactionIDForTata = "C-" + 1;
+					}else {
+						transactionIDForTata = "C-" + rs.getInt("TransactionID");
+					}
 					
-								ps = con.prepareStatement("INSERT INTO command (CustomerID, MeterID, CommandType, HW_ACK, ModifiedDate) VALUES (?, ?, ?, 0, NOW())");
-								ps.setInt(1, configurationvo.getCustomerID());
-								ps.setString(2, configurationvo.getMeterID());
-								ps.setInt(3, configurationvo.getCommandType());
+					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+					
+					if (configurationvo.getCommandType() == 5) {
 
-								if (ps.executeUpdate() >0) {
-									result = "Success";
-									
-									//send command request to tata gateway
-								}
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
+						LocalDateTime now = LocalDateTime.now();
 
+						String[] arrSplit = dtf.format(now).split("-");
+
+						String currentday = String.format("%02x", Integer.parseInt(arrSplit[2]));
+
+						String currentmonth = String.format("%02x", Integer.parseInt(arrSplit[1]));
+
+						String currentyear = String.format("%02x", Integer.parseInt(arrSplit[0]));
+
+						String currenthour = String.format("%02x", Integer.parseInt(arrSplit[3]));
+
+						String currentminute = String.format("%02x", Integer.parseInt(arrSplit[4]));
+
+						String currentsecond = String.format("%02x", Integer.parseInt(arrSplit[5]));
+
+						dataframe = "0A0F00" + serialNumber + "02090041" + currentday + currentmonth
+								+ currentyear + currenthour + currentminute + currentsecond + "0017";
+
+					}
+
+					/* Clear Meter */
+
+					else if (configurationvo.getCommandType() == 3) {
+
+						dataframe = "0A0900" + serialNumber + "020800200117";
+
+					}
+
+					/* Clear Tamper */
+
+					else if (configurationvo.getCommandType() == 1) {
+
+						dataframe = "0A0900" + serialNumber + "020300200117";
+					}
+
+					else if (configurationvo.getCommandType() == 40) {
+
+						dataframe = "0A0900" + serialNumber + "020301200017";
+					}
+
+					else if (configurationvo.getCommandType() == 0) {
+
+						dataframe = "0A0900" + serialNumber + "020301200117";
+					}
+
+					// Set Default Read
+
+					// 0A0C00 0001 02 0000 23 00000000   17
+
+					else if (configurationvo.getCommandType() == 6) {
+						
+						PreparedStatement pstmt1 = con.prepareStatement("SELECT DefaultReading FROM customermeterdetails WHERE CustomerID = ?");
+						pstmt1.setInt(1, configurationvo.getCustomerID());
+						ResultSet rs1 = pstmt1.executeQuery();
+						if(rs1.next()) {
+							
+							String defaultSetHexa = String.format("%08x", rs.getInt("DefaultReading"));
+
+							dataframe = "0A0C00" + serialNumber + "02000023" + defaultSetHexa + "17";
+	
+							}
+						}
+					// set tariff 
+					
+					else if (configurationvo.getCommandType() == 10) {
+
+						String tariffHexa = Float.toHexString(configurationvo.getTariff()).toUpperCase();
+						dataframe = "0A0C00" + serialNumber + "02070123" + tariffHexa + "17";
+					}
+					
+					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
+					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
+
+
+					//	String hexadecimal = "0A0000000042290100000000000000000000000017";
+					
+					String HexaToBase64 = Encoding.getHexBase644(dataframe);
+					
+					JSONObject json = new JSONObject();
+
+					JSONObject innerjson = new JSONObject();
+
+					JSONObject payload = new JSONObject();
+
+					JSONObject innerjaonpayload = new JSONObject();
+
+					innerjson.put("ty", 4);
+
+					innerjson.put("cnf", "text/plain:0");
+
+					innerjson.put("cs", 250);
+
+					innerjaonpayload.put("deveui", configurationvo.getMeterID());
+
+					innerjaonpayload.put("port", 5);
+
+					innerjaonpayload.put("confirmed", true);
+
+					innerjaonpayload.put("data", HexaToBase64);
+
+					innerjaonpayload.put("on_busy", "fail");
+
+					innerjaonpayload.put("tag", transactionIDForTata);
+
+					payload.put("payload_dl", innerjaonpayload);
+
+					innerjson.put("con", payload);
+					json.put("m2m:cin", innerjson);
+
+					RestCallVO restcallvo = new RestCallVO();
+					restcallvo.setMeterID(configurationvo.getMeterID());
+					restcallvo.setUrlExtension("/DownlinkPayload");
+					restcallvo.setData(json.toString());
+					
+					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+					
+					String restcallresponse = extramethodsdao.restcall(restcallvo);
+						//perform some action with restcallresponse in future based on requirement
+					
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, ModifiedDate) VALUES (?, ?, ?, 0, NOW())");
+					ps.setString(1, transactionIDForTata);
+					ps.setInt(2, configurationvo.getCustomerID());
+					ps.setString(3, configurationvo.getMeterID());
+					ps.setInt(4, configurationvo.getCommandType());
+
+					if (ps.executeUpdate() > 0) {
+						result = "Success";
+						}
+				}
+						
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -628,8 +694,7 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con
-					.prepareStatement("DELETE FROM command where TransactionID = ?");
+			pstmt = con.prepareStatement("DELETE FROM command WHERE TransactionID = ?");
 			pstmt.setInt(1, transactionID);
 
 			if (pstmt.executeUpdate() > 0) {
@@ -655,11 +720,11 @@ public class AccountDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT TOP 1 MeterID, HW_ACK FROM command WHERE MeterID = ? order by TransactionID desc");
+			pstmt = con.prepareStatement("SELECT MeterID, Status FROM command WHERE MeterID = ? order by TransactionID DESC LIMIT 0,1");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("HW_ACK").equals("0")) {
+				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1") || rs.getString("Status").equals("4") || rs.getString("Status").equals("5")) {
 					result = true;
 				}
 			}
@@ -684,13 +749,41 @@ public class AccountDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT TOP 1 MeterID, Status FROM topup WHERE MeterID = ? order by TransactionID desc");
+			pstmt = con.prepareStatement("SELECT MeterID, Status FROM topup WHERE MeterID = ? order by TransactionID DESC LIMIT 0,1");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1") || rs.getString("Status").equals("4") || rs.getString("Status").equals("5")) {
 					result = true;
 				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+
+		return result;
+	}
+
+	public boolean validateamount(TopUpRequestVO topupvo) throws SQLException {
+		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
+			pstmt.setInt(1, topupvo.getCustomerID());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if(topupvo.getAmount() > rs.getFloat("EmergencyCredit") || topupvo.getAmount() > rs.getFloat("AlarmCredit"))
+					result = true;
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();

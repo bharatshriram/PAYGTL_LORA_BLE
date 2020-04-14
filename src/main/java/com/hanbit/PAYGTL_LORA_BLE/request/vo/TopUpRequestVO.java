@@ -15,11 +15,8 @@ public class TopUpRequestVO {
 	private String houseNumber;
 	private String meterID;
 	private float currentBalance;
-	private float tariff;
-	private float emergencyCredit;
-	private float alarmCredit;
+	private int tariffID;
 	private float amount;
-	private int setTariff;
 	private String cardNumber;
 	private String cardType;
 	private int transactedByID;
@@ -61,35 +58,11 @@ public class TopUpRequestVO {
 	public void setCurrentBalance(float currentBalance) {
 		this.currentBalance = currentBalance;
 	}
-	public float getTariff() {
-		return tariff;
-	}
-	public void setTariff(float tariff) {
-		this.tariff = tariff;
-	}
-	public float getEmergencyCredit() {
-		return emergencyCredit;
-	}
-	public void setEmergencyCredit(float emergencyCredit) {
-		this.emergencyCredit = emergencyCredit;
-	}
-	public float getAlarmCredit() {
-		return alarmCredit;
-	}
-	public void setAlarmCredit(float alarmCredit) {
-		this.alarmCredit = alarmCredit;
-	}
 	public float getAmount() {
 		return amount;
 	}
 	public void setAmount(float amount) {
 		this.amount = amount;
-	}
-	public int getSetTariff() {
-		return setTariff;
-	}
-	public void setSetTariff(int setTariff) {
-		this.setTariff = setTariff;
 	}
 	public String getCardNumber() {
 		return cardNumber;
@@ -114,6 +87,12 @@ public class TopUpRequestVO {
 	}
 	public void setTransactedByRoleID(int transactedByRoleID) {
 		this.transactedByRoleID = transactedByRoleID;
+	}
+	public int getTariffID() {
+		return tariffID;
+	}
+	public void setTariffID(int tariffID) {
+		this.tariffID = tariffID;
 	}
 	
 }

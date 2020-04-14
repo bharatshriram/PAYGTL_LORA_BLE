@@ -1,9 +1,9 @@
 
-package com.hanbit.PAYGTL_LORA_BLE.request.vo;
+package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
 public class payloads_ul {
 
-    private long id;
+	private long id;
     private int snr;
     private int fcnt;
     private int freq;
@@ -144,5 +144,6 @@ public class payloads_ul {
 	public void setDevice_redundancy(int device_redundancy) {
 		this.device_redundancy = device_redundancy;
 	}
+
 
 }
