@@ -43,11 +43,11 @@
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
 		<div class="row mr-0 ml-0">
-			<div class="col-md-2 pl-0 pr-0">
+			<div class="left_nav col-md-2 pl-0 pr-0">
 
 				<jsp:include page="menu.jsp" />
 			</div>
-			<div class="col-md-10 mt-4 mb-4">
+			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
@@ -258,13 +258,29 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 	<script>
-		$(document).ready(function() {
-			$('.button-left').click(function() {
-				$('.left ').toggleClass('fliph');
+	$(document).ready(function () {
+    	var flag =true;
+      $('.button-left').click(function () {
+        $('.left ').toggleClass('fliph');
+		flag = !flag;
+		
+		if(false){
+			
+			document.querySelector('.left_nav').className="left_nav col-md-2 pl-0 pr-0";
+			
+			document.querySelector('.right_data').className="right_data col-md-10 mt-4 mb-4";
+			
+		}else if(true){
+			
+			document.querySelector('.left_nav').className="left_nav col-md-1 pl-0 pr-0";	
+			
+			document.querySelector('.right_data').className="right_data col-md-11 mt-4 mb-4";
+		}
+		
+        alert(flag);
+      });
 
-			});
-
-		});
+    });
 	</script>
 	<script>
 		$(document).ready(function() {

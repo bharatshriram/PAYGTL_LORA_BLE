@@ -90,11 +90,11 @@
 				<div class="modal-body">
 					<form id="blockDetails">
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Community Name</label> <select
 										class="form-control" id="selectcommunityName" name="selectcommunityName">
-										<option style = "color: Red" value="" disabled>Select Community</option><!--  <option>Select Community</option> --> 
+										<!-- <option style = "color: Red" value="" disabled>Select Community</option> <option>Select Community</option> --> 
 									</select>
 								</div>
 							</div>
@@ -243,7 +243,7 @@
 		
 		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 		
-		     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+		   <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
 	<script src="js/block.js"></script>
 	<script src="js/dropdown.js"></script>
