@@ -3,60 +3,113 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
+import java.util.List;
+
 /**
  * @author K VimaL Kumar
  *
  */
 public class TopUpSummaryResponseVO {
 
-	private String houseNo;
-	private String meterSerialNo;
-	private String name;
-	private int billNo;
+	private String houseNumber;
+	private String meterID;
+	private String firstName;
+	private String lastName;
+	private int transactionID;
 	private int rechargeAmount;
 	private String status;
+	private String transactedByUserName;
+	private String transactedByRoleDescription;
 	private String dateTime;
 	
-	public String getHouseNo() {
-		return houseNo;
+	private List<TopUpSummaryResponseVO> data;
+
+	public String getHouseNumber() {
+		return houseNumber;
 	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
 	}
-	public String getMeterSerialNo() {
-		return meterSerialNo;
+
+	public String getMeterID() {
+		return meterID;
 	}
-	public void setMeterSerialNo(String meterSerialNo) {
-		this.meterSerialNo = meterSerialNo;
+
+	public void setMeterID(String meterID) {
+		this.meterID = meterID;
 	}
-	public String getName() {
-		return name;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public int getBillNo() {
-		return billNo;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public void setBillNo(int billNo) {
-		this.billNo = billNo;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
+
+	public int getTransactionID() {
+		return transactionID;
+	}
+
+	public void setTransactionID(int transactionID) {
+		this.transactionID = transactionID;
+	}
+
 	public int getRechargeAmount() {
 		return rechargeAmount;
 	}
+
 	public void setRechargeAmount(int rechargeAmount) {
 		this.rechargeAmount = rechargeAmount;
 	}
+
 	public String getStatus() {
 		return status;
 	}
+
 	public void setStatus(String status) {
 		this.status = status;
 	}
+
 	public String getDateTime() {
 		return dateTime;
 	}
+
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
+
+	public String getTransactedByUserName() {
+		return transactedByUserName;
+	}
+
+	public void setTransactedByUserName(String transactedByUserName) {
+		this.transactedByUserName = transactedByUserName;
+	}
+
+	public String getTransactedByRoleDescription() {
+		return transactedByRoleDescription;
+	}
+
+	public void setTransactedByRoleDescription(String transactedByRoleDescription) {
+		this.transactedByRoleDescription = transactedByRoleDescription;
+	}
+
+	public List<TopUpSummaryResponseVO> getData() {
+		return data;
+	}
+
+	public void setData(List<TopUpSummaryResponseVO> data) {
+		this.data = data;
+	}
+	
 }

@@ -129,13 +129,7 @@ public class ReportsDAO {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
-		PreparedStatement pstmt4 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
-		ResultSet rs3 = null;
-		ResultSet rs4 = null;
 
 		List<UserConsumptionReportsResponseVO> userconsumptionreportsresponselist = null;
 		UserConsumptionReportsResponseVO userconsumptionreportsresponsevo = null;
@@ -144,156 +138,44 @@ public class ReportsDAO {
 			con = getConnection();
 			userconsumptionreportsresponselist = new ArrayList<UserConsumptionReportsResponseVO>();
 
-			pstmt2 = con
-					.prepareStatement("select block_id from block where name = ? and com_id=?");
-			pstmt2.setString(1, userconsumptionreportsrequestvo.getBlockName());
-			pstmt2.setInt(2, LoginDAO.CommunityID);
-			rs2 = pstmt2.executeQuery();
-			if (rs2.next()) {
-				pstmt3 = con
-						.prepareStatement("select cust_id from customer where house_no=? and block_id=?");
-				pstmt3.setString(1,
-						userconsumptionreportsrequestvo.getHouseNo());
-				pstmt3.setInt(2, rs2.getInt("block_id"));
-				rs3 = pstmt3.executeQuery();
-				if (rs3.next()) {
-					pstmt4 = con
-							.prepareStatement("select tcm.meter_id as mid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id =tmm.meter_id and tc.com_id=? and tb.block_id=? and tcu.cust_id=?");
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
+					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.AlarmCredit, bl.SolonideStatus, bl.TamperDetect, bl.IoTTimeStamp, bl.LogDate\r\n" + 
+					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = bl.CustomerID WHERE bl.CustomerID = ? AND bl.IoTTimeStamp BETWEEN ? AND ? ";
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, userconsumptionreportsrequestvo.getCustomerID());
+				pstmt.setString(2, userconsumptionreportsrequestvo.getFromDate()+" 00:00:00");
+				pstmt.setString(3,userconsumptionreportsrequestvo.getToDate()+" 23:59:59");
 
-					pstmt4.setInt(1, LoginDAO.CommunityID);
-					pstmt4.setInt(2, rs2.getInt("block_id"));
-					pstmt4.setInt(3, rs3.getInt("cust_id"));
-					rs4 = pstmt4.executeQuery();
-					if (rs4.next()) {
-						
-						if (!userconsumptionreportsrequestvo.getMonth().equals(
-								"true")) {
-							String sql1 = "select ReadingID,MeterNo,Reading,Balance,BatteryVoltage,LogDate,Gas_Tariff,Alarmcredit,Emergencycredit,TamperDetect from BalanceLog where MeterNo=? and YEAR(LogDate)=? and MONTH(LogDate)=? order by ReadingID desc";
-							pstmt = con.prepareStatement(sql1);
-							pstmt.setInt(1, rs4.getInt("mid"));
-							pstmt.setInt(2,
-									userconsumptionreportsrequestvo.getYear());
-							pstmt.setString(3,
-									userconsumptionreportsrequestvo.getMonth());
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
 
-							rs = pstmt.executeQuery();
-							while (rs.next()) {
+					userconsumptionreportsresponsevo = new UserConsumptionReportsResponseVO();
 
-								userconsumptionreportsresponsevo = new UserConsumptionReportsResponseVO();
-								userconsumptionreportsresponsevo.setMeterID(rs4
-										.getInt("mid"));
-
-								float reading = Float.parseFloat(rs
-										.getString("Reading"));
-								reading = reading / 100;
-								DecimalFormat decForcost1 = new DecimalFormat(
-										"0000.00");
-								String reading1 = decForcost1.format(reading);
-
-								userconsumptionreportsresponsevo
-										.setReading(reading1);
-								userconsumptionreportsresponsevo.setBalance(rs
-										.getFloat("Balance"));
-								userconsumptionreportsresponsevo.setBattery(rs
-										.getFloat("BatteryVoltage"));
-
-								float tariff = rs.getFloat("Gas_Tariff") * 100;
-								DecimalFormat decForcost2 = new DecimalFormat(
-										"00.00");
-								String tariff1 = decForcost2.format(tariff);
-
-								userconsumptionreportsresponsevo
-										.setTariff(tariff1);
-								userconsumptionreportsresponsevo
-										.setAlarmCredit(rs
-												.getFloat("Alarmcredit"));
-								userconsumptionreportsresponsevo
-										.setEmergencyCredit(rs
-												.getFloat("Emergencycredit"));
-								if (rs.getInt("TamperDetect") == 1) {
-									userconsumptionreportsresponsevo
-											.setGasLeak("YES");
-								} else {
-									userconsumptionreportsresponsevo
-											.setGasLeak("NO");
-								}
-								userconsumptionreportsresponsevo.setDateTime(rs
-										.getString("LogDate"));
-								userconsumptionreportsresponselist
-										.add(userconsumptionreportsresponsevo);
-							}
-						} else {
-							String sql1 = "select ReadingID,MeterNo,Reading,Balance,BatteryVoltage,LogDate,Gas_Tariff,Alarmcredit,Emergencycredit,TamperDetect from BalanceLog where MeterNo=? and YEAR(LogDate)=? order by ReadingID desc";
-							pstmt = con.prepareStatement(sql1);
-							pstmt.setInt(1, rs4.getInt("mid"));
-							pstmt.setInt(2,
-									userconsumptionreportsrequestvo.getYear());
-
-							rs = pstmt.executeQuery();
-							while (rs.next()) {
-
-								userconsumptionreportsresponsevo = new UserConsumptionReportsResponseVO();
-								userconsumptionreportsresponsevo.setMeterID(rs4
-										.getInt("mid"));
-
-								float reading = Float.parseFloat(rs
-										.getString("Reading"));
-								reading = reading / 100;
-								DecimalFormat decForcost1 = new DecimalFormat(
-										"0000.00");
-								String reading1 = decForcost1.format(reading);
-
-								userconsumptionreportsresponsevo
-										.setReading(reading1);
-								userconsumptionreportsresponsevo.setBalance(rs
-										.getFloat("Balance"));
-								userconsumptionreportsresponsevo.setBattery(rs
-										.getFloat("BatteryVoltage"));
-
-								float tariff = rs.getFloat("Gas_Tariff") * 100;
-								DecimalFormat decForcost2 = new DecimalFormat(
-										"00.00");
-								String tariff1 = decForcost2.format(tariff);
-
-								userconsumptionreportsresponsevo
-										.setTariff(tariff1);
-								userconsumptionreportsresponsevo
-										.setAlarmCredit(rs
-												.getFloat("Alarmcredit"));
-								userconsumptionreportsresponsevo
-										.setEmergencyCredit(rs
-												.getFloat("Emergencycredit"));
-								if (rs.getInt("TamperDetect") == 1) {
-									userconsumptionreportsresponsevo
-											.setGasLeak("YES");
-								} else {
-									userconsumptionreportsresponsevo
-											.setGasLeak("NO");
-								}
-								userconsumptionreportsresponsevo.setDateTime(rs
-										.getString("LogDate"));
-								userconsumptionreportsresponselist
-										.add(userconsumptionreportsresponsevo);
-							}
-						}
-					}
+					userconsumptionreportsresponsevo.setMeterID(rs.getString("MeterID"));
+					userconsumptionreportsresponsevo.setReading(rs.getFloat("Reading"));
+					userconsumptionreportsresponsevo.setBalance(rs.getFloat("Balance"));
+					userconsumptionreportsresponsevo.setBattery(rs.getFloat("BatteryVoltage"));
+					userconsumptionreportsresponsevo.setTariff(rs.getFloat("TariffAmount"));
+					userconsumptionreportsresponsevo.setAlarmCredit(rs.getFloat("Alarmcredit"));
+					userconsumptionreportsresponsevo.setEmergencyCredit(rs.getFloat("Emergencycredit"));
+					userconsumptionreportsresponsevo.setDateTime(rs.getString("IoTTimeStamp"));
+					
+					userconsumptionreportsresponselist.add(userconsumptionreportsresponsevo);
 				}
 
-			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			/*
-			 * pstmt.close(); pstmt2.close(); pstmt3.close(); pstmt4.close();
-			 * rs.close(); rs2.close(); rs3.close(); rs4.close();
-			 */
+			 pstmt.close();
+			 rs.close();
 			con.close();
 		}
 
 		return userconsumptionreportsresponselist;
 	}
 
-	public String getpdf(
+/*	public String getpdf(
 			UserConsumptionRequestVO userconsumptionreportsrequestvo)
 			throws SQLException {
 		// TODO Auto-generated method stub
@@ -382,12 +264,12 @@ public class ReportsDAO {
 
 						String head = head = com_name + " Community " + block_name + " Block " + house_no + " Flat " + year + "-" + month + " Month Consumption Report";
 
-						/*
+						
 						 * if ("month".equals(type)) { head = com_name +
 						 * " Community " + block_name + " Block " + house_no +
 						 * " Flat " + year + "-" + month +
 						 * " Month Consumption Report"; }
-						 */
+						 
 
 						String drivename = "E:/ConsumptionReports/";
 						File directory = new File(drivename);
@@ -679,8 +561,8 @@ public class ReportsDAO {
 		catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			/*pstmt.close();
-			rs.close();*/
+			pstmt.close();
+			rs.close();
 			con.close();
 		}
 
@@ -767,11 +649,11 @@ public class ReportsDAO {
 
 					head = com_name + " Community " + block_name + " Block "
 							+ house_no + " Flat " + year + " Year Report";
-					/*
+					
 					 * if ("month".equals(type)) { head = com_name +
 					 * " Community " + block_name + " Block " + house_no +
 					 * " Flat " + year + "-" + month + " Month Report"; }
-					 */
+					 
 
 					String drivename = "E:/ConsumptionReports/";
 					File directory = new File(drivename);
@@ -996,7 +878,7 @@ public class ReportsDAO {
 		}
 
 		return result;
-	}
+	}*/
 
 	/* TopUp Summary */
 
@@ -1006,13 +888,9 @@ public class ReportsDAO {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		PreparedStatement pstmt3 = null;
-		PreparedStatement pstmt4 = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
-		ResultSet rs2 = null;
-		ResultSet rs3 = null;
-		ResultSet rs4 = null;
+		ResultSet rs1 = null;
 
 		List<TopUpSummaryResponseVO> topupsummarydetails = null;
 		TopUpSummaryResponseVO topupsummaryresponsevo = null;
@@ -1020,102 +898,54 @@ public class ReportsDAO {
 		try {
 			con = getConnection();
 			topupsummarydetails = new LinkedList<TopUpSummaryResponseVO>();
+			
+				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
+						"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = t.CustomerID WHERE t.CustomerID = ? AND t.TransactionDate BETWEEN ? AND ? ");
+				
+				pstmt.setInt(1, topupsummaryrequestvo.getCustomerID());
+				pstmt.setString(2, topupsummaryrequestvo.getFromDate()+" 00:00:00");
+				pstmt.setString(3,topupsummaryrequestvo.getToDate()+" 23:59:59");
 
-			pstmt2 = con
-					.prepareStatement("select block_id from block where name = ? and com_id=?");
-			pstmt2.setString(1, topupsummaryrequestvo.getBlockName());
-			pstmt2.setInt(2, LoginDAO.CommunityID);
-			rs2 = pstmt2.executeQuery();
-			if (rs2.next()) {
-				pstmt3 = con
-						.prepareStatement("select cust_id from customer where house_no=? and block_id=?");
-				pstmt3.setString(1, topupsummaryrequestvo.getHouseNo());
-				pstmt3.setInt(2, rs2.getInt("block_id"));
-				rs3 = pstmt3.executeQuery();
-				if (rs3.next()) {
-					pstmt4 = con
-							.prepareStatement("select tcm.meter_id as mid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id =tmm.meter_id and tc.com_id=? and tb.block_id=? and tcu.cust_id=?");
-					pstmt4.setInt(1, LoginDAO.CommunityID);
-					pstmt4.setInt(2, rs2.getInt("block_id"));
-					pstmt4.setInt(3, rs3.getInt("cust_id"));
-					rs4 = pstmt4.executeQuery();
-					if (rs4.next()) {
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
 
-						if (topupsummaryrequestvo.getMonth().equals(
-								"true")) {
-							pstmt = con
-									.prepareStatement("select mm.meter_id,mm.meter_serial_no,rt.CUST_ID,rt.Transid,rt.RechargeAmt,rt.RecordInsertTime,c.house_no,c.first_name,c.last_name,rt.Ack_Status from meter_master mm join Recharge_Transaction rt on mm.meter_id=rt.Meter_id join customer c on c.CUST_ID=rt.CUST_ID WHERE  mm.meter_id=? AND YEAR(RecordInsertTime)=? and rt.Ack_Status=1 ORDER BY rt.RecordInsertTime desc");
-							pstmt.setInt(1, rs4.getInt("mid"));
-							pstmt.setInt(2, topupsummaryrequestvo.getYear());
-							rs = pstmt.executeQuery();
-							while (rs.next()) {
-								topupsummaryresponsevo = new TopUpSummaryResponseVO();
-								topupsummaryresponsevo.setHouseNo(rs
-										.getString("house_no"));
-								topupsummaryresponsevo.setMeterSerialNo(rs
-										.getString("meter_serial_no"));
-								topupsummaryresponsevo.setName(rs
-										.getString("first_name")
-										+ " "
-										+ rs.getString("last_name"));
-								topupsummaryresponsevo.setBillNo(rs
-										.getInt("Transid"));
-								topupsummaryresponsevo.setRechargeAmount(rs
-										.getInt("RechargeAmt"));
-								if(rs.getString("Ack_Status").equals("1")){
-									topupsummaryresponsevo.setStatus("Passed");
-								}else if(rs.getString("Ack_Status").equals("0")){
-									topupsummaryresponsevo.setStatus("Time Out... Resend");
-								}else{
-									topupsummaryresponsevo.setStatus("Pending...waiting for ack");
-								}
-								topupsummaryresponsevo.setDateTime(rs
-										.getString("RecordInsertTime"));
-								topupsummarydetails.add(topupsummaryresponsevo);
-							}
-						} else {
-							pstmt = con
-									.prepareStatement("select mm.meter_id,mm.meter_serial_no,rt.CUST_ID,rt.Transid,rt.RechargeAmt,rt.RecordInsertTime,c.house_no,c.first_name,c.last_name,rt.Ack_Status from meter_master mm join Recharge_Transaction rt on mm.meter_id=rt.Meter_id join customer c on c.CUST_ID=rt.CUST_ID WHERE  mm.meter_id=? AND YEAR(RecordInsertTime)=? AND MONTH(RecordInsertTime)=? and rt.Ack_Status=1 ORDER BY rt.RecordInsertTime desc");
-							pstmt.setInt(1, rs4.getInt("mid"));
-							pstmt.setInt(2, topupsummaryrequestvo.getYear());
-							pstmt.setString(3, topupsummaryrequestvo.getMonth());
-							rs = pstmt.executeQuery();
-							while (rs.next()) {
-								topupsummaryresponsevo = new TopUpSummaryResponseVO();
-								topupsummaryresponsevo.setHouseNo(rs
-										.getString("house_no"));
-								topupsummaryresponsevo.setMeterSerialNo(rs
-										.getString("meter_serial_no"));
-								topupsummaryresponsevo.setName(rs
-										.getString("first_name")
-										+ " "
-										+ rs.getString("last_name"));
-								topupsummaryresponsevo.setBillNo(rs
-										.getInt("Transid"));
-								topupsummaryresponsevo.setRechargeAmount(rs
-										.getInt("RechargeAmt"));
-								topupsummaryresponsevo.setStatus(rs
-										.getString("Ack_Status"));
-								topupsummaryresponsevo.setDateTime(rs
-										.getString("RecordInsertTime"));
-								topupsummarydetails.add(topupsummaryresponsevo);
-							}
-						}
+					topupsummaryresponsevo = new TopUpSummaryResponseVO();
+					
+					topupsummaryresponsevo.setTransactionID(rs.getInt("TransactionID"));
+					topupsummaryresponsevo.setFirstName(rs.getString("FirstName"));
+					topupsummaryresponsevo.setLastName(rs.getString("LastName"));
+					topupsummaryresponsevo.setHouseNumber(rs.getString("HouseNumber"));
+					topupsummaryresponsevo.setMeterID(rs.getString("MeterID"));
+					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
+					
+					if (rs.getInt("Status") == 2) {
+						topupsummaryresponsevo.setStatus("Passed");
+					} else if (rs.getInt("Status") == 1) {
+						topupsummaryresponsevo.setStatus("Pending");
+					} else if (rs.getInt("Status") == 0) {
+						topupsummaryresponsevo.setStatus("Pending...waiting for acknowledge");
+					}else {
+						topupsummaryresponsevo.setStatus("Failed");
 					}
+					
+					topupsummaryresponsevo.setDateTime(rs.getString("TransactionDate"));
+					
+					pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
+					rs1 = pstmt1.executeQuery();
+					if(rs1.next()) {
+						topupsummaryresponsevo.setTransactedByUserName(rs1.getString("UserName"));
+						topupsummaryresponsevo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
+					}
+					
+					topupsummarydetails.add(topupsummaryresponsevo);
 				}
-			}
+			
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			pstmt.close();
-			pstmt2.close();
-			pstmt3.close();
-			pstmt4.close();
 			rs.close();
-			rs2.close();
-			rs3.close();
-			rs4.close();
 			con.close();
 		}
 

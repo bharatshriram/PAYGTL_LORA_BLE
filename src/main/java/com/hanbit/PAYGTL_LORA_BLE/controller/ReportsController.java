@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -60,22 +61,14 @@ public class ReportsController {
 	
 	@RequestMapping(value = "/userconsumptionreports", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	String userconsumptionreports(@RequestBody String json) throws SQLException {
+	UserConsumptionReportsResponseVO userconsumptionreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
 
 		ReportsDAO reportsdao = new ReportsDAO();
-		List<UserConsumptionReportsResponseVO> userconsumptionreportsdetailslist = new ArrayList<UserConsumptionReportsResponseVO>();
-		ResponseVO responsevo = new ResponseVO();
-		UserConsumptionRequestVO userconsumptionreportsrequestvo = new UserConsumptionRequestVO();
+		UserConsumptionReportsResponseVO userConsumptionReportsResponseVO = new UserConsumptionReportsResponseVO();
 		
-		userconsumptionreportsrequestvo = gson.fromJson(json, UserConsumptionRequestVO.class);			
-	
-		userconsumptionreportsdetailslist = reportsdao.getuserconsumptionreportsdetails(userconsumptionreportsrequestvo);
+		userConsumptionReportsResponseVO.setData(reportsdao.getuserconsumptionreportsdetails(userConsumptionRequestVO));
 		
-		responsevo.setUserconsumptionreports(userconsumptionreportsdetailslist);
-		
-		String userconsumptionreportsdetails = gson.toJson(responsevo);
-
-		return userconsumptionreportsdetails;
+		return userConsumptionReportsResponseVO;
 	}
 	
 	@RequestMapping(value = "/userconsumptionreports/pdf", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
@@ -90,7 +83,7 @@ public class ReportsController {
 		
 		userconsumptionreportsrequestvo = gson.fromJson(json, UserConsumptionRequestVO.class);
 	
-		result = reportsdao.getpdf(userconsumptionreportsrequestvo);
+//		result = reportsdao.getpdf(userconsumptionreportsrequestvo);
 		
 		responsevo.setResult(result);
 		
@@ -110,7 +103,7 @@ public class ReportsController {
 		
 		userconsumptionreportsrequestvo = gson.fromJson(json, UserConsumptionRequestVO.class);
 	
-		result = reportsdao.getexcel(userconsumptionreportsrequestvo);
+//		result = reportsdao.getexcel(userconsumptionreportsrequestvo);
 		
 		responsevo.setResult(result);
 		
@@ -122,22 +115,14 @@ public class ReportsController {
 	
 	@RequestMapping(value = "/topupsummary", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	String topupsummary(@RequestBody String json) throws SQLException {
+	TopUpSummaryResponseVO topupsummary(@RequestBody TopUpSummaryRequestVO topupSummaryRequestVO) throws SQLException {
 
 		ReportsDAO reportsdao = new ReportsDAO();
-		List<TopUpSummaryResponseVO> topupsummarydetailslist = new ArrayList<TopUpSummaryResponseVO>();
-		ResponseVO responsevo = new ResponseVO();
-		TopUpSummaryRequestVO topupsummaryrequestvo = new TopUpSummaryRequestVO();
+		TopUpSummaryResponseVO topUpSummaryResponseVO = new TopUpSummaryResponseVO();
 		
-		topupsummaryrequestvo = gson.fromJson(json, TopUpSummaryRequestVO.class);
+		topUpSummaryResponseVO.setData(reportsdao.gettopupsummarydetails(topupSummaryRequestVO));
 		
-		topupsummarydetailslist = reportsdao.gettopupsummarydetails(topupsummaryrequestvo);
-		
-		responsevo.setTopupsummary(topupsummarydetailslist);
-		
-		String topupsummarydetails = gson.toJson(responsevo);
-
-		return topupsummarydetails;
+		return topUpSummaryResponseVO;
 	}
 	
 	/*Valve Reports*/

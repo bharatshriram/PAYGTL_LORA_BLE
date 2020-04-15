@@ -13,10 +13,13 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
@@ -28,6 +31,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
  * @author k VimaL Kumar
  * 
  */
+@EnableScheduling
 public class DashboardDAO {
 
 	public static Connection getConnection() throws ClassNotFoundException,
@@ -287,6 +291,8 @@ public class DashboardDAO {
 							
 						}
 						
+						demoServiceMethod();
+						
 					} else {
 
 						responsevo.setResult("No Data to update");
@@ -318,4 +324,10 @@ public class DashboardDAO {
 
 		return val;
 	}
+	
+	@Scheduled(cron="*/5 * * * * ?")
+    public void demoServiceMethod()
+    {
+        System.out.println("Method executed at every 5 seconds. Current time is :: "+ new Date());
+    }
 }

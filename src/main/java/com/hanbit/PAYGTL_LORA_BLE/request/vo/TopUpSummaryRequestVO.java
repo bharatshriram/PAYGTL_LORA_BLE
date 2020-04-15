@@ -9,40 +9,42 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpSummaryRequestVO {
 
-	private String communityName;
-	private String blockName;
-	private String houseNo;
-	private int year;
-	private String month;
+	private int communityID;
+	private int blockID;
+	private int customerID;
+	private String fromDate;
+	private String toDate;
 	
-	public String getCommunityName() {
-		return communityName;
+	public int getCommunityID() {
+		return communityID;
 	}
-	public void setCommunityName(String communityName) {
-		this.communityName = communityName;
+	public void setCommunityID(int communityID) {
+		this.communityID = communityID;
 	}
-	public String getBlockName() {
-		return blockName;
+	public int getBlockID() {
+		return blockID;
 	}
-	public void setBlockName(String blockName) {
-		this.blockName = blockName;
+	public void setBlockID(int blockID) {
+		this.blockID = blockID;
 	}
-	public String getHouseNo() {
-		return houseNo;
+	public int getCustomerID() {
+		return customerID;
 	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
-	public int getYear() {
-		return year;
+	public String getFromDate() {
+		return fromDate;
 	}
-	public void setYear(int year) {
-		this.year = year;
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
 	}
-	public String getMonth() {
-		return month;
+	public String getToDate() {
+		return toDate;
 	}
-	public void setMonth(String month) {
-		this.month = month;
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
+
+	
 }

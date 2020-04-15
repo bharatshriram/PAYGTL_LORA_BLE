@@ -3,31 +3,35 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
+import java.util.List;
+
 /**
  * @author K VimaL Kumar
  *
  */
 public class UserConsumptionReportsResponseVO {
 	
-	private int meterID;
-	private String reading;
+	private String meterID;
+	private float reading;
 	private float balance;
 	private float battery;
-	private String tariff;
+	private float tariff;
 	private float alarmCredit;
 	private float emergencyCredit;
-	private String gasLeak;
 	private String dateTime;
-	public int getMeterID() {
+	
+	private List<UserConsumptionReportsResponseVO> data;
+	
+	public String getMeterID() {
 		return meterID;
 	}
-	public void setMeterID(int meterID) {
+	public void setMeterID(String meterID) {
 		this.meterID = meterID;
 	}
-	public String getReading() {
+	public float getReading() {
 		return reading;
 	}
-	public void setReading(String reading) {
+	public void setReading(float reading) {
 		this.reading = reading;
 	}
 	public float getBalance() {
@@ -42,10 +46,10 @@ public class UserConsumptionReportsResponseVO {
 	public void setBattery(float battery) {
 		this.battery = battery;
 	}
-	public String getTariff() {
+	public float getTariff() {
 		return tariff;
 	}
-	public void setTariff(String tariff) {
+	public void setTariff(float tariff) {
 		this.tariff = tariff;
 	}
 	public float getAlarmCredit() {
@@ -60,17 +64,17 @@ public class UserConsumptionReportsResponseVO {
 	public void setEmergencyCredit(float emergencyCredit) {
 		this.emergencyCredit = emergencyCredit;
 	}
-	public String getGasLeak() {
-		return gasLeak;
-	}
-	public void setGasLeak(String gasLeak) {
-		this.gasLeak = gasLeak;
-	}
 	public String getDateTime() {
 		return dateTime;
 	}
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
+	}
+	public List<UserConsumptionReportsResponseVO> getData() {
+		return data;
+	}
+	public void setData(List<UserConsumptionReportsResponseVO> data) {
+		this.data = data;
 	}
 	
 }
