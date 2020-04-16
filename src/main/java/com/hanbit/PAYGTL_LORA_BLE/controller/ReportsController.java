@@ -40,7 +40,7 @@ public class ReportsController {
 	/* Financial Reports */
 	@RequestMapping(value = "/financialreports/{roleid}/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	FinancialReportsResponseVO getfinancialreports(FinancialReportsRequestVO financialreportsrequestvo, @PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	FinancialReportsResponseVO getfinancialreports(@PathVariable("roleid") int roleid, @PathVariable("id") int id, @RequestBody FinancialReportsRequestVO financialreportsrequestvo) throws SQLException {
 
 		FinancialReportsResponseVO financialReportsResponseVO = new FinancialReportsResponseVO();
 		

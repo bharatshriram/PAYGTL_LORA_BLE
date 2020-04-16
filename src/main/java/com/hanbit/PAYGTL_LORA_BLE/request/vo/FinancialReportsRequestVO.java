@@ -9,30 +9,29 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class FinancialReportsRequestVO {
 	
-	private String communityName;
-	private String blockName;
-	private String houseNo;
+	private int communityID;
+	private int blockID;
+	private int customerID;
 	private int year;
-	private String month;
-	private int date;
+	private int month;
 	
-	public String getCommunityName() {
-		return communityName;
+	public int getCommunityID() {
+		return communityID;
 	}
-	public void setCommunityName(String communityName) {
-		this.communityName = communityName;
+	public void setCommunityID(int communityID) {
+		this.communityID = communityID;
 	}
-	public String getBlockName() {
-		return blockName;
+	public int getBlockID() {
+		return blockID;
 	}
-	public void setBlockName(String blockName) {
-		this.blockName = blockName;
+	public void setBlockID(int blockID) {
+		this.blockID = blockID;
 	}
-	public String getHouseNo() {
-		return houseNo;
+	public int getCustomerID() {
+		return customerID;
 	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
 	public int getYear() {
 		return year;
@@ -40,17 +39,12 @@ public class FinancialReportsRequestVO {
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public String getMonth() {
+	public int getMonth() {
 		return month;
 	}
-	public void setMonth(String month) {
+	public void setMonth(int month) {
 		this.month = month;
 	}
-	public int getDate() {
-		return date;
-	}
-	public void setDate(int date) {
-		this.date = date;
-	}
+	
 	
 }

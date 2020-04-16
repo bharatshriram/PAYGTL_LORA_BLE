@@ -70,49 +70,52 @@ public class ReportsDAO {
 	 Connection con = null; 
 	 PreparedStatement pstmt = null; 
 	 PreparedStatement pstmt1 = null;
-	 PreparedStatement pstmt2 = null;
-	 PreparedStatement pstmt3 = null;
-	 PreparedStatement pstmt4 = null;
 	 ResultSet rs = null;
 	 ResultSet rs1 = null;
-	 ResultSet rs2 = null;
-	 ResultSet rs3 = null;
-	 ResultSet rs4 = null;
 	 
-	 FinancialReportsResponseVO financialreportseresponsevo = null;
+	 FinancialReportsResponseVO financialreportsresponsevo = null;
 	 List<FinancialReportsResponseVO> financialreportsresponselist = null;
+	 int totalAmountForSelectedPeriod = 0;
 	 
 		try {
 			con = getConnection();
 
 			financialreportsresponselist = new ArrayList<FinancialReportsResponseVO>();
-
-				pstmt = con.prepareStatement("select RechargeAmt as amount from Recharge_Transaction where YEAR(RecordInsertTime)=? and month(RecordInsertTime)=? and Meter_id=? and Ack_Status=1");
-				pstmt.setInt(1, financialreportsrequestvo.getYear());
-				pstmt.setString(2, financialreportsrequestvo.getMonth());
-				pstmt.setInt(3, rs4.getInt("mid"));
+			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : "ORDER BY CustomerID ASC"));
+			rs1 = pstmt1.executeQuery();
+			while(rs1.next()) {
+				
+				financialreportsresponsevo = new FinancialReportsResponseVO();
+				financialreportsresponsevo.setCommunityName(rs1.getString("CommunityName"));
+				financialreportsresponsevo.setBlockName(rs1.getString("BlockName"));
+				financialreportsresponsevo.setHouseNumber(rs1.getString("HouseNumber"));
+				financialreportsresponsevo.setMeterID(rs1.getString("MeterID"));
+				
+				String query1 = "SELECT SUM(Amount) AS Total FROM topup WHERE MeterID = ? AND YEAR(TransactionDate) = ? AND STATUS = 2";
+				query1 = query1.replaceAll("<change>", (financialreportsrequestvo.getMonth() != 0) ? "AND MONTH(TransactionDate) = "+financialreportsrequestvo.getMonth() : "");
+				pstmt = con.prepareStatement(query1);
+				pstmt.setString(1, rs1.getString("MeterID"));
+				pstmt.setInt(2, financialreportsrequestvo.getYear());
 				rs = pstmt.executeQuery();
-				while (rs.next()) {
-					financialreportseresponsevo = new FinancialReportsResponseVO();
-					financialreportseresponsevo.setTotalAmount(rs.getFloat("amount"));
-					financialreportsresponselist.add(financialreportseresponsevo);
+				if (rs.next()) {
+					financialreportsresponsevo.setTotalAmount(rs.getInt("Total"));
+					totalAmountForSelectedPeriod = financialreportsresponsevo.getTotalAmount() + totalAmountForSelectedPeriod;
+					financialreportsresponselist.add(financialreportsresponsevo);
 				}
+				
+			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			pstmt.close();
 			pstmt1.close();
-			pstmt2.close();
-			pstmt3.close();
-			pstmt4.close();
 			rs.close();
 			rs1.close();
-			rs2.close();
-			rs3.close();
-			rs4.close();
 			con.close();
 		}
-	 
+		financialreportsresponsevo.setTotalForSelectedPeriod(totalAmountForSelectedPeriod);
 	 return financialreportsresponselist; 
 	 
 	}
