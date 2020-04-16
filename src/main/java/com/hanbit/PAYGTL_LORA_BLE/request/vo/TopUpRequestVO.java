@@ -9,7 +9,7 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpRequestVO {
 	
-	private int CommunityID;
+	private int communityID;
 	private int blockID;
 	private int customerID;
 	private String houseNumber;
@@ -23,10 +23,10 @@ public class TopUpRequestVO {
 	private int transactedByRoleID;
 	
 	public int getCommunityID() {
-		return CommunityID;
+		return communityID;
 	}
 	public void setCommunityID(int communityID) {
-		CommunityID = communityID;
+		this.communityID = communityID;
 	}
 	public int getBlockID() {
 		return blockID;

@@ -12,7 +12,6 @@ import java.util.List;
 public class AlertResponseVO {
 
 	private int alertID;	
-	private String communityName;
 	private String noAMRInterval;
 	private String lowBatteryVoltage;
 	private String timeOut;
@@ -26,14 +25,6 @@ public class AlertResponseVO {
 
 	public void setAlertID(int alertID) {
 		this.alertID = alertID;
-	}
-
-	public String getCommunityName() {
-		return communityName;
-	}
-
-	public void setCommunityName(String communityName) {
-		this.communityName = communityName;
 	}
 
 	public String getNoAMRInterval() {

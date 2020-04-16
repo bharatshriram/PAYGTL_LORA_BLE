@@ -18,9 +18,11 @@ public class DashboardResponseVO {
 	private float emergencyCredit;
 	private String battery;
 	private int valve;
-	private float gasTariff;
+	private float tariff;
 	private int tamper;
 	private String timeStamp;
+	private String dateColor;
+	private String batteryColor;
 	private List<DashboardResponseVO> data;
 	
 	public String getBlock() {
@@ -65,11 +67,11 @@ public class DashboardResponseVO {
 	public void setValve(int valve) {
 		this.valve = valve;
 	}
-	public float getGasTariff() {
-		return gasTariff;
+	public float getTariff() {
+		return tariff;
 	}
-	public void setGasTariff(float gasTariff) {
-		this.gasTariff = gasTariff;
+	public void setTariff(float tariff) {
+		this.tariff = tariff;
 	}
 	public int getTamper() {
 		return tamper;
@@ -88,6 +90,18 @@ public class DashboardResponseVO {
 	}
 	public void setData(List<DashboardResponseVO> data) {
 		this.data = data;
+	}
+	public String getDateColor() {
+		return dateColor;
+	}
+	public void setDateColor(String dateColor) {
+		this.dateColor = dateColor;
+	}
+	public String getBatteryColor() {
+		return batteryColor;
+	}
+	public void setBatteryColor(String batteryColor) {
+		this.batteryColor = batteryColor;
 	}
 
 }

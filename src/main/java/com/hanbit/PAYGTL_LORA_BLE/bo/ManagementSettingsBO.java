@@ -65,8 +65,8 @@ public class ManagementSettingsBO {
 		
 		try {
 			
-			if (managementsettingsdao.checkalertsettings(alertvo.getCommunityID())) {
-				throw new BusinessException("SETTINGS FOR THE SELECTED COMMUNITY ARE ALREADY ADDED");
+			if (managementsettingsdao.checkalertsettings()) {
+				throw new BusinessException("SETTINGS ARE ALREADY ADDED");
 			}
 			
 			result = managementsettingsdao.addalert(alertvo);
@@ -84,7 +84,7 @@ public class ManagementSettingsBO {
 		
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
-		if(alertvo.getCommunityID()==0 || alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
+		if(alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 

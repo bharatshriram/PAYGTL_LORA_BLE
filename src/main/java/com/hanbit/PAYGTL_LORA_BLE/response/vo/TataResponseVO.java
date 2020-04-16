@@ -11,6 +11,7 @@ public class TataResponseVO {
 	
 	private String userid;
     private payloads_ul payloads_ul;
+    private payload_dl payload_dl;
 
     public String getUserid() {
         return userid;
@@ -26,6 +27,14 @@ public class TataResponseVO {
 
 	public void setPayloads_ul(payloads_ul payloads_ul) {
 		this.payloads_ul = payloads_ul;
+	}
+
+	public payload_dl getPayload_dl() {
+		return payload_dl;
+	}
+
+	public void setPayload_dl(payload_dl payload_dl) {
+		this.payload_dl = payload_dl;
 	}
 
 }

@@ -62,63 +62,61 @@ public class ReportsDAO {
 
 	/* Financial Reports */
 
-	/*
-	 * public List<FinancialReportsResponseVO>
-	 * getFinancialReportsdetails(FinancialReportsRequestVO
-	 * financialreportsrequestvo) throws SQLException { // TODO Auto-generated
-	 * method stub
-	 * 
-	 * Connection con = null; PreparedStatement pstmt = null; PreparedStatement
-	 * pstmt1 = null; PreparedStatement pstmt2 = null; PreparedStatement pstmt3
-	 * = null; PreparedStatement pstmt4 = null; ResultSet rs = null; ResultSet
-	 * rs1 = null; ResultSet rs2 = null; ResultSet rs3 = null; ResultSet rs4 =
-	 * null;
-	 * 
-	 * FinancialReportsResponseVO financialreportseresponsevo = null;
-	 * List<FinancialReportsResponseVO> financialreportsresponselist = null;
-	 * 
-	 * try{ con = getConnection();
-	 * 
-	 * financialreportsresponselist = new
-	 * ArrayList<FinancialReportsResponseVO>();
-	 * 
-	 * pstmt1 =
-	 * con.prepareStatement("select com_id from community where com_name =?");
-	 * pstmt1.setString(1, financialreportsrequestvo.getCommunityName()); rs1 =
-	 * pstmt1.executeQuery(); if(rs1.next()){
-	 * 
-	 * pstmt2 =
-	 * con.prepareStatement("select block_id from block where name = ? and com_id=?"
-	 * ); pstmt2.setString(1, financialreportsrequestvo.getBlockName());
-	 * pstmt2.setInt(2, rs1.getInt("com_id")); rs2 = pstmt2.executeQuery();
-	 * if(rs2.next()){
-	 * 
-	 * pstmt3 = con.prepareStatement(
-	 * "select cust_id from customer where house_no=? and block_id=?");
-	 * pstmt3.setString(1, financialreportsrequestvo.getHouseNo());
-	 * pstmt3.setInt(2, rs2.getInt("block_id")); rs3 = pstmt3.executeQuery();
-	 * if(rs3.next()){
-	 * 
-	 * pstmt4 = con.prepareStatement(
-	 * "select tcm.meter_id as mid from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id =tmm.meter_id and tc.com_id=? and tb.block_id=? and tcu.cust_id=?"
-	 * ); pstmt4.setInt(1, rs1.getInt("com_id")); pstmt4.setInt(2,
-	 * rs2.getInt("block_id")); pstmt4.setInt(3, rs3.getInt("cust_id")); rs4 =
-	 * pstmt4.executeQuery(); if(rs4.next()){ pstmt=con.prepareStatement(
-	 * "select RechargeAmt as amount from Recharge_Transaction where YEAR(RecordInsertTime)=? and month(RecordInsertTime)=? and Meter_id=? and Ack_Status=1"
-	 * ); pstmt.setInt(1,financialreportsrequestvo.getYear());
-	 * pstmt.setString(2,financialreportsrequestvo.getMonth()); pstmt.setInt(3,
-	 * rs4.getInt("mid")); rs=pstmt.executeQuery(); while(rs.next()) {
-	 * financialreportseresponsevo = new FinancialReportsResponseVO();
-	 * financialreportseresponsevo.setRechargeAmount(rs.getFloat("amount"));
-	 * financialreportsresponselist.add(financialreportseresponsevo); } } } } }
-	 * 
-	 * } catch (Exception ex) { ex.printStackTrace(); } finally { pstmt.close();
-	 * pstmt1.close(); pstmt2.close(); pstmt3.close(); pstmt4.close();
-	 * rs.close(); rs1.close(); rs2.close(); rs3.close(); rs4.close();
-	 * con.close(); }
-	 * 
-	 * return financialreportsresponselist; }
-	 */
+	
+	public List<FinancialReportsResponseVO> getFinancialReportsdetails(FinancialReportsRequestVO financialreportsrequestvo, int roleid, int id) throws SQLException { 
+
+		 // TODO Auto-generated method stub
+	 
+	 Connection con = null; 
+	 PreparedStatement pstmt = null; 
+	 PreparedStatement pstmt1 = null;
+	 PreparedStatement pstmt2 = null;
+	 PreparedStatement pstmt3 = null;
+	 PreparedStatement pstmt4 = null;
+	 ResultSet rs = null;
+	 ResultSet rs1 = null;
+	 ResultSet rs2 = null;
+	 ResultSet rs3 = null;
+	 ResultSet rs4 = null;
+	 
+	 FinancialReportsResponseVO financialreportseresponsevo = null;
+	 List<FinancialReportsResponseVO> financialreportsresponselist = null;
+	 
+		try {
+			con = getConnection();
+
+			financialreportsresponselist = new ArrayList<FinancialReportsResponseVO>();
+
+				pstmt = con.prepareStatement("select RechargeAmt as amount from Recharge_Transaction where YEAR(RecordInsertTime)=? and month(RecordInsertTime)=? and Meter_id=? and Ack_Status=1");
+				pstmt.setInt(1, financialreportsrequestvo.getYear());
+				pstmt.setString(2, financialreportsrequestvo.getMonth());
+				pstmt.setInt(3, rs4.getInt("mid"));
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					financialreportseresponsevo = new FinancialReportsResponseVO();
+					financialreportseresponsevo.setTotalAmount(rs.getFloat("amount"));
+					financialreportsresponselist.add(financialreportseresponsevo);
+				}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			pstmt1.close();
+			pstmt2.close();
+			pstmt3.close();
+			pstmt4.close();
+			rs.close();
+			rs1.close();
+			rs2.close();
+			rs3.close();
+			rs4.close();
+			con.close();
+		}
+	 
+	 return financialreportsresponselist; 
+	 
+	}
+	 
 
 	/* User Consumption Reports */
 
@@ -882,8 +880,7 @@ public class ReportsDAO {
 
 	/* TopUp Summary */
 
-	public List<TopUpSummaryResponseVO> gettopupsummarydetails(
-			TopUpSummaryRequestVO topupsummaryrequestvo) throws SQLException {
+	public List<TopUpSummaryResponseVO> gettopupsummarydetails(TopUpSummaryRequestVO topupsummaryrequestvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -1000,96 +997,25 @@ public class ReportsDAO {
 
 	/* Alarms */
 
-	public List<AlarmsResponseVO> getAlarmdetails() throws SQLException {
+	public List<AlarmsResponseVO> getAlarmdetails(int roleid, int id) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "";
-		long noamrintervaltime = 0;
-		double lowbatteryvol = 0.0d;
-		long no_amr = 0;
-		String meterId = "";
-		String timeOfReading = "";
-		long Diff = 0;
-		double batteryVoltage = 0.0d;
-		String tamper = "";
-		String comName = "";
-		String blockName = "";
-		String houseNo = "";
 		List<AlarmsResponseVO> no_amr_list = null;
+
 		try {
 
 			con = getConnection();
 			no_amr_list = new LinkedList<AlarmsResponseVO>();
 			AlarmsResponseVO alarmvo = null;
-			sql = "select no_amr,battery_volt from alert_settings where com_id=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, LoginDAO.CommunityID);
+			String meterQuery = "SELECT cmd.CommunityID, cmd.BlockID, cmd.CustomerID, cmd.MeterID, als.NoAMRInterval, als.LowBatteryVoltage, als.TimeOut from customermeterdetails AS cmd LEFT JOIN alertsettings AS als ON als.CommunityID = cmd.CommunityID <change> ORDER BY cmd.CustomerID DESC";
+			pstmt = con.prepareStatement(meterQuery.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE cmd.CommunityID = (SELECT CommunityID FROM block WHERE BlockID = "+id+")" :""));
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				noamrintervaltime = rs.getLong("no_amr");
-				lowbatteryvol = rs.getDouble("battery_volt");
+			
+			while(rs.next()) {
+				
 			}
-
-			pstmt = con
-					.prepareStatement("select past.MeterNo as meter_id,MAX(past.LogDate) as maxtime,DATEDIFF(MI,max(past.LogDate),SYSDATETIME()) diff from BalanceLog past inner join (select c.com_id cid,c.com_name as cname,b.name as bname,cs.house_no as hno,cr.MeterNo as mid1 from community c,block b,customer cs,customer_meter cm,BalanceLog cr where c.com_id=b.com_id and b.block_id=cs.block_id and cs.cust_id=cm.cust_id and cm.meter_id=cr.MeterNo and c.com_id=?) AS  com ON com.mid1=past.MeterNo GROUP BY past.MeterNo order by past.MeterNo");
-			pstmt.setInt(1, LoginDAO.CommunityID);
-			ResultSet rs1 = pstmt.executeQuery();
-			while (rs1.next()) {
-				alarmvo = new AlarmsResponseVO();
-				meterId = rs1.getString("meter_id");
-				timeOfReading = rs1.getString("maxtime");
-				Diff = rs1.getLong("diff");
-				alarmvo.setAmrID(rs1.getString("meter_id"));
-				alarmvo.setDateTime(rs1.getString("maxtime"));
-				long setdiff = rs1.getLong("diff");
-				setdiff = (setdiff / (60 * 24));
-				alarmvo.setDifference(setdiff);
-				// alarmvo.setBatteryVoltageConstant(rs.getDouble("battery_volt"));
-				// alarmvo.setNoAmrIntervalTime(rs.getLong("no_amr"));
-				String sql2 = "select BatteryVoltage as bvolt,TamperDetect as tamper from BalanceLog where MeterNo=? and LogDate=?";
-				pstmt = con.prepareStatement(sql2);
-				pstmt.setString(1, meterId);
-				pstmt.setString(2, timeOfReading);
-				// pstmt.setDouble(3, lowbatteryvol);
-				ResultSet rs2 = pstmt.executeQuery();
-				if (rs2.next()) {
-					batteryVoltage = rs2.getDouble("bvolt");
-					tamper = rs2.getString("tamper");
-
-					if (batteryVoltage < lowbatteryvol) {
-						alarmvo.setBatteryVoltage(Double
-								.toString(batteryVoltage));
-					} else {
-						alarmvo.setBatteryVoltage("----");
-					}
-					if (rs2.getInt("tamper") == 1) {
-						alarmvo.setTamper("YES");
-					} else {
-						alarmvo.setTamper("----");
-					}
-
-					if (Diff > noamrintervaltime
-							|| batteryVoltage < lowbatteryvol
-							|| tamper.equals("1")) {
-						String sql3 = "select tc.com_name as cname,tb.name as bname,tcu.house_no as hno from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=tmm.meter_id and tcm.meter_id=?";
-						pstmt = con.prepareStatement(sql3);
-						pstmt.setString(1, meterId);
-						ResultSet rs3 = pstmt.executeQuery();
-						if (rs3.next()) {
-
-							comName = rs3.getString("cname");
-							blockName = rs3.getString("bname");
-							houseNo = rs3.getString("hno");
-							// alarmvo.setCommunityName(rs3.getString("cname"));
-							alarmvo.setBlockName(rs3.getString("bname"));
-							alarmvo.setHouseNo(rs3.getString("hno"));
-							no_amr_list.add(alarmvo);
-						}
-					}
-				}
-			}
-
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

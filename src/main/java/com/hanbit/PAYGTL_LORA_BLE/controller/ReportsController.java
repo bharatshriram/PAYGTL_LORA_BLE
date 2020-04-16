@@ -35,27 +35,19 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ValveReportsResponseVO;
 public class ReportsController {
 
 	Gson gson = new Gson();
+	ReportsDAO reportsdao = new ReportsDAO();
 	
 	/* Financial Reports */
-/*	@RequestMapping(value = "/financialreports", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/financialreports/{roleid}/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	String getfinancialreports(@RequestBody String json) throws SQLException {
+	FinancialReportsResponseVO getfinancialreports(FinancialReportsRequestVO financialreportsrequestvo, @PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
 
-		ReportsDAO reportsdao = new ReportsDAO();
-		List<FinancialReportsResponseVO> financialreportsdetailslist = new ArrayList<FinancialReportsResponseVO>();
-		ResponseVO responsevo = new ResponseVO();
-		FinancialReportsRequestVO financialreportsrequestvo = new FinancialReportsRequestVO();
+		FinancialReportsResponseVO financialReportsResponseVO = new FinancialReportsResponseVO();
 		
-		financialreportsrequestvo = gson.fromJson(json, FinancialReportsRequestVO.class);
-		
-		financialreportsdetailslist = reportsdao.getFinancialReportsdetails(financialreportsrequestvo);
-		
-		responsevo.setFinancialreports(financialreportsdetailslist);
-		
-		String financialreportsdetails = gson.toJson(responsevo);
+		financialReportsResponseVO.setData(reportsdao.getFinancialReportsdetails(financialreportsrequestvo, roleid, id));
 
-		return financialreportsdetails;
-	}*/
+		return financialReportsResponseVO;
+	}
 	
 	/* User Consumption Reports */
 	
@@ -63,7 +55,6 @@ public class ReportsController {
 	public @ResponseBody
 	UserConsumptionReportsResponseVO userconsumptionreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
 
-		ReportsDAO reportsdao = new ReportsDAO();
 		UserConsumptionReportsResponseVO userConsumptionReportsResponseVO = new UserConsumptionReportsResponseVO();
 		
 		userConsumptionReportsResponseVO.setData(reportsdao.getuserconsumptionreportsdetails(userConsumptionRequestVO));
@@ -73,42 +64,24 @@ public class ReportsController {
 	
 	@RequestMapping(value = "/userconsumptionreports/pdf", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	String pdfreports(@RequestBody String json) throws SQLException {
+	ResponseVO pdfreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
 		
-		String result = "";
-		ReportsDAO reportsdao = new ReportsDAO();
-
 		ResponseVO responsevo = new ResponseVO();
-		UserConsumptionRequestVO userconsumptionreportsrequestvo = new UserConsumptionRequestVO();
 		
-		userconsumptionreportsrequestvo = gson.fromJson(json, UserConsumptionRequestVO.class);
-	
-//		result = reportsdao.getpdf(userconsumptionreportsrequestvo);
+//		responsevo.setResult(reportsdao.getpdf(userconsumptionreportsrequestvo));
 		
-		responsevo.setResult(result);
-		
-		String flag = gson.toJson(responsevo);
-		return flag;
+		return responsevo;
 	}
 	
 	@RequestMapping(value = "/userconsumptionreports/excel", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	String excelreports(@RequestBody String json) throws SQLException {
-
-		String result = "";
-		ReportsDAO reportsdao = new ReportsDAO();
+	ResponseVO excelreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
 
 		ResponseVO responsevo = new ResponseVO();
-		UserConsumptionRequestVO userconsumptionreportsrequestvo = new UserConsumptionRequestVO();
 		
-		userconsumptionreportsrequestvo = gson.fromJson(json, UserConsumptionRequestVO.class);
-	
-//		result = reportsdao.getexcel(userconsumptionreportsrequestvo);
+//		responsevo.setResult(reportsdao.getexcel(userconsumptionreportsrequestvo));
 		
-		responsevo.setResult(result);
-		
-		String flag = gson.toJson(responsevo);
-		return flag;
+		return responsevo;
 	}
 	
 	/* TopUp Summary */
@@ -117,7 +90,6 @@ public class ReportsController {
 	public @ResponseBody
 	TopUpSummaryResponseVO topupsummary(@RequestBody TopUpSummaryRequestVO topupSummaryRequestVO) throws SQLException {
 
-		ReportsDAO reportsdao = new ReportsDAO();
 		TopUpSummaryResponseVO topUpSummaryResponseVO = new TopUpSummaryResponseVO();
 		
 		topUpSummaryResponseVO.setData(reportsdao.gettopupsummarydetails(topupSummaryRequestVO));
@@ -131,7 +103,6 @@ public class ReportsController {
 	public @ResponseBody
 	String valvereports() throws SQLException {
 
-		ReportsDAO reportsdao = new ReportsDAO();
 		List<ValveReportsResponseVO> valvereportslist = new ArrayList<ValveReportsResponseVO>();
 		ResponseVO responsevo = new ResponseVO();
 
@@ -145,20 +116,15 @@ public class ReportsController {
 
 	/* Alarms */
 
-		@RequestMapping(value = "/alarm", method = RequestMethod.GET, produces = "application/json")
+		@RequestMapping(value = "/alarm/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 		public @ResponseBody
-		String alarmdetails() throws SQLException {
+		AlarmsResponseVO alarmdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
 
-			ReportsDAO reportsdao = new ReportsDAO();
-			List<AlarmsResponseVO> alarmdetailslist = new ArrayList<AlarmsResponseVO>();
-			ResponseVO responsevo = new ResponseVO();
+			AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
 
-			alarmdetailslist = reportsdao.getAlarmdetails();
-			responsevo.setAlarms(alarmdetailslist);
-			
-			String alarmdetails = gson.toJson(responsevo);
+			alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id));
 
-			return alarmdetails;
+			return alarmsResponseVO;
 		}
 
 }

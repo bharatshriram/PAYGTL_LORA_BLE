@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Properties;
 
@@ -17,16 +22,30 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.codehaus.jettison.json.JSONObject;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import com.google.gson.Gson;
+import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 /**
  * @author K VimaL Kumar
  * 
  */
+@EnableScheduling
 public class ExtraMethodsDAO {
+	
+	public static Connection getConnection() throws ClassNotFoundException, SQLException {
+		Connection connection = null;
+		Class.forName(DataBaseConstants.DRIVER_CLASS);
+		connection = DriverManager.getConnection(DataBaseConstants.DRIVER_URL, DataBaseConstants.USER_NAME,
+				DataBaseConstants.PASSWORD);
+		return connection;
+	}
 	
 	public String sendmail(MailRequestVO mailrequestvo) {
 		
@@ -64,7 +83,7 @@ public class ExtraMethodsDAO {
 	
 	public String restcall(RestCallVO restcallvo) throws IOException {
 		
-		URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID()+"/"+restcallvo.getUrlExtension());
+		URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID()+restcallvo.getUrlExtension());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         
         if(restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayloadStatus/latest")) {
@@ -106,4 +125,123 @@ public class ExtraMethodsDAO {
 		return responses.toString();
 	}
 	
+	@Scheduled(cron = "*/30 * * * *") 
+	public void topupstatusupdatecall() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// modify query accordingly
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM topup WHERE Status BETWEEN 0 AND 1");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				System.out.println("in while in topup call");
+				
+				RestCallVO restcallvo  = new RestCallVO();
+				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				
+				String response = restcall(restcallvo);
+				
+				Gson gson = new Gson();
+				
+				TataResponseVO responsevo = new TataResponseVO();
+				
+				JSONObject jsonObj = new JSONObject(response);
+				
+				responsevo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
+				
+				// write if condition based on reponse from tata api
+				
+					//  0A0000000042290100000000000000000000000017.
+				
+				System.out.println("tatareferencenum:----- "+responsevo.getPayload_dl().getTag());
+
+					if (responsevo.getPayload_dl().getTag().startsWith("T") == true) {
+						
+						System.out.println("in if topupstatus update");
+
+						PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, ModifiedDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
+
+						pstmt1.setInt(1, responsevo.getPayload_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayload_dl().getDeveui());
+						pstmt1.setString(3, responsevo.getPayload_dl().getTag());
+
+						if (pstmt1.executeUpdate() > 0) {
+							String result = "Success";
+						}
+
+					}
+				
+		} 
+		} catch (Exception e) {
+			
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		
+	}
+	
+	@Scheduled(cron = "*/30 * * * *") 
+	public void commandstatusupdatecall() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// modify query accordingly
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM command WHERE Status BETWEEN 0 AND 1");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				RestCallVO restcallvo  = new RestCallVO();
+				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				
+				String response = restcall(restcallvo);
+				
+				Gson gson = new Gson();
+				
+				TataResponseVO responsevo = new TataResponseVO();
+				
+				JSONObject jsonObj = new JSONObject(response);
+				
+				responsevo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
+				
+				// write if condition based on reponse from tata api
+				
+					//  0A0000000042290100000000000000000000000017.
+
+					if (responsevo.getPayload_dl().getTag().startsWith("C") == true) {
+
+						PreparedStatement pstmt1 = con.prepareStatement("UPDATE command SET Status = ?, ModifiedDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
+
+						pstmt1.setInt(1, responsevo.getPayload_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayload_dl().getDeveui());
+						pstmt1.setString(3, responsevo.getPayload_dl().getTag());
+
+						if (pstmt1.executeUpdate() > 0) {
+							String result = "Success";
+						}
+
+					}
+				
+		}
+		} catch (Exception e) {
+			
+		} finally {
+			con.close();
+			pstmt.close();
+			rs.close();
+		}
+		
+	}
 }

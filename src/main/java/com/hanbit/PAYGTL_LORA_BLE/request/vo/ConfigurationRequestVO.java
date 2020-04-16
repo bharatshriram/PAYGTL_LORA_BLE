@@ -15,7 +15,7 @@ public class ConfigurationRequestVO {
 	private int customerID;
 	private int commandType;
 	private float tariff;
-	private String transactionID;
+	private int transactionID;
 	
 	public String getMeterID() {
 		return meterID;
@@ -47,10 +47,10 @@ public class ConfigurationRequestVO {
 	public void setCommandType(int commandType) {
 		this.commandType = commandType;
 	}
-	public String getTransactionID() {
+	public int getTransactionID() {
 		return transactionID;
 	}
-	public void setTransactionID(String transactionID) {
+	public void setTransactionID(int transactionID) {
 		this.transactionID = transactionID;
 	}
 	public float getTariff() {

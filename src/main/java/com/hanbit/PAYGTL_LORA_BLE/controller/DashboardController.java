@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -12,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
+import com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -25,8 +26,6 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
 @Controller
 public class DashboardController {
-
-	Gson gson = new Gson();
 
 	@RequestMapping(value = "/dashboard/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
@@ -49,6 +48,9 @@ public class DashboardController {
 
 		try {
 			responsevo = dashboarddao.postDashboarddetails(json);
+			ExtraMethodsDAO extraMethodsDAO = new ExtraMethodsDAO();
+			extraMethodsDAO.topupstatusupdatecall();
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

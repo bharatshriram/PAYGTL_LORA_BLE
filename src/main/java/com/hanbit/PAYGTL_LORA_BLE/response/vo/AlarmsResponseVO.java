@@ -3,36 +3,48 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
+import java.util.List;
+
 /**
  * @author K VimaL Kumar
  *
  */
 public class AlarmsResponseVO {
-
+	
+	private String communityName;
 	private String blockName;
-	private String houseNo;
-	private String amrID;
+	private String houseNumber;
+	private String meterID;
 	private String dateTime;
 	private String tamper;
 	private String batteryVoltage;
 	private long difference;
+	
+	private List<AlarmsResponseVO> data;
+	
+	public String getCommunityName() {
+		return communityName;
+	}
+	public void setCommunityName(String communityName) {
+		this.communityName = communityName;
+	}
 	public String getBlockName() {
 		return blockName;
 	}
 	public void setBlockName(String blockName) {
 		this.blockName = blockName;
 	}
-	public String getHouseNo() {
-		return houseNo;
+	public String getHouseNumber() {
+		return houseNumber;
 	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
+	public void setHouseNumber(String houseNumber) {
+		this.houseNumber = houseNumber;
 	}
-	public String getAmrID() {
-		return amrID;
+	public String getMeterID() {
+		return meterID;
 	}
-	public void setAmrID(String amrID) {
-		this.amrID = amrID;
+	public void setMeterID(String meterID) {
+		this.meterID = meterID;
 	}
 	public String getDateTime() {
 		return dateTime;
@@ -58,5 +70,11 @@ public class AlarmsResponseVO {
 	public void setDifference(long difference) {
 		this.difference = difference;
 	}
-
+	public List<AlarmsResponseVO> getData() {
+		return data;
+	}
+	public void setData(List<AlarmsResponseVO> data) {
+		this.data = data;
+	}
+	
 }

@@ -168,12 +168,11 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			AlertResponseVO alertvo = null;
 			alert_settings_list = new LinkedList<AlertResponseVO>();
-			pstmt = con.prepareStatement("SELECT alertsettings.AlertID, community.CommunityName, alertsettings.NoAMRInterval, alertsettings.LowBatteryVoltage, alertsettings.TimeOut, alertsettings.RegisteredDate FROM alertsettings LEFT JOIN community ON community.CommunityID = alertsettings.CommunityID");
+			pstmt = con.prepareStatement("SELECT AlertID, NoAMRInterval, LowBatteryVoltage, TimeOut, RegisteredDate FROM alertsettings");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				alertvo = new AlertResponseVO();
-				alertvo.setCommunityName(rs.getString("CommunityName"));
 				alertvo.setNoAMRInterval((rs.getString("NoAMRInterval")));
 				alertvo.setLowBatteryVoltage(rs.getString("LowBatteryVoltage"));
 				alertvo.setTimeOut(rs.getString("TimeOut"));
@@ -203,11 +202,10 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			ps = con.prepareStatement("INSERT INTO alertsettings (CommunityID, NoAMRInterval, LowBatteryVoltage, TimeOut, Active, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, ?, 1, NOW(), NOW())");
-			ps.setInt(1, alertvo.getCommunityID());
-			ps.setInt(2, alertvo.getNoAMRInterval());
-			ps.setFloat(3, alertvo.getLowBatteryVoltage());
-			ps.setInt(4, alertvo.getTimeOut());
+			ps = con.prepareStatement("INSERT INTO alertsettings (NoAMRInterval, LowBatteryVoltage, TimeOut, Active, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, 1, NOW(), NOW())");
+			ps.setInt(1, alertvo.getNoAMRInterval());
+			ps.setFloat(2, alertvo.getLowBatteryVoltage());
+			ps.setInt(3, alertvo.getTimeOut());
 
 			if (ps.executeUpdate() > 0) {
 				result = "Success";
@@ -253,21 +251,21 @@ public class ManagementSettingsDAO {
 		return result;
 	}
 
-	public boolean checkalertsettings(int communityid) throws SQLException {
+	public boolean checkalertsettings() throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt1 = null;
-		ResultSet rs1 = null;
+		ResultSet rs = null;
 		boolean result = false;
 
 		try {
 			con = getConnection();
 
-			pstmt1 = con.prepareStatement("select CommunityID from alertsettings where CommunityID = "+communityid);
-			rs1 = pstmt1.executeQuery();
+			pstmt1 = con.prepareStatement("select * from alertsettings");
+			rs = pstmt1.executeQuery();
 
-			if (rs1.next()) {
+			if (rs.next()) {
 				result = true;
 			}
 
@@ -278,7 +276,7 @@ public class ManagementSettingsDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			rs1.close();
+			rs.close();
 			pstmt1.close();
 			con.close();
 		}

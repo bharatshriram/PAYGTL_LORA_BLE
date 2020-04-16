@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -50,9 +51,22 @@ public class DashboardDAO {
 		ResultSet rs = null;
 		List<DashboardResponseVO> dashboard_list = null;
 		DashboardResponseVO dashboardvo = null;
+		int noAMRInterval = 0;
+		double lowBatteryVoltage = 0.0;
+		int timeOut = 0;
+		
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
+			
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
+			ResultSet rs1 = pstmt1.executeQuery();
+			if(rs1.next()) {
+				
+				noAMRInterval = rs1.getInt("NoAMRInterval");
+				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				timeOut = rs1.getInt("TimeOut");
+			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.AlarmCredit, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
@@ -65,14 +79,33 @@ public class DashboardDAO {
 				dashboardvo = new DashboardResponseVO();
 				dashboardvo.setBlock(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
-				dashboardvo.setGasTariff((rs.getFloat("TariffAmount")*100));
+				dashboardvo.setTariff((rs.getFloat("TariffAmount")*100));
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
-				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValve(rs.getInt("SolonideStatus"));
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
+				
+				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
+					dashboardvo.setBatteryColor("RED");
+				}else {
+					dashboardvo.setBatteryColor("GREEN");
+				}
+				
 				dashboardvo.setTamper(rs.getInt("TamperDetect"));
+				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
+				
+				Date currentDateTime = new Date();
+				
+				long difference = currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime(); 
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+
+				if(minutes > noAMRInterval) {
+					dashboardvo.setDateColor("RED");
+				}else {
+					dashboardvo.setDateColor("GREEN");
+				}
+				
 				dashboard_list.add(dashboardvo);
 			}
 		}
@@ -114,13 +147,10 @@ public class DashboardDAO {
 
 				// String guid="CgAAAED/AQAAAAAAAAAAARc=";
 			
-			System.out.println("in dashboarddao : -- dataframae:--"+requestvo.getPayloads_ul().getDataFrame());
-
 				byte[] decoded = Base64.getDecoder().decode(requestvo.getPayloads_ul().getDataFrame());
 
 				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
 						.substring(0, 2);
-				System.out.println("after decoding :---"+StartByte);
 
 				if (StartByte.equalsIgnoreCase("0A")) {
 
@@ -290,8 +320,6 @@ public class DashboardDAO {
 							}
 							
 						}
-						
-						demoServiceMethod();
 						
 					} else {
 

@@ -71,19 +71,17 @@ public class AccountDAO {
 		try {
 				con = getConnection();
 					
-				PreparedStatement pstmt = con.prepareStatement("SELECT MAX(TransactionID) AS TransactionID FROM topup");
+				PreparedStatement pstmt = con.prepareStatement("SELECT TransactionID FROM topup ORDER BY TransactionID DESC LIMIT 0,1");
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					if(rs.getString("TransactionID") == null) {
 						 transactionIDForTata = "T-" + 1;
 					} else {
-						transactionIDForTata = "T-" + rs.getInt("TransactionID");
+						transactionIDForTata = "T-" + (rs.getInt("TransactionID")+1);
 						}
 					}
 					
-					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
-					
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
 					pstmt1.setInt(1, topupvo.getCustomerID());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if (rs1.next()) {
@@ -98,13 +96,17 @@ public class AccountDAO {
 					
 					}
 					
+					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+					
 					dataframe = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaAlarmCredit	+ hexaEmergencyCredit + hexaTariff + "17";
 
 					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
 					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
-
+					
+					System.out.println("dataframe in topup:-- "+dataframe);
 
 					String HexaToBase64 = Encoding.getHexBase644(dataframe);
+					System.out.println("encoded dataframe in topup:-- "+HexaToBase64);
 					
 					JSONObject json = new JSONObject();
 
@@ -112,7 +114,7 @@ public class AccountDAO {
 
 					JSONObject payload = new JSONObject();
 
-					JSONObject innerjaonpayload = new JSONObject();
+					JSONObject innerjsonpayload = new JSONObject();
 
 					innerjson.put("ty", 4);
 
@@ -120,27 +122,28 @@ public class AccountDAO {
 
 					innerjson.put("cs", 250);
 
-					innerjaonpayload.put("deveui", topupvo.getMeterID());
+					innerjsonpayload.put("deveui", topupvo.getMeterID().toLowerCase());
 
-					innerjaonpayload.put("port", 5);
+					innerjsonpayload.put("port", 5);
 
-					innerjaonpayload.put("confirmed", true);
+					innerjsonpayload.put("confirmed", true);
 
-					innerjaonpayload.put("data", HexaToBase64);
+					innerjsonpayload.put("data", HexaToBase64);
 
-					innerjaonpayload.put("on_busy", "fail");
+					innerjsonpayload.put("on_busy", "fail");
 
-					innerjaonpayload.put("tag", transactionIDForTata);
+					innerjsonpayload.put("tag", transactionIDForTata);
 
-					payload.put("payload_dl", innerjaonpayload);
+					payload.put("payload_dl", innerjsonpayload);
 
-					innerjson.put("con", payload);
+					innerjson.put("con", payload.toString());
 					json.put("m2m:cin", innerjson);
 
 					RestCallVO restcallvo = new RestCallVO();
-					restcallvo.setMeterID(topupvo.getMeterID());
+					restcallvo.setMeterID(topupvo.getMeterID().toLowerCase());
 					restcallvo.setUrlExtension("/DownlinkPayload");
 					restcallvo.setData(json.toString());
+					System.out.println("data to be sent to tata gateway in topup:- "+ restcallvo.getData());
 					
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					
@@ -150,19 +153,20 @@ public class AccountDAO {
 					
 					//check for payment status with the payment gateway
 				
-					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, NOW())";
+					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, PaymentStatus, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, NOW())";
 					ps = con.prepareStatement(sql);
 					ps.setString(1, transactionIDForTata);
 					ps.setInt(2, topupvo.getCommunityID());
 					ps.setInt(3, topupvo.getBlockID());
-					ps.setInt(3, topupvo.getCustomerID());
+					ps.setInt(4, topupvo.getCustomerID());
 					ps.setString(5, topupvo.getMeterID());
 					ps.setInt(6, topupvo.getTariffID());
 					ps.setFloat(7, topupvo.getAmount());
-					ps.setFloat(8, topupvo.getTransactedByID());
-					ps.setInt(9, topupvo.getTransactedByRoleID());
+					ps.setInt(8, 0); // payment status from gateway
+					ps.setFloat(9, topupvo.getTransactedByID());
+					ps.setInt(10, topupvo.getTransactedByRoleID());
 
-					if (ps.execute()) {
+					if (ps.executeUpdate() > 0) {
 						result = "Success";
 						
 					}
@@ -489,13 +493,13 @@ public class AccountDAO {
 					configurationvo.setStatus("Pending...waiting for ack");
 				}
 				else if (Integer.parseInt(rs.getString("Status")) == 1) {
-					configurationvo.setStatus("Passed");
+					configurationvo.setStatus("Pending");
 				}
 				else if (Integer.parseInt(rs.getString("Status")) == 2) {
-					configurationvo.setStatus("Time Out... Resend Command");
+					configurationvo.setStatus("Passed");
 				}
 				else {
-					configurationvo.setStatus("Status Unknown");
+					configurationvo.setStatus("Failed");
 				}
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
@@ -525,15 +529,14 @@ public class AccountDAO {
 
 		try {
 				con = getConnection();
-				//send command request to tata gateway
 				
-				PreparedStatement pstmt = con.prepareStatement("SELECT MAX(TransactionID) AS TransactionID FROM command");
+				PreparedStatement pstmt = con.prepareStatement("SELECT TransactionID FROM command ORDER BY TransactionID DESC LIMIT 0,1");
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					if(rs.getString("TransactionID") == null) {
 						 transactionIDForTata = "C-" + 1;
 					}else {
-						transactionIDForTata = "C-" + rs.getInt("TransactionID");
+						transactionIDForTata = "C-" + (rs.getInt("TransactionID")+1);
 					}
 					
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
@@ -598,7 +601,7 @@ public class AccountDAO {
 						ResultSet rs1 = pstmt1.executeQuery();
 						if(rs1.next()) {
 							
-							String defaultSetHexa = String.format("%08x", rs.getInt("DefaultReading"));
+							String defaultSetHexa = String.format("%08x", rs1.getInt("DefaultReading"));
 
 							dataframe = "0A0C00" + serialNumber + "02000023" + defaultSetHexa + "17";
 	
@@ -619,6 +622,8 @@ public class AccountDAO {
 					//	String hexadecimal = "0A0000000042290100000000000000000000000017";
 					
 					String HexaToBase64 = Encoding.getHexBase644(dataframe);
+					System.out.println("dataframe in config:-- "+dataframe);
+					System.out.println("encoded dataframe in config:-- "+HexaToBase64);
 					
 					JSONObject json = new JSONObject();
 
@@ -626,7 +631,7 @@ public class AccountDAO {
 
 					JSONObject payload = new JSONObject();
 
-					JSONObject innerjaonpayload = new JSONObject();
+					JSONObject innerjsonpayload = new JSONObject();
 
 					innerjson.put("ty", 4);
 
@@ -634,25 +639,25 @@ public class AccountDAO {
 
 					innerjson.put("cs", 250);
 
-					innerjaonpayload.put("deveui", configurationvo.getMeterID());
+					innerjsonpayload.put("deveui", configurationvo.getMeterID().toLowerCase());
 
-					innerjaonpayload.put("port", 5);
+					innerjsonpayload.put("port", 5);
 
-					innerjaonpayload.put("confirmed", true);
+					innerjsonpayload.put("confirmed", true);
 
-					innerjaonpayload.put("data", HexaToBase64);
+					innerjsonpayload.put("data", HexaToBase64);
 
-					innerjaonpayload.put("on_busy", "fail");
+					innerjsonpayload.put("on_busy", "fail");
 
-					innerjaonpayload.put("tag", transactionIDForTata);
+					innerjsonpayload.put("tag", transactionIDForTata);
 
-					payload.put("payload_dl", innerjaonpayload);
+					payload.put("payload_dl", innerjsonpayload);
 
-					innerjson.put("con", payload);
+					innerjson.put("con", payload.toString());
 					json.put("m2m:cin", innerjson);
 
 					RestCallVO restcallvo = new RestCallVO();
-					restcallvo.setMeterID(configurationvo.getMeterID());
+					restcallvo.setMeterID(configurationvo.getMeterID().toLowerCase());
 					restcallvo.setUrlExtension("/DownlinkPayload");
 					restcallvo.setData(json.toString());
 					
@@ -661,7 +666,7 @@ public class AccountDAO {
 					String restcallresponse = extramethodsdao.restcall(restcallvo);
 						//perform some action with restcallresponse in future based on requirement
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, ModifiedDate) VALUES (?, ?, ?, 0, NOW())");
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, ModifiedDate) VALUES (?, ?, ?, ?, 0, NOW())");
 					ps.setString(1, transactionIDForTata);
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
@@ -724,7 +729,7 @@ public class AccountDAO {
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1") || rs.getString("Status").equals("4") || rs.getString("Status").equals("5")) {
+				if (!rs.getString("Status").equals("2")) {
 					result = true;
 				}
 			}
@@ -753,7 +758,7 @@ public class AccountDAO {
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1") || rs.getString("Status").equals("4") || rs.getString("Status").equals("5")) {
+				if (!rs.getString("Status").equals("2")) {
 					result = true;
 				}
 			}
@@ -782,7 +787,7 @@ public class AccountDAO {
 			pstmt.setInt(1, topupvo.getCustomerID());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if(topupvo.getAmount() > rs.getFloat("EmergencyCredit") || topupvo.getAmount() > rs.getFloat("AlarmCredit"))
+				if(topupvo.getAmount() < rs.getFloat("EmergencyCredit") || topupvo.getAmount() < rs.getFloat("AlarmCredit"))
 					result = true;
 			}
 		} catch (Exception ex) {
