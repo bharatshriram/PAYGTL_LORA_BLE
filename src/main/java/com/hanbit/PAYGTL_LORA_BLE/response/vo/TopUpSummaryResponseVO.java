@@ -18,6 +18,7 @@ public class TopUpSummaryResponseVO {
 	private int transactionID;
 	private int rechargeAmount;
 	private String status;
+	private String modeOfPayment;
 	private String transactedByUserName;
 	private String transactedByRoleDescription;
 	private String dateTime;
@@ -110,6 +111,14 @@ public class TopUpSummaryResponseVO {
 
 	public void setData(List<TopUpSummaryResponseVO> data) {
 		this.data = data;
+	}
+
+	public String getModeOfPayment() {
+		return modeOfPayment;
+	}
+
+	public void setModeOfPayment(String modeOfPayment) {
+		this.modeOfPayment = modeOfPayment;
 	}
 	
 }

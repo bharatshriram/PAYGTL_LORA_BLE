@@ -9,6 +9,7 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpRequestVO {
 	
+	// add parameters based on payment gateway adn add colums in db also
 	private int communityID;
 	private int blockID;
 	private int customerID;
@@ -19,6 +20,7 @@ public class TopUpRequestVO {
 	private float amount;
 	private String cardNumber;
 	private String cardType;
+	private String modeOfPayment;
 	private int transactedByID;
 	private int transactedByRoleID;
 	
@@ -93,6 +95,12 @@ public class TopUpRequestVO {
 	}
 	public void setTariffID(int tariffID) {
 		this.tariffID = tariffID;
+	}
+	public String getModeOfPayment() {
+		return modeOfPayment;
+	}
+	public void setModeOfPayment(String modeOfPayment) {
+		this.modeOfPayment = modeOfPayment;
 	}
 	
 }

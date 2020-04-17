@@ -70,12 +70,15 @@ public class ReportsDAO {
 	 Connection con = null; 
 	 PreparedStatement pstmt = null; 
 	 PreparedStatement pstmt1 = null;
+	 PreparedStatement pstmt2 = null;
 	 ResultSet rs = null;
 	 ResultSet rs1 = null;
+	 ResultSet rs2 = null;
 	 
 	 FinancialReportsResponseVO financialreportsresponsevo = null;
 	 List<FinancialReportsResponseVO> financialreportsresponselist = null;
 	 int totalAmountForSelectedPeriod = 0;
+	 int totalUnitsForSelectedPeriod = 0;
 	 
 		try {
 			con = getConnection();
@@ -101,10 +104,25 @@ public class ReportsDAO {
 				if (rs.next()) {
 					financialreportsresponsevo.setTotalAmount(rs.getInt("Total"));
 					totalAmountForSelectedPeriod = financialreportsresponsevo.getTotalAmount() + totalAmountForSelectedPeriod;
-					financialreportsresponselist.add(financialreportsresponsevo);
 				}
 				
+				String query2 = "SELECT ABS((SELECT Reading FROM balancelog WHERE MeterID = ? AND YEAR(IoTTimeStamp) = ? <change> ORDER BY ReadingID DESC LIMIT 0,1)\r\n" + 
+						"- (SELECT Reading FROM balancelog WHERE MeterID = ? AND YEAR(IoTTimeStamp) = ? <change> ORDER BY ReadingID ASC LIMIT 0,1)) AS Units";
+				query2 = query2.replaceAll("<change>", (financialreportsrequestvo.getMonth() > 0) ? "AND MONTH(IoTTimeStamp) = "+financialreportsrequestvo.getMonth() : "");
+				pstmt2 = con.prepareStatement(query2);
+				pstmt2.setString(1, rs1.getString("MeterID"));
+				pstmt2.setInt(2, financialreportsrequestvo.getYear());
+				pstmt2.setString(3, rs1.getString("MeterID"));
+				pstmt2.setInt(4, financialreportsrequestvo.getYear());
+				rs2 = pstmt2.executeQuery();
+				if(rs2.next()) {
+					financialreportsresponsevo.setTotalUnits(rs2.getInt("Units"));
+					totalUnitsForSelectedPeriod = financialreportsresponsevo.getTotalUnits() + totalUnitsForSelectedPeriod;
+				}
+				financialreportsresponselist.add(financialreportsresponsevo);
 			}
+			financialreportsresponsevo.setTotalAmountForSelectedPeriod(totalAmountForSelectedPeriod);
+			financialreportsresponsevo.setTotalUnitsForSelectedPeriod(totalUnitsForSelectedPeriod);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -115,7 +133,7 @@ public class ReportsDAO {
 			rs1.close();
 			con.close();
 		}
-		financialreportsresponsevo.setTotalForSelectedPeriod(totalAmountForSelectedPeriod);
+		
 	 return financialreportsresponselist; 
 	 
 	}
@@ -899,7 +917,7 @@ public class ReportsDAO {
 			con = getConnection();
 			topupsummarydetails = new LinkedList<TopUpSummaryResponseVO>();
 			
-				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
+				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
 						"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = t.CustomerID WHERE t.CustomerID = ? AND t.TransactionDate BETWEEN ? AND ? ");
 				
 				pstmt.setInt(1, topupsummaryrequestvo.getCustomerID());
@@ -917,6 +935,7 @@ public class ReportsDAO {
 					topupsummaryresponsevo.setHouseNumber(rs.getString("HouseNumber"));
 					topupsummaryresponsevo.setMeterID(rs.getString("MeterID"));
 					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
+					topupsummaryresponsevo.setModeOfPayment(rs.getString("ModeOfPayment"));
 					
 					if (rs.getInt("Status") == 2) {
 						topupsummaryresponsevo.setStatus("Passed");
@@ -951,51 +970,6 @@ public class ReportsDAO {
 
 		return topupsummarydetails;
 
-	}
-
-	/* Valve Reports */
-
-	public List<ValveReportsResponseVO> getvalvereports() throws SQLException {
-		// TODO Auto-generated method stub
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-
-		List<ValveReportsResponseVO> valvereportslist = null;
-		ValveReportsResponseVO valvereportsresponsevo = null;
-		try {
-			con = getConnection();
-
-			valvereportslist = new ArrayList<ValveReportsResponseVO>();
-			// write query
-			pstmt = con
-					.prepareStatement("select meter_id,open_time,close_time,record_insert_date,remark from valve");
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				valvereportsresponsevo = new ValveReportsResponseVO();
-
-				valvereportsresponsevo.setMeterID(rs.getInt("meter_id"));
-				valvereportsresponsevo.setOpenTime(rs.getString("open_time"));
-				valvereportsresponsevo.setCloseTime(rs.getString("close_time"));
-				valvereportsresponsevo.setDateTime(rs
-						.getString("record_insert_date"));
-				valvereportsresponsevo.setRemark(rs.getString("remark"));
-
-				valvereportslist.add(valvereportsresponsevo);
-
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			pstmt.close();
-			rs.close();
-			con.close();
-		}
-
-		return valvereportslist;
 	}
 
 	/* Alarms */

@@ -45,6 +45,8 @@ public class ReportsController {
 		FinancialReportsResponseVO financialReportsResponseVO = new FinancialReportsResponseVO();
 		
 		financialReportsResponseVO.setData(reportsdao.getFinancialReportsdetails(financialreportsrequestvo, roleid, id));
+		financialReportsResponseVO.setTotalAmountForSelectedPeriod(financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalAmountForSelectedPeriod());
+		financialReportsResponseVO.setTotalUnitsForSelectedPeriod(financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalUnitsForSelectedPeriod());
 
 		return financialReportsResponseVO;
 	}
@@ -97,23 +99,6 @@ public class ReportsController {
 		return topUpSummaryResponseVO;
 	}
 	
-	/*Valve Reports*/
-	
-	@RequestMapping(value = "/valvereports", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody
-	String valvereports() throws SQLException {
-
-		List<ValveReportsResponseVO> valvereportslist = new ArrayList<ValveReportsResponseVO>();
-		ResponseVO responsevo = new ResponseVO();
-
-		valvereportslist = reportsdao.getvalvereports();
-		responsevo.setValvereports(valvereportslist);
-		
-		String valvereportsdetails = gson.toJson(responsevo);
-
-		return valvereportsdetails;
-	}
-
 	/* Alarms */
 
 		@RequestMapping(value = "/alarm/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")

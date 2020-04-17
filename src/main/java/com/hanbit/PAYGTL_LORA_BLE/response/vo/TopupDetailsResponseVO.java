@@ -16,6 +16,7 @@ public class TopupDetailsResponseVO {
 	private float emergencyCredit;
 	private float alarmCredit;
 	private float tariff;
+	private int tariffID;
 	
 	public String getMeterID() {
 		return meterID;
@@ -58,6 +59,12 @@ public class TopupDetailsResponseVO {
 	}
 	public void setTariff(float tariff) {
 		this.tariff = tariff;
+	}
+	public int getTariffID() {
+		return tariffID;
+	}
+	public void setTariffID(int tariffID) {
+		this.tariffID = tariffID;
 	}
 	
 }
