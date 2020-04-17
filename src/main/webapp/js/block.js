@@ -83,12 +83,12 @@ $(document)
 						function() {
 							$('#blockDetails')
 							
-							.find('[name="selectcommunityName"]')
+							/*.find('[name="selectcommunityName"]')
             .selectpicker()
             .change(function(e) {
                 $('#blockDetails').bootstrapValidator('revalidateField', 'selectcommunityName');
             })
-            .end()
+            .end()*/
 							
 									.bootstrapValidator(
 											{
@@ -308,7 +308,7 @@ $(document)
 												data1["location"] = $("#blockLocationAdd").val();
 												data1["mobileNumber"] = $("#blockMobileAdd").val();
 												data1["email"] = $("#blockEmailAdd").val();
-												data1["createdByID"] = sessionStorage.getItem("ID");
+												data1["createdByID"] = sessionStorage.getItem("createdByID");
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
 												data1["roleID"] = sessionStorage.getItem("roleID");
 												
@@ -336,11 +336,24 @@ $(document)
 																					
 																		//alert();
 																		window.location = "blockDetails.jsp";
-																				});
-																	return false
+																		return false;
+																	});
+																
 																	
 
-																} else if(data.result == "Failure"){
+																} else if(data.result == "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
+									
+																	bootbox.alert(data.result,
+																			function(
+																					result) {
+																					
+																		//alert();
+																		window.location = "blockDetails.jsp";
+																		return false
+																				});
+																	
+																	
+																}else if(data.result == "Failure"){
 																	
 																	bootbox.alert(data.result,
 																			function(
@@ -348,8 +361,9 @@ $(document)
 																					
 																		//alert();
 																		window.location = "blockDetails.jsp";
-																				});
-																	return false
+																		return false;
+																	});
+																	
 																}
 															}
 														});
@@ -369,7 +383,7 @@ $(document)
 										data1["location"] = $("#blockLocationEdit").val();
 										data1["mobileNumber"] = $("#blockMobileEdit").val();
 										data1["email"] = $("#blockEmailEdit").val();
-										data1["createdByID"] = sessionStorage.getItem("ID");
+										data1["createdByID"] = sessionStorage.getItem("createdByID");
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
 										data1["roleID"] = sessionStorage.getItem("roleID");
 								
@@ -400,8 +414,8 @@ $(document)
 																			
 																//alert();
 																window.location = "blockDetails.jsp";
-																		});
-															return false
+																return false;
+															});
 															
 
 														} else if(data.result == "Failure"){
@@ -412,8 +426,8 @@ $(document)
 																			
 																//alert();
 																window.location = "blockDetails.jsp";
-																		});
-															return false
+																return false;
+															});
 														}
 													}
 												});

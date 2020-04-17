@@ -109,10 +109,17 @@ $(document)
 																				.setItem(
 																						"type",
 																						"SuperAdmin");
+																		
 																		sessionStorage
 																				.setItem(
-																						"ID",
-																						0);
+																						"createdByID",
+																						data.userDetails.ID);
+																		
+																		sessionStorage
+																		.setItem(
+																				"ID",
+																				0);
+																		
 																		sessionStorage
 																		.setItem(
 																				"userName",
