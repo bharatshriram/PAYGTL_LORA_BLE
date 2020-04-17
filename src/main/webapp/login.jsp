@@ -20,7 +20,7 @@
 <body class="login" data-gr-c-s-loaded="true">
 	<div class="container">
 		<div class="d-flex justify-content-end h-100">
-			<div class="card">
+			<div class="card login-card">
 				<div class="card-header">
 					<h3>Sign In</h3>
 					<div class="d-flex justify-content-end social_icon">

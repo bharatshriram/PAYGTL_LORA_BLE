@@ -587,7 +587,7 @@ public class CommunitySetUpDAO {
 	            pstmt.setString(2, customervo.getFirstName());
 	            pstmt.setString(3, customervo.getEmail());
 	            pstmt.setString(4, customervo.getMobileNumber());
-	            pstmt.setInt(7, customervo.getCustomerID());
+	            pstmt.setInt(5, customervo.getCustomerID());
 
 	            if (pstmt.executeUpdate() > 0) {
 	            	result = "Success";

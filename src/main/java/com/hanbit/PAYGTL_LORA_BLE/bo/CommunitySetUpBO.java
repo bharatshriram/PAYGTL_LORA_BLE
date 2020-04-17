@@ -153,7 +153,7 @@ public class CommunitySetUpBO {
 					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 		
-		if(!communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName())) {
+		if(communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName())) {
 			throw new BusinessException("CUSTOMER ALREADY REGISTERED");
 		}
 
@@ -170,17 +170,14 @@ public class CommunitySetUpBO {
 			throw new BusinessException("PREVIOUS REQUEST IS PENDING FOR APPROVAL");
 		}
 
-		if (customervo.getCommunityID()==0
-				|| customervo.getBlockID()==0
-				|| customervo.getHouseNumber().isEmpty()
+		if (customervo.getHouseNumber().isEmpty()
 				|| customervo.getFirstName().isEmpty()
-				|| customervo.getLastName().isEmpty()
 				|| customervo.getEmail().isEmpty()
 				|| customervo.getMobileNumber().isEmpty()) {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 
-		if (checkName(customervo.getFirstName()) == true || checkName(customervo.getLastName()) == true) {
+		if (checkName(customervo.getFirstName()) == true) {
 			throw new BusinessException("NAME CAN CONTAIN ONLY ALPHABETS");
 		}
 

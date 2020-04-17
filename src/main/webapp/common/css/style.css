@@ -13,6 +13,29 @@ html,body{
   width: 10px;
 }
 
+
+
+
+.imp{
+  color:red;
+}
+.scroll{
+  overflow-y: auto;
+}
+.right-block{
+  height: 400px;
+}
+.cardHeading{
+  font-weight: bold;
+  font-size: 16px;
+  color: #ffffff;
+}
+.right-data{
+  height:calc(100% - 240px);
+  float: left;
+}
+
+
 /* Track */
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey; 
@@ -56,7 +79,7 @@ option:first-child
   align-content: center;
   }
   
-  .card{
+  .login-card{
   height: 370px;
   margin-top: auto;
   margin-bottom: auto;

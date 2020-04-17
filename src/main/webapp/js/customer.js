@@ -29,7 +29,9 @@ return json.data;
 },
 },
 "columns" : [
-                        {
+ /*{
+    	"data" : "communityName"
+ },*/{
 "data" : "communityName"
 },{
 "data" : "blockName"
@@ -89,8 +91,7 @@ return json.data;
 $(document)
 				.ready(
 						function() {
-							$('#communityDetails')
-									.bootstrapValidator(
+							$('#customerDetails').bootstrapValidator(
 											{
 												feedbackIcons : {
 													valid : 'glyphicon glyphicon-ok',
@@ -98,53 +99,122 @@ $(document)
 													validating : 'glyphicon glyphicon-refresh'
 												},
 												fields : {
-													communityNameAdd : {
-														message : 'The Community Name is not valid',
+													
+													selectcommunityName: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Please select your native language.'
+									                        }
+									                    }
+									                },
+									                selectBlockBasedonCommunity: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Please select your native language.'
+									                        }
+									                    }
+									                },
+													
+													firstNameAdd : {
+														message : 'The Customer Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Name is required and cannot be empty'
+																message : 'The Customer Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Community Name must be more than 6 and less than 30 characters long'
+																message : 'The Customer Name must be more than 2 and less than 30 characters long'
 															}
 														}
 													},
-													communityAddressAdd : {
-														message : 'The Community Address is not valid',
+													lastNameAdd : {
+														message : 'The Last Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Address is required and cannot be empty'
+																message : 'The Last Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Community Address must be more than 6 and less than 30 characters long'
+																message : 'The Last Name must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
+																message : 'The Last Name can only consist of alphabetical and number'
 															}
 														}
 													},
-													communityMobileAdd : {
-														message : 'The Community Mobile is not valid',
+													houseNoAdd : {
+														message : 'The House No. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Mobile is required and cannot be empty'
-															},
+																message : 'The House No is required and cannot be empty'
+															}
+														}
+													},
+													mobileNoAdd : {
+														message : 'The Mobile No. is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The Mobile No. is required and cannot be empty'
+															}/*,
 															regexp : {
-																regexp : /^[0-9]+$/,
+																regexp : /^[a-zA-Z0-9]+$/,
 																message : 'The Community Address can only consist of alphabetical and number'
-															}
+															}*/
 														}
 													},
-													communityEmailAdd : {
-														message : 'The Community Email is not valid',
+													emailAdd : {
+														message : 'The Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Email is required and cannot be empty'
+																message : 'The Email is required and cannot be empty'
+															}/*,
+															regexp : {
+																regexp : /^[a-zA-Z0-9]+$/,
+																message : 'The Community Address can only consist of alphabetical and number'
+															}*/
+														}
+													},
+													meterSerialAdd : {
+														message : 'The Meter sr. No. is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The Meter sr. No. is required and cannot be empty'
+															}/*,
+															regexp : {
+																regexp : /^[a-zA-Z0-9]+$/,
+																message : 'The Community Address can only consist of alphabetical and number'
+															}*/
+														}
+													},
+													amrAdd : {
+														message : 'The AMR No. is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The AMR No. is required and cannot be empty'
+															}/*,
+															regexp : {
+																regexp : /^[a-zA-Z0-9]+$/,
+																message : 'The Community Address can only consist of alphabetical and number'
+															}*/
+														}
+													},
+													
+													selectTariffName: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Please select your Tariff language.'
+									                        }
+									                    }
+									                },
+													
+													defaultReadingAdd : {
+														message : 'The Default Reading is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The Default Reading is required and cannot be empty'
 															}/*,
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
@@ -158,7 +228,7 @@ $(document)
 							
 							
 							
-							$('#communityEdit')
+							$('#customerEdit')
 							.bootstrapValidator(
 									{
 										feedbackIcons : {
@@ -167,53 +237,122 @@ $(document)
 											validating : 'glyphicon glyphicon-refresh'
 										},
 										fields : {
-											communityNameEdit : {
-												message : 'The Community Name is not valid',
+											
+											selectcommunityName: {
+							                    validators: {
+							                        notEmpty: {
+							                            message: 'Please select your native language.'
+							                        }
+							                    }
+							                },
+							                blockNameEdit: {
+							                    validators: {
+							                        notEmpty: {
+							                            message: 'Please select your native language.'
+							                        }
+							                    }
+							                },
+											
+											firstNameEdit : {
+												message : 'The Customer Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Name is required and cannot be empty'
+														message : 'The Customer Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Community Name must be more than 6 and less than 30 characters long'
+														message : 'The Customer Name must be more than 2 and less than 30 characters long'
 													}
 												}
 											},
-											communityAddressEdit : {
-												message : 'The Community Address is not valid',
+											lastNameEdit : {
+												message : 'The Last Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Address is required and cannot be empty'
+														message : 'The Last Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Community Address must be more than 6 and less than 30 characters long'
+														message : 'The Last Name must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														message : 'The Last Name can only consist of alphabetical and number'
 													}
 												}
 											},
-											communityMobileEdit : {
-												message : 'The Community Mobile is not valid',
+											houseNoEdit : {
+												message : 'The House No. is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Mobile is required and cannot be empty'
-													},
+														message : 'The House No is required and cannot be empty'
+													}
+												}
+											},
+											mobileNoEdit: {
+												message : 'The Mobile No. is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The Mobile No. is required and cannot be empty'
+													}/*,
 													regexp : {
-														regexp : /^[0-9]+$/,
+														regexp : /^[a-zA-Z0-9]+$/,
 														message : 'The Community Address can only consist of alphabetical and number'
-													}
+													}*/
 												}
 											},
-											communityEmailEdit : {
-												message : 'The Community Email is not valid',
+											emailEdit : {
+												message : 'The Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Email is required and cannot be empty'
+														message : 'The Email is required and cannot be empty'
+													}/*,
+													regexp : {
+														regexp : /^[a-zA-Z0-9]+$/,
+														message : 'The Community Address can only consist of alphabetical and number'
+													}*/
+												}
+											},
+											meterSerialEdit : {
+												message : 'The Meter sr. No. is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The Meter sr. No. is required and cannot be empty'
+													}/*,
+													regexp : {
+														regexp : /^[a-zA-Z0-9]+$/,
+														message : 'The Community Address can only consist of alphabetical and number'
+													}*/
+												}
+											},
+											amrEdit : {
+												message : 'The AMR No. is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The AMR No. is required and cannot be empty'
+													}/*,
+													regexp : {
+														regexp : /^[a-zA-Z0-9]+$/,
+														message : 'The Community Address can only consist of alphabetical and number'
+													}*/
+												}
+											},
+											
+											selectTariffNameEdit: {
+							                    validators: {
+							                        notEmpty: {
+							                            message: 'Please select your Tariff language.'
+							                        }
+							                    }
+							                },
+											
+											defaultReadingEdit : {
+												message : 'The Default Reading is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The Default Reading is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
@@ -228,7 +367,7 @@ $(document)
 							
 							
 
-							$('#communityDetails')
+							$('#customerDetails')
 									.on(
 											'status.field.bv',
 											function(e, data) {
@@ -261,7 +400,7 @@ $(document)
 							
 							
 							
-							$('#communityEdit').on(
+							$('#customerEdit').on(
 									'status.field.bv',
 									function(e, data) {
 										formIsValid = true;
@@ -280,36 +419,45 @@ $(document)
 														});
 
 										if (formIsValid) {
-											$('#communityEditsave', $(this))
+											$('#customerEditsave', $(this))
 													.attr('disabled',
 															false);
 										} else {
-											$('#communityEditsave', $(this))
+											$('#customerEditsave', $(this))
 													.attr('disabled',
 															true);
 										}
 									});
 							
 							
-							$("#communityAdd")
+							$("#customerAdd")
 									.click(
 											function() {
 
 												var data1 = {}
-												data1["communityName"] = $("#communityNameAdd")
-														.val();
-												data1["email"] = $("#communityEmailAdd").val();
-												data1["mobileNumber"] = $("#communityMobileAdd")
-												.val();
-												data1["address"] = $("#communityAddressAdd").val();
-										
+												data1["communityID"] = $("#selectcommunityName").val();
+												data1["blockID"] = $("#selectBlockBasedonCommunity").val();
+												data1["firstName"] = $("#firstNameAdd").val();
+												data1["lastName"] = $("#lastNameAdd").val();
+												data1["houseNumber"] = $("#houseNoAdd").val();
+												data1["mobileNumber"] = $("#mobileNoAdd").val();
+												data1["email"] = $("#emailAdd").val();
+												data1["meterSerialNumber"] = $("#meterSerialAdd").val();
+												data1["meterID"] = $("#amrAdd").val();
+												data1["tariffID"] = $("#selectTariffName").val();
+												data1["defaultReading"] = $("#defaultReadingAdd").val();
+												data1["CRNNumber"] = $("#CRNAdd").val();
+												data1["createdByID"] = sessionStorage.getItem("createdByID");
+												data1["loggedInUserID"] = sessionStorage.getItem("userID");
+												data1["roleID"] = sessionStorage.getItem("roleID");
+												
 												alert("===>"
 														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
 															contentType : "application/json",
-															url : "/PAYGTL_LORA_BLE/community/add",
+															url : "/PAYGTL_LORA_BLE/customer/add",
 															data : JSON
 																	.stringify(data1),
 															dataType : "JSON",
@@ -329,22 +477,34 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																		window.location = "communityDetails.jsp";
-																				});
-																	return false
+																		window.location = "customerDetails.jsp";
+																		return false
+																	});
+																	
 																	
 
-																} else if(data.result == "Failure"){
+																} else if(data.result == "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
+									
+																	bootbox.alert(data.result,
+																			function(
+																					result) {
+																					
+																		//alert();
+																		window.location = "customerDetails.jsp";
+																		return false
+																				});
+																	
+																	
+																}else if(data.result == "Failure"){
 																	
 																	bootbox.alert(data.result,
 																			function(
 																					result) {
 																					
 																		//alert();
-																		window.location = "communityDetails.jsp";
-																		
+																		window.location = "customerDetails.jsp";
+																		return false
 																				});
-																	return false
 																}
 															}
 														});
@@ -353,19 +513,22 @@ $(document)
 							
 							
 							
-							$("#communityEditsave")
+							$("#customerEditsave")
 							.click(
 									function() {
 
 										var data1 = {}
 										
-										var data1 = {}
-										data1["communityName"] = $("#communityNameEdit")
-												.val();
-										data1["email"] = $("#communityEmailEdit").val();
-										data1["mobileNumber"] = $("#communityMobileEdit")
-										.val();
-										data1["address"] = $("#communityAddressEdit").val();
+										data1["firstName"] = $("#firstNameEdit").val();
+										data1["houseNumber"] = $("#houseNoEdit").val();
+										data1["mobileNumber"] = $("#mobileNoEdit").val();
+										data1["email"] = $("#emailEdit").val();
+										data1["meterID"] = $("#amrEdit").val();
+										data1["tariffID"] = $("#selectTariffNameEdit").val();
+										data1["defaultReading"] = $("#defaultReadingEdit").val();
+										data1["createdByID"] = sessionStorage.getItem("createdByID");
+										data1["loggedInUserID"] = sessionStorage.getItem("userID");
+										data1["roleID"] = sessionStorage.getItem("roleID");
 								
 										alert("===>"
 												+ JSON.stringify(data1));
@@ -373,7 +536,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/community/edit/"+$("#communityIdhidden").val(),
+													url : "/PAYGTL_LORA_BLE/customer/edit/"+$("#customerIdhidden").val(),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -393,7 +556,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "communityDetails.jsp";
+																window.location = "customerDetails.jsp";
 																		});
 															return false
 															
@@ -405,7 +568,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "communityDetails.jsp";
+																window.location = "customerDetails.jsp";
 																
 																		});
 															return false
@@ -429,14 +592,42 @@ function getCustomerFormEdit(id) {
 		$.each(data.data, function(i, item) {
 			if (id == item.customerID) {
 				$('#communityNameEdit').val(item.communityName).trigger("change");
-				$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#communityEmailEdit').val(item.email).trigger("change");
-				$("#formcomunityEmail").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#communityMobileEdit').val(item.mobileNumber).trigger("change");
-				$("#formcomunityMobile").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-			    $('#communityAddressEdit').val(item.address).trigger("change");
-				$("#formcomunityAddress").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$("#communityIdhidden").val(item.communityID);
+				$("#formcommunityNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#blockNameEdit').val(item.blockName).trigger("change");
+				$("#formblockNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#firstNameEdit').val(item.firstName).trigger("change");
+				$("#formfirstNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#lastNameEdit').val(item.lastName).trigger("change");
+				$("#formlastNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#houseNoEdit').val(item.houseNumber).trigger("change");
+				$("#formhouseNoEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#mobileNoEdit').val(item.mobileNumber).trigger("change");
+				$("#formmobileNoEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#emailEdit').val(item.email).trigger("change");
+				$("#formemailEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#meterSerialEdit').val(item.meterSerialNumber).trigger("change");
+				$("#formmeterSerialEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#amrEdit').val(item.meterID).trigger("change");
+				$("#formamrEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+
+				$('#defaultReadingEdit').val(item.defaultReading).trigger("change");
+				$("#formdefaultReadingEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#CRNEdit').val(item.mobileNumber).trigger("change");
+				$("#formCRNEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			    
+				$("#customerIdhidden").val(item.customerID);
 			
 				$('#customerEditsave')
 				.attr('disabled',
@@ -445,6 +636,6 @@ function getCustomerFormEdit(id) {
 			} else {
 			}
 		});
-		$('#myCommunityEdit').modal('show');
+		$('#myCustomerEdit').modal('show');
 	});
 }

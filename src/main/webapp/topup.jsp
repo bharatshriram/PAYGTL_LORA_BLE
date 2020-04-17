@@ -26,58 +26,119 @@
 
 
 <body>
-	<jsp:include page="header.jsp" />
+	<%-- <jsp:include page="header.jsp" /> --%>
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
 		<div class="row mr-0 ml-0">
 			<div class="col-md-2 pl-0 pr-0">
 
-				<jsp:include page="menu.jsp" />
+	<%-- 			<jsp:include page="menu.jsp" /> --%>
 			</div>
 			<div class="col-md-10 mt-4 mb-4">
-				<!--Right start-->
-				<div class="row mb-4">
-					<div class="col-md-6">
-						<h3>Customer Details</h3>
-					</div>
-					<div class="col-md-6">
-						<button type="button"
-							class="btn btn-raised btn-primary float-right"
-							data-toggle="modal" data-target="#exampleModal">
-							<i class="fa fa-user"></i>
-						</button>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<table id="customerTable"
-							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
-							style="width: 100%">
-							<thead>
-								<tr>
-									<th>Community Name</th>
-									<th>Block Name</th>
-									<th>First Name</th>
-									<th>Last Name</th>
-									<th>House No</th>
-									<th>Mobile</th>
-									<th>Email</th>
-									<th>Meter Sr. No.</th>
-									<th>AMR ID</th>
-									<th>Default Reading</th>
-									<th>Created UserName</th>
-									<th>Created Role</th>
-									<th>Registration Date</th>
-									<th>Edit</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-				</div>
+				 <!--Right start-->
+        <div class="row mb-4">
+          <div class="col-md-10 m-auto">
+            <div class="card">
+                <div class="card-header bg-primary cardHeading">Form Heading</div>
+                <div class="card-body scroll right-block">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
+                              <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Select Block<sup class="imp">*</sup></label>
+                              <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Select House<sup class="imp">*</sup></label>
+                              <select class="form-control">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">AMR ID</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Current Balance</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Date & Time</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Unit Rate</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Emergency Credit</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Alarm Credit</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label class="bmd-label-floating">Recharge Amount</label>
+                              <input type="text" class="form-control">
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="custom-control custom-checkbox mt-4">
+                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
+                                <label class="custom-control-label" for="defaultUnchecked">Set Tariff</label>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-primary btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
+                        </div>
+                    </div>
+                </div>
+              </div>
+          </div>
+        </div>
+       
 
-				<!--Right end-->
+        <!--Right end-->
 			</div>
 		</div>
 	</div>
@@ -103,7 +164,7 @@
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Community Name</label> 
 									<select
-										class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
+										class="form-control" id="selectcommunityName" name="selectcommunityName">
 						<option style = "color: Red" value="" disabled selected>Select Community</option><!--  <option>Select Community</option> --> 
 									</select>
 								</div>
@@ -127,7 +188,7 @@
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Last Name</label> <input
-										type="text" class="form-control" name="lastNameAdd"
+										type="email" class="form-control" name="lastNameAdd"
 										id="lastNameAdd">
 								</div>
 							</div>
@@ -144,7 +205,7 @@
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Mobile No</label> <input
-										type="text" class="form-control" name="mobileNoAdd"
+										type="email" class="form-control" name="mobileNoAdd"
 										id="mobileNoAdd">
 								</div>
 							</div>
@@ -155,14 +216,14 @@
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Email</label> <input
-										type="email" class="form-control" name="emailAdd"
+										type="text" class="form-control" name="emailAdd"
 										id="emailAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Meter Serial</label> <input
-										type="text" class="form-control" name="meterSerialAdd"
+										type="email" class="form-control" name="meterSerialAdd"
 										id="meterSerialAdd">
 								</div>
 							</div>
@@ -181,7 +242,7 @@
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Tariff Name</label>  <select
 										class="form-control" id="selectTariffName" name="selectTariffName">
-										<!-- <option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> --> 
+										<option style = "color: Red" value="" disabled selected>Select Tariff</option><!--  <option>Select Community</option> --> 
 									</select>
 								</div>
 							</div>
@@ -190,17 +251,8 @@
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Default Reading</label> <input
-										type="text" class="form-control" name="defaultReadingAdd"
+										type="email" class="form-control" name="defaultReadingAdd"
 										id="defaultReadingAdd">
-								</div>
-							</div>
-							
-							
-							<div class="col-md-6">
-								<div class="input-group form-group">
-									<label class="bmd-label-floating">CRN</label> <input
-										type="email" class="form-control" name="CRNAdd"
-										id="CRNAdd">
 								</div>
 							</div>
 
@@ -235,115 +287,42 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<form id="customerEdit">
+					<form id="communityEdit">
 						<div class="row">
 							<div class="col-md-6">
-								<div id="formcommunityNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> 
-									 <input
+								<div id="formcomunityName" class="input-group form-group">
+									<label class="bmd-label-floating">Community Name</label> <input
 										type="text" class="form-control" name="communityNameEdit"
-										id="communityNameEdit" disabled>
+										id="communityNameEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div id="formblockNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Block Name</label> <input
-										type="text" class="form-control" name="blockNameEdit"
-										id="blockNameEdit" disabled>
+								<div id="formcomunityAddress" class="input-group form-group">
+									<label class="bmd-label-floating">Community Address</label> <input
+										type="text" class="form-control" name="communityAddressEdit"
+										id="communityAddressEdit">
 								</div>
 							</div>
 
 							<div class="col-md-6">
-								<div id="formfirstNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">First Name</label> <input
-										type="text" class="form-control" name="firstNameEdit"
-										id="firstNameEdit">
+								<div id="formcomunityMobile" class="input-group form-group">
+									<label class="bmd-label-floating">Community Mobile</label> <input
+										type="text" class="form-control" name="communityMobileEdit"
+										id="communityMobileEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div id="formlastNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Last Name</label> <input
-										type="text" class="form-control" name="lastNameEdit"
-										id="lastNameEdit" disabled>
-								</div>
-							</div>
-							
-							
-							
-							<div class="col-md-6">
-								<div id="formhouseNoEdit" class="input-group form-group">
-									<label class="bmd-label-floating">House No.</label> <input
-										type="text" class="form-control" name="houseNoEdit"
-										id="houseNoEdit">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div id="formmobileNoEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Mobile No</label> <input
-										type="text" class="form-control" name="mobileNoEdit"
-										id="mobileNoEdit">
-								</div>
-							</div>
-							
-							
-							
-							
-							<div class="col-md-6">
-								<div id="formemailEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Email</label> <input
-										type="email" class="form-control" name="emailEdit"
-										id="emailEdit">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div id="formmeterSerialEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Meter Serial</label> <input
-										type="text" class="form-control" name="meterSerialEdit"
-										id="meterSerialEdit" disabled>
-								</div>
-							</div>
-							
-							
-							
-							
-							<div class="col-md-6">
-								<div id="formamrEdit" class="input-group form-group">
-									<label class="bmd-label-floating">AMR</label> <input
-										type="text" class="form-control" name="amrEdit"
-										id="amrEdit">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Name</label>  <select
-										class="form-control" id="selectTariffNameEdit" name="selectTariffNameEdit">
-										<!-- <option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> --> 
-									</select>
-								</div>
-							</div>
-							
-							
-							<div class="col-md-6">
-								<div id="formdefaultReadingEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Default Reading</label> <input
-										type="text" class="form-control" name="defaultReadingEdit"
-										id="defaultReadingEdit">
-								</div>
-							</div>
-							
-							
-							<div class="col-md-6">
-								<div id="formCRNEdit" class="input-group form-group">
-									<label class="bmd-label-floating">CRN</label> <input
-										type="email" class="form-control" name="CRNEdit"
-										id="CRNEdit" disabled>
-										<input type = "hidden" id="customerIdhidden" />
+								<div id="formcomunityEmail" class="input-group form-group">
+									<label class="bmd-label-floating">Community Email</label> <input
+										type="email" class="form-control" name="communityEmailEdit"
+										id="communityEmailEdit">
+										<input type = "hidden" id="communityIdhidden">
 								</div>
 							</div>
 
 							<div class="col-md-6">
 								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="customerEditsave"
+									style="width: 100%;" value="Save!" id="communityEditsave"
 									type="button" disabled />
 							</div>
 
@@ -374,7 +353,6 @@
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
-	<script src="js/dropdown.js"></script>
 	<script src="js/customer.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
