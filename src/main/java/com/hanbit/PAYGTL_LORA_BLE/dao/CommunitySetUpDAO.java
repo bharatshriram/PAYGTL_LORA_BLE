@@ -473,7 +473,7 @@ public class CommunitySetUpDAO {
 			pstmt.setInt(11, customervo.getTariffID());
 			pstmt.setString(12, customervo.getCRNNumber());
 			pstmt.setInt(13, customervo.getCreatedByID());
-			pstmt.setInt(14, customervo.getCreatedByRoleID());
+			pstmt.setInt(14, customervo.getLoggedInRoleID());
 
 			if (pstmt.executeUpdate() > 0) {
 				

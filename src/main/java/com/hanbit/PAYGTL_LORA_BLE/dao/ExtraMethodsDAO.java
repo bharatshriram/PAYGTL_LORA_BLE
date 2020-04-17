@@ -105,15 +105,16 @@ public class ExtraMethodsDAO {
 
 		urlConnection.setRequestProperty("Authorization", authHeaderValue);
 		
-		// Send post request
-		urlConnection.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-		wr.writeBytes(restcallvo.getData());
-		wr.flush();
-		wr.close();
+		if(!restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayloadStatus/latest")) {
+			// Send post request
+			urlConnection.setDoOutput(true);
+			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+			wr.writeBytes(restcallvo.getData());
+			wr.flush();
+			wr.close();
+        }
 		
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(urlConnection.getInputStream()));
+		BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 		String inputLine;
 		StringBuffer responses = new StringBuffer();
 
@@ -121,7 +122,6 @@ public class ExtraMethodsDAO {
 			responses.append(inputLine);
 		}
 		in.close();
-		
 		return responses.toString();
 	}
 	
@@ -139,13 +139,11 @@ public class ExtraMethodsDAO {
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
-				System.out.println("in while in topup call");
-				
 				RestCallVO restcallvo  = new RestCallVO();
 				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
 				
-				String response = restcall(restcallvo);
+				String response = restcall(restcallvo).toString();
 				
 				Gson gson = new Gson();
 				
@@ -159,17 +157,15 @@ public class ExtraMethodsDAO {
 				
 					//  0A0000000042290100000000000000000000000017.
 				
-				System.out.println("tatareferencenum:----- "+responsevo.getPayload_dl().getTag());
+				System.out.println("tatareferencenum:----- "+responsevo.getPayloads_dl().getTag());
 
-					if (responsevo.getPayload_dl().getTag().startsWith("T") == true) {
+					if (responsevo.getPayloads_dl().getTag().startsWith("T") == true) {
 						
-						System.out.println("in if topupstatus update");
+						PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, AcknowledgeDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
 
-						PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, ModifiedDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
-
-						pstmt1.setInt(1, responsevo.getPayload_dl().getTransmissionStatus());
-						pstmt1.setString(2, responsevo.getPayload_dl().getDeveui());
-						pstmt1.setString(3, responsevo.getPayload_dl().getTag());
+						pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayloads_dl().getDeveui());
+						pstmt1.setString(3, responsevo.getPayloads_dl().getTag());
 
 						if (pstmt1.executeUpdate() > 0) {
 							String result = "Success";
@@ -220,13 +216,13 @@ public class ExtraMethodsDAO {
 				
 					//  0A0000000042290100000000000000000000000017.
 
-					if (responsevo.getPayload_dl().getTag().startsWith("C") == true) {
+					if (responsevo.getPayloads_dl().getTag().startsWith("C") == true) {
 
 						PreparedStatement pstmt1 = con.prepareStatement("UPDATE command SET Status = ?, ModifiedDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
 
-						pstmt1.setInt(1, responsevo.getPayload_dl().getTransmissionStatus());
-						pstmt1.setString(2, responsevo.getPayload_dl().getDeveui());
-						pstmt1.setString(3, responsevo.getPayload_dl().getTag());
+						pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayloads_dl().getDeveui());
+						pstmt1.setString(3, responsevo.getPayloads_dl().getTag());
 
 						if (pstmt1.executeUpdate() > 0) {
 							String result = "Success";

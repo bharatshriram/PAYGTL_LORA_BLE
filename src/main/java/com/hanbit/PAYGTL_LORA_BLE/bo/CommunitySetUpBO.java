@@ -153,7 +153,7 @@ public class CommunitySetUpBO {
 					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 		
-		if(!communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName())) {
+		if(communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName())) {
 			throw new BusinessException("CUSTOMER ALREADY REGISTERED");
 		}
 

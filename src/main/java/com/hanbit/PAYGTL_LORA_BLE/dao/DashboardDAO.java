@@ -77,13 +77,20 @@ public class DashboardDAO {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
-				dashboardvo.setBlock(rs.getString("BlockName"));
+				dashboardvo.setCommunityName(rs.getString("CommunityName"));
+				dashboardvo.setBlockName(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
+				dashboardvo.setMeterID(rs.getString("MeterID"));
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")*100));
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				dashboardvo.setValve(rs.getInt("SolonideStatus"));
+				
+				if(rs.getInt("SolonideStatus") == 1) {
+					dashboardvo.setValveStatus("Closed");	
+				}else {
+					dashboardvo.setValveStatus("Open");
+				}
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
 				
 				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
@@ -91,8 +98,12 @@ public class DashboardDAO {
 				}else {
 					dashboardvo.setBatteryColor("GREEN");
 				}
+				if(rs.getInt("TamperDetect") == 1) {
+					dashboardvo.setTamperStatus("YES");	
+				}else {
+					dashboardvo.setTamperStatus("NO");
+				}
 				
-				dashboardvo.setTamper(rs.getInt("TamperDetect"));
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();

@@ -82,7 +82,7 @@ public class ReportsDAO {
 
 			financialreportsresponselist = new ArrayList<FinancialReportsResponseVO>();
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
-			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : "ORDER BY CustomerID ASC"));
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : " ORDER BY CustomerID ASC"));
 			rs1 = pstmt1.executeQuery();
 			while(rs1.next()) {
 				
@@ -1004,18 +1004,53 @@ public class ReportsDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<AlarmsResponseVO> no_amr_list = null;
-
+		List<AlarmsResponseVO> alarmsResponseList = null;
+		int noAMRInterval = 0;
+		double lowBatteryVoltage = 0.0;
+		
 		try {
 
 			con = getConnection();
-			no_amr_list = new LinkedList<AlarmsResponseVO>();
-			AlarmsResponseVO alarmvo = null;
-			String meterQuery = "SELECT cmd.CommunityID, cmd.BlockID, cmd.CustomerID, cmd.MeterID, als.NoAMRInterval, als.LowBatteryVoltage, als.TimeOut from customermeterdetails AS cmd LEFT JOIN alertsettings AS als ON als.CommunityID = cmd.CommunityID <change> ORDER BY cmd.CustomerID DESC";
-			pstmt = con.prepareStatement(meterQuery.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE cmd.CommunityID = (SELECT CommunityID FROM block WHERE BlockID = "+id+")" :""));
+			alarmsResponseList = new LinkedList<AlarmsResponseVO>();
+			AlarmsResponseVO alarmsResponseVO = null;
+			
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
+			ResultSet rs1 = pstmt1.executeQuery();
+			if(rs1.next()) {
+				
+				noAMRInterval = rs1.getInt("NoAMRInterval");
+				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+			}
+			
+			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : " ORDER BY CustomerID ASC"));
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				
+				PreparedStatement pstmt2 = con.prepareStatement("SELECT TIMESTAMPDIFF(MINUTE, (SELECT IoTTimeStamp FROM balancelog WHERE MeterID = ? ORDER BY ReadingID DESC LIMIT 1,1), NOW()) AS Minutes");
+				pstmt2.setString(1, rs.getString("MeterID"));
+				ResultSet rs2 = pstmt2.executeQuery();
+				if(rs2.next()) {
+					
+					if(rs2.getInt("Minutes")>noAMRInterval) {
+						alarmsResponseVO = new AlarmsResponseVO();
+						
+						alarmsResponseVO.setCommunityName(rs.getString("CommunityName"));
+						alarmsResponseVO.setBlockName(rs.getString("BlockName"));
+						alarmsResponseVO.setHouseNumber(rs.getString("HouseNumber"));
+						alarmsResponseVO.setMeterID(rs.getString("MeterID"));
+						alarmsResponseVO.setDifference(rs2.getInt("Minutes"));
+						PreparedStatement pstmt3 = con.prepareStatement("SELECT IoTTimeStamp, TamperDetect, LowBattery FROM displaybalancelog WHERE MeterID = ?");
+						pstmt3.setString(1, rs.getString("MeterID"));
+						ResultSet rs3 = pstmt3.executeQuery();
+						if(rs3.next()) {
+							alarmsResponseVO.setDateTime(rs3.getString("IotTimeStamp"));	
+						}
+						alarmsResponseList.add(alarmsResponseVO);
+					}
+					
+				}
 				
 			}
 			
@@ -1026,7 +1061,7 @@ public class ReportsDAO {
 			rs.close();
 			con.close();
 		}
-		return no_amr_list;
+		return alarmsResponseList;
 	}
 
 }

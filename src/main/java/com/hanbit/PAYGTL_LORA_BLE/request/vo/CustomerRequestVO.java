@@ -23,7 +23,6 @@ public class CustomerRequestVO {
 	private int tariffID;
 	private String CRNNumber;
 	private int createdByID;
-	private int createdByRoleID;
 	private int loggedInRoleID;
 	private String loggedInUserID;
 	
@@ -98,12 +97,6 @@ public class CustomerRequestVO {
 	}
 	public void setCreatedByID(int createdByID) {
 		this.createdByID = createdByID;
-	}
-	public int getCreatedByRoleID() {
-		return createdByRoleID;
-	}
-	public void setCreatedByRoleID(int createdByRoleID) {
-		this.createdByRoleID = createdByRoleID;
 	}
 	public String getCRNNumber() {
 		return CRNNumber;

@@ -1,6 +1,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
-public class payload_dl {
+public class payloads_dl {
 	
     private int port;
     private String deveui;
