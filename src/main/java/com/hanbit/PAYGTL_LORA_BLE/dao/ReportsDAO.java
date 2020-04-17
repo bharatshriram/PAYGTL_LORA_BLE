@@ -82,7 +82,7 @@ public class ReportsDAO {
 
 			financialreportsresponselist = new ArrayList<FinancialReportsResponseVO>();
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
-			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : " ORDER BY CustomerID ASC"));
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE cmd.BlockID = "+id : " ORDER BY cmd.CustomerID ASC"));
 			rs1 = pstmt1.executeQuery();
 			while(rs1.next()) {
 				
@@ -92,8 +92,8 @@ public class ReportsDAO {
 				financialreportsresponsevo.setHouseNumber(rs1.getString("HouseNumber"));
 				financialreportsresponsevo.setMeterID(rs1.getString("MeterID"));
 				
-				String query1 = "SELECT SUM(Amount) AS Total FROM topup WHERE MeterID = ? AND YEAR(TransactionDate) = ? AND STATUS = 2";
-				query1 = query1.replaceAll("<change>", (financialreportsrequestvo.getMonth() != 0) ? "AND MONTH(TransactionDate) = "+financialreportsrequestvo.getMonth() : "");
+				String query1 = "SELECT SUM(Amount) AS Total FROM topup WHERE MeterID = ? AND YEAR(TransactionDate) = ? <change> AND STATUS = 2";
+				query1 = query1.replaceAll("<change>", (financialreportsrequestvo.getMonth() > 0) ? "AND MONTH(TransactionDate) = "+financialreportsrequestvo.getMonth() : "");
 				pstmt = con.prepareStatement(query1);
 				pstmt.setString(1, rs1.getString("MeterID"));
 				pstmt.setInt(2, financialreportsrequestvo.getYear());
@@ -1023,7 +1023,7 @@ public class ReportsDAO {
 			}
 			
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE BlockID = "+id : " ORDER BY CustomerID ASC"));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE cmd.BlockID = "+id : " ORDER BY cmd.CustomerID ASC"));
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -1041,11 +1041,22 @@ public class ReportsDAO {
 						alarmsResponseVO.setHouseNumber(rs.getString("HouseNumber"));
 						alarmsResponseVO.setMeterID(rs.getString("MeterID"));
 						alarmsResponseVO.setDifference(rs2.getInt("Minutes"));
-						PreparedStatement pstmt3 = con.prepareStatement("SELECT IoTTimeStamp, TamperDetect, LowBattery FROM displaybalancelog WHERE MeterID = ?");
+						PreparedStatement pstmt3 = con.prepareStatement("SELECT BatteryVoltage, TamperDetect, IoTTimeStamp, TamperDetect, LowBattery FROM displaybalancelog WHERE MeterID = ?");
 						pstmt3.setString(1, rs.getString("MeterID"));
 						ResultSet rs3 = pstmt3.executeQuery();
 						if(rs3.next()) {
-							alarmsResponseVO.setDateTime(rs3.getString("IotTimeStamp"));	
+							alarmsResponseVO.setDateTime(rs3.getString("IotTimeStamp"));
+							if(rs3.getInt("LowBattery")==1 || rs3.getFloat("BatteryVoltage") < lowBatteryVoltage) {
+								alarmsResponseVO.setBatteryVoltage(rs3.getString("BatteryVoltage"));	
+							}else {
+								alarmsResponseVO.setBatteryVoltage("---");
+							}
+							if(rs3.getInt("TamperDetect")==1) {
+								alarmsResponseVO.setTamper("YES");	
+							}else {
+								alarmsResponseVO.setTamper("---");
+							}
+							
 						}
 						alarmsResponseList.add(alarmsResponseVO);
 					}
