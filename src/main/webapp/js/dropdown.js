@@ -6,7 +6,7 @@
 
 $(function() {
 	
-	if(sessionStorage.getItem("roleID") == 1){
+	/*if(sessionStorage.getItem("roleID") == 1){
 	
 		$("#communityAdmin").hide();
 		$("#blockAdmin").hide();
@@ -24,7 +24,7 @@ $(function() {
 		
 	}else if(sessionStorage.getItem("roleID") == 4){
 	
-	}
+	}*/
 	
 	$.getJSON("/PAYGTL_LORA_BLE/communities/" + sessionStorage.getItem("roleID") + "/"
 			+ sessionStorage.getItem("ID"), function(data) {
@@ -61,7 +61,8 @@ function showBlockbyCommunity(communityId){
 
 	$("#selectBlockBasedonCommunity").append("<option>" + "Select Block" + "</option>");
 	
-	$.getJSON("/PAYGTL_LORA_BLE/blocks/" + communityId, function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/blocks/"+ sessionStorage.getItem("roleID") + "/"
+			+ sessionStorage.getItem("ID")+ "/" + communityId, function(data) {
 		var Options = "";
 		$.each(data.dropDownBlocks, function(key, value) {
 			Options = Options + "<option value='" + key + "'>" + value
@@ -80,7 +81,8 @@ function showCustomerbyBlock(blockId){
 
 	$("#selectHouseBasedonBlock").append("<option>" + "Select House" + "</option>");
 	
-	$.getJSON("/PAYGTL_LORA_BLE/customers/" + blockId, function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/customers/" + sessionStorage.getItem("roleID") + "/"
+			+ sessionStorage.getItem("ID")+ "/" + blockId, function(data) {
 		var Options = "";
 		$.each(data.dropDownHouses, function(key, value) {
 			Options = Options + "<option value='" + key + "'>" + value

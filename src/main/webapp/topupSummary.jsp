@@ -20,8 +20,16 @@
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+	
+	<link rel="stylesheet" href="common/css/bootstrap-material-datetimepicker.css" />
+	
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
+	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 
-<title>Configuration</title>
+<title>Top Up Summary</title>
 </head>
 
 
@@ -48,12 +56,12 @@
 			</div>
 			<div class="col-md-10 mt-4 mb-4">
 				 <!--Right start-->
-        <div class="row mb-4">
+        <div class="row mb-4" id="form">
           <div class="col-md-10 m-auto">
             <div class="card">
-                <div class="card-header bg-primary cardHeading">Configuration</div>
+                <div class="card-header bg-primary cardHeading">Top Up Summary</div>
                 <div class="card-body scroll right-block">
-                <form id="configurationDetails">
+                <form id="topupDetails">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
@@ -83,37 +91,24 @@
                               <input type="text" class="form-control" id="AMR_topup" name="AMR_topup" disabled>
                             </div>
                           </div>
-                          
                           <div class="col-md-4">
-                            <div class="input-group form-group">
-                              <label class="bmd-label-floating">Command Type</label>
-                               <select class="form-control" id="selectcommandType" name="selectcommandType">
-                               <option style = "color: Red" value="-1" selected>Select Command Type</option>
-                                <option value="-1">Select</option>
-                                 <option value="5">RTC</option>
-                                  <option value="3">Clear Meter</option>
-                                  <option value="7">Active Mode</option>
-                               <!-- <option value="10">Set Weekend</option> -->
-                                 <option value="1">Clear Tamper</option>
-                                  <option value="40">Solenoid Open</option>
-                                  <option value="0">Solenoid Close</option>
-                                                               <!--  <option value="8">Shutdown Mode</option> -->
-                                  <option value="6">Set Default Read</option>
-                                 <option value="9">Maintenance Mode</option>
-                              </select>
+                            <div id="formcurrentBalance_topup" class="input-group form-group">
+                            <label class="bmd-label-floating">Start Date</label> 
+                             <!--  <input type="text" class="form-control datepicker" id="start_date" name="start_date"> -->
+                             <input type="text" id="start_date" name="start_date" class="form-control" >
                             </div>
                           </div>
-                          <!-- <div class="col-md-4">
-                            <div class="custom-control custom-checkbox mt-4">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                <label class="custom-control-label" for="defaultUnchecked">Set Tariff</label>
+                          <div class="col-md-4">
+                            <div id="formdateTime_topup" class="input-group form-group">
+                              <label class="bmd-label-floating">Date & Time</label>
+                              <input type="text" class="form-control" id="end_date" name="end_date">
                             </div>
-                          </div> -->
+                          </div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" id="configuration" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
+                            <button type="button" id="topupSummary" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
                         </div>
                     </div>
                     </form>
@@ -122,6 +117,43 @@
           </div>
         </div>
        
+			<div id="tablereport"  style = "display:none">
+			<div class="row mb-4">
+					<div class="col-md-6">
+						<h3>Top Up Summary Details</h3>
+					</div>
+					<div class="col-md-6">
+						<button 
+							class="btn btn-raised btn-primary float-right"
+							>
+							<span>Back</span>
+						</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<table id="topupsummaryTable"
+							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+							style="width: 100%">
+							<thead>
+								<tr>
+									<th>Meter ID</th>
+									<th>Reading</th>
+									<th>Balance</th>
+									<th>Battery</th>
+									<th>Tariff</th>
+									<th>Alarm Credit</th>
+									<th>Emergency Credit</th>
+									<th>Date Time</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				</div>
+			
 
         <!--Right end-->
 			</div>
@@ -136,6 +168,12 @@
     crossorigin="anonymous"></script> -->
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	
+	        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+		
+		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="common/js/bootstrap-material-datetimepicker.js"></script>
+	
 
 	<script src="common/js/bootstrap.min.js"></script>
 
@@ -143,8 +181,10 @@
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
+
+
 	<script src="js/dropdown.js"></script>
-	<script src="js/configuration.js"></script>
+	<script src="js/topupsummary.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -153,6 +193,10 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
+		
+
+	
+		
 	<script>
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
@@ -163,10 +207,14 @@
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+		
+		
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+		
+		
 		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
@@ -177,15 +225,82 @@
 				$('.left ').toggleClass('fliph');
 
 			});
+			/* $('.datepicker').pickadate({
+				labelMonthNext: 'Go to the next month',
+				labelMonthPrev: 'Go to the previous month',
+				labelMonthSelect: 'Pick a month from the dropdown',
+				labelYearSelect: 'Pick a year from the dropdown',
+				selectMonths: true,
+				selectYears: true
+				})
+				
+			    
+			    $('select').material_select();   */  
 
 		});
 	</script>
-	<script>
-		$(document).ready(function() {
-			$('#communityTable').DataTable();
-		});
-	</script>
+	
+	
+	
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+			$('#start_date').bootstrapMaterialDatePicker
+			({
+				time: false,
+				clearButton: true,
+				 maxDate: new Date(currentYear, currentMonth, currentDate)
+			});
 
+			$('#end_date').bootstrapMaterialDatePicker
+			({
+				time: false,
+				clearButton: true,
+				 maxDate: new Date(currentYear, currentMonth, currentDate)
+			});
+			
+			/* $('#time').bootstrapMaterialDatePicker
+			({
+				date: false,
+				shortTime: false,
+				format: 'HH:mm'
+			});
+
+			$('#date-format').bootstrapMaterialDatePicker
+			({
+				format: 'dddd DD MMMM YYYY - HH:mm'
+			});
+			$('#date-fr').bootstrapMaterialDatePicker
+			({
+				format: 'DD/MM/YYYY HH:mm',
+				lang: 'en',
+				weekStart: 1, 
+				cancelText : 'ANNULER',
+				nowButton : true,
+				switchOnClick : true
+			});
+
+			$('#date-end').bootstrapMaterialDatePicker
+			({
+				weekStart: 0, format: 'DD/MM/YYYY HH:mm'
+			});
+			$('#date-start').bootstrapMaterialDatePicker
+			({
+				weekStart: 0, format: 'DD/MM/YYYY HH:mm', shortTime : true
+			}).on('change', function(e, date)
+			{
+				$('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
+			});
+
+			$('#min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() }); */
+
+			$.material.init()
+		});
+		</script>
+		
 </body>
-
 </html>

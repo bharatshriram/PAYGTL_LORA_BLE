@@ -104,12 +104,12 @@
 									<label class="bmd-label-floating">Community Name</label> 
 									<select
 										class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
-						<option style = "color: Red" value="" disabled selected>Select Community</option><!--  <option>Select Community</option> --> 
+						<!--  <option>Select Community</option> --> 
 									</select>
 									
-										<input
+										<!-- <input
 										type="text" class="form-control" name="communityAdmin"
-										id="communityAdmin">
+										id="communityAdmin"> -->
 										
 								</div>
 							</div>
@@ -117,12 +117,12 @@
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Select Block</label> <select
 										class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity">
-						<option style = "color: Red" value="" disabled selected>Select Block</option><!--  <option>Select Community</option> --> 
+						<!-- <option style = "color: Red" value="" disabled selected>Select Block</option> --><!--  <option>Select Community</option> --> 
 									</select>
 									
-									<input
+									<!-- <input
 										type="text" class="form-control" name="blockAdmin"
-										id="blockAdmin">
+										id="blockAdmin"> -->
 									
 								</div>
 							</div>
