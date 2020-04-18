@@ -17,6 +17,8 @@ public class UserDetails {
 	private int ID;
 	private int customerID;
 	private String communityName;
+	private int pendingCommandID;
+	private int pendingTransactionID;
 	
 	public String getCommunityName() {
 		return communityName;
@@ -66,6 +68,32 @@ public class UserDetails {
 	public void setID(int iD) {
 		ID = iD;
 	}
-	
+	public int getRoleID() {
+		return roleID;
+	}
+	public void setRoleID(int roleID) {
+		this.roleID = roleID;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public int getPendingCommandID() {
+		return pendingCommandID;
+	}
+	public void setPendingCommandID(int pendingCommandID) {
+		this.pendingCommandID = pendingCommandID;
+	}
+	public int getPendingTransactionID() {
+		return pendingTransactionID;
+	}
+	public void setPendingTransactionID(int pendingTransactionID) {
+		this.pendingTransactionID = pendingTransactionID;
+	}
+	public void setCommunityID(int communityID) {
+		this.communityID = communityID;
+	}
 	
 }

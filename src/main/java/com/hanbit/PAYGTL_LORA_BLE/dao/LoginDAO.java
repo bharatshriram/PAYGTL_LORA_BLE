@@ -51,6 +51,8 @@ public class LoginDAO {
 
 		PreparedStatement pstmt = null;
 		ResultSet resultSet = null;
+		PreparedStatement pstmt1 = null;
+		ResultSet resultSet1 = null;
 		ResponseVO responsevo = new ResponseVO();
 		UserDetails userDetails = new UserDetails();
 
@@ -73,6 +75,16 @@ public class LoginDAO {
 							userDetails.setuserName(resultSet.getString("UserName"));
 							userDetails.setCommunity(resultSet.getInt("CommunityID"));
 							userDetails.setID(resultSet.getInt("ID"));
+							if(userDetails.getCustomerID()!=0) {
+								pstmt1 = con.prepareStatement("SELECT TransactionID, CommandType from command WHERE CustomerID = ? and Status = 0");
+								pstmt1.setInt(1, userDetails.getCustomerID());
+								resultSet1 = pstmt1.executeQuery();
+								if(resultSet1.next()) {
+									userDetails.setPendingCommandID(resultSet1.getInt("CommandType"));
+									userDetails.setPendingTransactionID(resultSet1.getInt("TransactionID"));
+								}
+							}
+							
 							responsevo.setUserDetails(userDetails);
 							responsevo.setResult("Success");
 							responsevo.setMessage("Successfully Logged In");

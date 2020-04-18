@@ -153,7 +153,7 @@ public class AccountDAO {
 					
 					//check for payment status with the payment gateway
 				
-					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, PaymentStatus, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, NOW())";
+					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, NOW())";
 					ps = con.prepareStatement(sql);
 					ps.setString(1, transactionIDForTata);
 					ps.setInt(2, topupvo.getCommunityID());
@@ -162,9 +162,10 @@ public class AccountDAO {
 					ps.setString(5, topupvo.getMeterID());
 					ps.setInt(6, topupvo.getTariffID());
 					ps.setFloat(7, topupvo.getAmount());
-					ps.setInt(8, 0); // payment status from gateway
-					ps.setFloat(9, topupvo.getTransactedByID());
-					ps.setInt(10, topupvo.getTransactedByRoleID());
+					ps.setString(8, topupvo.getModeOfPayment());
+					ps.setInt(9, 0); // payment status from payment gateway
+					ps.setFloat(10, topupvo.getTransactedByID());
+					ps.setInt(11, topupvo.getTransactedByRoleID());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";
@@ -199,8 +200,8 @@ public class AccountDAO {
 			
 			// hit tata gateway api for the status of the pending transactions----code from TopupDAO in lora_Gasprepaid project
 			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
-							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.blockID = b.blockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CustomerID = cmd.CustomerID <change>";
 			
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CustomerID = "+id:""));
@@ -216,6 +217,7 @@ public class AccountDAO {
 				statusvo.setHouseNumber(rs.getString("HouseNumber"));
 				statusvo.setMeterID(rs.getString("MeterID"));
 				statusvo.setAmount(rs.getString("Amount"));
+				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				statusvo.setTransactionDate(rs.getString("TransactionDate"));

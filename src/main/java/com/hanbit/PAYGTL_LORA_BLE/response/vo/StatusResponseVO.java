@@ -24,6 +24,7 @@ public class StatusResponseVO {
 	private String transactionDate;
 	private String acknowledgeDate;
 	private String Status;
+	private String modeOfPayment;
 	private String paymentStatus;
 	private String transactedByUserName;
 	private String transactedByRoleDescription;
@@ -131,6 +132,12 @@ public class StatusResponseVO {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public String getModeOfPayment() {
+		return modeOfPayment;
+	}
+	public void setModeOfPayment(String modeOfPayment) {
+		this.modeOfPayment = modeOfPayment;
 	}
 	
 }

@@ -16,7 +16,9 @@ public class FinancialReportsResponseVO {
 	private String houseNumber;
 	private String meterID;
 	private int totalAmount;
-	private int totalForSelectedPeriod;
+	private int totalAmountForSelectedPeriod;
+	private int totalUnits;
+	private int totalUnitsForSelectedPeriod;
 	private List<FinancialReportsResponseVO> data;
 
 	public int getTotalAmount() {
@@ -67,12 +69,28 @@ public class FinancialReportsResponseVO {
 		this.meterID = meterID;
 	}
 
-	public int getTotalForSelectedPeriod() {
-		return totalForSelectedPeriod;
+	public int getTotalAmountForSelectedPeriod() {
+		return totalAmountForSelectedPeriod;
 	}
 
-	public void setTotalForSelectedPeriod(int totalForSelectedPeriod) {
-		this.totalForSelectedPeriod = totalForSelectedPeriod;
+	public void setTotalAmountForSelectedPeriod(int totalAmountForSelectedPeriod) {
+		this.totalAmountForSelectedPeriod = totalAmountForSelectedPeriod;
+	}
+
+	public int getTotalUnits() {
+		return totalUnits;
+	}
+
+	public void setTotalUnits(int totalUnits) {
+		this.totalUnits = totalUnits;
+	}
+
+	public int getTotalUnitsForSelectedPeriod() {
+		return totalUnitsForSelectedPeriod;
+	}
+
+	public void setTotalUnitsForSelectedPeriod(int totalUnitsForSelectedPeriod) {
+		this.totalUnitsForSelectedPeriod = totalUnitsForSelectedPeriod;
 	}
 	
 }

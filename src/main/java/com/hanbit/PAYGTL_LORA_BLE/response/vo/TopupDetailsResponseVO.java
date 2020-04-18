@@ -66,4 +66,5 @@ public class TopupDetailsResponseVO {
 	public void setTariffID(int tariffID) {
 		this.tariffID = tariffID;
 	}
+
 }

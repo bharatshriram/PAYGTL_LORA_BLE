@@ -80,16 +80,19 @@ public class DashboardDAO {
 				dashboardvo.setCommunityName(rs.getString("CommunityName"));
 				dashboardvo.setBlockName(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
+				dashboardvo.setFirstName(rs.getString("FirstName"));
+				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
-				dashboardvo.setTariff((rs.getFloat("TariffAmount")*100));
+				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
+				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				
-				if(rs.getInt("SolonideStatus") == 1) {
-					dashboardvo.setValveStatus("Closed");	
+				if(rs.getInt("SolonideStatus") == 0) {
+					dashboardvo.setValveStatus("OPEN");	
 				}else {
-					dashboardvo.setValveStatus("Open");
+					dashboardvo.setValveStatus("CLOSED");
 				}
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
 				
