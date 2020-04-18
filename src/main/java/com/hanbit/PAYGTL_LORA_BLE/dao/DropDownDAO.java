@@ -53,7 +53,7 @@ public class DropDownDAO {
 		return communities;
 	}
 
-	public HashMap<Integer, String> getallblocks(int communityID) {
+	public HashMap<Integer, String> getallblocks(int communityID, int roleid, int id) {
 		// TODO Auto-generated method stub
 
 		HashMap<Integer, String> blocks = new HashMap<Integer, String>(); 
@@ -61,8 +61,8 @@ public class DropDownDAO {
 
 		try {
 			con = getConnection();
-			PreparedStatement pstmt = con
-					.prepareStatement("SELECT BlockID, BlockName FROM block WHERE CommunityID=?");
+			String query = "SELECT BlockID, BlockName FROM block WHERE CommunityID=? <change>";
+			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY BlockID ASC" : (roleid == 2 || roleid == 5) ? "AND BlockID = "+id+ " ORDER BY BlockID ASC" : (roleid == 3) ? "AND BlockID = (SELECT BlockID FROM customermeterdetails WHERE CustomerID = "+id+")":""));
 			pstmt.setInt(1, communityID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
@@ -75,7 +75,7 @@ public class DropDownDAO {
 		return blocks;
 	}
 
-	public HashMap<Integer, String> getallhouses(int blockID) {
+	public HashMap<Integer, String> getallhouses(int blockID, int roleid, int id) {
 		// TODO Auto-generated method stubArrayList<String> blocklist=new
 		// ArrayList<String>();
 		HashMap<Integer, String> houses = new HashMap<Integer, String>();
@@ -83,8 +83,8 @@ public class DropDownDAO {
 		Connection con = null;
 		try {
 			con = getConnection();
-			PreparedStatement pstmt = con
-					.prepareStatement("SELECT CustomerID, HouseNumber from customermeterdetails where BlockID = ?");
+			String query = "SELECT CustomerID, HouseNumber from customermeterdetails where BlockID = ? <change>";
+			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 2 || roleid == 4 || roleid == 5) ? "ORDER BY CustomerID ASC" : (roleid == 3) ? " AND CustomerID = "+id :""));
 			pstmt.setInt(1, blockID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {

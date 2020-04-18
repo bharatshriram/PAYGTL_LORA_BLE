@@ -36,26 +36,26 @@ public class DropDownController {
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/blocks/{communityID}",method = RequestMethod.GET, 
+	@RequestMapping(value = "/blocks/{roleID}/{id}/{communityID}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO getallblocks(@PathVariable ("communityID") int communityID) {
+	public @ResponseBody ResponseVO getallblocks(@PathVariable("roleID") int roleid, @PathVariable("id") int id, @PathVariable ("communityID") int communityID) {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();
 		
-		responsevo.setDropDownBlocks(dropdowndao.getallblocks(communityID));
+		responsevo.setDropDownBlocks(dropdowndao.getallblocks(communityID, roleid, id));
 		
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/customers/{blockID}",method = RequestMethod.GET, 
+	@RequestMapping(value = "/customers/{roleID}/{id}/{blockID}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO getallhouses(@PathVariable ("blockID") int blockID) {
+	public @ResponseBody ResponseVO getallhouses(@PathVariable("roleID") int roleid, @PathVariable("id") int id, @PathVariable ("blockID") int blockID) {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();
 		
-		responsevo.setDropDownHouses(dropdowndao.getallhouses(blockID));
+		responsevo.setDropDownHouses(dropdowndao.getallhouses(blockID, roleid, id));
 		
 		return responsevo;
 	}
