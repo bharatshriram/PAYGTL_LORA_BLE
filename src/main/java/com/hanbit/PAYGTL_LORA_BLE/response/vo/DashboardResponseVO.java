@@ -20,6 +20,7 @@ public class DashboardResponseVO {
 	private float reading;
 	private float balance;
 	private float emergencyCredit;
+	private float alarmCredit;
 	private String battery;
 	private String valveStatus;
 	private float tariff;
@@ -173,6 +174,14 @@ public class DashboardResponseVO {
 
 	public void setData(List<DashboardResponseVO> data) {
 		this.data = data;
+	}
+
+	public float getAlarmCredit() {
+		return alarmCredit;
+	}
+
+	public void setAlarmCredit(float alarmCredit) {
+		this.alarmCredit = alarmCredit;
 	}
 	
 }

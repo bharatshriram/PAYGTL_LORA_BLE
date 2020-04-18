@@ -9,12 +9,14 @@ import java.sql.SQLException;
 import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -48,8 +50,21 @@ public class DashboardController {
 
 		try {
 			responsevo = dashboarddao.postDashboarddetails(json);
-			ExtraMethodsDAO extraMethodsDAO = new ExtraMethodsDAO();
-			extraMethodsDAO.topupstatusupdatecall();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/datafrommobile", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	ResponseVO datafrommobile(@RequestBody DashboardRequestVO dashboardRequestVO) {
+
+		DashboardDAO dashboarddao = new DashboardDAO();
+		ResponseVO responsevo = new ResponseVO();
+
+		try {
+			responsevo = dashboarddao.datafrommobile(dashboardRequestVO);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
