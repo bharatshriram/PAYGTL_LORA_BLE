@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Top Up</title>
+<title>Configuration</title>
 </head>
 
 
@@ -51,9 +51,9 @@
         <div class="row mb-4">
           <div class="col-md-10 m-auto">
             <div class="card">
-                <div class="card-header bg-primary cardHeading">Top Up</div>
+                <div class="card-header bg-primary cardHeading">Configuration</div>
                 <div class="card-body scroll right-block">
-                <form id="topupDetails">
+                <form id="configurationDetails">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
@@ -83,41 +83,12 @@
                               <input type="text" class="form-control" id="AMR_topup" name="AMR_topup" disabled>
                             </div>
                           </div>
-                          <div class="col-md-4">
-                            <div id="formcurrentBalance_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Current Balance</label>
-                              <input type="text" class="form-control" id="currentBalance_topup" name="currentBalance_topup" disabled>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Date & Time</label>
-                              <input type="text" class="form-control" id="dateTime_topup" name="dateTime_topup" disabled>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div id="formunit_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Unit Rate</label>
-                              <input type="text" class="form-control" id="unit_topup" name="unit_topup" disabled>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div id="formemergency_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Emergency Credit</label>
-                              <input type="text" class="form-control" id="emergency_topup" name="emergency_topup" disabled>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <div id="formalarm_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Alarm Credit</label>
-                              <input type="text" class="form-control" id="alarm_topup" name="alarm_topup" disabled>
-                              <input type = "hidden" id="tariffID">
-                            </div>
-                          </div>
+                          
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">ReCharge Amount</label>
-                              <input type="text" class="form-control" id="recharge_topup" name="recharge_topup">
+                              <label class="bmd-label-floating">Command Type</label>
+                               <select class="form-control" id="selectcommandType" name="selectcommandType">
+                              </select>
                             </div>
                           </div>
                           <!-- <div class="col-md-4">
@@ -161,7 +132,7 @@
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 	<script src="js/dropdown.js"></script>
-	<script src="js/topup.js"></script>
+	<script src="js/configuration.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"

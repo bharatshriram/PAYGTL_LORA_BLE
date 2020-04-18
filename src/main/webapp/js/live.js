@@ -28,16 +28,32 @@
 										},
 										},
 										"columns" : [
-										 /*{
+										 {
 										    	"data" : "communityName"
-										 },*/{
-										"data" : "block"
+										 },{
+										"data" : "blockName"
 										},{
+											"mData" : "action",
+											"render" : function(data, type, row) {
+												
+												return '<div class=btn btn-secondary data-toggle="tooltip" data-placement=top ' +
+														'title='+row.blockName+'>' 
+												+row.HouseNumber +
+												 '</div>';
+												
+												/*return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
+																											+ row.customerID
+																											+ ")'>"
+																											+ "ABC"
+																											+ "</a>"*/
+											}
+											}
+										 /*,{
 										"data" : "HouseNumber"
+										}*/,{
+										"data" : "meterID"
 										},{
-										"data" : "1212"
-										},{
-										"data" : "54545"
+										"data" : "meterID"
 										},{
 										"data" : "reading"
 										},{
@@ -47,11 +63,11 @@
 										},{
 										"data" : "battery"
 										},{
-										"data" : "valve"
+										"data" : "valveStatus"
 										},{
 										"data" : "tariff"
 										},{
-										"data" : "tamper"
+										"data" : "tamperStatus"
 										},{
 										"data" : "timeStamp"
 										}

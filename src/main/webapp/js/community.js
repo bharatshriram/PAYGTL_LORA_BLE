@@ -32,11 +32,11 @@ return json.data;
                         {
 "data" : "communityName"
 },{
+"data" : "address"
+},{
 "data" : "email"
 },{
 "data" : "mobileNumber"
-},{
-"data" : "address"
 }
 ,{
 	"mData" : "action",
