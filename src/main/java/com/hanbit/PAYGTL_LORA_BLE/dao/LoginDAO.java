@@ -8,15 +8,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
@@ -33,8 +26,6 @@ import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
  * 
  */
 public class LoginDAO {
-
-	public static int CommunityID;
 
 	public Connection con = null;
 

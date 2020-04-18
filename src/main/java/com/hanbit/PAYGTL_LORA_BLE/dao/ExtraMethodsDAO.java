@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -125,7 +126,7 @@ public class ExtraMethodsDAO {
 		return responses.toString();
 	}
 	
-	@Scheduled(cron = "*/30 * * * *") 
+	@Scheduled(cron="0 0/30 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -184,7 +185,7 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-	@Scheduled(cron = "*/30 * * * *") 
+	@Scheduled(cron="0 0/30 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;

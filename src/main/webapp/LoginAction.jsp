@@ -10,10 +10,8 @@
 	<%
 		
 		String role_ID = request.getParameter("RoleID");
-		System.out.println("=---=====>" + role_ID);
 		session.setAttribute("roleID", role_ID);
 		String user_id = (String) session.getAttribute("roleID");
-		System.out.println("======>" + user_id);
 		
 	%>
 

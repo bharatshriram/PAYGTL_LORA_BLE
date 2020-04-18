@@ -352,7 +352,7 @@ public class ManagementSettingsDAO {
 				pstmt.setInt(1, holidayID);
 				pstmt.setString(2, holidayvo.getHolidayDate());
 				pstmt.setString(3, holidayvo.getHolidayName());
-				pstmt.setInt(4, LoginDAO.CommunityID);
+//				pstmt.setInt(4, LoginDAO.CommunityID);
 
 				if (pstmt.executeUpdate() > 0) {
 					result = "Success";
@@ -384,7 +384,7 @@ public class ManagementSettingsDAO {
 					.prepareStatement("update HolidayList set HolidayName=?,HolidayDate=?,communityID=? where HolidayID=?");
 			pstmt.setString(1, holidayvo.getHolidayName());
 			pstmt.setString(2, holidayvo.getHolidayDate());
-			pstmt.setInt(3, LoginDAO.CommunityID);
+//			pstmt.setInt(3, LoginDAO.CommunityID);
 			pstmt.setInt(4, holidayvo.getHolidayID());
 
 			if (pstmt.executeUpdate() > 0) {
@@ -411,7 +411,7 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			pstmt = con
 					.prepareStatement("delete from HolidayList where communityID=? and HolidayDate=?");
-			pstmt.setInt(1, LoginDAO.CommunityID);
+//			pstmt.setInt(1, LoginDAO.CommunityID);
 			pstmt.setString(2, holidayvo.getHolidayDate());
 
 			if (pstmt.executeUpdate() > 0) {

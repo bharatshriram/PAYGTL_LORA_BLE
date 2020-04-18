@@ -917,7 +917,7 @@ public class ReportsDAO {
 			con = getConnection();
 			topupsummarydetails = new LinkedList<TopUpSummaryResponseVO>();
 			
-				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
+				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.Status, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
 						"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = t.CustomerID WHERE t.CustomerID = ? AND t.TransactionDate BETWEEN ? AND ? ");
 				
 				pstmt.setInt(1, topupsummaryrequestvo.getCustomerID());
