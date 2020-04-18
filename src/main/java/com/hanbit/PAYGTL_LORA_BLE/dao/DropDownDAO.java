@@ -107,6 +107,7 @@ public class DropDownDAO {
 		
 		try{
 			con = getConnection();
+
 			ps = con.prepareStatement("SELECT cmd.MeterID, t.TariffID, t.TariffName, t.Tariff, t.EmergencyCredit, t.AlarmCredit FROM customermeterdetails AS cmd LEFT JOIN tariff AS t ON t.TariffID = cmd.TariffID WHERE cmd.CustomerID = ?");
 	        ps.setInt(1, customerID);
 	        rs = ps.executeQuery();

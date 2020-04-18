@@ -483,7 +483,7 @@ $(document)
 																	
 																	
 
-																} else if(data.result == "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
+																} else if(data.result == "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
 									
 																	bootbox.alert(data.result,
 																			function(
@@ -557,10 +557,8 @@ $(document)
 																			
 																//alert();
 																window.location = "customerDetails.jsp";
-																		});
-															return false
-															
-
+																return false
+															});
 														} else if(data.result == "Failure"){
 															
 															bootbox.alert(data.result,
@@ -569,9 +567,10 @@ $(document)
 																			
 																//alert();
 																window.location = "customerDetails.jsp";
+																return false
 																
 																		});
-															return false
+															
 														}
 													}
 												});

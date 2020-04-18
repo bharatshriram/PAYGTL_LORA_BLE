@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>DashBoard Details</title>
+<title>Topup Details</title>
 </head>
 
 
@@ -38,12 +38,12 @@
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
-						<h3>Live DashBoard</h3>
+						<h3>Top up Status</h3>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<table id="liveTable"
+						<table id="topstatusTable"
 							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 							style="width: 100%">
 							<thead>
@@ -51,16 +51,14 @@
 									<th>Community Name</th>
 									<th>Block Name</th>
 									<th>House No</th>
-									<th>Meter Sr. No.</th>
 									<th>AMR ID</th>
-									<th>Reading</th>
-									<th>Balance</th>
+									<th>Amount</th>
 									<th>Emergency Credit</th>
-									<th>Battery</th>
-									<th>Valve</th>
-									<th>Tariff</th>
-									<th>Tamper</th>
+									<th>Alarm Credit</th>
 									<th>Date</th>
+									<th>By UserName</th>
+									<th>By Role Description</th>
+									<th>Status</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -87,7 +85,7 @@
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
-	<script src="js/live.js"></script>
+	<script src="js/topup.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
