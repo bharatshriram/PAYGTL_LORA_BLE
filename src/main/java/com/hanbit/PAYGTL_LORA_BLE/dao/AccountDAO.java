@@ -58,11 +58,9 @@ public class AccountDAO {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
-		PreparedStatement ps = null;
 		String result = "Failure";
 		Random randomNumber = new Random();
 		String dataframe = "";
-		String transactionIDForTata = "";
 		String hexaAmount = "";
 		String hexaEmergencyCredit = "";
 		String hexaAlarmCredit = "";
@@ -70,14 +68,16 @@ public class AccountDAO {
 		
 		try {
 				con = getConnection();
+				
+				if(topupvo.getSource().equalsIgnoreCase("web")) {
 					
 				PreparedStatement pstmt = con.prepareStatement("SELECT TransactionID FROM topup ORDER BY TransactionID DESC LIMIT 0,1");
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					if(rs.getString("TransactionID") == null) {
-						 transactionIDForTata = "T-" + 1;
+						 topupvo.setTransactionIDForTata("T-" + 1);
 					} else {
-						transactionIDForTata = "T-" + (rs.getInt("TransactionID")+1);
+						topupvo.setTransactionIDForTata("T-" + (rs.getInt("TransactionID")+1));
 						}
 					}
 					
@@ -132,7 +132,7 @@ public class AccountDAO {
 
 					innerjsonpayload.put("on_busy", "fail");
 
-					innerjsonpayload.put("tag", transactionIDForTata);
+					innerjsonpayload.put("tag", topupvo.getTransactionIDForTata());
 
 					payload.put("payload_dl", innerjsonpayload);
 
@@ -148,29 +148,19 @@ public class AccountDAO {
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					
 					String restcallresponse = extramethodsdao.restcall(restcallvo);
-
+					
 					//perform some action with restcallresponse in future based on requirement
 					
 					//check for payment status with the payment gateway
+					
+					result = inserttopup(topupvo);
+					
+				} else {
+					topupvo.setTransactionIDForTata("M");
+					result = inserttopup(topupvo);
+				}
+					
 				
-					String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, NOW())";
-					ps = con.prepareStatement(sql);
-					ps.setString(1, transactionIDForTata);
-					ps.setInt(2, topupvo.getCommunityID());
-					ps.setInt(3, topupvo.getBlockID());
-					ps.setInt(4, topupvo.getCustomerID());
-					ps.setString(5, topupvo.getMeterID());
-					ps.setInt(6, topupvo.getTariffID());
-					ps.setFloat(7, topupvo.getAmount());
-					ps.setString(8, topupvo.getModeOfPayment());
-					ps.setInt(9, 0); // payment status from payment gateway
-					ps.setFloat(10, topupvo.getTransactedByID());
-					ps.setInt(11, topupvo.getTransactedByRoleID());
-
-					if (ps.executeUpdate() > 0) {
-						result = "Success";
-						
-					}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -179,6 +169,63 @@ public class AccountDAO {
 			con.close();
 		}
 
+		return result;
+	}
+	
+	public String inserttopup(TopUpRequestVO topUpRequestVO) {
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		String result = "Failure";
+		// perform some action with restcallresponse in future based on requirement
+
+		// check for payment status with the payment gateway
+
+		try {
+			con = getConnection();
+			
+			PreparedStatement pstmt = con.prepareStatement("SELECT CommunityID, BlockID, MeterID, TariffID FROM customermeterdetails WHERE CustomerID = ?");
+			pstmt.setInt(1, topUpRequestVO.getCustomerID());
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				
+			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+			ps = con.prepareStatement(sql);
+			
+			if(topUpRequestVO.getTransactionIDForTata().startsWith("T")) {
+				ps.setString(1, topUpRequestVO.getTransactionIDForTata());	
+			}else {
+				ps.setString(1, "M");	
+			}
+			
+			ps.setInt(2, rs.getInt("CommunityID")); 
+			ps.setInt(3, rs.getInt("BlockID"));
+			ps.setInt(4, topUpRequestVO.getCustomerID());
+			ps.setString(5, rs.getString("MeterID"));
+			ps.setInt(6, rs.getInt("TariffID"));
+			ps.setFloat(7, topUpRequestVO.getAmount());
+			
+			if(topUpRequestVO.getTransactionIDForTata().startsWith("T")) {
+				ps.setInt(8, 0); 	
+			}else {
+				ps.setInt(8, topUpRequestVO.getStatus()); 
+			}
+			
+			ps.setString(9, topUpRequestVO.getModeOfPayment());
+			ps.setInt(10, 0); // payment status from payment gateway
+			ps.setString(11, topUpRequestVO.getSource());
+			ps.setFloat(12, topUpRequestVO.getTransactedByID());
+			ps.setInt(13, topUpRequestVO.getTransactedByRoleID());
+			System.out.println("in inserttpup");
+			if (ps.executeUpdate() > 0) {
+				result = "Success";
+
+			}
+		}
+
+		} catch (Exception e) {
+
+		}
 		return result;
 	}
 

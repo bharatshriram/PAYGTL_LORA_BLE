@@ -127,7 +127,8 @@ CREATE TABLE `command` (
   `CustomerID` int(255) NOT NULL,
   `MeterID` varchar(80) NOT NULL,
   `CommandType` int(255) NOT NULL,
-  `Status` int(245) DEFAULT NULL,
+  `Status` int(245) NOT NULL,
+  `Source` varchar(10) NOT NULL,
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
@@ -135,10 +136,10 @@ CREATE TABLE `command` (
 
 /*Data for the table `command` */
 
-insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`MeterID`,`CommandType`,`Status`,`CreatedDate`,`ModifiedDate`) values 
-(1,'C-1',2,'70b3d5f83000157a',6,2,'2020-04-15 16:48:38','2020-04-15 16:48:38'),
-(2,'C-2',2,'70b3d5f83000157a',6,2,'2020-04-15 17:50:05','2020-04-15 17:50:05'),
-(3,'C-3',2,'70b3d5f83000157a',6,0,'2020-04-15 19:24:26','2020-04-15 19:24:26');
+insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`MeterID`,`CommandType`,`Status`,`Source`,`CreatedDate`,`ModifiedDate`) values 
+(1,'C-1',2,'70b3d5f83000157a',6,2,'web','2020-04-15 16:48:38','2020-04-15 16:48:38'),
+(2,'C-2',2,'70b3d5f83000157a',6,2,'web','2020-04-15 17:50:05','2020-04-15 17:50:05'),
+(3,'C-3',2,'70b3d5f83000157a',6,2,'web','2020-04-15 19:24:26','2020-04-15 19:24:26');
 
 /*Table structure for table `community` */
 
@@ -382,6 +383,7 @@ CREATE TABLE `topup` (
   `Status` tinyint(4) NOT NULL,
   `ModeOfPayment` varchar(50) NOT NULL,
   `PaymentStatus` tinyint(4) NOT NULL,
+  `Source` varchar(10) NOT NULL,
   `CreatedByID` int(11) NOT NULL,
   `CreatedByRoleID` int(11) NOT NULL,
   `CardNumber` varchar(20) DEFAULT NULL,
@@ -389,18 +391,19 @@ CREATE TABLE `topup` (
   `TransactionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `AcknowledgeDate` datetime NOT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `topup` */
 
-insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`TariffID`,`Amount`,`Status`,`ModeOfPayment`,`PaymentStatus`,`CreatedByID`,`CreatedByRoleID`,`CardNumber`,`CardType`,`TransactionDate`,`AcknowledgeDate`) values 
-(1,'T-1',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-15 19:42:21','2020-04-15 19:42:21'),
-(2,'T-2',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
-(3,'T-3',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
-(4,'T-4',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
-(5,'T-5',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
-(6,'T-6',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,1,1,NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
-(7,'T-7',1,1,6,'70b3d5f830000a68',2,350,2,'cash',0,1,1,NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48');
+insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`TariffID`,`Amount`,`Status`,`ModeOfPayment`,`PaymentStatus`,`Source`,`CreatedByID`,`CreatedByRoleID`,`CardNumber`,`CardType`,`TransactionDate`,`AcknowledgeDate`) values 
+(1,'T-1',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 19:42:21','2020-04-15 19:42:21'),
+(2,'T-2',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
+(3,'T-3',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
+(4,'T-4',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
+(5,'T-5',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
+(6,'T-6',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
+(7,'T-7',1,1,6,'70b3d5f830000a68',2,350,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48'),
+(8,'M',1,1,6,'70b3d5f830000a68',2,150,0,'Cash',0,'mobile',1,1,NULL,NULL,'2020-04-19 17:43:16','2020-04-19 17:43:16');
 
 /*Table structure for table `updaterequestcustomermeterdetails` */
 
