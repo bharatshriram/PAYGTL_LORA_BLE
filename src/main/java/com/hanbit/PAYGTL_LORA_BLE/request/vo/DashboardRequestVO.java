@@ -9,9 +9,6 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class DashboardRequestVO {
 	
-	private int communityID;
-	private int blockID;
-	private int cutomerID;
 	private String meterID;
 	private float reading;
 	private float batteryVoltage;
@@ -27,24 +24,6 @@ public class DashboardRequestVO {
 	private int lowBattery;
 	private String timeStamp;
 	
-	public int getCommunityID() {
-		return communityID;
-	}
-	public void setCommunityID(int communityID) {
-		this.communityID = communityID;
-	}
-	public int getBlockID() {
-		return blockID;
-	}
-	public void setBlockID(int blockID) {
-		this.blockID = blockID;
-	}
-	public int getCutomerID() {
-		return cutomerID;
-	}
-	public void setCutomerID(int cutomerID) {
-		this.cutomerID = cutomerID;
-	}
 	public String getMeterID() {
 		return meterID;
 	}
