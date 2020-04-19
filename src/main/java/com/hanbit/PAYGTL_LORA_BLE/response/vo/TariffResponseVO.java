@@ -13,6 +13,7 @@ public class TariffResponseVO {
 	
 	private int tariffID;
 	private String tariff;
+	private String tariffName;
 	private String emergencyCredit;
 	private String alarmCredit;
 	private String fixedCharges;
@@ -60,6 +61,12 @@ public class TariffResponseVO {
 	}
 	public void setData(List<TariffResponseVO> data) {
 		this.data = data;
+	}
+	public String getTariffName() {
+		return tariffName;
+	}
+	public void setTariffName(String tariffName) {
+		this.tariffName = tariffName;
 	}
 	
 }

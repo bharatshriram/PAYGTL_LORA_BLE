@@ -64,7 +64,7 @@ public class DashboardController {
 		ResponseVO responsevo = new ResponseVO();
 
 		try {
-			responsevo = dashboarddao.datafrommobile(dashboardRequestVO);
+			responsevo.setResult(dashboarddao.insertdashboard(dashboardRequestVO));
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

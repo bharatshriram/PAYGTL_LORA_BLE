@@ -824,13 +824,14 @@ public class CommunitySetUpDAO {
 		try {
 			con = getConnection();
 			tariff_list = new LinkedList<TariffResponseVO>();
-			pstmt = con.prepareStatement("SELECT TariffID, Tariff, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate FROM tariff");
+			pstmt = con.prepareStatement("SELECT TariffID, Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate FROM tariff");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				tariffvo = new TariffResponseVO();
 				tariffvo.setTariffID(rs.getInt("TariffID"));
 				tariffvo.setTariff(rs.getString("Tariff"));
+				tariffvo.setTariffName(rs.getString("TariffName"));
 				tariffvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				tariffvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				tariffvo.setFixedCharges(rs.getString("FixedCharges"));
@@ -856,11 +857,12 @@ public class CommunitySetUpDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("INSERT INTO tariff (Tariff, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate) VALUES(?, ?, ?, ?, NOW())");
+			pstmt = con.prepareStatement("INSERT INTO tariff (Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate) VALUES(?, ?, ?, ?, ?, NOW())");
 			pstmt.setFloat(1, tariffvo.getTariff());
-			pstmt.setFloat(2, tariffvo.getEmergencyCredit());
-			pstmt.setFloat(3, tariffvo.getAlarmCredit());
-			pstmt.setFloat(4, tariffvo.getFixedCharges());
+			pstmt.setString(2, tariffvo.getTariffName());
+			pstmt.setFloat(3, tariffvo.getEmergencyCredit());
+			pstmt.setFloat(4, tariffvo.getAlarmCredit());
+			pstmt.setFloat(5, tariffvo.getFixedCharges());
 
 			if (!pstmt.execute()) {
 

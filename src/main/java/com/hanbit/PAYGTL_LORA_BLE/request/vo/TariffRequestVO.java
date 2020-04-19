@@ -12,6 +12,7 @@ public class TariffRequestVO {
 	
 	private int tariffID;
 	private float tariff;
+	private String tariffName;
 	private float emergencyCredit;
 	private float alarmCredit;
 	private float fixedCharges;
@@ -52,6 +53,12 @@ public class TariffRequestVO {
 	}
 	public void setRegisteredDate(String registeredDate) {
 		RegisteredDate = registeredDate;
+	}
+	public String getTariffName() {
+		return tariffName;
+	}
+	public void setTariffName(String tariffName) {
+		this.tariffName = tariffName;
 	}
 	
 
