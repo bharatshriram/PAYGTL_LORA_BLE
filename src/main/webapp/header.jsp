@@ -24,7 +24,7 @@
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle text-white" href="#" id="navbardrop"
-				data-toggle="dropdown"> Bootstrap </a>
+				data-toggle="dropdown"> Setting </a>
 				<div class="dropdown-menu  dropdown-menu-right">
 					<a class="dropdown-item" href="#">Help</a> <a class="dropdown-item"
 						href="#">Logout</a>
