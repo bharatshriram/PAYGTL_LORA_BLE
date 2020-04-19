@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
-import com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;

@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -136,7 +135,7 @@ public class ExtraMethodsDAO {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM topup WHERE Status BETWEEN 0 AND 1");
+			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM topup WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				

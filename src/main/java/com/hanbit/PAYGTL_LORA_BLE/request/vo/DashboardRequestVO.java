@@ -11,15 +11,13 @@ public class DashboardRequestVO {
 	
 	private String meterID;
 	private float reading;
-	private float batteryVoltage;
-	private int meterType;
-	private String logDate;
-	private int tamperStatus;
-	private int valveStatus;
 	private float balance;
 	private float tariffAmount;
 	private float  emergencyCredit;
-	private float alarmCredit;
+	private float batteryVoltage;
+	private int meterType;
+	private int tamperStatus;
+	private int valveStatus;
 	private int creditStatus;
 	private int lowBattery;
 	private String timeStamp;
@@ -47,12 +45,6 @@ public class DashboardRequestVO {
 	}
 	public void setMeterType(int meterType) {
 		this.meterType = meterType;
-	}
-	public String getLogDate() {
-		return logDate;
-	}
-	public void setLogDate(String logDate) {
-		this.logDate = logDate;
 	}
 	public int getTamperStatus() {
 		return tamperStatus;
@@ -83,12 +75,6 @@ public class DashboardRequestVO {
 	}
 	public void setEmergencyCredit(float emergencyCredit) {
 		this.emergencyCredit = emergencyCredit;
-	}
-	public float getAlarmCredit() {
-		return alarmCredit;
-	}
-	public void setAlarmCredit(float alarmCredit) {
-		this.alarmCredit = alarmCredit;
 	}
 	public int getCreditStatus() {
 		return creditStatus;
