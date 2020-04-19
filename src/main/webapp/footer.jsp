@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+		System.out.println("======>" + user_id);
+	%>
+
+	<%
+		if (null == user_id) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
 <!--Footer Start-->
 	<nav
 		class="navbar fixed-bottom navbar-light bg-light justify-content-center footer">

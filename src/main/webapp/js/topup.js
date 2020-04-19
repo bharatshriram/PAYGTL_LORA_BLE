@@ -156,6 +156,7 @@ $(document)
 										data1["currentBalance"] = $("#currentBalance_topup").val();
 										data1["tariffID"] = $("#tariffID").val();
 										data1["amount"] = $("#recharge_topup").val();
+										data1["modeOfPayment"] = "Cash"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("userID");
 										

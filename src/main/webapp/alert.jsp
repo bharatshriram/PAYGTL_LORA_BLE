@@ -6,8 +6,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
-<link href="common/css/materialize.fontawsome.css"
-	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -23,11 +21,24 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Block Details</title>
+<title>Alert</title>
 </head>
 
 
 <body>
+
+	<%
+		String user_id = (String) session.getAttribute("roleID");
+
+		System.out.println("======>" + user_id);
+	%>
+
+	<%
+		if (null == user_id) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
+	
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -40,10 +51,10 @@
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
-						<h3>Block Details</h3>
+						<h3>Alert Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button" id="blockAddButton"
+						<button type="button"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>
@@ -52,17 +63,16 @@
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<table id="blockTable"
+						<table id="alertTable"
 							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
-									<th>Block Name</th>
-									<th>Location</th>
-									<th>email</th>
-									<th>Mobile</th>
-									<th>Action</th>
+									<th>No AMR Interval</th>
+									<th>Low Battery Voltage</th>
+									<th>Timeout</th>
+									<th>Date</th>
+									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -83,63 +93,50 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Block Add Form</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Alert Add
+						Form</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<form id="blockDetails">
+					<form id="alertDetails">
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <select
-										class="form-control" id="selectcommunityName" name="selectcommunityName">
-										<!-- <option style = "color: Red" value="" disabled>Select Community</option> <option>Select Community</option> --> 
-									</select>
+									<label class="bmd-label-floating">No AMR Interval</label> <input
+										type="text" class="form-control" name="noamrintervalAdd"
+										id="noamrintervalAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Block Name</label> <input
-										type="text" class="form-control" name="blockNameAdd"
-										id="blockNameAdd">
-								</div>
-							</div>
-
-							<div class="col-md-6">
-								<div class="input-group form-group">
-									<label class="bmd-label-floating">Location</label> <input
-										type="text" class="form-control" name="blockLocationAdd"
-										id="blockLocationAdd">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="input-group form-group">
-									<label class="bmd-label-floating">Mobile Number</label> <input
-										type="text" class="form-control" name="blockMobileAdd"
-										id="blockMobileAdd">
+									<label class="bmd-label-floating">Low Battery Voltage</label> <input
+										type="text" class="form-control" name="lowbatteryvoltageAdd"
+										id="lowbatteryvoltageAdd">
 								</div>
 							</div>
 
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Email</label> <input
-										type="email" class="form-control" name="blockEmailAdd"
-										id="blockEmailAdd">
+									<label class="bmd-label-floating">ReCharge Time Out</label> <input
+										type="text" class="form-control" name="rechargetimeoutAdd"
+										id="rechargetimeoutAdd">
 								</div>
 							</div>
-							
-
 							<div class="col-md-6">
-								<button class="btn btn-secondary submit-button"
-									 value="Save!" id="blockAdd"
-									type="button" disabled>Save</button>
+								<input type = "hidden" id="alertIdhidden">
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-danger btn-raised mr-4"
+								<input class="btn btn-lg btn-success submit-button"
+									style="width: 100%;" value="Save!" id="alertAdd"
+									type="button" disabled></input>
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-secondary btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
@@ -153,65 +150,50 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="myBlockEdit" role="dialog">
+
+
+
+<div class="modal fade" id="myAlertEdit" role="dialog">
 		<div class="modal-dialog">
 
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" align="center">Edit Block</h4>
+					<h4 class="modal-title" align="center">Edit Alert</h4>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 				<div class="modal-body">
-					<form id="blockEdit">
+					<form id="alertEdit">
 						<div class="row">
 							<div class="col-md-6">
-								<div id="formcomunityName" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <input
-										type="text" class="form-control" name="communityNameEdit"
-										id="communityNameEdit" disabled>
+								<div id="formnoamrintervalEdit" class="input-group form-group">
+									<label class="bmd-label-floating">No AMR Interval</label> <input
+										type="text" class="form-control" name="noamrintervalEdit"
+										id="noamrintervalEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div id="formblockName" class="input-group form-group">
-									<label class="bmd-label-floating">Block Name</label> <input
-										type="text" class="form-control" name="blockNameEdit"
-										id="blockNameEdit">
-								</div>
-							</div>
-
-							<div class="col-md-6">
-								<div id="formblocklocation" class="input-group form-group">
-									<label class="bmd-label-floating">Location</label> <input
-										type="text" class="form-control" name="blockLocationEdit"
-										id="blockLocationEdit">
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div id="formblockMobile" class="input-group form-group">
-									<label class="bmd-label-floating">Mobile Number</label> <input
-										type="email" class="form-control" name="blockMobileEdit"
-										id="blockMobileEdit">
+								<div id="lowbatteryvoltageEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Low Battery Voltage</label> <input
+										type="text" class="form-control" name="lowbatteryvoltageEdit"
+										id="lowbatteryvoltageEdit">
 								</div>
 							</div>
 
 							<div class="col-md-6">
-								<div id="formblockEmail" class="input-group form-group">
-									<label class="bmd-label-floating">Email</label> <input
-										type="email" class="form-control" name="blockEmailEdit"
-										id="blockEmailEdit">
-										
-										 <input
-										type="hidden" id="blockIdhidden">
-										
+								<div id="rechargetimeoutEdit" class="input-group form-group">
+									<label class="bmd-label-floating">ReCharge Time Out</label> <input
+										type="text" class="form-control" name="rechargetimeoutEdit"
+										id="rechargetimeoutEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
+								
 							</div>
 
 							<div class="col-md-6">
 								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="blockEditsave"
+									style="width: 100%;" value="Save!" id="alertEditsave"
 									type="button" disabled></input>
 							</div>
 
@@ -228,8 +210,10 @@
 			</div>
 		</div>
 	</div>
-
-
+	
+	
+	
+	
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script> -->
@@ -241,13 +225,8 @@
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
-		
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
-		
-		   <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
-	<script src="js/block.js"></script>
-	<script src="js/dropdown.js"></script>
+	<script src="js/alert.js"></script>
 	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
@@ -272,15 +251,8 @@
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
 		
-		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-
-	<script>
-		$(document).ready(function() {
-			$('#blockTable').DataTable();
-		});
-	</script>
 
 </body>
 

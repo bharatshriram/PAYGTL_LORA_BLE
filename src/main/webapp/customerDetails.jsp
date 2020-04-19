@@ -30,11 +30,11 @@
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
 		<div class="row mr-0 ml-0">
-			<div class="col-md-2 pl-0 pr-0">
+			<div class="left_nav col-md-2 pl-0 pr-0">
 
 				<jsp:include page="menu.jsp" />
 			</div>
-			<div class="col-md-10 mt-4 mb-4">
+			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
@@ -385,6 +385,7 @@
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 	<script src="js/dropdown.js"></script>
+	<script src="js/common.js"></script>
 	<script src="js/customer.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
@@ -412,15 +413,7 @@
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
-	<script>
-		$(document).ready(function() {
-			$('.button-left').click(function() {
-				$('.left ').toggleClass('fliph');
-
-			});
-
-		});
-	</script>
+	
 	<script>
 		$(document).ready(function() {
 			$('#communityTable').DataTable();

@@ -36,22 +36,18 @@
               </div>
               <ul class="list-sidebar bg-defoult">
                 <%
-			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("3") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {
+			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	
-				<% if(!user_id.equalsIgnoreCase("2") || !user_id.equalsIgnoreCase("3")) {%>					
+                <li> <a href="tariff.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Tariff</span></a> </li>
                 <li> <a href="communityDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Community</span></a> </li>
-                <%} if(!user_id.equalsIgnoreCase("3")) {%>
 				<li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
-				<%}%>
 				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
+                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
                 <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
                 <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
                 <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
-                <li> <a href="userConsumptions.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Reports</span></a> </li>
-                
-                
-                
+                <li> <a href="alert.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Alerts</span></a> </li>
                 <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>
@@ -63,19 +59,32 @@
                   </ul>
                 </li>
                 
-                <% } else if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {
+                <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
-                     
                 <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
 				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
-                <li> <a href="TopUp.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">TopUp</span></a> </li>
-                <li> <a href="TopUpDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
-                <% } else if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("3") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {%>
+                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
+                <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
+                <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
+                <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
+                      class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
+                      class="fa fa-chevron-left float-right"></span> </a>
+                  <ul class="sub-menu collapse" id="dashboard">
+                    <li class="active"><a href="userConsumptions.jsp">User Consumptions</a></li>
+                    <li><a href="topupSummary.jsp">Top Up Summary</a></li>
+                    <li><a href="financialreports.jsp">Financial Reports</a></li>
+                    <li><a href="alarms.jsp">Alarms</a></li>
+                <% } else if (user_id.equalsIgnoreCase("3")) {%>
+                
+                <li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
+                <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
                 
                 <% } %>
-                <li> <a href="tariff.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Tariff</span></a> </li>
-                <li> <a href="userManagement.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">User Management</span></a> </li>
+                
+                </ul>
                 
                 <!-- <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Dashboards </span> <span

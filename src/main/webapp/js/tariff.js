@@ -204,15 +204,12 @@ $(document)
 																	});
 																	
 
-																} else if(data.result == "Failure"){
+																} else if(data.Message == "TARIFF AMOUNT ALREADY EXISTS"){
 																	
-																	bootbox.alert(data.message,
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
-																		//alert();
-																		window.location = "tariff.jsp";
-																		return false	
 																				});
 																	
 																}

@@ -62,7 +62,12 @@ return json.data;
 		return "<a href=# id=BlockEdit data-toggle=modal data-target=#myBlockEdit onclick='getBlockFormEdit("
 																	+ row.blockID
 																	+ ")'>"
-																	+ "ABC"
+																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																	+ "</a>"
+																	+"<a onclick='getBlockFormDelete("
+																	+ row.blockID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
 																	+ "</a>"
 	}
 	}
@@ -469,4 +474,11 @@ function getBlockFormEdit(id) {
 		});
 		$('#myBlockEdit').modal('show');
 	});
+}
+
+
+
+function getBlockFormDelete(blockId){
+	
+	alert(""+blockId);
 }

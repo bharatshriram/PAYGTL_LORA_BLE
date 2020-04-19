@@ -18,6 +18,9 @@
 <link rel="stylesheet" href="common/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+	
+	<link rel="stylesheet"
+	href=https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
@@ -30,11 +33,11 @@
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
 		<div class="row mr-0 ml-0">
-			<div class="col-md-2 pl-0 pr-0">
+			<div class="left_nav col-md-2 pl-0 pr-0">
 
 				<jsp:include page="menu.jsp" />
 			</div>
-			<div class="col-md-10 mt-4 mb-4">
+			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
@@ -83,11 +86,11 @@
 
 	<script src="common/js/bootstrap.min.js"></script>
 
-
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 	<script src="js/live.js"></script>
+	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -102,28 +105,53 @@
 		});
 	</script>
 	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+		
+	<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+		
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>	
+		
+		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+		
+		<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+		
+		<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
+		
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+		
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+		
+		
+
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+		
+		
 		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
-	<script>
-		$(document).ready(function() {
-			// $('[data-toggle="tooltip"]').tooltip();  
-			$('.button-left').click(function() {
-				$('.left ').toggleClass('fliph');
-
-			});
-
-		});
-	</script>
+	
 	<script>
 		$(document).ready(function() {
 			$('#liveTable').DataTable();
@@ -132,7 +160,6 @@
 	
 <script>
 $(document).ready(function(){
-	alert("AA");
 	  $('[data-toggle="tooltip"]').tooltip();   
 	});
 </script>	

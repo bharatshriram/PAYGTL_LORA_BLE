@@ -50,11 +50,11 @@
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
 		<div class="row mr-0 ml-0">
-			<div class="col-md-2 pl-0 pr-0">
+			<div class="left_nav col-md-2 pl-0 pr-0">
 
-				<jsp:include page="menu.jsp" /> 
+				<jsp:include page="menu.jsp" />
 			</div>
-			<div class="col-md-10 mt-4 mb-4">
+			<div class="right_data col-md-10 mt-4 mb-4">
 				 <!--Right start-->
         <div class="row mb-4" id="form">
           <div class="col-md-10 m-auto">
@@ -186,6 +186,7 @@
 
 
 	<script src="js/dropdown.js"></script>
+	<script src="js/common.js"></script>
 	<script src="js/topupsummary.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
@@ -221,29 +222,6 @@
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
-	<script>
-		$(document).ready(function() {
-			$('.button-left').click(function() {
-				$('.left ').toggleClass('fliph');
-
-			});
-			/* $('.datepicker').pickadate({
-				labelMonthNext: 'Go to the next month',
-				labelMonthPrev: 'Go to the previous month',
-				labelMonthSelect: 'Pick a month from the dropdown',
-				labelYearSelect: 'Pick a year from the dropdown',
-				selectMonths: true,
-				selectYears: true
-				})
-				
-			    
-			    $('select').material_select();   */  
-
-		});
-	</script>
-	
-	
-	
 	<script type="text/javascript">
 		$(document).ready(function()
 		{

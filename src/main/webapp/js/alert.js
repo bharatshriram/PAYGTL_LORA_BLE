@@ -4,7 +4,7 @@
 
 
 $(document).ready(function() {
-table = $('#communityTable')
+table = $('#alertTable')
 .DataTable(
 {
 "processing" : false,
@@ -19,7 +19,7 @@ table = $('#communityTable')
 "scrollY" : 324,
 "scrollX" : true,
 "ajax" : {
-"url":"/PAYGTL_LORA_BLE/community/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+"url":"/PAYGTL_LORA_BLE/alert",
 "type" : "GET",
 "data" : function(search) {
 },
@@ -30,33 +30,21 @@ return json.data;
 },
 "columns" : [
                         {
-"data" : "communityName"
+"data" : "noAMRInterval"
 },{
-"data" : "address"
+"data" : "lowBatteryVoltage"
 },{
-"data" : "email"
+"data" : "timeOut"
 },{
-"data" : "mobileNumber"
-}
-,{
+"data" : "registeredDate"
+},{
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		/*<button type="button"
-			class="btn btn-raised btn-primary float-right"
-			data-toggle="modal" data-target="#exampleModal">
-			<i class="fa fa-user"></i>
-		</button>*/
-	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-		
-		return "<a href=# id=CommunityEdit data-toggle=modal data-target=#myCommunityEdit onclick='getCommunityFormEdit("
-																	+ row.communityID
+		return "<a href=# id=alertEdit data-toggle=modal data-target=#myAlertEdit onclick='getAlertFormEdit("
+																	+ row.alertID
 																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																	+ "</a> <a href=# id=CommunityEdit data-toggle=modal data-target=#myCommunityEdit onclick='getCommunityFormEdit("
-																	+ row.communityID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>pageview</i>"
+																	+ "EDIT"
 																	+ "</a>"
 	}
 	}
@@ -75,7 +63,7 @@ return json.data;
 $(document)
 				.ready(
 						function() {
-							$('#communityDetails')
+							$('#alertDetails')
 									.bootstrapValidator(
 											{
 												feedbackIcons : {
@@ -84,58 +72,46 @@ $(document)
 													validating : 'glyphicon glyphicon-refresh'
 												},
 												fields : {
-													communityNameAdd : {
-														message : 'The Community Name is not valid',
+													noamrintervalAdd : {
+														message : 'The No AMR Interval is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Name is required and cannot be empty'
+																message : 'The No AMR Interval is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Community Name must be more than 6 and less than 30 characters long'
+																message : 'The No AMR Interval be more than 6 and less than 30 characters long'
 															}
 														}
 													},
-													communityAddressAdd : {
-														message : 'The Community Address is not valid',
+													lowbatteryvoltageAdd : {
+														message : 'The Low Battery Voltage is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Address is required and cannot be empty'
+																message : 'The Low Battery Voltage is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Community Address must be more than 6 and less than 30 characters long'
+																message : 'The Low Battery Voltage must be more than 6 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
+																message : 'The Low Battery Voltage can only consist of alphabetical and number'
 															}
 														}
 													},
-													communityMobileAdd : {
-														message : 'The Community Mobile is not valid',
+													rechargetimeoutAdd : {
+														message : 'The Recharge Timeout is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Mobile is required and cannot be empty'
+																message : 'The Recharge Timeout is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
+																message : 'The Recharge Timeout can only consist of alphabetical and number'
 															}
-														}
-													},
-													communityEmailAdd : {
-														message : 'The Community Email is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Community Email is required and cannot be empty'
-															}/*,
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
 														}
 													}
 												}
@@ -144,7 +120,7 @@ $(document)
 							
 							
 							
-							$('#communityEdit')
+							$('#alertEdit')
 							.bootstrapValidator(
 									{
 										feedbackIcons : {
@@ -153,58 +129,39 @@ $(document)
 											validating : 'glyphicon glyphicon-refresh'
 										},
 										fields : {
-											communityNameEdit : {
-												message : 'The Community Name is not valid',
+											noamrintervalEdit : {
+												message : 'The No AMR Interval is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Name is required and cannot be empty'
+														message : 'The No AMR Interval is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Community Name must be more than 6 and less than 30 characters long'
+														message : 'The No AMR Interval be more than 6 and less than 30 characters long'
 													}
 												}
 											},
-											communityAddressEdit : {
-												message : 'The Community Address is not valid',
+											lowbatteryvoltageEdit : {
+												message : 'The Low Battery Voltage is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Address is required and cannot be empty'
+														message : 'The Low Battery Voltage is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Community Address must be more than 6 and less than 30 characters long'
-													},
-													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														message : 'The Low Battery Voltage must be more than 6 and less than 30 characters long'
 													}
+													
 												}
 											},
-											communityMobileEdit : {
-												message : 'The Community Mobile is not valid',
+											rechargetimeoutEdit : {
+												message : 'The Recharge Timeout is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Mobile is required and cannot be empty'
-													},
-													regexp : {
-														regexp : /^[0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														message : 'The Recharge Timeout is required and cannot be empty'
 													}
-												}
-											},
-											communityEmailEdit : {
-												message : 'The Community Email is not valid',
-												validators : {
-													notEmpty : {
-														message : 'The Community Email is required and cannot be empty'
-													}/*,
-													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
-													}*/
 												}
 											}
 										}
@@ -214,7 +171,7 @@ $(document)
 							
 							
 
-							$('#communityDetails')
+							$('#alertDetails')
 									.on(
 											'status.field.bv',
 											function(e, data) {
@@ -247,7 +204,7 @@ $(document)
 							
 							
 							
-							$('#communityEdit').on(
+							$('#alertEdit').on(
 									'status.field.bv',
 									function(e, data) {
 										formIsValid = true;
@@ -266,36 +223,35 @@ $(document)
 														});
 
 										if (formIsValid) {
-											$('#communityEditsave', $(this))
+											$('#alertEditsave', $(this))
 													.attr('disabled',
 															false);
 										} else {
-											$('#communityEditsave', $(this))
+											$('#alertEditsave', $(this))
 													.attr('disabled',
 															true);
 										}
 									});
 							
 							
-							$("#communityAdd")
+							$("#alertAdd")
 									.click(
 											function() {
 
 												var data1 = {}
-												data1["communityName"] = $("#communityNameAdd")
+												data1["noAMRInterval"] = $("#noamrintervalAdd")
 														.val();
-												data1["email"] = $("#communityEmailAdd").val();
-												data1["mobileNumber"] = $("#communityMobileAdd")
+												data1["lowBatteryVoltage"] = $("#lowbatteryvoltageAdd").val();
+												data1["timeOut"] = $("#rechargetimeoutAdd")
 												.val();
-												data1["address"] = $("#communityAddressAdd").val();
-										
+
 												alert("===>"
 														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
 															contentType : "application/json",
-															url : "/PAYGTL_LORA_BLE/community/add",
+															url : "/PAYGTL_LORA_BLE/alert/add",
 															data : JSON
 																	.stringify(data1),
 															dataType : "JSON",
@@ -315,22 +271,22 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																		window.location = "communityDetails.jsp";
+																		window.location = "alert.jsp";
 																				});
 																	return false
 																	
 
-																} else if(data.result == "Failure"){
+																} else if(data.Message == "SETTINGS ARE ALREADY ADDED"){
 																	
-																	bootbox.alert(data.result,
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
 																		//alert();
-																		window.location = "communityDetails.jsp";
+																		//window.location = "alert.jsp";
 																		
 																				});
-																	return false
+																	//return false
 																}
 															}
 														});
@@ -339,19 +295,17 @@ $(document)
 							
 							
 							
-							$("#communityEditsave")
+							$("#alertEditsave")
 							.click(
 									function() {
 
 										var data1 = {}
 										
-										var data1 = {}
-										data1["communityName"] = $("#communityNameEdit")
-												.val();
-										data1["email"] = $("#communityEmailEdit").val();
-										data1["mobileNumber"] = $("#communityMobileEdit")
+										data1["noAMRInterval"] = $("#noamrintervalEdit")
 										.val();
-										data1["address"] = $("#communityAddressEdit").val();
+										data1["lowBatteryVoltage"] = $("#lowbatteryvoltageEdit").val();
+										data1["timeOut"] = $("#rechargetimeoutEdit")
+										.val();
 								
 										alert("===>"
 												+ JSON.stringify(data1));
@@ -359,7 +313,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/community/edit/"+$("#communityIdhidden").val(),
+													url : "/PAYGTL_LORA_BLE/alert/edit/"+$("#alertIdhidden").val(),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -379,7 +333,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "communityDetails.jsp";
+																window.location = "alert.jsp";
 																		});
 															return false
 															
@@ -391,7 +345,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "communityDetails.jsp";
+																window.location = "alert.jsp";
 																
 																		});
 															return false
@@ -407,30 +361,29 @@ $(document)
 
 
 
-function getCommunityFormEdit(id) {
+function getAlertFormEdit(id) {
 
 //	 alert(id);
 
-	$.getJSON("/PAYGTL_LORA_BLE/community/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/alert", function(data) {
 		$.each(data.data, function(i, item) {
-			if (id == item.communityID) {
-				$('#communityNameEdit').val(item.communityName).trigger("change");
-				$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#communityEmailEdit').val(item.email).trigger("change");
-				$("#formcomunityEmail").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#communityMobileEdit').val(item.mobileNumber).trigger("change");
-				$("#formcomunityMobile").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-			    $('#communityAddressEdit').val(item.address).trigger("change");
-				$("#formcomunityAddress").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$("#communityIdhidden").val(item.communityID);
+			if (id == item.alertID) {
+				alert(item.lowBatteryVoltage);
+				$('#noamrintervalEdit').val(item.noAMRInterval).trigger("change");
+				$("#formnoamrintervalEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#lowbatteryvoltageEdit').val(item.lowBatteryVoltage).trigger("change");
+				$("#formlowbatteryvoltageEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#rechargetimeoutEdit').val(item.timeOut).trigger("change");
+				$("#formrechargetimeoutEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$("#alertIdhidden").val(item.alertID);
 			
-				$('#communityEditsave')
+				$('#alertEditsave')
 				.attr('disabled',
 						false);
 				
 			} else {
 			}
 		});
-		$('#myCommunityEdit').modal('show');
+		$('#myAlertEdit').modal('show');
 	});
 }

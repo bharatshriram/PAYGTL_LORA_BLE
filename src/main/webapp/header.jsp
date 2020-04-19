@@ -7,6 +7,17 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+		System.out.println("======>" + user_id);
+	%>
+
+	<%
+		if (null == user_id) {
+			response.sendRedirect("login.jsp");
+		}
+	%>
 <!--Header Start-->
 	<nav class="navbar navbar-expand-lg fixed-top bg-info pl-4 p-0">
 		<div class="float-left mt-2">
@@ -27,7 +38,7 @@
 				data-toggle="dropdown"> Setting </a>
 				<div class="dropdown-menu  dropdown-menu-right">
 					<a class="dropdown-item" href="#">Help</a> <a class="dropdown-item"
-						href="#">Logout</a>
+						href="logout.jsp">Logout</a>
 				</div></li>
 		</ul>
 	</nav>

@@ -6,6 +6,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link href="common/css/materialize.fontawsome.css"
+	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -72,7 +74,7 @@
 									<th>Address</th>
 									<th>Mail Id</th>
 									<th>Mobile</th>
-									<th>Edit</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -231,6 +233,7 @@
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 	<script src="js/community.js"></script>
+	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -256,32 +259,6 @@
 		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-
-	<script>
-	$(document).ready(function () {
-    	var flag =true;
-      $('.button-left').click(function () {
-        $('.left ').toggleClass('fliph');
-		flag = !flag;
-		
-		if(false){
-			
-			document.querySelector('.left_nav').className="left_nav col-md-2 pl-0 pr-0";
-			
-			document.querySelector('.right_data').className="right_data col-md-10 mt-4 mb-4";
-			
-		}else if(true){
-			
-			document.querySelector('.left_nav').className="left_nav col-md-1 pl-0 pr-0";	
-			
-			document.querySelector('.right_data').className="right_data col-md-11 mt-4 mb-4";
-		}
-		
-        alert(flag);
-      });
-
-    });
-	</script>
 	<script>
 		$(document).ready(function() {
 			$('#communityTable').DataTable();
