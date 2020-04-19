@@ -44,70 +44,13 @@ $(document)
 																message : 'The AMR is required and cannot be empty'
 															}
 														}
-													},
-													currentBalance_topup : {
-														message : 'The Current Balance is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Current Balance is required and cannot be empty'
-															},
-															stringLength : {
-																min : 2,
-																max : 30,
-																message : 'The Last Name must be more than 2 and less than 30 characters long'
-															}
-														}
-													},
-													dateTime_topup : {
-														message : 'The Date Time is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Date Time is required and cannot be empty'
-															}
-														}
-													},
-													unit_topup : {
-														message : 'The Unit Rate is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Unit Rate is required and cannot be empty'
-															}
-														}
-													},
-													emergency_topup : {
-														message : 'The Emergency Credit is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Emergency Credit is required and cannot be empty'
-															}
-														}
-													},
-													alarm_topup : {
-														message : 'The Alarm Topup No. is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Alarm Topup No. is required and cannot be empty'
-															}
-														}
-													},
-													recharge_topup : {
-														message : 'The Recharge Amount is not valid',
-														validators : {
-															notEmpty : {
-																message : 'The Recharge Amount is required and cannot be empty'
-															}/*,
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
-														}
-													}
+													}	
 												}
 											});
 							
 							
 							
-							$('#topupDetails')
+							$('#configurationDetails')
 							.on(
 									'status.field.bv',
 									function(e, data) {
@@ -143,7 +86,7 @@ $(document)
 							
 							
 							
-							$("#topup")
+							$("#configuration")
 							.click(
 									function() {
 
@@ -153,11 +96,7 @@ $(document)
 										data1["blockID"] = $("#selectBlockBasedonCommunity").val();
 										data1["customerID"] = $("#selectHouseBasedonBlock").val();
 										data1["meterID"] = $("#AMR_topup").val();
-										data1["currentBalance"] = $("#currentBalance_topup").val();
-										data1["tariffID"] = $("#tariffID").val();
-										data1["amount"] = $("#recharge_topup").val();
-										data1["transactedByID"] = sessionStorage.getItem("createdByID");
-										data1["transactedByRoleID"] = sessionStorage.getItem("userID");
+										data1["commandType"] = $("#selectcommandType").val();
 										
 										alert("===>"
 												+ JSON.stringify(data1));
@@ -165,7 +104,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/customer/add1",
+													url : "/PAYGTL_LORA_BLE/configuration/add",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -185,7 +124,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "configuration.jsp";
 																return false
 															});
 															
@@ -198,7 +137,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "configuration.jsp";
 																return false
 																		});
 															
@@ -210,7 +149,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "configuration.jsp";
 																return false
 																		});
 														}
@@ -225,7 +164,7 @@ $(document)
 
 
 $(document).ready(function() {
-	table = $('#topstatusTable')
+	table = $('#configurationstatusTable')
 	.DataTable(
 	{
 	"processing" : false,
@@ -240,7 +179,7 @@ $(document).ready(function() {
 	"scrollY" : 324,
 	"scrollX" : true,
 	"ajax" : {
-	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+	"url":"/PAYGTL_LORA_BLE/configuration/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 	"type" : "GET",
 	"data" : function(search) {
 	},
@@ -250,28 +189,20 @@ $(document).ready(function() {
 	},
 	},
 	"columns" : [
-	 {
+	 /*{
 	    	"data" : "communityName"
 	 },{
 	"data" : "blockName"
 	},{
 	"data" : "houseNumber"
-	},{
+	},*/{
 	"data" : "meterID"
 	},{
-	"data" : "amount"
+	"data" : "commandType"
 	},{
-	"data" : "emergencyCredit"
+	"data" : "modifiedDate"
 	},{
-	"data" : "alarmCredit"
-	},{
-	"data" : "transactionDate"
-	},{
-	"data" : "transactedByUserName"
-	},{
-	"data" : "transactedByRoleDescription"
-	},{
-	"data" : "Status"
+	"data" : "status"
 	}
 	]
 	});

@@ -48,7 +48,26 @@
                 <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
                 <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
                 <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
-                <li> <a href="Consumption.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Consumption History</span></a> </li>
+                <li> <a href="userConsumptions.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Reports</span></a> </li>
+                
+                
+                
+                <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
+                      class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
+                      class="fa fa-chevron-left float-right"></span> </a>
+                  <ul class="sub-menu collapse" id="dashboard">
+                    <li class="active"><a href="userConsumptions.jsp">User Consumptions</a></li>
+                    <li><a href="topupSummary.jsp">Top Up Summary</a></li>
+                    <li><a href="financialreports.jsp">Financial Reports</a></li>
+                    <li><a href="#">Tabs & Accordions</a></li>
+                    <li><a href="#">Typography</a></li>
+                    <li><a href="#">FontAwesome</a></li>
+                    <li><a href="#">Slider</a></li>
+                    <li><a href="#">Panels</a></li>
+                    <li><a href="#">Widgets</a></li>
+                    <li><a href="#">Bootstrap Model</a></li>
+                  </ul>
+                </li>
                 
                 <% } else if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")) {
                 %>
