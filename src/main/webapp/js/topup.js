@@ -157,8 +157,9 @@ $(document)
 										data1["tariffID"] = $("#tariffID").val();
 										data1["amount"] = $("#recharge_topup").val();
 										data1["modeOfPayment"] = "Cash"
+										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
-										data1["transactedByRoleID"] = sessionStorage.getItem("userID");
+										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
 										
 										alert("===>"
 												+ JSON.stringify(data1));
@@ -166,7 +167,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/customer/add1",
+													url : "/PAYGTL_LORA_BLE/topup",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",

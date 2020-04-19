@@ -715,11 +715,12 @@ public class AccountDAO {
 					String restcallresponse = extramethodsdao.restcall(restcallvo);
 						//perform some action with restcallresponse in future based on requirement
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, ModifiedDate) VALUES (?, ?, ?, ?, 0, NOW())");
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, Source, ModifiedDate) VALUES (?, ?, ?, ?, 0, ?, NOW())");
 					ps.setString(1, transactionIDForTata);
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
+					ps.setString(5, configurationvo.getSource());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";

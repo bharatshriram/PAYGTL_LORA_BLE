@@ -194,7 +194,7 @@ public class ExtraMethodsDAO {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM command WHERE Status BETWEEN 0 AND 1");
+			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM command WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				

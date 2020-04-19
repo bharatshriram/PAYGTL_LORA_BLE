@@ -158,7 +158,7 @@ public class ReportsDAO {
 			userconsumptionreportsresponselist = new ArrayList<UserConsumptionReportsResponseVO>();
 
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
-					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.AlarmCredit, bl.SolonideStatus, bl.TamperDetect, bl.IoTTimeStamp, bl.LogDate\r\n" + 
+					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.IoTTimeStamp, bl.LogDate\r\n" + 
 					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = bl.CustomerID WHERE bl.CustomerID = ? AND bl.IoTTimeStamp BETWEEN ? AND ? ";
 				pstmt = con.prepareStatement(query);
@@ -176,7 +176,6 @@ public class ReportsDAO {
 					userconsumptionreportsresponsevo.setBalance(rs.getFloat("Balance"));
 					userconsumptionreportsresponsevo.setBattery(rs.getFloat("BatteryVoltage"));
 					userconsumptionreportsresponsevo.setTariff(rs.getFloat("TariffAmount"));
-					userconsumptionreportsresponsevo.setAlarmCredit(rs.getFloat("Alarmcredit"));
 					userconsumptionreportsresponsevo.setEmergencyCredit(rs.getFloat("Emergencycredit"));
 					userconsumptionreportsresponsevo.setDateTime(rs.getString("IoTTimeStamp"));
 					
