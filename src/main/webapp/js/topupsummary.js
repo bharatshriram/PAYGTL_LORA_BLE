@@ -5,7 +5,7 @@
 $(document)
 		.ready(
 				function() {
-					$("#userconsumption")
+					$("#topupSummary")
 							.click(
 									function() {
 
@@ -72,7 +72,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/userconsumptionreports",
+													url : "/PAYGTL_LORA_BLE/topupsummary",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -101,19 +101,26 @@ $(document)
 																		"scrollX" : true,
 																		"data" : d.data,
 																		"columns" : [ {
+																			
+																			"data" : "firstName"
+																		},{
+																			
+																			"data" : "lastName"
+																		},{
+																			
+																			"data" : "houseNumber"
+																		}, {
 																			"data" : "meterID"
 																		}, {
-																			"data" : "reading"
+																			"data" : "rechargeAmount"
 																		}, {
-																			"data" : "balance"
+																			"data" : "modeOfPayment"
 																		}, {
-																			"data" : "battery"
+																			"data" : "status"
 																		}, {
-																			"data" : "tariff"
+																			"data" : "transactedByUserName"
 																		}, {
-																			"data" : "alarmCredit"
-																		}, {
-																			"data" : "emergencyCredit"
+																			"data" : "transactedByRoleDescription"
 																		}, {
 																			"data" : "dateTime"
 																		}]
