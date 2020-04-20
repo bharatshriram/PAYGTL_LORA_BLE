@@ -16,6 +16,7 @@ public class ConfigurationRequestVO {
 	private int commandType;
 	private float tariff;
 	private int transactionID;
+	private String source;
 	
 	public String getMeterID() {
 		return meterID;
@@ -58,6 +59,12 @@ public class ConfigurationRequestVO {
 	}
 	public void setTariff(float tariff) {
 		this.tariff = tariff;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 
 }
