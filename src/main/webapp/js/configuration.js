@@ -44,7 +44,13 @@ $(document)
 																message : 'The AMR is required and cannot be empty'
 															}
 														}
-													}	
+													},selectcommandType: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Please select your native language.'
+									                        }
+									                    }
+									                }	
 												}
 											});
 							
