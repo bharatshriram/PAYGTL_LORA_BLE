@@ -14,15 +14,17 @@ $(document).ready(function() {
 table = $('#blockTable')
 .DataTable(
 {
+"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 "processing" : false,
 "serverSide" : false,
 "bDestroy" : true,
 "pagging" : true,
+"bPaginate": true,
 "bProcessing" : false,
 "ordering" : true,
 "order" : [ 0, "desc" ],
 "lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-"pageLength" : "5",
+"pageLength" : 5,
 "scrollY" : 324,
 "scrollX" : true,
 "ajax" : {
@@ -74,7 +76,9 @@ return json.data;
 
 
 
-]
+], "buttons": [
+	   
+	]
 });
 });
 
@@ -262,7 +266,7 @@ $(document)
 												if (formIsValid) {
 													$('.submit-button', $(this))
 															.attr('disabled',
-																	false);
+																	false).attr('class', 'btn btn-success submit-button');;
 												} else {
 													$('.submit-button', $(this))
 															.attr('disabled',
@@ -480,5 +484,29 @@ function getBlockFormEdit(id) {
 
 function getBlockFormDelete(blockId){
 	
-	alert(""+blockId);
+	//alert(""+blockId);
+	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "/PAYGTL_LORA_BLE/block/delete/" + blockId,
+		dataType : "JSON",
+		success : function(data) {
+			//alert("Success====" + data.result);
+			if (data.result == "Success") {
+				bootbox
+					.confirm(
+						"Deleted successfully!",
+						function(
+							result) {
+							window.location = "blockDetails.jsp";
+						});
+
+			} else {
+				//				//alert("fail");
+				window.location = "Customer_home.jsp";
+			}
+		}
+	});
+	
 }

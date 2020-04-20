@@ -6,6 +6,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link href="common/css/materialize.fontawsome.css"
+	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -20,7 +22,7 @@
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
-
+	
 <title>Customer Details</title>
 </head>
 
@@ -68,7 +70,7 @@
 									<th>Created UserName</th>
 									<th>Created Role</th>
 									<th>Registration Date</th>
-									<th>Edit</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -399,16 +401,56 @@
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
-	</script>
-	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+	 </script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
+	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+		
+	<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+		
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+		
+		<script
+		src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+		
+		
+		<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>	
+		
+		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+		
+		<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
+		
+		<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+		
+		
+		
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+		
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+		
+		
+
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+		
+		
 		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>

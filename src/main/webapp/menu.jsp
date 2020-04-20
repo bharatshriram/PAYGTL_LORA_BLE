@@ -80,6 +80,7 @@
                 
                 <li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
+                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
                 <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
                 
                 <% } %>

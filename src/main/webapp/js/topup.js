@@ -230,15 +230,17 @@ $(document).ready(function() {
 	table = $('#topstatusTable')
 	.DataTable(
 	{
+		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"processing" : false,
 	"serverSide" : false,
 	"bDestroy" : true,
 	"pagging" : true,
 	"bProcessing" : false,
+	"bPaginate": true,
 	"ordering" : true,
 	"order" : [ 0, "desc" ],
 	"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-	"pageLength" : "5",
+	"pageLength" : 5,
 	"scrollY" : 324,
 	"scrollX" : true,
 	"ajax" : {
@@ -274,7 +276,50 @@ $(document).ready(function() {
 	"data" : "transactedByRoleDescription"
 	},{
 	"data" : "Status"
-	}
+	},{
+		"mData" : "action",
+		"render" : function(data, type, row) {
+			
+			/*<button type="button"
+				class="btn btn-raised btn-primary float-right"
+				data-toggle="modal" data-target="#exampleModal">
+				<i class="fa fa-user"></i>
+			</button>*/
+		//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
+			
+			return "<a onclick='getDeleteTransactionID("
+																		+ row.transactionID
+																		+ ")'>"
+																		+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																		+ "</a>"
+		}
+		}
+	], "buttons": [
+		   /* 'csvHtml5',
+		'excelHtml5',
+	'pdfHtml5'*/
+		
+		{extend: 'excel',
+	        footer: 'true',
+	        text: 'Excel',
+	        title:'Top Up Status'  },
+	         
+	        {extend: 'pdf',
+	        footer: 'true',
+	        exportOptions: {
+	            columns: [1,2,3,4,5,6,7,8,9,10]
+	        },
+	        text: 'pdf',
+	        orientation: 'landscape',
+	        title:'Top Up Status'  }
 	]
 	});
 	});
+
+
+
+function getDeleteTransactionID(transID){
+	
+	
+}
+
