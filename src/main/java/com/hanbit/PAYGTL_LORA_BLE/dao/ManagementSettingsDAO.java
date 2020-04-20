@@ -8,16 +8,23 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
+
+import org.json.simple.JSONObject;
 
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.HolidayRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.LoginVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.HolidayResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserManagementResponseVO;
 
 /**
@@ -283,30 +290,39 @@ public class ManagementSettingsDAO {
 		return result;
 	}
 
-	/* Holiday */
+	/* Vacation */
 
-	public List<HolidayResponseVO> getholidaydetails() throws SQLException {
+	public List<VacationResponseVO> getvacationdetails(int roleid, int id) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		List<HolidayResponseVO> holiday_settings_list = null;
+		List<VacationResponseVO> vacationlist = null;
+		VacationResponseVO vacationResponseVO = null;
 		try {
 			con = getConnection();
-			holiday_settings_list = new LinkedList<HolidayResponseVO>();
+			vacationlist = new LinkedList<VacationResponseVO>();
 
-			String sqlQuery = "select com_name,h.HolidayID,h.HolidayDate,h.HolidayName,h.LastModified from HolidayList h, community c order by HolidayDate";
-			pstmt = con.prepareStatement(sqlQuery);
+			String query =
+					"SELECT v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, v.StartDate, v.EndDate, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
+							
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CustomerID = "+id+ " ORDER BY v.VacationID DESC" :""));
+			
 			rs = pstmt.executeQuery();
-			HolidayResponseVO holidayvo = null;
+			
 
 			while (rs.next()) {
-				holidayvo = new HolidayResponseVO();
-				holidayvo.setCommunityName(rs.getString("com_name"));
-				holidayvo.setHolidayDate((rs.getString("HolidayDate")));
-				holidayvo.setHolidayName(rs.getString("HolidayName"));
-				holidayvo.setId(rs.getInt("HolidayID"));
-				holiday_settings_list.add(holidayvo);
+				vacationResponseVO = new VacationResponseVO();
+				vacationResponseVO.setCommunityName(rs.getString("CommunityName"));
+				vacationResponseVO.setBlockName((rs.getString("BlockName")));
+				vacationResponseVO.setHouseNumber(rs.getString("HouseNumber"));
+				vacationResponseVO.setFirstName(rs.getString("FirstName"));
+				vacationResponseVO.setLastName(rs.getString("LastName"));
+				vacationResponseVO.setMeterID(rs.getString("MeterID"));
+				vacationResponseVO.setStartDate(rs.getString("StartDate"));
+				vacationResponseVO.setEndDate(rs.getString("EndDate"));
+				vacationResponseVO.setRegisteredDate(rs.getString("RegisteredDate"));
+				vacationlist.add(vacationResponseVO);
 			}
 
 		} catch (Exception ex) {
@@ -316,115 +332,157 @@ public class ManagementSettingsDAO {
 			rs.close();
 			con.close();
 		}
-		return holiday_settings_list;
+		return vacationlist;
 
 	}
 
-	public String addholiday(HolidayRequestVO holidayvo) throws SQLException {
+	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
-		PreparedStatement pstmt = null;
-		PreparedStatement ps = null;
-		ResultSet rs1 = null;
+		PreparedStatement pstmt1 = null;
 		String result = "Failure";
-		int holidayID = 0;
+		Random randomNumber = new Random();
 
 		try {
 
 			con = getConnection();
 
-			ps = con.prepareStatement("select HolidayID from HolidayList where HolidayDate=?");
-			ps.setString(1, holidayvo.getHolidayDate());
-			rs1 = ps.executeQuery();
-			if (!rs1.next()) {
+			 pstmt1 = con.prepareStatement("SELECT CommunityID, BlockID, MeterID FROM customermeterdetails WHERE CustomerID = ?");
+			pstmt1.setInt(1, vacationRequestVO.getCustomerID());
 
-				PreparedStatement ps1 = con
-						.prepareStatement("select max(holidayid) as hid from holidaylist");
-				ResultSet rs2 = ps1.executeQuery();
+			ResultSet rs1 = pstmt1.executeQuery();
 
-				if (rs2.next()) {
-					holidayID = rs2.getInt("hid") + 1;
-				}
+			if (rs1.next()) {
+				vacationRequestVO.setMeterID(rs1.getString("MeterID"));
+				vacationRequestVO.setCommunityID(rs1.getInt("CommunityID"));
+				vacationRequestVO.setBlockID(rs1.getInt("BlockID"));
 
-				pstmt = con
-						.prepareStatement("insert into HolidayList(HolidayID,HolidayDate,HolidayName,communityID,LastModified) values(?,?,?,?,SYSDATETIME())");
-				pstmt.setInt(1, holidayID);
-				pstmt.setString(2, holidayvo.getHolidayDate());
-				pstmt.setString(3, holidayvo.getHolidayName());
-//				pstmt.setInt(4, LoginDAO.CommunityID);
+				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
-				if (pstmt.executeUpdate() > 0) {
-					result = "Success";
-				}
-			}
+					PreparedStatement pstmt = con.prepareStatement("SELECT VacationID FROM vacation ORDER BY VacationID DESC LIMIT 0,1");
+					ResultSet rs = pstmt.executeQuery();
+					if (rs.next()) {
+						if (rs.getString("VacationID") == null) {
+							vacationRequestVO.setTransactionIDForTata("V-" + 1);
+						} else {
+							vacationRequestVO.setTransactionIDForTata("V-" + (rs.getInt("VacationID") + 1));
+						}
+						
+					}
+						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
+						LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime()+":00", dtf);
+						LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime()+":00", dtf);
+
+						String dataframe = "0A1600" + serialNumber + "020C0141" + String.format("%02x", startDateTime.getDayOfMonth()) + String.format("%02x", startDateTime.getMonthValue()) + 
+								String.format("%02x", startDateTime.getYear()) + String.format("%02x", startDateTime.getHour()) + String.format("%02x", startDateTime.getMinute()) + 
+								String.format("%02x", 0) + String.format("%02x", vacationRequestVO.getStartDay()) + 
+								String.format("%02x", endDateTime.getDayOfMonth()) + String.format("%02x", endDateTime.getMonthValue()) + String.format("%02x", endDateTime.getYear()) + 
+								String.format("%02x", endDateTime.getHour()) + String.format("%02x", endDateTime.getMinute()) +	String.format("%02x", 59) + String.format("%02x", vacationRequestVO.getEndDay()) + "0017";
+
+						String HexaToBase64 = Encoding.getHexBase644(dataframe);
+						System.out.println("encoded dataframe in vacation:-- " + HexaToBase64);
+
+						JSONObject json = new JSONObject();
+
+						JSONObject innerjson = new JSONObject();
+
+						JSONObject payload = new JSONObject();
+
+						JSONObject innerjsonpayload = new JSONObject();
+
+						innerjson.put("ty", 4);
+
+						innerjson.put("cnf", "text/plain:0");
+
+						innerjson.put("cs", 250);
+
+						innerjsonpayload.put("deveui", vacationRequestVO.getMeterID().toLowerCase());
+
+						innerjsonpayload.put("port", 5);
+
+						innerjsonpayload.put("confirmed", true);
+
+						innerjsonpayload.put("data", HexaToBase64);
+
+						innerjsonpayload.put("on_busy", "fail");
+
+						innerjsonpayload.put("tag", vacationRequestVO.getTransactionIDForTata());
+
+						payload.put("payload_dl", innerjsonpayload);
+
+						innerjson.put("con", payload.toString());
+						json.put("m2m:cin", innerjson);
+
+						RestCallVO restcallvo = new RestCallVO();
+						restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
+						restcallvo.setUrlExtension("/DownlinkPayload");
+						restcallvo.setData(json.toString());
+						System.out.println("data to be sent to tata gateway in vacation:- " + restcallvo.getData());
+
+						ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+
+						String restcallresponse = extramethodsdao.restcall(restcallvo);
+
+						result = insertvacation(vacationRequestVO);
+
+					} else {
+						vacationRequestVO.setTransactionIDForTata("M");
+						result = insertvacation(vacationRequestVO);
+					}
+			} 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			pstmt.close();
-			ps.close();
+			pstmt1.close();
 			con.close();
 		}
 
 		return result;
 	}
-
-	public String editholiday(HolidayRequestVO holidayvo) throws SQLException {
-		// TODO Auto-generated method stub
-
+	
+	public String insertvacation(VacationRequestVO vacationRequestVO) {
+		
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		String result = "Failure";
-
+		
 		try {
 			con = getConnection();
-
-			pstmt = con
-					.prepareStatement("update HolidayList set HolidayName=?,HolidayDate=?,communityID=? where HolidayID=?");
-			pstmt.setString(1, holidayvo.getHolidayName());
-			pstmt.setString(2, holidayvo.getHolidayDate());
-//			pstmt.setInt(3, LoginDAO.CommunityID);
-			pstmt.setInt(4, holidayvo.getHolidayID());
+			
+			pstmt = con.prepareStatement("INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+			
+			if(vacationRequestVO.getTransactionIDForTata().startsWith("V")) {
+				pstmt.setString(1, vacationRequestVO.getTransactionIDForTata());	
+			}else {
+				pstmt.setString(1, "M");	
+			}
+			
+			pstmt.setInt(2, vacationRequestVO.getCommunityID());
+			pstmt.setInt(3, vacationRequestVO.getBlockID());
+			pstmt.setInt(4, vacationRequestVO.getCustomerID());
+			pstmt.setString(5, vacationRequestVO.getMeterID());
+			pstmt.setString(6, vacationRequestVO.getVacationName());
+			pstmt.setString(7, vacationRequestVO.getStartDateTime());
+			pstmt.setString(8, vacationRequestVO.getEndDateTime());
+			
+			if(vacationRequestVO.getTransactionIDForTata().startsWith("V")) {
+				pstmt.setInt(9, 0); 	
+			}else {
+				pstmt.setInt(9, vacationRequestVO.getStatus()); 
+			}
+			
+			pstmt.setString(10, vacationRequestVO.getSource());
 
 			if (pstmt.executeUpdate() > 0) {
 				result = "Success";
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			pstmt.close();
-			con.close();
+			
+		} catch(Exception e){
+			e.printStackTrace();
 		}
-
-		return result;
-	}
-
-	public String deleteholiday(HolidayRequestVO holidayvo) throws SQLException {
-		// TODO Auto-generated method stub
-
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		String result = "Failure";
-
-		try {
-			con = getConnection();
-			pstmt = con
-					.prepareStatement("delete from HolidayList where communityID=? and HolidayDate=?");
-//			pstmt.setInt(1, LoginDAO.CommunityID);
-			pstmt.setString(2, holidayvo.getHolidayDate());
-
-			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		} finally {
-			pstmt.close();
-			con.close();
-		}
-
 		return result;
 	}
 

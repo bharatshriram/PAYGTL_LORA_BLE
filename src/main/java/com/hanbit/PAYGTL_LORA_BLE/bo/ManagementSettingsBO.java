@@ -9,7 +9,7 @@ import com.hanbit.PAYGTL_LORA_BLE.dao.LoginDAO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ManagementSettingsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.HolidayRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 
 /**
@@ -92,37 +92,21 @@ public class ManagementSettingsBO {
 		
 	}
 
-	/* Holiday */
+	/* Vacation */
 
-	public String addholiday(HolidayRequestVO holidayvo) throws SQLException, BusinessException {
+	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
 		String result = "";
 
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
-		if(holidayvo.getCommunityName().isEmpty() || holidayvo.getHolidayDate().isEmpty() || holidayvo.getHolidayName().isEmpty()){
+		if(vacationRequestVO.getCommunityID() < 0 || vacationRequestVO.getBlockID() < 0 || vacationRequestVO.getVacationName().isEmpty() 
+				|| vacationRequestVO.getCustomerID() < 0 || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 
-		result = managementsettingsdao.addholiday(holidayvo);
-
-		return result;
-		
-	}
-
-	public String editholiday(HolidayRequestVO holidayvo) throws SQLException, BusinessException {
-		// TODO Auto-generated method stub
-
-		String result = "";
-
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
-		
-		if(holidayvo.getCommunityName().isEmpty() || holidayvo.getHolidayDate().isEmpty() || holidayvo.getHolidayName().isEmpty()){
-			throw new BusinessException("ALL FIELDS ARE MANDATORY");
-		}
-
-		result = managementsettingsdao.editholiday(holidayvo);
+		result = managementsettingsdao.addvacation(vacationRequestVO);
 
 		return result;
 		

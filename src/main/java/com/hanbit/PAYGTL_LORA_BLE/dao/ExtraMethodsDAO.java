@@ -158,8 +158,6 @@ public class ExtraMethodsDAO {
 				
 					//  0A0000000042290100000000000000000000000017.
 				
-				System.out.println("tatareferencenum:----- "+responsevo.getPayloads_dl().getTag());
-
 					if (responsevo.getPayloads_dl().getTag().startsWith("T") == true) {
 						
 						PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, AcknowledgeDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
@@ -225,6 +223,61 @@ public class ExtraMethodsDAO {
 						pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
 						pstmt1.setString(2, responsevo.getPayloads_dl().getDeveui());
 						pstmt1.setString(3, responsevo.getPayloads_dl().getTag());
+
+						if (pstmt1.executeUpdate() > 0) {
+							String result = "Success";
+						}
+
+					}
+				
+		}
+		} catch (Exception e) {
+			
+		} finally {
+			con.close();
+			pstmt.close();
+			rs.close();
+		}
+		
+	}
+	
+//	@Scheduled(cron="0 0/30 * * * ?")
+	@Scheduled(cron="0 0/5 * * * ?") 
+	public void vacationstatusupdatecall() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			// modify query accordingly
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT DISTINCT v.CustomerID, cmd.MeterID FROM vacation AS v LEFT JOIN customermeterdetails AS cmd ON v.CustomerID = cmd.CustomerID WHERE v.Status BETWEEN 0 AND 1 AND v.Source = 'web'");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				RestCallVO restcallvo  = new RestCallVO();
+				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				
+				String response = restcall(restcallvo);
+				
+				Gson gson = new Gson();
+				
+				TataResponseVO responsevo = new TataResponseVO();
+				
+				JSONObject jsonObj = new JSONObject(response);
+				
+				responsevo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
+				
+				// write if condition based on reponse from tata api
+				
+					if (responsevo.getPayloads_dl().getTag().startsWith("V") == true) {
+
+						PreparedStatement pstmt1 = con.prepareStatement("UPDATE vacation SET Status = ?, ModifiedDate= NOW() WHERE TataReferenceNumber = ?");
+
+						pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayloads_dl().getTag());
 
 						if (pstmt1.executeUpdate() > 0) {
 							String result = "Success";

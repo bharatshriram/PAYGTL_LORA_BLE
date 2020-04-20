@@ -60,7 +60,7 @@ CREATE TABLE `balancelog` (
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 /*Data for the table `balancelog` */
 
@@ -87,7 +87,15 @@ insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID
 (20,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'2020-04-16 16:42:38','2020-04-16 17:00:47'),
 (21,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-17 02:51:29','2020-04-17 16:05:18'),
 (22,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-18 20:51:49','2020-04-19 00:28:32'),
-(23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'2020-04-20 13:34:40','2020-04-19 13:37:52');
+(23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'2020-04-20 13:34:40','2020-04-19 13:37:52'),
+(24,'70b3d5f830000a68',90.00,1250.00,1,1,6,2.25,50.00,'0.0',3,1,0,0,0,'2020-04-19 21:50:56','2020-04-19 23:25:09'),
+(25,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:39:15','2020-04-19 23:39:50'),
+(26,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.21,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:40:35','2020-04-19 23:41:05'),
+(27,'70b3d5f830000a68',93.00,1400.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-19 23:48:48','2020-04-19 23:49:11'),
+(28,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:51:47','2020-04-19 23:52:44'),
+(29,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.25,10.00,'0.0',3,1,0,0,0,'2020-04-20 14:56:07','2020-04-20 14:58:45'),
+(30,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,1,0,0,0,'2020-04-20 15:25:01','2020-04-20 15:26:30'),
+(31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-20 15:34:30','2020-04-20 15:34:46');
 
 /*Table structure for table `block` */
 
@@ -132,14 +140,18 @@ CREATE TABLE `command` (
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `command` */
 
 insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`MeterID`,`CommandType`,`Status`,`Source`,`CreatedDate`,`ModifiedDate`) values 
 (1,'C-1',2,'70b3d5f83000157a',6,2,'web','2020-04-15 16:48:38','2020-04-15 16:48:38'),
 (2,'C-2',2,'70b3d5f83000157a',6,2,'web','2020-04-15 17:50:05','2020-04-15 17:50:05'),
-(3,'C-3',2,'70b3d5f83000157a',6,2,'web','2020-04-15 19:24:26','2020-04-15 19:24:26');
+(3,'C-3',2,'70b3d5f83000157a',6,2,'web','2020-04-15 19:24:26','2020-04-15 19:24:26'),
+(4,'C-4',6,'70b3d5f830000a68',3,2,'web','2020-04-20 00:25:17','2020-04-20 00:25:17'),
+(5,'C-5',6,'70b3d5f830000a68',5,5,'web','2020-04-20 00:31:48','2020-04-20 15:00:00'),
+(6,'C-6',6,'70b3d5f830000a68',6,2,'web','2020-04-20 15:23:07','2020-04-20 15:25:00'),
+(7,'C-7',6,'70b3d5f830000a68',40,2,'web','2020-04-20 15:28:53','2020-04-20 15:30:01');
 
 /*Table structure for table `community` */
 
@@ -215,7 +227,7 @@ insert  into `customermeterdetails`(`CustomerID`,`CommunityID`,`BlockID`,`HouseN
 (2,2,3,'301','Vml','Kvk','vml@gmail.com','9999999999','70b3d5f83000157a','3456',0,2,1,NULL,2,2,'2020-04-06 15:33:13','2020-04-06 15:33:17'),
 (4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',0,1,1,NULL,1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
 (5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',0,2,1,NULL,6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
-(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',0,2,1,NULL,1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
+(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',100,2,1,NULL,1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
 (9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',0,2,1,'han202009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25');
 
 /*Table structure for table `displaybalancelog` */
@@ -249,24 +261,7 @@ CREATE TABLE `displaybalancelog` (
 insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`IoTTimeStamp`,`LogDate`) values 
 (1,23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'2020-04-20 13:34:40','2020-04-19 13:37:52'),
 (2,17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'2020-04-16 10:36:55','2020-04-16 12:07:09'),
-(3,20,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'2020-04-16 16:42:38','2020-04-16 17:00:47');
-
-/*Table structure for table `holidaylist` */
-
-DROP TABLE IF EXISTS `holidaylist`;
-
-CREATE TABLE `holidaylist` (
-  `HolidayID` int(11) DEFAULT NULL,
-  `HolidayName` varchar(50) DEFAULT NULL,
-  `HolidayDate` varchar(50) DEFAULT NULL,
-  `communityID` int(11) DEFAULT NULL,
-  `LastModified` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-/*Data for the table `holidaylist` */
-
-insert  into `holidaylist`(`HolidayID`,`HolidayName`,`HolidayDate`,`communityID`,`LastModified`) values 
-(61,'holiday',NULL,NULL,NULL);
+(3,31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-20 15:34:30','2020-04-20 15:34:46');
 
 /*Table structure for table `mailsettings` */
 
@@ -358,14 +353,15 @@ CREATE TABLE `testtable` (
   `numb` int(11) DEFAULT NULL,
   PRIMARY KEY (`HolidayID`),
   UNIQUE KEY `numb` (`numb`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 
 /*Data for the table `testtable` */
 
 insert  into `testtable`(`HolidayID`,`date`,`dt`,`numb`) values 
 (64,'2020-04-09 00:09:22','2020-04-09 00:09:22',101),
 (66,'2020-04-09 00:19:19','2020-04-09 00:19:19',301),
-(67,'2020-04-11 16:22:35','2020-04-14 22:30:58',NULL);
+(67,'2020-04-11 16:22:35','2020-04-14 22:30:58',NULL),
+(68,'2020-04-20 20:58:44','2020-04-20 20:59:00',302);
 
 /*Table structure for table `topup` */
 
@@ -391,7 +387,7 @@ CREATE TABLE `topup` (
   `TransactionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `AcknowledgeDate` datetime NOT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 /*Data for the table `topup` */
 
@@ -403,7 +399,9 @@ insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockI
 (5,'T-5',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
 (6,'T-6',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
 (7,'T-7',1,1,6,'70b3d5f830000a68',2,350,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48'),
-(8,'M',1,1,6,'70b3d5f830000a68',2,150,0,'Cash',0,'mobile',1,1,NULL,NULL,'2020-04-19 17:43:16','2020-04-19 17:43:16');
+(8,'M',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'mobile',1,1,NULL,NULL,'2020-04-19 17:43:16','2020-04-19 17:43:16'),
+(9,'T-9',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'web',1,1,NULL,NULL,'2020-04-19 23:35:54','2020-04-19 23:35:54'),
+(10,'T-10',1,1,6,'70b3d5f830000a68',2,200,2,'Cash',0,'web',1,1,NULL,NULL,'2020-04-19 23:50:28','2020-04-20 00:00:00');
 
 /*Table structure for table `updaterequestcustomermeterdetails` */
 
@@ -482,6 +480,33 @@ insert  into `userrole`(`RoleID`,`RoleDescription`) values
 (3,'User'),
 (4,'SuperAdminSupervisor'),
 (5,'AdminSupervisor');
+
+/*Table structure for table `vacation` */
+
+DROP TABLE IF EXISTS `vacation`;
+
+CREATE TABLE `vacation` (
+  `VacationID` int(11) NOT NULL AUTO_INCREMENT,
+  `TataReferenceNumber` varchar(10000) NOT NULL,
+  `CommunityID` int(11) NOT NULL,
+  `BlockID` int(11) NOT NULL,
+  `CustomerID` int(11) NOT NULL,
+  `MeterID` varchar(20) NOT NULL,
+  `VacationName` varchar(300) DEFAULT NULL,
+  `StartDate` datetime NOT NULL,
+  `EndDate` datetime NOT NULL,
+  `Status` tinyint(4) NOT NULL,
+  `Source` varchar(10) NOT NULL,
+  `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ModifiedDate` datetime NOT NULL,
+  PRIMARY KEY (`VacationID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `vacation` */
+
+insert  into `vacation`(`VacationID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`VacationName`,`StartDate`,`EndDate`,`Status`,`Source`,`RegisteredDate`,`ModifiedDate`) values 
+(1,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 12:00:00','2020-04-21 12:15:00',2,'mobile','2020-04-20 23:51:12','2020-04-20 23:51:12'),
+(2,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 13:00:00','2020-04-21 13:15:00',2,'mobile','2020-04-21 00:30:21','2020-04-21 00:30:21');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

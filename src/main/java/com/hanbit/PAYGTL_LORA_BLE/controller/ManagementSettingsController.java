@@ -20,10 +20,10 @@ import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ManagementSettingsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.HolidayRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.HolidayResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserManagementResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
@@ -133,38 +133,32 @@ public class ManagementSettingsController {
 
 		return responsevo;
 	}
+	
+	/* Vacation */
 
-	/* Holiday */
-
-	@RequestMapping(value = "/holiday", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/vacation/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	String holidaydetails() throws SQLException {
+	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
 
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
-		List<HolidayResponseVO> holidaydetailslist = new ArrayList<HolidayResponseVO>();
-		ResponseVO responsevo = new ResponseVO();
+		VacationResponseVO vacationResponseVO = new VacationResponseVO();
 
-		holidaydetailslist = managementsettingsdao.getholidaydetails();
-		responsevo.setHolidays(holidaydetailslist);
+		vacationResponseVO.setData(managementsettingsdao.getvacationdetails(roleid, id));
 
-		String holidaydetails = gson.toJson(responsevo);
-
-		return holidaydetails;
+		return vacationResponseVO;
 	}
 
-	@RequestMapping(value = "/holiday/add", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/vacation/add", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	ResponseVO addholiday(@RequestBody String json) throws ClassNotFoundException,
+	ResponseVO addvacation(@RequestBody VacationRequestVO vacationRequestVO) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		String result = "";
+		String result = "Failure";
 		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
-		HolidayRequestVO holidayvo = new HolidayRequestVO();
 		ResponseVO responsevo = new ResponseVO();
 		
-		holidayvo = gson.fromJson(json, HolidayRequestVO.class);
 		try{
-		result = managementsettingsbo.addholiday(holidayvo);
+		result = managementsettingsbo.addvacation(vacationRequestVO);
 		} catch (BusinessException e) {
 			String message = e.getMessage();
 			responsevo.setMessage(message);
@@ -174,51 +168,5 @@ public class ManagementSettingsController {
 		return responsevo;
 	}
 
-	@RequestMapping(value = "/holiday/edit/{holidayID}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public @ResponseBody
-	ResponseVO editholiday(@PathVariable("holidayID") int holidayid,
-			@RequestBody String json) throws ClassNotFoundException,
-			SQLException, BusinessException {
-
-		String result = "";
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
-		HolidayRequestVO holidayvo = new HolidayRequestVO();
-		ResponseVO responsevo = new ResponseVO();
-		
-		holidayvo = gson.fromJson(json, HolidayRequestVO.class);
-
-		holidayvo.setHolidayID(holidayid);
-		try{
-		result = managementsettingsbo.editholiday(holidayvo);
-			} catch (BusinessException e) {
-				String message = e.getMessage();
-				responsevo.setMessage(message);
-			}
-
-		responsevo.setResult(result);
-
-		return responsevo;
-	}
-
-	@RequestMapping(value = "/holiday/delete/{holidayID}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody
-	String deleteholiday(@PathVariable("holidayID") int holidayid)
-			throws ClassNotFoundException, BusinessException, SQLException {
-
-		String result = "";
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
-		HolidayRequestVO holidayvo = new HolidayRequestVO();
-
-		holidayvo.setHolidayID(holidayid);
-
-		result = managementsettingsdao.deleteholiday(holidayvo);
-
-		ResponseVO responsevo = new ResponseVO();
-
-		responsevo.setResult(result);
-		String flag = gson.toJson(responsevo);
-
-		return flag;
-	}
 
 }
