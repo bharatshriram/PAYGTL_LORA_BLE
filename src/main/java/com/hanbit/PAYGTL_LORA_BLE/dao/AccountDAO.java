@@ -590,6 +590,8 @@ public class AccountDAO {
 					
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 					
+					/* RTC */
+					
 					if (configurationvo.getCommandType() == 5) {
 
 						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
@@ -779,7 +781,7 @@ public class AccountDAO {
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (!rs.getString("Status").equals("2")) {
+				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1")) {
 					result = true;
 				}
 			}
@@ -808,7 +810,7 @@ public class AccountDAO {
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (!rs.getString("Status").equals("2")) {
+				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1")) {
 					result = true;
 				}
 			}

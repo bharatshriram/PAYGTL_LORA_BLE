@@ -92,14 +92,15 @@
                                 <option value="-1">Select</option>
                                  <option value="5">RTC</option>
                                   <option value="3">Clear Meter</option>
-                                  <option value="7">Active Mode</option>
+                                  <!-- <option value="7">Active Mode</option> -->
                                <!-- <option value="10">Set Weekend</option> -->
                                  <option value="1">Clear Tamper</option>
                                   <option value="40">Solenoid Open</option>
                                   <option value="0">Solenoid Close</option>
                                                                <!--  <option value="8">Shutdown Mode</option> -->
                                   <option value="6">Set Default Read</option>
-                                 <option value="9">Maintenance Mode</option>
+                                  <option value="10">Set Tariff</option>
+                                 <!-- <option value="9">Maintenance Mode</option> -->
                               </select>
                             </div>
                           </div>

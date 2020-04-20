@@ -125,7 +125,8 @@ public class ExtraMethodsDAO {
 		return responses.toString();
 	}
 	
-	@Scheduled(cron="0 0/30 * * * ?") 
+//	@Scheduled(cron="0 0/30 * * * ?")
+	@Scheduled(cron="0 0/5 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -184,7 +185,8 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-	@Scheduled(cron="0 0/30 * * * ?") 
+//	@Scheduled(cron="0 0/30 * * * ?")
+	@Scheduled(cron="0 0/5 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
