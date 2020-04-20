@@ -92,11 +92,18 @@
 										var hCols = [3, 4];
 										// DataTable initialisation
 										$('#liveTable').DataTable({
-											"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'p<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
-											"paging": true,
-											"autoWidth": true,
-											
-											
+											"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+											"serverSide" : false,
+											"bDestroy" : true,
+											"pagging" : true,
+											"bProcessing" : false,
+											"bPaginate": true,
+											"ordering" : true,
+											"order" : [ 0, "desc" ],
+											"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+											"pageLength" : 5,
+											"scrollY" : 324,
+											"scrollX" : true,
 											"ajax" : {
 												"url":"/PAYGTL_LORA_BLE/dashboard/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 												"type" : "GET",
@@ -155,11 +162,26 @@
 											
 											
 											
-											"columnDefs": [{
+											/*"columnDefs": [{
 												"visible": false,
 												"targets": hCols
-											}],
-											"buttons": [{
+											}],*/
+											 "buttons": [
+												 {extend: 'excel',
+												        footer: 'true',
+												        text: 'Excel',
+												        title:'Dashboard'  },
+												         
+												        {extend: 'pdf',
+												        footer: 'true',
+												        exportOptions: {
+												            columns: [1,2,3,4,5,6,7,8,9,10,11,12]
+												        },
+												        text: 'pdf',
+												        orientation: 'landscape',
+												        title:'Dashboard'  }
+												]
+											/*"buttons": [{
 												extend: 'colvis',
 												collectionLayout: 'three-column',
 												text: function() {
@@ -218,13 +240,13 @@
 							        }
 												,"initComplete": function(settings, json) {
 													// Adjust hidden columns counter text in button -->
-													$('#example').on('column-visibility.dt', function(e, settings, column, state) {
+													$('#liveTable').on('column-visibility.dt', function(e, settings, column, state) {
 														var visCols = $('#liveTable thead tr:first th').length;
 														//Below: The minus 2 because of the 2 extra buttons Show all and Restore
-														var tblCols = $('.dt-button-collection li[aria-controls=example] a').length - 2;
-														$('.buttons-colvis[aria-controls=example] span').html('Columns (' + visCols + ' of ' + tblCols + ')');
+														var tblCols = $('.dt-button-collection li[aria-controls=liveTable] a').length - 2;
+														$('.buttons-colvis[aria-controls=liveTable] span').html('Columns (' + visCols + ' of ' + tblCols + ')');
 														e.stopPropagation();
 													});
-												}
+												}*/
 											});
 										});

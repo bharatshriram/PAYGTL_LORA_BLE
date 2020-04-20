@@ -6,16 +6,19 @@
 $(document).ready(function() {
 table = $('#customerTable')
 .DataTable(
-{
+{//'Pfrtip'
+	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 "processing" : false,
 "serverSide" : false,
 "bDestroy" : true,
+"bPaginate": true,
+"search": true,
 "pagging" : true,
 "bProcessing" : false,
 "ordering" : true,
 "order" : [ 0, "desc" ],
 "lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-"pageLength" : "5",
+"pageLength" : 5,
 "scrollY" : 324,
 "scrollX" : true,
 "ajax" : {
@@ -72,13 +75,38 @@ return json.data;
 		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
 																	+ row.customerID
 																	+ ")'>"
-																	+ "ABC"
+																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a>"
+																	+"<a onclick='getCustomerFormDelete("
+																	+ row.customerID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																	+ "</a>"
+																	
+																	
 	}
 	}
 
 
 
+], "buttons": [
+   /* 'csvHtml5',
+	'excelHtml5',
+'pdfHtml5'*/
+	
+	/*{extend: 'excel',
+        footer: 'true',
+        text: 'Excel',
+        title:'Statistics'  },
+         
+        {extend: 'pdf',
+        footer: 'true',
+        exportOptions: {
+            columns: [1,2,3,4,5,6,7,8,9,10,11,12]
+        },
+        text: 'pdf',
+        orientation: 'landscape',
+        title:'Statistics'  }*/
 ]
 });
 });
@@ -637,4 +665,11 @@ function getCustomerFormEdit(id) {
 		});
 		$('#myCustomerEdit').modal('show');
 	});
+}
+
+
+function getCustomerFormDelete(cust_id){
+	
+	
+	
 }
