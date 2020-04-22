@@ -6,25 +6,7 @@
 
 $(function() {
 	
-	/*if(sessionStorage.getItem("roleID") == 1){
 	
-		$("#communityAdmin").hide();
-		$("#blockAdmin").hide();
-		$("#selectcommunityName").show();
-		$("#selectBlockBasedonCommunity").show();
-		
-	}else if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
-	
-		$("#communityAdmin").show();
-		$("#blockAdmin").show();
-		$("#selectcommunityName").hide();
-		$("#selectBlockBasedonCommunity").hide();
-		
-	}else if(sessionStorage.getItem("roleID") == 3){
-		
-	}else if(sessionStorage.getItem("roleID") == 4){
-	
-	}*/
 	
 	$.getJSON("/PAYGTL_LORA_BLE/communities/" + sessionStorage.getItem("roleID") + "/"
 			+ sessionStorage.getItem("ID"), function(data) {
@@ -120,4 +102,19 @@ function showTopupDetails(customerId){
 }
 
 
-
+function showCommunitybyTypeuser(id){
+	
+	alert(id);
+	
+	if(id=="Super")
+		$("#usercommunityId,#userblockId").hide();
+		else if(id =="Admin")
+		{
+		$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		$("#formblockName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		$("#usercommunityId").show();
+		$("#userblockId").show();
+		
+		}	
+		
+}
