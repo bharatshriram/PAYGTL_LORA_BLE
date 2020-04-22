@@ -15,7 +15,8 @@ public class ConfigurationRequestVO {
 	private int customerID;
 	private String CRNNumber;
 	private int commandType;
-	private float tariff;
+	private int defaultReading;
+	private int tariffID;
 	private int transactionID;
 	private String source;
 	private String transactionIDForTata;
@@ -56,11 +57,11 @@ public class ConfigurationRequestVO {
 	public void setTransactionID(int transactionID) {
 		this.transactionID = transactionID;
 	}
-	public float getTariff() {
-		return tariff;
+	public int getTariffID() {
+		return tariffID;
 	}
-	public void setTariff(float tariff) {
-		this.tariff = tariff;
+	public void setTariffID(int tariffID) {
+		this.tariffID = tariffID;
 	}
 	public String getSource() {
 		return source;
@@ -79,5 +80,11 @@ public class ConfigurationRequestVO {
 	}
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
+	}
+	public int getDefaultReading() {
+		return defaultReading;
+	}
+	public void setDefaultReading(int defaultReading) {
+		this.defaultReading = defaultReading;
 	}
 }

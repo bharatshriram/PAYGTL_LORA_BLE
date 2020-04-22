@@ -259,7 +259,7 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 				
 					//  0A0000000042290100000000000000000000000017.
 				
-//					if (responsevo.getPayloads_dl().getTag().startsWith("T") == true) {
+					if (responsevo.getPayloads_dl().getTag().startsWith("T") == true) {
 						
 						PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, AcknowledgeDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
 
@@ -271,7 +271,7 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 							String result = "Success";
 						}
 
-//					}
+					}
 				
 		} 
 		} catch (Exception e) {
@@ -295,13 +295,16 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM command WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
+			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM command WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
-				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
+				
+//				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
 				
 				String response = restcall(restcallvo);
 				
@@ -353,13 +356,16 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT v.CustomerID, cmd.MeterID FROM vacation AS v LEFT JOIN customermeterdetails AS cmd ON v.CustomerID = cmd.CustomerID WHERE v.Status BETWEEN 0 AND 1 AND v.Source = 'web'");
+			pstmt = con.prepareStatement("SELECT v.CustomerID, cmd.MeterID, v.TataReferenceNumber FROM vacation AS v LEFT JOIN customermeterdetails AS cmd ON v.CustomerID = cmd.CustomerID WHERE v.Status BETWEEN 0 AND 1 AND v.Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
-				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
+				
+//				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
 				
 				String response = restcall(restcallvo);
 				

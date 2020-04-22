@@ -194,7 +194,6 @@ CREATE TABLE `customerdeletemeter` (
   `MobileNumber` varchar(10) NOT NULL,
   `MeterID` varchar(70) DEFAULT NULL,
   `MeterSerialNumber` varchar(30) DEFAULT NULL,
-  `DefaultReading` int(11) DEFAULT NULL,
   `TariffID` int(11) NOT NULL,
   `CRNNumber` varchar(50) DEFAULT NULL,
   `CreatedByID` int(11) NOT NULL,
@@ -221,7 +220,6 @@ CREATE TABLE `customermeterdetails` (
   `MobileNumber` varchar(10) NOT NULL,
   `MeterID` varchar(70) DEFAULT NULL,
   `MeterSerialNumber` varchar(30) DEFAULT NULL,
-  `DefaultReading` int(11) DEFAULT NULL,
   `TariffID` int(11) NOT NULL,
   `ActiveStatus` tinyint(4) DEFAULT NULL,
   `CRNNumber` varchar(50) DEFAULT NULL,
@@ -235,13 +233,13 @@ CREATE TABLE `customermeterdetails` (
 
 /*Data for the table `customermeterdetails` */
 
-insert  into `customermeterdetails`(`CustomerID`,`CommunityID`,`BlockID`,`HouseNumber`,`FirstName`,`LastName`,`Email`,`MobileNumber`,`MeterID`,`MeterSerialNumber`,`DefaultReading`,`TariffID`,`ActiveStatus`,`CRNNumber`,`CreatedByID`,`CreatedByRoleID`,`RegistrationDate`,`ModifiedDate`) values 
-(1,1,1,'101','Vimal','Kumar','kvk9889@gmail.com','8498890000','70b3d5f830004f56','1234',0,1,1,'HAN0001',2,2,'2020-04-05 01:58:12','2020-04-05 01:58:12'),
-(2,2,3,'301','Vml','Kvk','vml@gmail.com','9999999999','70b3d5f83000157a','3456',0,2,1,'HAN0002',2,2,'2020-04-06 15:33:13','2020-04-06 15:33:17'),
-(4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',0,1,1,'HAN0004',1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
-(5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',0,2,1,'HAN0005',6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
-(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',100,2,1,'HAN0006',1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
-(9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',0,2,1,'HAN0009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25');
+insert  into `customermeterdetails`(`CustomerID`,`CommunityID`,`BlockID`,`HouseNumber`,`FirstName`,`LastName`,`Email`,`MobileNumber`,`MeterID`,`MeterSerialNumber`,`TariffID`,`ActiveStatus`,`CRNNumber`,`CreatedByID`,`CreatedByRoleID`,`RegistrationDate`,`ModifiedDate`) values 
+(1,1,1,'101','Vimal','Kumar','kvk9889@gmail.com','8498890000','70b3d5f830004f56','1234',1,1,'HAN0001',2,2,'2020-04-05 01:58:12','2020-04-05 01:58:12'),
+(2,2,3,'301','Vml','Kvk','vml@gmail.com','9999999999','70b3d5f83000157a','3456',2,1,'HAN0002',2,2,'2020-04-06 15:33:13','2020-04-06 15:33:17'),
+(4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',1,1,'HAN0004',1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
+(5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',2,1,'HAN0005',6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
+(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',2,1,'HAN0006',1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
+(9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',2,1,'HAN0009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25');
 
 /*Table structure for table `displaybalancelog` */
 
@@ -348,14 +346,15 @@ CREATE TABLE `tariff` (
   `AlarmCredit` float DEFAULT NULL,
   `FixedCharges` float DEFAULT NULL,
   `RegisteredDate` datetime NOT NULL,
+  `ModifiedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`TariffID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tariff` */
 
-insert  into `tariff`(`TariffID`,`Tariff`,`TariffName`,`EmergencyCredit`,`AlarmCredit`,`FixedCharges`,`RegisteredDate`) values 
-(1,30,'Tariff1',10,15,25,'2020-04-04 23:06:14'),
-(2,50,'Tariff2',20,10,10,'2020-04-07 00:13:09');
+insert  into `tariff`(`TariffID`,`Tariff`,`TariffName`,`EmergencyCredit`,`AlarmCredit`,`FixedCharges`,`RegisteredDate`,`ModifiedDate`) values 
+(1,30,'Tariff1',10,15,25,'2020-04-04 23:06:14','0000-00-00 00:00:00'),
+(2,50,'Tariff2',20,10,10,'2020-04-07 00:13:09','0000-00-00 00:00:00');
 
 /*Table structure for table `testtable` */
 

@@ -22,7 +22,6 @@ public class CustomerResponseVO {
 	private String mobileNumber;
 	private String meterID;
 	private String meterSerialNumber;
-	private int defaultReading;
 	private String tariffName;
 	private String date;
 	private String createdByUserName;
@@ -91,12 +90,6 @@ public class CustomerResponseVO {
 	}
 	public void setMeterSerialNumber(String meterSerialNumber) {
 		this.meterSerialNumber = meterSerialNumber;
-	}
-	public int getDefaultReading() {
-		return defaultReading;
-	}
-	public void setDefaultReading(int defaultReading) {
-		this.defaultReading = defaultReading;
 	}
 	public String getDate() {
 		return date;

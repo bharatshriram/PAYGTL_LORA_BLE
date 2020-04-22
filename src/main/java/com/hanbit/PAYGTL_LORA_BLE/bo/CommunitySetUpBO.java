@@ -154,7 +154,7 @@ public class CommunitySetUpBO {
 		}
 		
 		if(communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName(), customervo.getCRNNumber())) {
-			throw new BusinessException("CUSTOMER ALREADY REGISTERED");
+			throw new BusinessException("CUSTOMER/CRNNumber ALREADY REGISTERED");
 		}
 
 		return communitysetupdao.addcustomer(customervo);
@@ -230,6 +230,32 @@ public class CommunitySetUpBO {
 		}
 
 		return communitysetupdao.addtariff(tariffvo);
+	}
+	
+	public String edittariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
+		// TODO Auto-generated method stub
+		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
+		
+		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
+			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		
+		if(communitysetupdao.checktariffamount(tariffvo.getTariff())) {
+			throw new BusinessException("TARIFF AMOUNT ALREADY EXISTS");
+		}
+
+		return communitysetupdao.edittariff(tariffvo);
+	}
+	
+	public String deletetariff(int tariffID) throws BusinessException, SQLException {
+		// TODO Auto-generated method stub
+		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
+		
+		if(communitysetupdao.checktariffIsSetToCustomers(tariffID)) {
+			throw new BusinessException("TARIFF CANNOT BE DELETED AS IT IS ASSIGNED TO CUSTOMERS");
+		}
+
+		return communitysetupdao.deletetariff(tariffID);
 	}
 
 	/* Validations */

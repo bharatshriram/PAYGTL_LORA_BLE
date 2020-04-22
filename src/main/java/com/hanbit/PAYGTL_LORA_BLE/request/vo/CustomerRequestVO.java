@@ -19,7 +19,6 @@ public class CustomerRequestVO {
 	private String mobileNumber;
 	private String meterID;
 	private String meterSerialNumber;
-	private String defaultReading;
 	private int tariffID;
 	private String CRNNumber;
 	private int createdByID;
@@ -85,12 +84,6 @@ public class CustomerRequestVO {
 	}
 	public void setMeterSerialNumber(String meterSerialNumber) {
 		this.meterSerialNumber = meterSerialNumber;
-	}
-	public String getDefaultReading() {
-		return defaultReading;
-	}
-	public void setDefaultReading(String defaultReading) {
-		this.defaultReading = defaultReading;
 	}
 	public int getCreatedByID() {
 		return createdByID;

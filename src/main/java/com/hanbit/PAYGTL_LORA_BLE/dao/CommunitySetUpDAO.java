@@ -399,7 +399,7 @@ public class CommunitySetUpDAO {
 			String query =
 					"SELECT community.CommunityName, block.BlockName, customermeterdetails.CustomerID, customermeterdetails.HouseNumber, customermeterdetails.FirstName, customermeterdetails.LastName, \r\n" + 
 							"customermeterdetails.Email, customermeterdetails.MobileNumber, customermeterdetails.MeterID, customermeterdetails.MeterSerialNumber, \r\n" + 
-							"customermeterdetails.DefaultReading, customermeterdetails.CRNNumber, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
+							"customermeterdetails.CRNNumber, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
 							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID LEFT JOIN tariff ON tariff.TariffID = customermeterdetails.TariffID <change>";
 							
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = '"+id+"'":""));
@@ -419,7 +419,6 @@ public class CommunitySetUpDAO {
 				customervo.setCRNNumber(rs.getString("CRNNumber"));
 				customervo.setCustomerID(rs.getInt("CustomerID"));
 				customervo.setMeterID(rs.getString("MeterID"));
-				customervo.setDefaultReading(rs.getInt("DefaultReading"));
 				customervo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				customervo.setTariffName(rs.getString("TariffName"));
 				
@@ -459,7 +458,7 @@ public class CommunitySetUpDAO {
 			int i = 0;
 			
 			pstmt = con.prepareStatement(
-					"INSERT INTO customermeterdetails (CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, DefaultReading, TariffID, ActiveStatus, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, Now(), Now() )");
+					"INSERT INTO customermeterdetails (CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, TariffID, ActiveStatus, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, Now(), Now() )");
 			pstmt.setInt(1, customervo.getCommunityID());
 			pstmt.setInt(2, customervo.getBlockID());
 			pstmt.setString(3, customervo.getHouseNumber());
@@ -469,7 +468,6 @@ public class CommunitySetUpDAO {
 			pstmt.setString(7, customervo.getMobileNumber());
 			pstmt.setString(8, customervo.getMeterID());
 			pstmt.setString(9, customervo.getMeterSerialNumber());
-			pstmt.setString(10, customervo.getDefaultReading());
 			pstmt.setInt(11, customervo.getTariffID());
 			pstmt.setString(12, customervo.getCRNNumber());
 			pstmt.setInt(13, customervo.getCreatedByID());
@@ -591,12 +589,13 @@ public class CommunitySetUpDAO {
 	            }
 				
 			}else {
-				pstmt = con.prepareStatement("UPDATE customermeterdetails SET HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CRNNumber = ?");
-	            pstmt.setString(1, customervo.getHouseNumber());
-	            pstmt.setString(2, customervo.getFirstName());
-	            pstmt.setString(3, customervo.getEmail());
-	            pstmt.setString(4, customervo.getMobileNumber());
-	            pstmt.setString(5, customervo.getCRNNumber());
+				pstmt = con.prepareStatement("UPDATE customermeterdetails SET MeterID = ?, HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CRNNumber = ?");
+	            pstmt.setString(1, customervo.getMeterID());
+				pstmt.setString(2, customervo.getHouseNumber());
+	            pstmt.setString(3, customervo.getFirstName());
+	            pstmt.setString(4, customervo.getEmail());
+	            pstmt.setString(5, customervo.getMobileNumber());
+	            pstmt.setString(6, customervo.getCRNNumber());
 
 	            if (pstmt.executeUpdate() > 0) {
 	            	result = "Success";
@@ -842,7 +841,7 @@ public class CommunitySetUpDAO {
 		try {
 			con = getConnection();
 			tariff_list = new LinkedList<TariffResponseVO>();
-			pstmt = con.prepareStatement("SELECT TariffID, Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate FROM tariff");
+			pstmt = con.prepareStatement("SELECT TariffID, Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, ModifiedDate FROM tariff");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -853,7 +852,7 @@ public class CommunitySetUpDAO {
 				tariffvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				tariffvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				tariffvo.setFixedCharges(rs.getString("FixedCharges"));
-				tariffvo.setRegisteredDate(rs.getString("RegisteredDate"));
+				tariffvo.setRegisteredDate(rs.getString("ModifiedDate"));
 				tariff_list.add(tariffvo);
 			}
 		} catch (Exception ex) {
@@ -882,7 +881,7 @@ public class CommunitySetUpDAO {
 			pstmt.setFloat(4, tariffvo.getAlarmCredit());
 			pstmt.setFloat(5, tariffvo.getFixedCharges());
 
-			if (!pstmt.execute()) {
+			if (pstmt.executeUpdate() > 0) {
 
 				result = "Success";
 
@@ -919,6 +918,90 @@ public class CommunitySetUpDAO {
 		} finally {
 			pstmt.close();
 			rs.close();
+			con.close();
+		}
+
+		return result;
+	}
+
+	public String edittariff(TariffRequestVO tariffvo) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String result = "Failure";
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("UPDATE tariff SET Tariff = ?, TariffName = ?, EmergencyCredit = ?, AlarmCredit = ?, FixedCharges = ?, ModifiedDate = NOW() WHERE TariffID = ?");
+			pstmt.setFloat(1, tariffvo.getTariff());
+			pstmt.setString(2, tariffvo.getTariffName());
+			pstmt.setFloat(3, tariffvo.getEmergencyCredit());
+			pstmt.setFloat(4, tariffvo.getAlarmCredit());
+			pstmt.setFloat(5, tariffvo.getFixedCharges());
+			pstmt.setInt(6, tariffvo.getTariffID());
+
+			if (pstmt.executeUpdate() > 0) {
+
+				result = "Success";
+
+			} 
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+
+		return result;
+	}
+	
+	public String deletetariff(int tariffID) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String result = "Failure";
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("DELETE FROM tariff WHERE TariffID = ?"+tariffID);
+
+			if (pstmt.executeUpdate() > 0) {
+
+				result = "Success";
+
+			} 
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+
+		return result;
+	}
+	
+	public boolean checktariffIsSetToCustomers(int tariffID) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT * FROM customermeterdetails WHERE TariffID = ?"+tariffID);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+
+				result = true;
+
+			} 
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
 			con.close();
 		}
 
