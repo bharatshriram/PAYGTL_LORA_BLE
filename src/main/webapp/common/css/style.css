@@ -175,7 +175,7 @@ option:first-child
     }
 
   /*sidenav start */
-.sidebar{ width:220px;  background-color:#000;transition: all 0.5s  ease-in-out; position: fixed;height: 83vh;}
+.sidebar{ width:220px;  background-color:#000;transition: all 0.5s  ease-in-out; position: fixed;height: 83vh; overflow-y:auto}
 .bg-defoult{background-color:#222;}
 .sidebar ul{ list-style:none; margin:0px; padding:0px; }
 .sidebar li a,.sidebar li a.collapsed.active{ display:block; padding:8px 12px; color:#fff;border-left:0px solid #dedede;  text-decoration:none}

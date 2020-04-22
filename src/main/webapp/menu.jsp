@@ -15,7 +15,7 @@
 	%>
 
 	<%
-		if (null == user_id) {
+		if (user_id == null) {
 			response.sendRedirect("login.jsp");
 		}
 	%>
@@ -48,17 +48,19 @@
                 <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
                 <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
                 <li> <a href="alert.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Alerts</span></a> </li>
-                <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
+               <!--  <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>
                   <ul class="sub-menu collapse" id="dashboard">
-                    <li class="active"><a href="userConsumptions.jsp">User Consumptions</a></li>
-                    <li><a href="topupSummary.jsp">Top Up Summary</a></li>
-                    <li><a href="financialreports.jsp">Financial Reports</a></li>
-                    <li><a href="alarms.jsp">Alarms</a></li>
+                    
                   </ul>
-                </li>
+                </li> -->
                 
+                <li class="active"><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
+                    <li><a href="topupSummary.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="financialreports.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Financial Reports</span></a></li>
+                    <li><a href="alarms.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Alarms</span></a></li>
+<li><a href="Mgmt.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Management</span></a></li>                
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
                 <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>

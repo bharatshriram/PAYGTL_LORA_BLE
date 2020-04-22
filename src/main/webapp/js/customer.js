@@ -477,7 +477,7 @@ $(document)
 												data1["CRNNumber"] = $("#CRNAdd").val();
 												data1["createdByID"] = sessionStorage.getItem("createdByID");
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
-												data1["roleID"] = sessionStorage.getItem("roleID");
+												data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
 												
 												alert("===>"
 														+ JSON.stringify(data1));
@@ -556,7 +556,7 @@ $(document)
 										data1["defaultReading"] = $("#defaultReadingEdit").val();
 										data1["createdByID"] = sessionStorage.getItem("createdByID");
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
-										data1["roleID"] = sessionStorage.getItem("roleID");
+										data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
 								
 										alert("===>"
 												+ JSON.stringify(data1));

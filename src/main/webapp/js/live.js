@@ -92,7 +92,7 @@
 										var hCols = [3, 4];
 										// DataTable initialisation
 										$('#liveTable').DataTable({
-											"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+											"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 											"serverSide" : false,
 											"bDestroy" : true,
 											"pagging" : true,
