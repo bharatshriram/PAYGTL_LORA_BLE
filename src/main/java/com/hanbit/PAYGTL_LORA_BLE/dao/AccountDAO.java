@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import org.json.simple.JSONObject;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
@@ -25,7 +24,6 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -81,8 +79,8 @@ public class AccountDAO {
 						}
 					}
 					
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
-					pstmt1.setInt(1, topupvo.getCustomerID());
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff, t.CRNNumber FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
+					pstmt1.setString(1, topupvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if (rs1.next()) {
 
@@ -103,49 +101,12 @@ public class AccountDAO {
 					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
 					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
 					
-					System.out.println("dataframe in topup:-- "+dataframe);
-
-					String HexaToBase64 = Encoding.getHexBase644(dataframe);
-					System.out.println("encoded dataframe in topup:-- "+HexaToBase64);
-					
-					JSONObject json = new JSONObject();
-
-					JSONObject innerjson = new JSONObject();
-
-					JSONObject payload = new JSONObject();
-
-					JSONObject innerjsonpayload = new JSONObject();
-
-					innerjson.put("ty", 4);
-
-					innerjson.put("cnf", "text/plain:0");
-
-					innerjson.put("cs", 250);
-
-					innerjsonpayload.put("deveui", topupvo.getMeterID().toLowerCase());
-
-					innerjsonpayload.put("port", 5);
-
-					innerjsonpayload.put("confirmed", true);
-
-					innerjsonpayload.put("data", HexaToBase64);
-
-					innerjsonpayload.put("on_busy", "fail");
-
-					innerjsonpayload.put("tag", topupvo.getTransactionIDForTata());
-
-					payload.put("payload_dl", innerjsonpayload);
-
-					innerjson.put("con", payload.toString());
-					json.put("m2m:cin", innerjson);
-
+					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					RestCallVO restcallvo = new RestCallVO();
+					
+					restcallvo.setData(extramethodsdao.createjson(dataframe, topupvo.getMeterID(), topupvo.getTransactionIDForTata()));
 					restcallvo.setMeterID(topupvo.getMeterID().toLowerCase());
 					restcallvo.setUrlExtension("/DownlinkPayload");
-					restcallvo.setData(json.toString());
-					System.out.println("data to be sent to tata gateway in topup:- "+ restcallvo.getData());
-					
-					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					
 					String restcallresponse = extramethodsdao.restcall(restcallvo);
 					
@@ -184,12 +145,12 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 			
-			PreparedStatement pstmt = con.prepareStatement("SELECT CommunityID, BlockID, MeterID, TariffID FROM customermeterdetails WHERE CustomerID = ?");
-			pstmt.setInt(1, topUpRequestVO.getCustomerID());
+			PreparedStatement pstmt = con.prepareStatement("SELECT CommunityID, BlockID, MeterID, TariffID FROM customermeterdetails WHERE CRNNumber = ?");
+			pstmt.setString(1, topUpRequestVO.getCRNNumber());
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				
-			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 			ps = con.prepareStatement(sql);
 			
 			if(topUpRequestVO.getTransactionIDForTata().startsWith("T")) {
@@ -200,7 +161,7 @@ public class AccountDAO {
 			
 			ps.setInt(2, rs.getInt("CommunityID")); 
 			ps.setInt(3, rs.getInt("BlockID"));
-			ps.setInt(4, topUpRequestVO.getCustomerID());
+			ps.setInt(4, rs.getInt("CustomerID"));
 			ps.setString(5, rs.getString("MeterID"));
 			ps.setInt(6, rs.getInt("TariffID"));
 			ps.setFloat(7, topUpRequestVO.getAmount());
@@ -216,7 +177,8 @@ public class AccountDAO {
 			ps.setString(11, topUpRequestVO.getSource());
 			ps.setFloat(12, topUpRequestVO.getTransactedByID());
 			ps.setInt(13, topUpRequestVO.getTransactedByRoleID());
-			System.out.println("in inserttpup");
+			ps.setString(14, topUpRequestVO.getCRNNumber());
+
 			if (ps.executeUpdate() > 0) {
 				result = "Success";
 
@@ -231,7 +193,7 @@ public class AccountDAO {
 
 	/* Status */
 
-	public List<StatusResponseVO> getStatusdetails(int roleid, int id) throws SQLException {
+	public List<StatusResponseVO> getStatusdetails(int roleid, String id) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -245,13 +207,11 @@ public class AccountDAO {
 			con = getConnection();
 			statuslist = new LinkedList<StatusResponseVO>();
 			
-			// hit tata gateway api for the status of the pending transactions----code from TopupDAO in lora_Gasprepaid project
-			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
-							"LEFT JOIN customermeterdetails AS cmd ON t.CustomerID = cmd.CustomerID <change>";
+							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CustomerID = "+id:""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CRNNumber = "+id:""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -262,6 +222,7 @@ public class AccountDAO {
 				statusvo.setFirstName(rs.getString("FirstName"));
 				statusvo.setLastName(rs.getString("LastName"));
 				statusvo.setHouseNumber(rs.getString("HouseNumber"));
+				statusvo.setCRNNumber(rs.getString("CRNNumber"));
 				statusvo.setMeterID(rs.getString("MeterID"));
 				statusvo.setAmount(rs.getString("Amount"));
 				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
@@ -487,7 +448,7 @@ public class AccountDAO {
 
 	/* Configuration */
 
-	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, int id)
+	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, String id)
 			throws SQLException {
 
 		Connection con = null;
@@ -498,12 +459,12 @@ public class AccountDAO {
 			con = getConnection();
 			configurationdetailslist = new LinkedList<ConfigurationResponseVO>();
 
-			String query = "SELECT cmd.TransactionID, cmd.CustomerID, cmd.MeterID, cmd.CommandType, cmd.ModifiedDate, cmd.Status FROM command AS cmd \r\n" + 
-					"LEFT JOIN customermeterdetails AS cm ON cm.CustomerID = cmd.CustomerID\r\n" + 
+			String query = "SELECT cmd.TransactionID, cmd.CRNNumber, cmd.MeterID, cmd.CommandType, cmd.ModifiedDate, cmd.Status FROM command AS cmd \r\n" + 
+					"LEFT JOIN customermeterdetails AS cm ON cm.CRNNumber = cmd.CRNNumber\r\n" + 
 					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
 					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CustomerID = "+id+ " ORDER BY cmd.ModifiedDate DESC":""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = "+id+ " ORDER BY cmd.ModifiedDate DESC":""));
 			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;
@@ -574,7 +535,6 @@ public class AccountDAO {
 		String result = "Failure";
 		Random randomNumber = new Random();
 		String dataframe = "";
-		String transactionIDForTata = "";
 
 		try {
 				con = getConnection();
@@ -583,10 +543,10 @@ public class AccountDAO {
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					if(rs.getString("TransactionID") == null) {
-						 transactionIDForTata = "C-" + 1;
-					}else {
-						transactionIDForTata = "C-" + (rs.getInt("TransactionID")+1);
-					}
+						configurationvo.setTransactionIDForTata("T-" + 1);
+					} else {
+						configurationvo.setTransactionIDForTata("T-" + (rs.getInt("TransactionID")+1));
+						}
 					
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 					
@@ -672,57 +632,30 @@ public class AccountDAO {
 
 					//	String hexadecimal = "0A0000000042290100000000000000000000000017";
 					
-					String HexaToBase64 = Encoding.getHexBase644(dataframe);
-					System.out.println("dataframe in config:-- "+dataframe);
-					System.out.println("encoded dataframe in config:-- "+HexaToBase64);
-					
-					JSONObject json = new JSONObject();
-
-					JSONObject innerjson = new JSONObject();
-
-					JSONObject payload = new JSONObject();
-
-					JSONObject innerjsonpayload = new JSONObject();
-
-					innerjson.put("ty", 4);
-
-					innerjson.put("cnf", "text/plain:0");
-
-					innerjson.put("cs", 250);
-
-					innerjsonpayload.put("deveui", configurationvo.getMeterID().toLowerCase());
-
-					innerjsonpayload.put("port", 5);
-
-					innerjsonpayload.put("confirmed", true);
-
-					innerjsonpayload.put("data", HexaToBase64);
-
-					innerjsonpayload.put("on_busy", "fail");
-
-					innerjsonpayload.put("tag", transactionIDForTata);
-
-					payload.put("payload_dl", innerjsonpayload);
-
-					innerjson.put("con", payload.toString());
-					json.put("m2m:cin", innerjson);
-
+					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					RestCallVO restcallvo = new RestCallVO();
+					
+					restcallvo.setData(extramethodsdao.createjson(dataframe, configurationvo.getMeterID(), configurationvo.getTransactionIDForTata()));
 					restcallvo.setMeterID(configurationvo.getMeterID().toLowerCase());
 					restcallvo.setUrlExtension("/DownlinkPayload");
-					restcallvo.setData(json.toString());
-					
-					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					
 					String restcallresponse = extramethodsdao.restcall(restcallvo);
 						//perform some action with restcallresponse in future based on requirement
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, Source, ModifiedDate) VALUES (?, ?, ?, ?, 0, ?, NOW())");
-					ps.setString(1, transactionIDForTata);
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+					pstmt1.setString(1, configurationvo.getCRNNumber());
+					ResultSet rs1 = pstmt1.executeQuery();
+					if(rs1.next()) {
+						configurationvo.setCustomerID(rs1.getInt("CustomerID"));
+					}
+					
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, 0, ?, ?, NOW())");
+					ps.setString(1, configurationvo.getTransactionIDForTata());
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
 					ps.setString(5, configurationvo.getSource());
+					ps.setString(6, configurationvo.getCRNNumber());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";
@@ -835,8 +768,8 @@ public class AccountDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CustomerID = ?");
-			pstmt.setInt(1, topupvo.getCustomerID());
+			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
+			pstmt.setString(1, topupvo.getCRNNumber());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				if(topupvo.getAmount() < rs.getFloat("EmergencyCredit") || topupvo.getAmount() < rs.getFloat("AlarmCredit"))

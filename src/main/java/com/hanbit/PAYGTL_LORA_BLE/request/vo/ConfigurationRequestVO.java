@@ -13,10 +13,12 @@ public class ConfigurationRequestVO {
 	private int communityID;
 	private int blockID;
 	private int customerID;
+	private String CRNNumber;
 	private int commandType;
 	private float tariff;
 	private int transactionID;
 	private String source;
+	private String transactionIDForTata;
 	
 	public String getMeterID() {
 		return meterID;
@@ -66,5 +68,16 @@ public class ConfigurationRequestVO {
 	public void setSource(String source) {
 		this.source = source;
 	}
-
+	public String getTransactionIDForTata() {
+		return transactionIDForTata;
+	}
+	public void setTransactionIDForTata(String transactionIDForTata) {
+		this.transactionIDForTata = transactionIDForTata;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
+	}
 }

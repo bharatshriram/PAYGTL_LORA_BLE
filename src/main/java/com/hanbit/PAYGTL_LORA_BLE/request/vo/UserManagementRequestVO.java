@@ -21,6 +21,7 @@ public class UserManagementRequestVO {
 	private String loggedInUserID;
 	private String oldPassword;
 	private String newPassword;
+	private String CRNNumber;
 	
 	public int getCommunityID() {
 		return communityID;
@@ -94,6 +95,12 @@ public class UserManagementRequestVO {
 	}
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

@@ -158,12 +158,12 @@ public class ReportsDAO {
 			con = getConnection();
 			userconsumptionreportsresponselist = new ArrayList<UserConsumptionReportsResponseVO>();
 
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, cmd.CRNNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
 					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.IoTTimeStamp, bl.LogDate\r\n" + 
 					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = bl.CustomerID WHERE bl.CustomerID = ? AND bl.IoTTimeStamp BETWEEN ? AND ? ";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? ";
 				pstmt = con.prepareStatement(query);
-				pstmt.setInt(1, userconsumptionreportsrequestvo.getCustomerID());
+				pstmt.setString(1, userconsumptionreportsrequestvo.getCRNNumber());
 				pstmt.setString(2, userconsumptionreportsrequestvo.getFromDate()+" 00:00:00");
 				pstmt.setString(3,userconsumptionreportsrequestvo.getToDate()+" 23:59:59");
 
@@ -171,7 +171,8 @@ public class ReportsDAO {
 				while (rs.next()) {
 
 					userconsumptionreportsresponsevo = new UserConsumptionReportsResponseVO();
-
+					
+					userconsumptionreportsresponsevo.setCRNNumber(rs.getString("CRNNumber"));
 					userconsumptionreportsresponsevo.setMeterID(rs.getString("MeterID"));
 					userconsumptionreportsresponsevo.setReading(rs.getFloat("Reading"));
 					userconsumptionreportsresponsevo.setBalance(rs.getFloat("Balance"));
@@ -917,10 +918,10 @@ public class ReportsDAO {
 			con = getConnection();
 			topupsummarydetails = new LinkedList<TopUpSummaryResponseVO>();
 			
-				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, t.Amount, t.Status, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
-						"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = t.CustomerID WHERE t.CustomerID = ? AND t.TransactionDate BETWEEN ? AND ? ");
+				pstmt = con.prepareStatement("SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, cmd.CRNNumber, t.Amount, t.Status, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
+						"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.CRNNumber = ? AND t.TransactionDate BETWEEN ? AND ? ");
 				
-				pstmt.setInt(1, topupsummaryrequestvo.getCustomerID());
+				pstmt.setString(1, topupsummaryrequestvo.getCRNNumber());
 				pstmt.setString(2, topupsummaryrequestvo.getFromDate()+" 00:00:00");
 				pstmt.setString(3,topupsummaryrequestvo.getToDate()+" 23:59:59");
 
@@ -933,6 +934,7 @@ public class ReportsDAO {
 					topupsummaryresponsevo.setFirstName(rs.getString("FirstName"));
 					topupsummaryresponsevo.setLastName(rs.getString("LastName"));
 					topupsummaryresponsevo.setHouseNumber(rs.getString("HouseNumber"));
+					topupsummaryresponsevo.setCRNNumber(rs.getString("CRNNumber"));
 					topupsummaryresponsevo.setMeterID(rs.getString("MeterID"));
 					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
 					topupsummaryresponsevo.setModeOfPayment(rs.getString("ModeOfPayment"));
@@ -996,7 +998,7 @@ public class ReportsDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 			
-			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
+			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE cmd.BlockID = "+id : " ORDER BY cmd.CustomerID ASC"));
 			rs = pstmt.executeQuery();
 			
@@ -1013,6 +1015,7 @@ public class ReportsDAO {
 						alarmsResponseVO.setCommunityName(rs.getString("CommunityName"));
 						alarmsResponseVO.setBlockName(rs.getString("BlockName"));
 						alarmsResponseVO.setHouseNumber(rs.getString("HouseNumber"));
+						alarmsResponseVO.setCRNNumber(rs.getString("CRNNumber"));
 						alarmsResponseVO.setMeterID(rs.getString("MeterID"));
 						alarmsResponseVO.setDifference(rs2.getInt("Minutes"));
 						PreparedStatement pstmt3 = con.prepareStatement("SELECT BatteryVoltage, TamperDetect, IoTTimeStamp, TamperDetect, LowBattery FROM displaybalancelog WHERE MeterID = ?");

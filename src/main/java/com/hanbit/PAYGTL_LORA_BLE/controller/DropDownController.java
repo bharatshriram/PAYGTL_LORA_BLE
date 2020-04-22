@@ -60,14 +60,14 @@ public class DropDownController {
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/topupdetails/{customerID}",method = RequestMethod.GET, 
+	@RequestMapping(value = "/topupdetails/{CRNNumber}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO gettopupdetails(@PathVariable ("customerID") int customerID) throws SQLException {
+	public @ResponseBody ResponseVO gettopupdetails(@PathVariable ("CRNNumber") String CRNNumber) throws SQLException {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();
 		
-		responsevo.setTopupdetails(dropdowndao.gettopupdetails(customerID));
+		responsevo.setTopupdetails(dropdowndao.gettopupdetails(CRNNumber));
 		
 		return responsevo;
 	}

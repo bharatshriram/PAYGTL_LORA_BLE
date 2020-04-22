@@ -15,6 +15,7 @@ public class CustomerResponseVO {
 	private String communityName;
 	private String blockName;
 	private String houseNumber;
+	private String CRNNumber;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -138,6 +139,12 @@ public class CustomerResponseVO {
 	}
 	public void setTariffName(String tariffName) {
 		this.tariffName = tariffName;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

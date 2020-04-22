@@ -28,7 +28,7 @@ public class ManagementSettingsBO {
 		
 		if(usermanagementvo.getRoleID()==4) {
 			
-			if(usermanagementvo.getCommunityID()<0 || usermanagementvo.getBlockID()<0 ||usermanagementvo.getUserID().isEmpty() || usermanagementvo.getUserPassword().isEmpty() || usermanagementvo.getConfirmPassword().isEmpty()){
+			if(usermanagementvo.getUserID().isEmpty() || usermanagementvo.getUserPassword().isEmpty() || usermanagementvo.getConfirmPassword().isEmpty()){
 				throw new BusinessException("ALL FIELDS ARE MANDATORY");
 			}			
 		} else {
@@ -102,14 +102,35 @@ public class ManagementSettingsBO {
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
 		if(vacationRequestVO.getCommunityID() < 0 || vacationRequestVO.getBlockID() < 0 || vacationRequestVO.getVacationName().isEmpty() 
-				|| vacationRequestVO.getCustomerID() < 0 || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){
+				|| vacationRequestVO.getCRNNumber().isEmpty() || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		
+		if (managementsettingsdao.checkvacationsettings(vacationRequestVO)) {
+			throw new BusinessException("PREVIOUS VACATION REQUEST IS PENDING");
 		}
 
 		result = managementsettingsdao.addvacation(vacationRequestVO);
 
 		return result;
 		
+	}
+
+	public String editvacation(VacationRequestVO vacationRequestVO) throws BusinessException, SQLException {
+		// TODO Auto-generated method stub
+		
+		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
+		
+		if(vacationRequestVO.getVacationID() < 0 || vacationRequestVO.getCommunityID() < 0 || vacationRequestVO.getBlockID() < 0 || vacationRequestVO.getVacationName().isEmpty() 
+				|| vacationRequestVO.getCRNNumber().isEmpty() || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){
+			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		
+		if (managementsettingsdao.checkvacationsettingsdoneby(vacationRequestVO)) {
+			throw new BusinessException("PLEASE DO THE UPDATE FROM MOBILE APP AS THE VACATION HAS BEEN RAISED FROM MOBILE APP ONLY");
+		}
+		
+		return managementsettingsdao.editvacation(vacationRequestVO);
 	}
 
 }

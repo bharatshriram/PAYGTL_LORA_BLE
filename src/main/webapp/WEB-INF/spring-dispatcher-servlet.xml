@@ -22,5 +22,6 @@
 	<bean id="cronmethod" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
 	<bean id="topupstatusupdatecall" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
 	<bean id="commandstatusupdatecall" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
+	<bean id="vacationstatusupdatecall" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
 
 </beans>

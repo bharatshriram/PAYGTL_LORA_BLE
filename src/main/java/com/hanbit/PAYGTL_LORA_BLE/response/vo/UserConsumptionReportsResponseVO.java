@@ -11,6 +11,7 @@ import java.util.List;
  */
 public class UserConsumptionReportsResponseVO {
 	
+	private String CRNNumber;
 	private String meterID;
 	private float reading;
 	private float balance;
@@ -75,6 +76,12 @@ public class UserConsumptionReportsResponseVO {
 	}
 	public void setData(List<UserConsumptionReportsResponseVO> data) {
 		this.data = data;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

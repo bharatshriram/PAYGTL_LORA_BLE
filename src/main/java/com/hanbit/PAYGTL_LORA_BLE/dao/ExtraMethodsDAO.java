@@ -11,7 +11,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -22,9 +26,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
@@ -32,6 +41,7 @@ import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 /**
  * @author K VimaL Kumar
  * 
@@ -86,7 +96,7 @@ public class ExtraMethodsDAO {
 		URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID()+restcallvo.getUrlExtension());
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         
-        if(restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayloadStatus/latest")) {
+        if(!restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayload")) {
         	urlConnection.setRequestMethod("GET");
         }
         
@@ -99,13 +109,13 @@ public class ExtraMethodsDAO {
         urlConnection.setRequestProperty("Accept", ExtraConstants.Accept); // or any other mime type
 
         urlConnection.setRequestProperty("Cache-Control", ExtraConstants.CacheControl);// other any other
-
+        
 		final String authHeaderValue = "Basic "
 				+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 
 		urlConnection.setRequestProperty("Authorization", authHeaderValue);
 		
-		if(!restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayloadStatus/latest")) {
+		if(restcallvo.getUrlExtension().equalsIgnoreCase("/DownlinkPayload")) {
 			// Send post request
 			urlConnection.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
@@ -125,6 +135,81 @@ public class ExtraMethodsDAO {
 		return responses.toString();
 	}
 	
+public TataResponseVO restcallget(RestCallVO restcallvo) throws IOException {
+		
+	
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Content-Type", ExtraConstants.ContentType);
+		headers.set("Accept", ExtraConstants.Accept);
+		
+		final String authHeaderValue = "Basic "
+				+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+		
+		headers.set("Authorization", authHeaderValue);
+		
+		TataResponseVO reponse = restTemplate.getForObject(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+restcallvo.getUrlExtension(), TataResponseVO.class);
+		
+		return reponse;
+	}
+
+public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
+	
+	
+	RestTemplate restTemplate = new RestTemplate();
+	HttpHeaders headers = new HttpHeaders();
+	HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+	headers.set("Content-Type", ExtraConstants.ContentType);
+	headers.set("Accept", ExtraConstants.Accept);
+	
+	final String authHeaderValue = "Basic "
+			+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+	
+	headers.set("Authorization", authHeaderValue);
+	
+	TataResponseVO reponse = restTemplate.getForObject(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+restcallvo.getUrlExtension(), TataResponseVO.class);
+	
+	return reponse;
+}
+	
+	public String createjson(String dataframe, String meterID, String transactionIDForTata) throws JSONException {
+		
+		String HexaToBase64 = Encoding.getHexBase644(dataframe);
+
+		JSONObject json = new JSONObject();
+
+		JSONObject innerjson = new JSONObject();
+
+		JSONObject payload = new JSONObject();
+
+		JSONObject innerjsonpayload = new JSONObject();
+
+		innerjson.put("ty", 4);
+
+		innerjson.put("cnf", "text/plain:0");
+
+		innerjson.put("cs", 250);
+
+		innerjsonpayload.put("deveui", meterID.toLowerCase());
+
+		innerjsonpayload.put("port", 5);
+
+		innerjsonpayload.put("confirmed", true);
+
+		innerjsonpayload.put("data", HexaToBase64);
+
+		innerjsonpayload.put("on_busy", "fail");
+
+		innerjsonpayload.put("tag", transactionIDForTata);
+
+		payload.put("payload_dl", innerjsonpayload);
+
+		innerjson.put("con", payload.toString());
+		json.put("m2m:cin", innerjson);
+		
+		return json.toString();
+	}
+	
 //	@Scheduled(cron="0 0/30 * * * ?")
 	@Scheduled(cron="0 0/5 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
@@ -141,8 +226,9 @@ public class ExtraMethodsDAO {
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
-				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				restcallvo.setTataTransactionID(""); // add tatatransaction ID
 				
 				String response = restcall(restcallvo).toString();
 				
@@ -295,4 +381,87 @@ public class ExtraMethodsDAO {
 		}
 		
 	}
+	
+//	@Scheduled(cron="0 0/30 * * * ?")
+	/*@Scheduled(cron="0 0/5 * * * ?") 
+	public void statusupdatecall() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String result = "";
+		PreparedStatement pstmt1 = null;
+		
+		try {
+
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT MeterID FROM topup WHERE STATUS IN (0, 1) AND Source = 'web' UNION SELECT MeterID FROM command WHERE STATUS IN (0, 1) AND Source = 'web' UNION SELECT MeterID FROM vacation WHERE STATUS IN (0, 1) AND Source = 'web'");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				Gson gson = new Gson();
+				TataResponseVO responsevo = new TataResponseVO();
+				RestCallVO restcallvo  = new RestCallVO();
+				
+				restcallvo.setUrlExtension("/DownlinkPayloadStatus?ty=4&lim=3");
+				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				
+				List<TataResponseVO> statuslist = restcallget(restcallvo);
+				
+				for (Iterator<TataResponseVO> iterator = statuslist.iterator(); iterator.hasNext();) {
+					
+					JSONObject jsonObj = new JSONObject(iterator.next().toString());
+					
+					responsevo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
+					
+					// write if condition based on reponse from tata api
+					
+						if (responsevo.getPayloads_dl().getTag().startsWith("T") == true) {
+						
+						pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, AcknowledgeDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
+
+						pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+						pstmt1.setString(2, responsevo.getPayloads_dl().getDeveui());
+						pstmt1.setString(3, responsevo.getPayloads_dl().getTag());
+
+						if (pstmt1.executeUpdate() > 0) {
+							result = "Success";
+						}
+					
+						} else if (responsevo.getPayloads_dl().getTag().startsWith("C") == true) {
+							
+							pstmt1 = con.prepareStatement("UPDATE command SET Status = ?, ModifiedDate= NOW() WHERE MeterID = ? and TataReferenceNumber = ?");
+
+							pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+							pstmt1.setString(2, responsevo.getPayloads_dl().getDeveui());
+							pstmt1.setString(3, responsevo.getPayloads_dl().getTag());
+
+							if (pstmt1.executeUpdate() > 0) {
+								result = "Success";
+							}
+							
+						}else if (responsevo.getPayloads_dl().getTag().startsWith("V") == true) {
+
+							pstmt1 = con.prepareStatement("UPDATE vacation SET Status = ?, ModifiedDate= NOW() WHERE TataReferenceNumber = ?");
+
+							pstmt1.setInt(1, responsevo.getPayloads_dl().getTransmissionStatus());
+							pstmt1.setString(2, responsevo.getPayloads_dl().getTag());
+
+							if (pstmt1.executeUpdate() > 0) {
+								result = "Success";
+							}
+						}
+					
+				}
+				
+		}
+		} catch (Exception e) {
+			
+		} finally {
+			con.close();
+			pstmt.close();
+			rs.close();
+		}
+		
+	}*/
 }

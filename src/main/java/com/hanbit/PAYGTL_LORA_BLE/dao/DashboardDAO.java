@@ -260,12 +260,12 @@ public class DashboardDAO {
 		try {
 			con = getConnection();
 			
-				PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, TariffID from customermeterdetails WHERE MeterID = ?");
+				PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, TariffID, MeterSerialNumber, CRNNumber from customermeterdetails WHERE MeterID = ?");
 				pstmt2.setString(1, dashboardRequestVO.getMeterID());
 				ResultSet rs = pstmt2.executeQuery();
 				if(rs.next()) {
 					
-					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, MeterSerialNumber, CRNNumber, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
 					pstmt.setFloat(2, dashboardRequestVO.getReading());
@@ -281,7 +281,9 @@ public class DashboardDAO {
 					pstmt.setInt(12, 0);// Balance Pending
 					pstmt.setInt(13, dashboardRequestVO.getTamperStatus());
 					pstmt.setInt(14, dashboardRequestVO.getLowBattery());
-					pstmt.setString(15, dashboardRequestVO.getTimeStamp());
+					pstmt.setString(15, rs.getString("MeterSerialNumber"));
+					pstmt.setString(16, rs.getString("CRNNumber"));
+					pstmt.setString(17, dashboardRequestVO.getTimeStamp());
 
 					if (pstmt.executeUpdate() > 0) {
 						
@@ -320,7 +322,7 @@ public class DashboardDAO {
 								
 							} else {
 								
-									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, MeterSerialNumber, CRNNumber, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
 									pstmt1.setInt(1, rs2.getInt("ReadingID"));
 									pstmt1.setString(2, dashboardRequestVO.getMeterID());
 									pstmt1.setFloat(3, dashboardRequestVO.getReading());
@@ -336,7 +338,9 @@ public class DashboardDAO {
 									pstmt1.setInt(13, 0);// Balance Pending
 									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
 									pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
-									pstmt1.setString(16, dashboardRequestVO.getTimeStamp());
+									pstmt.setString(16, rs.getString("MeterSerialNumber"));
+									pstmt.setString(17, rs.getString("CRNNumber"));
+									pstmt1.setString(18, dashboardRequestVO.getTimeStamp());
 									
 							}
 							

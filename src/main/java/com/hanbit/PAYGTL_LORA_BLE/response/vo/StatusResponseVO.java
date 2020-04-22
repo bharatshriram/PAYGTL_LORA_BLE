@@ -15,6 +15,7 @@ public class StatusResponseVO {
 	private String communityName;
 	private String blockName;
 	private String houseNumber;
+	private String CRNNumber;
 	private String firstName;
 	private String lastName;
 	private String meterID;
@@ -138,6 +139,12 @@ public class StatusResponseVO {
 	}
 	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }
