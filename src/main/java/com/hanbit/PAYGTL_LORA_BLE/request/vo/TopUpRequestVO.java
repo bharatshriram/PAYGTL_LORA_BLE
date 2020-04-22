@@ -11,7 +11,7 @@ public class TopUpRequestVO {
 	
 	// add parameters based on payment gateway adn add colums in db also
 	private String source;
-	private int customerID;
+	private String CRNNumber;
 	private String meterID;
 	private float amount;
 	private String cardNumber;
@@ -22,12 +22,6 @@ public class TopUpRequestVO {
 	private int transactedByRoleID;
 	private String transactionIDForTata;
 	
-	public int getCustomerID() {
-		return customerID;
-	}
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
-	}
 	public float getAmount() {
 		return amount;
 	}
@@ -87,6 +81,12 @@ public class TopUpRequestVO {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

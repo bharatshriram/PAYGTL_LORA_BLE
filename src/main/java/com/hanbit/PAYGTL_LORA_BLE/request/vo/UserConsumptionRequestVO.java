@@ -9,17 +9,18 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class UserConsumptionRequestVO {
 
-	private int communityID;
+	private String CRNNumber;
 	private int blockID;
 	private int customerID;
 	private String fromDate;
 	private String toDate;
 	
-	public int getCommunityID() {
-		return communityID;
+	
+	public String getCRNNumber() {
+		return CRNNumber;
 	}
-	public void setCommunityID(int communityID) {
-		this.communityID = communityID;
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	public int getBlockID() {
 		return blockID;

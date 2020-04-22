@@ -57,6 +57,8 @@ CREATE TABLE `balancelog` (
   `CreditStatus` tinyint(2) DEFAULT NULL,
   `TamperDetect` tinyint(2) DEFAULT NULL,
   `LowBattery` tinyint(2) DEFAULT NULL,
+  `MeterSerialNumber` varchar(100) DEFAULT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
@@ -64,38 +66,38 @@ CREATE TABLE `balancelog` (
 
 /*Data for the table `balancelog` */
 
-insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`IoTTimeStamp`,`LogDate`) values 
-(1,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-10 20:50:11','2020-04-13 12:48:27'),
-(2,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-13 13:50:11','2020-04-13 13:22:41'),
-(3,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-13 13:52:11','2020-04-13 13:23:54'),
-(4,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-13 14:00:11','2020-04-13 13:25:40'),
-(5,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-14 20:50:56','2020-04-14 21:22:56'),
-(6,'70b3d5f83000157a',800.00,170.00,2,3,2,2.17,50.00,'0.0',3,1,0,0,0,'2020-04-15 15:20:35','2020-04-15 15:23:09'),
-(7,'70b3d5f83000157a',816.00,20.00,2,3,2,2.18,50.00,'0.0',3,1,0,0,0,'2020-04-15 15:24:21','2020-04-15 15:26:08'),
-(8,'70b3d5f83000157a',831.00,220.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'2020-04-15 15:50:27','2020-04-15 16:24:30'),
-(9,'70b3d5f83000157a',831.00,220.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'2020-04-15 16:32:15','2020-04-15 16:52:46'),
-(10,'70b3d5f83000157a',831.00,220.00,2,3,2,2.17,50.00,'200.0',3,1,0,0,0,'2020-04-15 17:51:46','2020-04-15 17:51:57'),
-(11,'70b3d5f83000157a',0.00,220.00,2,3,2,2.18,50.00,'200.0',3,1,0,0,0,'2020-04-15 17:57:10','2020-04-15 17:58:25'),
-(12,'70b3d5f83000157a',831.00,220.00,2,3,2,2.17,50.00,'200.0',3,1,0,0,0,'2020-04-15 19:02:57','2020-04-15 19:16:48'),
-(13,'70b3d5f83000157a',834.00,70.00,2,3,2,2.17,50.00,'200.0',3,0,0,0,0,'2020-04-15 19:26:52','2020-04-15 19:27:48'),
-(14,'70b3d5f83000157a',834.00,70.00,2,3,2,2.17,50.00,'200.0',3,0,0,0,0,'2020-04-15 19:31:08','2020-04-15 19:35:42'),
-(15,'70b3d5f83000157a',834.00,70.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'2020-04-15 19:39:50','2020-04-15 20:16:10'),
-(16,'70b3d5f83000157a',852.00,70.00,2,3,2,2.18,50.00,'200.0',3,1,0,0,0,'2020-04-15 20:38:52','2020-04-15 20:39:52'),
-(17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'2020-04-16 10:36:55','2020-04-16 12:07:09'),
-(18,'70b3d5f830000a68',4.00,900.00,1,1,6,2.18,1000.00,'0.0',3,1,0,0,0,'2020-04-16 15:44:10','2020-04-16 16:00:45'),
-(19,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'2020-04-16 16:37:37','2020-04-16 16:38:39'),
-(20,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'2020-04-16 16:42:38','2020-04-16 17:00:47'),
-(21,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-17 02:51:29','2020-04-17 16:05:18'),
-(22,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'2020-04-18 20:51:49','2020-04-19 00:28:32'),
-(23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'2020-04-20 13:34:40','2020-04-19 13:37:52'),
-(24,'70b3d5f830000a68',90.00,1250.00,1,1,6,2.25,50.00,'0.0',3,1,0,0,0,'2020-04-19 21:50:56','2020-04-19 23:25:09'),
-(25,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:39:15','2020-04-19 23:39:50'),
-(26,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.21,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:40:35','2020-04-19 23:41:05'),
-(27,'70b3d5f830000a68',93.00,1400.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-19 23:48:48','2020-04-19 23:49:11'),
-(28,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'2020-04-19 23:51:47','2020-04-19 23:52:44'),
-(29,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.25,10.00,'0.0',3,1,0,0,0,'2020-04-20 14:56:07','2020-04-20 14:58:45'),
-(30,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,1,0,0,0,'2020-04-20 15:25:01','2020-04-20 15:26:30'),
-(31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-20 15:34:30','2020-04-20 15:34:46');
+insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`MeterSerialNumber`,`CRNNumber`,`IoTTimeStamp`,`LogDate`) values 
+(1,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-10 20:50:11','2020-04-22 02:43:47'),
+(2,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-13 13:50:11','2020-04-22 02:43:47'),
+(3,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-13 13:52:11','2020-04-22 02:43:47'),
+(4,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-13 14:00:11','2020-04-22 02:43:47'),
+(5,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-14 20:50:56','2020-04-22 02:43:47'),
+(6,'70b3d5f83000157a',800.00,170.00,2,3,2,2.17,50.00,'0.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 15:20:35','2020-04-22 02:44:03'),
+(7,'70b3d5f83000157a',816.00,20.00,2,3,2,2.18,50.00,'0.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 15:24:21','2020-04-22 02:44:03'),
+(8,'70b3d5f83000157a',831.00,220.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'3456','HAN0002','2020-04-15 15:50:27','2020-04-22 02:44:03'),
+(9,'70b3d5f83000157a',831.00,220.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'3456','HAN0002','2020-04-15 16:32:15','2020-04-22 02:44:03'),
+(10,'70b3d5f83000157a',831.00,220.00,2,3,2,2.17,50.00,'200.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 17:51:46','2020-04-22 02:44:03'),
+(11,'70b3d5f83000157a',0.00,220.00,2,3,2,2.18,50.00,'200.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 17:57:10','2020-04-22 02:44:03'),
+(12,'70b3d5f83000157a',831.00,220.00,2,3,2,2.17,50.00,'200.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 19:02:57','2020-04-22 02:44:03'),
+(13,'70b3d5f83000157a',834.00,70.00,2,3,2,2.17,50.00,'200.0',3,0,0,0,0,'3456','HAN0002','2020-04-15 19:26:52','2020-04-22 02:44:03'),
+(14,'70b3d5f83000157a',834.00,70.00,2,3,2,2.17,50.00,'200.0',3,0,0,0,0,'3456','HAN0002','2020-04-15 19:31:08','2020-04-22 02:44:03'),
+(15,'70b3d5f83000157a',834.00,70.00,2,3,2,2.18,50.00,'200.0',3,0,0,0,0,'3456','HAN0002','2020-04-15 19:39:50','2020-04-22 02:44:03'),
+(16,'70b3d5f83000157a',852.00,70.00,2,3,2,2.18,50.00,'200.0',3,1,0,0,0,'3456','HAN0002','2020-04-15 20:38:52','2020-04-22 02:44:03'),
+(17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'3456','HAN0002','2020-04-16 10:36:55','2020-04-22 02:44:03'),
+(18,'70b3d5f830000a68',4.00,900.00,1,1,6,2.18,1000.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-16 15:44:10','2020-04-22 02:44:16'),
+(19,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-16 16:37:37','2020-04-22 02:44:16'),
+(20,'70b3d5f830000a68',4.00,1250.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-16 16:42:38','2020-04-22 02:44:16'),
+(21,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-17 02:51:29','2020-04-22 02:43:47'),
+(22,'70b3d5f830004f56',0.00,0.00,1,1,1,3.59,0.00,'0.0',3,1,0,0,0,'1234','HAN0001','2020-04-18 20:51:49','2020-04-22 02:43:47'),
+(23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'1234','HAN0001','2020-04-20 13:34:40','2020-04-22 02:43:47'),
+(24,'70b3d5f830000a68',90.00,1250.00,1,1,6,2.25,50.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-19 21:50:56','2020-04-22 02:44:16'),
+(25,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-19 23:39:15','2020-04-22 02:44:16'),
+(26,'70b3d5f830000a68',93.00,1250.00,1,1,6,2.21,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-19 23:40:35','2020-04-22 02:44:16'),
+(27,'70b3d5f830000a68',93.00,1400.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-19 23:48:48','2020-04-22 02:44:16'),
+(28,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.19,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-19 23:51:47','2020-04-22 02:44:16'),
+(29,'70b3d5f830000a68',93.00,1600.00,1,1,6,2.25,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-20 14:56:07','2020-04-22 02:44:16'),
+(30,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-20 15:25:01','2020-04-22 02:44:16'),
+(31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-20 15:34:30','2020-04-22 02:44:16');
 
 /*Table structure for table `block` */
 
@@ -137,6 +139,7 @@ CREATE TABLE `command` (
   `CommandType` int(255) NOT NULL,
   `Status` int(245) NOT NULL,
   `Source` varchar(10) NOT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
@@ -144,14 +147,14 @@ CREATE TABLE `command` (
 
 /*Data for the table `command` */
 
-insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`MeterID`,`CommandType`,`Status`,`Source`,`CreatedDate`,`ModifiedDate`) values 
-(1,'C-1',2,'70b3d5f83000157a',6,2,'web','2020-04-15 16:48:38','2020-04-15 16:48:38'),
-(2,'C-2',2,'70b3d5f83000157a',6,2,'web','2020-04-15 17:50:05','2020-04-15 17:50:05'),
-(3,'C-3',2,'70b3d5f83000157a',6,2,'web','2020-04-15 19:24:26','2020-04-15 19:24:26'),
-(4,'C-4',6,'70b3d5f830000a68',3,2,'web','2020-04-20 00:25:17','2020-04-20 00:25:17'),
-(5,'C-5',6,'70b3d5f830000a68',5,5,'web','2020-04-20 00:31:48','2020-04-20 15:00:00'),
-(6,'C-6',6,'70b3d5f830000a68',6,2,'web','2020-04-20 15:23:07','2020-04-20 15:25:00'),
-(7,'C-7',6,'70b3d5f830000a68',40,2,'web','2020-04-20 15:28:53','2020-04-20 15:30:01');
+insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`MeterID`,`CommandType`,`Status`,`Source`,`CRNNumber`,`CreatedDate`,`ModifiedDate`) values 
+(1,'C-1',2,'70b3d5f83000157a',6,2,'web','HAN0002','2020-04-15 16:48:38','2020-04-15 16:48:38'),
+(2,'C-2',2,'70b3d5f83000157a',6,2,'web','HAN0002','2020-04-15 17:50:05','2020-04-15 17:50:05'),
+(3,'C-3',2,'70b3d5f83000157a',6,2,'web','HAN0002','2020-04-15 19:24:26','2020-04-15 19:24:26'),
+(4,'C-4',6,'70b3d5f830000a68',3,2,'web','HAN0006','2020-04-20 00:25:17','2020-04-20 00:25:17'),
+(5,'C-5',6,'70b3d5f830000a68',5,5,'web','HAN0006','2020-04-20 00:31:48','2020-04-20 15:00:00'),
+(6,'C-6',6,'70b3d5f830000a68',6,2,'web','HAN0006','2020-04-20 15:23:07','2020-04-20 15:25:00'),
+(7,'C-7',6,'70b3d5f830000a68',40,2,'web','HAN0006','2020-04-20 15:28:53','2020-04-20 15:30:01');
 
 /*Table structure for table `community` */
 
@@ -180,19 +183,28 @@ insert  into `community`(`CommunityID`,`CommunityName`,`Email`,`MobileNumber`,`A
 DROP TABLE IF EXISTS `customerdeletemeter`;
 
 CREATE TABLE `customerdeletemeter` (
-  `SerialNumber` int(11) NOT NULL AUTO_INCREMENT,
+  `CustomerDeleteID` int(11) NOT NULL AUTO_INCREMENT,
   `CustomerID` int(255) NOT NULL,
-  `MeterID` varchar(40) NOT NULL,
-  `Date` datetime NOT NULL,
-  PRIMARY KEY (`CustomerID`),
-  KEY `SerialNumber` (`SerialNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `CommunityID` int(11) DEFAULT NULL,
+  `BlockID` int(255) NOT NULL,
+  `HouseNumber` varchar(30) NOT NULL,
+  `FirstName` varchar(50) NOT NULL,
+  `LastName` varchar(50) NOT NULL,
+  `Email` varchar(100) NOT NULL,
+  `MobileNumber` varchar(10) NOT NULL,
+  `MeterID` varchar(70) DEFAULT NULL,
+  `MeterSerialNumber` varchar(30) DEFAULT NULL,
+  `DefaultReading` int(11) DEFAULT NULL,
+  `TariffID` int(11) NOT NULL,
+  `CRNNumber` varchar(50) DEFAULT NULL,
+  `CreatedByID` int(11) NOT NULL,
+  `CreatedByRoleID` tinyint(4) NOT NULL,
+  `RegistrationDate` datetime NOT NULL,
+  `DeletedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`CustomerDeleteID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `customerdeletemeter` */
-
-insert  into `customerdeletemeter`(`SerialNumber`,`CustomerID`,`MeterID`,`Date`) values 
-(2,3,'1002','2020-04-09 02:16:23'),
-(1,6,'5002','2020-04-06 22:41:45');
 
 /*Table structure for table `customermeterdetails` */
 
@@ -217,18 +229,19 @@ CREATE TABLE `customermeterdetails` (
   `CreatedByRoleID` tinyint(4) NOT NULL,
   `RegistrationDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
-  PRIMARY KEY (`CustomerID`)
+  PRIMARY KEY (`CustomerID`),
+  UNIQUE KEY `CRNNumber` (`CRNNumber`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `customermeterdetails` */
 
 insert  into `customermeterdetails`(`CustomerID`,`CommunityID`,`BlockID`,`HouseNumber`,`FirstName`,`LastName`,`Email`,`MobileNumber`,`MeterID`,`MeterSerialNumber`,`DefaultReading`,`TariffID`,`ActiveStatus`,`CRNNumber`,`CreatedByID`,`CreatedByRoleID`,`RegistrationDate`,`ModifiedDate`) values 
-(1,1,1,'101','Vimal','Kumar','kvk9889@gmail.com','8498890000','70b3d5f830004f56','1234',0,1,1,NULL,2,2,'2020-04-05 01:58:12','2020-04-05 01:58:12'),
-(2,2,3,'301','Vml','Kvk','vml@gmail.com','9999999999','70b3d5f83000157a','3456',0,2,1,NULL,2,2,'2020-04-06 15:33:13','2020-04-06 15:33:17'),
-(4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',0,1,1,NULL,1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
-(5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',0,2,1,NULL,6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
-(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',100,2,1,NULL,1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
-(9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',0,2,1,'han202009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25');
+(1,1,1,'101','Vimal','Kumar','kvk9889@gmail.com','8498890000','70b3d5f830004f56','1234',0,1,1,'HAN0001',2,2,'2020-04-05 01:58:12','2020-04-05 01:58:12'),
+(2,2,3,'301','Vml','Kvk','vml@gmail.com','9999999999','70b3d5f83000157a','3456',0,2,1,'HAN0002',2,2,'2020-04-06 15:33:13','2020-04-06 15:33:17'),
+(4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',0,1,1,'HAN0004',1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
+(5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',0,2,1,'HAN0005',6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
+(6,1,1,'102','Amanora','testing','Amanora@gmail.com','5555555555','70b3d5f830000a68','4567',100,2,1,'HAN0006',1,1,'2020-04-16 15:43:25','2020-04-16 15:43:28'),
+(9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',0,2,1,'HAN0009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25');
 
 /*Table structure for table `displaybalancelog` */
 
@@ -251,6 +264,8 @@ CREATE TABLE `displaybalancelog` (
   `CreditStatus` tinyint(2) DEFAULT NULL,
   `TamperDetect` tinyint(2) DEFAULT NULL,
   `LowBattery` tinyint(2) DEFAULT NULL,
+  `MeterSerialNumber` varchar(100) DEFAULT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
@@ -258,10 +273,10 @@ CREATE TABLE `displaybalancelog` (
 
 /*Data for the table `displaybalancelog` */
 
-insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`IoTTimeStamp`,`LogDate`) values 
-(1,23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'2020-04-20 13:34:40','2020-04-19 13:37:52'),
-(2,17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'2020-04-16 10:36:55','2020-04-16 12:07:09'),
-(3,31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'2020-04-20 15:34:30','2020-04-20 15:34:46');
+insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`MeterSerialNumber`,`CRNNumber`,`IoTTimeStamp`,`LogDate`) values 
+(1,23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'1234','HAN0001','2020-04-20 13:34:40','2020-04-22 02:46:18'),
+(2,17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'3456','HAN0002','2020-04-16 10:36:55','2020-04-22 02:46:03'),
+(3,31,'70b3d5f830000a68',100.00,1600.00,1,1,6,2.19,50.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-04-20 15:34:30','2020-04-22 02:45:45');
 
 /*Table structure for table `mailsettings` */
 
@@ -382,6 +397,7 @@ CREATE TABLE `topup` (
   `Source` varchar(10) NOT NULL,
   `CreatedByID` int(11) NOT NULL,
   `CreatedByRoleID` int(11) NOT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   `CardNumber` varchar(20) DEFAULT NULL,
   `CardType` varchar(20) DEFAULT NULL,
   `TransactionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -391,17 +407,17 @@ CREATE TABLE `topup` (
 
 /*Data for the table `topup` */
 
-insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`TariffID`,`Amount`,`Status`,`ModeOfPayment`,`PaymentStatus`,`Source`,`CreatedByID`,`CreatedByRoleID`,`CardNumber`,`CardType`,`TransactionDate`,`AcknowledgeDate`) values 
-(1,'T-1',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 19:42:21','2020-04-15 19:42:21'),
-(2,'T-2',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
-(3,'T-3',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
-(4,'T-4',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
-(5,'T-5',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
-(6,'T-6',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
-(7,'T-7',1,1,6,'70b3d5f830000a68',2,350,2,'cash',0,'web',1,1,NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48'),
-(8,'M',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'mobile',1,1,NULL,NULL,'2020-04-19 17:43:16','2020-04-19 17:43:16'),
-(9,'T-9',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'web',1,1,NULL,NULL,'2020-04-19 23:35:54','2020-04-19 23:35:54'),
-(10,'T-10',1,1,6,'70b3d5f830000a68',2,200,2,'Cash',0,'web',1,1,NULL,NULL,'2020-04-19 23:50:28','2020-04-20 00:00:00');
+insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`TariffID`,`Amount`,`Status`,`ModeOfPayment`,`PaymentStatus`,`Source`,`CreatedByID`,`CreatedByRoleID`,`CRNNumber`,`CardNumber`,`CardType`,`TransactionDate`,`AcknowledgeDate`) values 
+(1,'T-1',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 19:42:21','2020-04-15 19:42:21'),
+(2,'T-2',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
+(3,'T-3',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
+(4,'T-4',2,3,2,'70b3d5f83000157a',2,400,2,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
+(5,'T-5',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
+(6,'T-6',1,1,6,'70b3d5f830000a68',2,400,2,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
+(7,'T-7',1,1,6,'70b3d5f830000a68',2,350,2,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48'),
+(8,'M',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'mobile',1,1,'HAN0006',NULL,NULL,'2020-04-19 17:43:16','2020-04-19 17:43:16'),
+(9,'T-9',1,1,6,'70b3d5f830000a68',2,150,2,'Cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-19 23:35:54','2020-04-19 23:35:54'),
+(10,'T-10',1,1,6,'70b3d5f830000a68',2,200,2,'Cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-19 23:50:28','2020-04-20 00:00:00');
 
 /*Table structure for table `updaterequestcustomermeterdetails` */
 
@@ -411,6 +427,7 @@ CREATE TABLE `updaterequestcustomermeterdetails` (
   `RequestID` int(255) NOT NULL AUTO_INCREMENT,
   `BlockID` int(11) NOT NULL,
   `CustomerID` int(11) NOT NULL,
+  `CRNNumber` varchar(100) NOT NULL,
   `HouseNumber` varchar(30) NOT NULL,
   `FirstName` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
@@ -442,25 +459,26 @@ CREATE TABLE `user` (
   `CreatedByRoleID` tinyint(4) NOT NULL,
   `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `CommunityID` (`CommunityID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 /*Data for the table `user` */
 
-insert  into `user`(`ID`,`UserID`,`UserName`,`UserPassword`,`RoleID`,`ActiveStatus`,`CommunityID`,`BlockID`,`CustomerID`,`CreatedByID`,`CreatedByRoleID`,`RegisteredDate`,`ModifiedDate`) values 
-(1,'Superadmin','Hanbit','cvp/LzpadrQT+2k0WDjyOQ==',1,1,0,0,0,0,0,'2020-04-04 17:36:33','2020-04-04 17:36:33'),
-(2,'Admin','Kvk','cvp/LzpadrQT+2k0WDjyOQ==',2,1,1,1,0,1,1,'2020-04-05 00:08:42','2020-04-05 00:08:42'),
-(3,'Vimal','Vimal Kumar','cvp/LzpadrQT+2k0WDjyOQ==',3,1,1,1,1,2,2,'2020-04-05 00:09:19','2020-04-05 00:09:19'),
-(4,'Superadminsupervisor','HanbitSuperadminsupervisor','cvp/LzpadrQT+2k0WDjyOQ==',4,1,0,0,0,1,1,'2020-04-05 01:41:13','2020-04-05 01:41:13'),
-(5,'Adminsupervisor','KvkAdminsupervisor','cvp/LzpadrQT+2k0WDjyOQ==',5,1,1,1,0,1,1,'2020-04-05 01:42:05','2020-04-05 01:42:05'),
-(6,'Admin1','Demoblock3','cvp/LzpadrQT+2k0WDjyOQ==',2,1,2,5,0,1,1,'2020-04-06 22:28:23','2020-04-07 13:35:23'),
-(7,'Demoblock1','Sri babu','qoH4Tc1M0Oh+Bc7LH4LtMA==',5,1,2,3,0,1,1,'2020-04-08 00:51:26','2020-04-08 01:23:43'),
-(9,'Demoblock2','Demoblock2','cvp/LzpadrQT+2k0WDjyOQ==',2,1,2,3,0,1,1,'2020-04-09 02:58:48','2020-04-09 03:00:02'),
-(10,'bhrtsrm','Bharat Sriram','cvp/LzpadrQT+2k0WDjyOQ==',3,1,2,3,4,9,2,'2020-04-09 05:00:11','2020-04-09 05:00:14'),
-(11,'TestCommunity1Demoblock5','Demoblock5','wih1Khk5v8/1bgPmA8lVuA==',2,1,2,8,0,1,1,'2020-04-11 23:54:59','2020-04-11 23:54:59'),
-(12,'TestCommunity2Demoblock6','Demoblock6','kVA6fP+zltT3x1e91Xa5lA==',2,1,3,9,0,1,1,'2020-04-12 15:32:00','2020-04-12 15:32:00'),
-(13,'De02Cu02democustomer502','Demo502 Customer502','Mb5vqPCVR48upDxrShoKjU/uF9DJyKSl9czmqz6hS6Y=',3,1,2,5,9,1,1,'2020-04-17 15:29:26','2020-04-17 15:29:26');
+insert  into `user`(`ID`,`UserID`,`UserName`,`UserPassword`,`RoleID`,`ActiveStatus`,`CommunityID`,`BlockID`,`CustomerID`,`CreatedByID`,`CreatedByRoleID`,`RegisteredDate`,`ModifiedDate`,`CRNNumber`) values 
+(1,'Superadmin','Hanbit','cvp/LzpadrQT+2k0WDjyOQ==',1,1,0,0,0,0,0,'2020-04-04 17:36:33','2020-04-04 17:36:33',NULL),
+(2,'Admin','Kvk','cvp/LzpadrQT+2k0WDjyOQ==',2,1,1,1,0,1,1,'2020-04-05 00:08:42','2020-04-05 00:08:42',NULL),
+(3,'Vimal','Vimal Kumar','cvp/LzpadrQT+2k0WDjyOQ==',3,1,1,1,1,2,2,'2020-04-05 00:09:19','2020-04-05 00:09:19','HAN0001'),
+(4,'Superadminsupervisor','HanbitSuperadminsupervisor','cvp/LzpadrQT+2k0WDjyOQ==',4,1,0,0,0,1,1,'2020-04-05 01:41:13','2020-04-05 01:41:13',NULL),
+(5,'Adminsupervisor','KvkAdminsupervisor','cvp/LzpadrQT+2k0WDjyOQ==',5,1,1,1,0,1,1,'2020-04-05 01:42:05','2020-04-05 01:42:05',NULL),
+(6,'Admin1','Demoblock3','cvp/LzpadrQT+2k0WDjyOQ==',2,1,2,5,0,1,1,'2020-04-06 22:28:23','2020-04-07 13:35:23',NULL),
+(7,'Demoblock1','Sri babu','qoH4Tc1M0Oh+Bc7LH4LtMA==',5,1,2,3,0,1,1,'2020-04-08 00:51:26','2020-04-08 01:23:43',NULL),
+(9,'Demoblock2','Demoblock2','cvp/LzpadrQT+2k0WDjyOQ==',2,1,2,3,0,1,1,'2020-04-09 02:58:48','2020-04-09 03:00:02',NULL),
+(10,'bhrtsrm','Bharat Sriram','cvp/LzpadrQT+2k0WDjyOQ==',3,1,2,3,4,9,2,'2020-04-09 05:00:11','2020-04-09 05:00:14','HAN0004'),
+(11,'TestCommunity1Demoblock5','Demoblock5','wih1Khk5v8/1bgPmA8lVuA==',2,1,2,8,0,1,1,'2020-04-11 23:54:59','2020-04-11 23:54:59',NULL),
+(12,'TestCommunity2Demoblock6','Demoblock6','kVA6fP+zltT3x1e91Xa5lA==',2,1,3,9,0,1,1,'2020-04-12 15:32:00','2020-04-12 15:32:00',NULL),
+(13,'De02Cu02democustomer502','Demo502 Customer502','Mb5vqPCVR48upDxrShoKjU/uF9DJyKSl9czmqz6hS6Y=',3,1,2,5,9,1,1,'2020-04-17 15:29:26','2020-04-17 15:29:26','HAN0009');
 
 /*Table structure for table `userrole` */
 
@@ -497,6 +515,7 @@ CREATE TABLE `vacation` (
   `EndDate` datetime NOT NULL,
   `Status` tinyint(4) NOT NULL,
   `Source` varchar(10) NOT NULL,
+  `CRNNumber` varchar(100) DEFAULT NULL,
   `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime NOT NULL,
   PRIMARY KEY (`VacationID`)
@@ -504,9 +523,9 @@ CREATE TABLE `vacation` (
 
 /*Data for the table `vacation` */
 
-insert  into `vacation`(`VacationID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`VacationName`,`StartDate`,`EndDate`,`Status`,`Source`,`RegisteredDate`,`ModifiedDate`) values 
-(1,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 12:00:00','2020-04-21 12:15:00',2,'mobile','2020-04-20 23:51:12','2020-04-20 23:51:12'),
-(2,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 13:00:00','2020-04-21 13:15:00',2,'mobile','2020-04-21 00:30:21','2020-04-21 00:30:21');
+insert  into `vacation`(`VacationID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`VacationName`,`StartDate`,`EndDate`,`Status`,`Source`,`CRNNumber`,`RegisteredDate`,`ModifiedDate`) values 
+(1,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 12:00:00','2020-04-21 12:15:00',2,'mobile','HAN0006','2020-04-20 23:51:12','2020-04-20 23:51:12'),
+(2,'M',1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 13:00:00','2020-04-21 13:15:00',2,'mobile','HAN0006','2020-04-21 00:30:21','2020-04-21 00:30:21');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

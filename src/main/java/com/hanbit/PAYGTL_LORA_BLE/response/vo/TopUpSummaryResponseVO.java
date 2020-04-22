@@ -12,6 +12,7 @@ import java.util.List;
 public class TopUpSummaryResponseVO {
 
 	private String houseNumber;
+	private String CRNNumber;
 	private String meterID;
 	private String firstName;
 	private String lastName;
@@ -119,6 +120,14 @@ public class TopUpSummaryResponseVO {
 
 	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
+	}
+
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

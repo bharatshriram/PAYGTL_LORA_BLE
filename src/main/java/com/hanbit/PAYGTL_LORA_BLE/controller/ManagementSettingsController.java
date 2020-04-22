@@ -4,8 +4,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -138,7 +136,7 @@ public class ManagementSettingsController {
 
 	@RequestMapping(value = "/vacation/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		VacationResponseVO vacationResponseVO = new VacationResponseVO();
@@ -160,6 +158,47 @@ public class ManagementSettingsController {
 		try{
 		result = managementsettingsbo.addvacation(vacationRequestVO);
 		} catch (BusinessException e) {
+			String message = e.getMessage();
+			responsevo.setMessage(message);
+		}
+		responsevo.setResult(result);
+
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/vacation/edit/{vacationID}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	ResponseVO editvacation(@RequestBody VacationRequestVO vacationRequestVO, @PathVariable("vacationID") int vacationID) throws ClassNotFoundException,
+			SQLException, BusinessException {
+
+		String result = "Failure";
+		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
+		ResponseVO responsevo = new ResponseVO();
+		vacationRequestVO.setVacationID(vacationID);
+		
+		try{
+		result = managementsettingsbo.editvacation(vacationRequestVO);
+		} catch (BusinessException e) {
+			String message = e.getMessage();
+			responsevo.setMessage(message);
+		}
+		responsevo.setResult(result);
+
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/vacation/delete/{vacationID}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody
+	ResponseVO deletevacation(@PathVariable("vacationID") int vacationID) throws ClassNotFoundException,
+			SQLException, BusinessException {
+
+		String result = "Failure";
+		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
+		ResponseVO responsevo = new ResponseVO();
+		
+		try{
+		result = managementsettingsdao.deletevacation(vacationID);
+		} catch (Exception e) {
 			String message = e.getMessage();
 			responsevo.setMessage(message);
 		}

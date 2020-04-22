@@ -12,6 +12,7 @@ public class VacationRequestVO {
 	private int communityID;
 	private int blockID;
 	private int customerID;
+	private String CRNNumber;
 	private String meterID;
 	private String vacationName;
 	private String startDateTime;
@@ -21,6 +22,7 @@ public class VacationRequestVO {
 	private String source;
 	private int status;
 	private String transactionIDForTata;
+	private int vacationID;
 	
 	public int getCommunityID() {
 		return communityID;
@@ -34,8 +36,12 @@ public class VacationRequestVO {
 	public void setBlockID(int blockID) {
 		this.blockID = blockID;
 	}
-	public int getCustomerID() {
-		return customerID;
+
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	public String getMeterID() {
 		return meterID;
@@ -48,9 +54,6 @@ public class VacationRequestVO {
 	}
 	public void setVacationName(String vacationName) {
 		this.vacationName = vacationName;
-	}
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
 	}
 	public String getStartDateTime() {
 		return startDateTime;
@@ -93,6 +96,18 @@ public class VacationRequestVO {
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getVacationID() {
+		return vacationID;
+	}
+	public void setVacationID(int vacationID) {
+		this.vacationID = vacationID;
+	}
+	public int getCustomerID() {
+		return customerID;
+	}
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
 	}
 
 }

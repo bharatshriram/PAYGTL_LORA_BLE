@@ -8,6 +8,7 @@ public class RestCallVO {
 	private String urlExtension;
 	private String data;
 	private String meterID;
+	private String tataTransactionID;
 		
 	public String getUrlExtension() {
 		return urlExtension;
@@ -26,6 +27,12 @@ public class RestCallVO {
 	}
 	public void setMeterID(String meterID) {
 		this.meterID = meterID;
+	}
+	public String getTataTransactionID() {
+		return tataTransactionID;
+	}
+	public void setTataTransactionID(String tataTransactionID) {
+		this.tataTransactionID = tataTransactionID;
 	}
 
 }

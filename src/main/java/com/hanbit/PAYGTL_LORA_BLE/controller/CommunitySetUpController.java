@@ -4,14 +4,10 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +41,7 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/community/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CommunityResponseVO communityResponsevo = new CommunityResponseVO();
@@ -106,7 +102,7 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/block/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		BlockResponseVO blockresponsevo = new BlockResponseVO();
@@ -189,7 +185,7 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/customer/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
@@ -220,9 +216,9 @@ public class CommunitySetUpController {
 		return responsevo;
 	}
 
-	@RequestMapping(value = "/customer/edit/{customerID}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	@RequestMapping(value = "/customer/edit/{CRNNumber}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	ResponseVO editcustomer(@PathVariable("customerID") int customerid,
+	ResponseVO editcustomer(@PathVariable("CRNNumber") String CRNNumber,
 			@RequestBody CustomerRequestVO customervo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
@@ -230,7 +226,7 @@ public class CommunitySetUpController {
 		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
 		ResponseVO responsevo = new ResponseVO();
 
-		customervo.setCustomerID(customerid);
+		customervo.setCRNNumber(CRNNumber);
 
 		try {
 			result = communitysetupbo.editcustomer(customervo);
@@ -244,9 +240,9 @@ public class CommunitySetUpController {
 		return responsevo;
 	}
 
-	@RequestMapping(value = "/customer/delete/{customerID}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/customer/delete/{CRNNumber}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	ResponseVO deletecustomer(@PathVariable("customerID") int customerid)
+	ResponseVO deletecustomer(@PathVariable("CRNNumber") String CRNNumber)
 			throws ClassNotFoundException, BusinessException, SQLException {
 
 		String result = "Failure";
@@ -254,7 +250,7 @@ public class CommunitySetUpController {
 		CustomerRequestVO customervo = new CustomerRequestVO();
 		ResponseVO responsevo = new ResponseVO();
 
-		customervo.setCustomerID(customerid);
+		customervo.setCRNNumber(CRNNumber);
 		
 		try{
 		

@@ -4,8 +4,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +22,6 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.FinancialReportsResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TopUpSummaryResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserConsumptionReportsResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.ValveReportsResponseVO;
 
 /**
  * @author K VimaL Kumar

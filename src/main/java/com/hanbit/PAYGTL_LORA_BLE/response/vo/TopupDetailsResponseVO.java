@@ -17,6 +17,7 @@ public class TopupDetailsResponseVO {
 	private float alarmCredit;
 	private float tariff;
 	private int tariffID;
+	private String CRNNumber;
 	
 	public String getMeterID() {
 		return meterID;
@@ -66,5 +67,10 @@ public class TopupDetailsResponseVO {
 	public void setTariffID(int tariffID) {
 		this.tariffID = tariffID;
 	}
-
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
+	}
 }

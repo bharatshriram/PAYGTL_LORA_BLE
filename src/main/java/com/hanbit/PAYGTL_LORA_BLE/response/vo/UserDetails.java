@@ -16,6 +16,7 @@ public class UserDetails {
 	private String userName;
 	private int ID;
 	private int customerID;
+	private String CRNNumber;
 	private String communityName;
 	private int pendingCommandID;
 	private int pendingTransactionID;
@@ -94,6 +95,12 @@ public class UserDetails {
 	}
 	public void setCommunityID(int communityID) {
 		this.communityID = communityID;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

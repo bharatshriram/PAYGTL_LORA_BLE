@@ -14,8 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import org.json.simple.JSONObject;
-
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
@@ -24,7 +22,6 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserManagementResponseVO;
 
 /**
@@ -292,7 +289,7 @@ public class ManagementSettingsDAO {
 
 	/* Vacation */
 
-	public List<VacationResponseVO> getvacationdetails(int roleid, int id) throws SQLException {
+	public List<VacationResponseVO> getvacationdetails(int roleid, String id) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -304,9 +301,9 @@ public class ManagementSettingsDAO {
 			vacationlist = new LinkedList<VacationResponseVO>();
 
 			String query =
-					"SELECT v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, v.StartDate, v.EndDate, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
+					"SELECT v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CustomerID = "+id+ " ORDER BY v.VacationID DESC" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CRNNumber = "+id+ " ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
@@ -318,6 +315,7 @@ public class ManagementSettingsDAO {
 				vacationResponseVO.setHouseNumber(rs.getString("HouseNumber"));
 				vacationResponseVO.setFirstName(rs.getString("FirstName"));
 				vacationResponseVO.setLastName(rs.getString("LastName"));
+				vacationResponseVO.setCRNNumber(rs.getString("CRNNumber"));
 				vacationResponseVO.setMeterID(rs.getString("MeterID"));
 				vacationResponseVO.setStartDate(rs.getString("StartDate"));
 				vacationResponseVO.setEndDate(rs.getString("EndDate"));
@@ -348,8 +346,8 @@ public class ManagementSettingsDAO {
 
 			con = getConnection();
 
-			 pstmt1 = con.prepareStatement("SELECT CommunityID, BlockID, MeterID FROM customermeterdetails WHERE CustomerID = ?");
-			pstmt1.setInt(1, vacationRequestVO.getCustomerID());
+			 pstmt1 = con.prepareStatement("SELECT CommunityID, BlockID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");
+			pstmt1.setString(1, vacationRequestVO.getCRNNumber());
 
 			ResultSet rs1 = pstmt1.executeQuery();
 
@@ -380,49 +378,14 @@ public class ManagementSettingsDAO {
 								String.format("%02x", startDateTime.getYear()) + String.format("%02x", startDateTime.getHour()) + String.format("%02x", startDateTime.getMinute()) + 
 								String.format("%02x", 0) + String.format("%02x", vacationRequestVO.getStartDay()) + 
 								String.format("%02x", endDateTime.getDayOfMonth()) + String.format("%02x", endDateTime.getMonthValue()) + String.format("%02x", endDateTime.getYear()) + 
-								String.format("%02x", endDateTime.getHour()) + String.format("%02x", endDateTime.getMinute()) +	String.format("%02x", 59) + String.format("%02x", vacationRequestVO.getEndDay()) + "0017";
-
-						String HexaToBase64 = Encoding.getHexBase644(dataframe);
-						System.out.println("encoded dataframe in vacation:-- " + HexaToBase64);
-
-						JSONObject json = new JSONObject();
-
-						JSONObject innerjson = new JSONObject();
-
-						JSONObject payload = new JSONObject();
-
-						JSONObject innerjsonpayload = new JSONObject();
-
-						innerjson.put("ty", 4);
-
-						innerjson.put("cnf", "text/plain:0");
-
-						innerjson.put("cs", 250);
-
-						innerjsonpayload.put("deveui", vacationRequestVO.getMeterID().toLowerCase());
-
-						innerjsonpayload.put("port", 5);
-
-						innerjsonpayload.put("confirmed", true);
-
-						innerjsonpayload.put("data", HexaToBase64);
-
-						innerjsonpayload.put("on_busy", "fail");
-
-						innerjsonpayload.put("tag", vacationRequestVO.getTransactionIDForTata());
-
-						payload.put("payload_dl", innerjsonpayload);
-
-						innerjson.put("con", payload.toString());
-						json.put("m2m:cin", innerjson);
-
-						RestCallVO restcallvo = new RestCallVO();
-						restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
-						restcallvo.setUrlExtension("/DownlinkPayload");
-						restcallvo.setData(json.toString());
-						System.out.println("data to be sent to tata gateway in vacation:- " + restcallvo.getData());
+								String.format("%02x", endDateTime.getHour()) + String.format("%02x", endDateTime.getMinute()) +	String.format("%02x", 59) + String.format("%02x", vacationRequestVO.getEndDay()) + "17";
 
 						ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+						RestCallVO restcallvo = new RestCallVO();
+						
+						restcallvo.setData(extramethodsdao.createjson(dataframe, vacationRequestVO.getMeterID(), vacationRequestVO.getTransactionIDForTata()));
+						restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
+						restcallvo.setUrlExtension("/DownlinkPayload");
 
 						String restcallresponse = extramethodsdao.restcall(restcallvo);
 
@@ -452,7 +415,14 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 			
-			pstmt = con.prepareStatement("INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+			pstmt1.setString(1, vacationRequestVO.getCRNNumber());
+			ResultSet rs = pstmt1.executeQuery();
+			if(rs.next()) {
+				vacationRequestVO.setCustomerID(rs.getInt("CustomerID"));
+			}
+			
+			pstmt = con.prepareStatement("INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
 			
 			if(vacationRequestVO.getTransactionIDForTata().startsWith("V")) {
 				pstmt.setString(1, vacationRequestVO.getTransactionIDForTata());	
@@ -475,6 +445,7 @@ public class ManagementSettingsDAO {
 			}
 			
 			pstmt.setString(10, vacationRequestVO.getSource());
+			pstmt.setString(11, vacationRequestVO.getCRNNumber());
 
 			if (pstmt.executeUpdate() > 0) {
 				result = "Success";
@@ -483,6 +454,185 @@ public class ManagementSettingsDAO {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
+		return result;
+	}
+	
+	public String editvacation(VacationRequestVO vacationRequestVO) {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String result = "Failure";
+		Random randomNumber = new Random();
+		
+		try {
+			con = getConnection();
+			
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM vacation WHERE VacationID = ? ");
+			ResultSet rs = pstmt1.executeQuery();
+			if (rs.next()) {
+				vacationRequestVO.setTransactionIDForTata(rs.getString("TataReferenceNumber"));
+				vacationRequestVO.setMeterID(rs.getString("MeterID"));
+			}			
+			
+			String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
+			LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime()+":00", dtf);
+			LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime()+":00", dtf);
+
+			String dataframe = "0A1600" + serialNumber + "020C0141" + String.format("%02x", startDateTime.getDayOfMonth()) + String.format("%02x", startDateTime.getMonthValue()) + 
+					String.format("%02x", startDateTime.getYear()) + String.format("%02x", startDateTime.getHour()) + String.format("%02x", startDateTime.getMinute()) + 
+					String.format("%02x", 0) + String.format("%02x", vacationRequestVO.getStartDay()) + 
+					String.format("%02x", endDateTime.getDayOfMonth()) + String.format("%02x", endDateTime.getMonthValue()) + String.format("%02x", endDateTime.getYear()) + 
+					String.format("%02x", endDateTime.getHour()) + String.format("%02x", endDateTime.getMinute()) +	String.format("%02x", 59) + String.format("%02x", vacationRequestVO.getEndDay()) + "17";
+
+			ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+			RestCallVO restcallvo = new RestCallVO();
+			restcallvo.setData(extramethodsdao.createjson(dataframe, vacationRequestVO.getMeterID(), vacationRequestVO.getTransactionIDForTata()));
+			restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
+			restcallvo.setUrlExtension("/DownlinkPayload");
+
+			String restcallresponse = extramethodsdao.restcall(restcallvo);
+			
+			pstmt = con.prepareStatement("UPDATE vacation SET StartDate = ?, EndDate = ?, STATUS = 0, ModifiedDate = NOW() WHERE VacationID =  ? and TataReferenceNumber = ?");
+			
+			pstmt.setString(1, vacationRequestVO.getStartDateTime());
+			pstmt.setString(2, vacationRequestVO.getEndDateTime());
+			pstmt.setInt(3, vacationRequestVO.getVacationID());
+			pstmt.setString(4, vacationRequestVO.getTransactionIDForTata());
+			
+			if (pstmt.executeUpdate() > 0) {
+				result = "Success";
+			}
+			
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public String deletevacation(int vacationID) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		String result = "Failure";
+		Random randomNumber = new Random();
+		VacationRequestVO vacationRequestVO = new VacationRequestVO(); 
+		vacationRequestVO.setVacationID(vacationID);
+		
+		try{
+		con = getConnection();
+		
+		PreparedStatement pstmt1 = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM vacation WHERE VacationID = ? ");
+		ResultSet rs = pstmt1.executeQuery();
+		if (rs.next()) {
+			vacationRequestVO.setTransactionIDForTata(rs.getString("TataReferenceNumber"));
+			vacationRequestVO.setMeterID(rs.getString("MeterID"));
+		}
+		
+		String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+
+		String dataframe = "0A1600" + serialNumber + "020C0141" + "FFFFFFFFFFFFFFFFFFFFFFFFFF" + "17";
+
+		ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+		RestCallVO restcallvo = new RestCallVO();
+		
+		restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
+		restcallvo.setUrlExtension("/DownlinkPayload");
+		restcallvo.setData(extramethodsdao.createjson(dataframe, vacationRequestVO.getMeterID(), vacationRequestVO.getTransactionIDForTata()));
+
+		String restcallresponse = extramethodsdao.restcall(restcallvo);
+		
+		// perform action based on response from tata gateway
+		
+		pstmt = con.prepareStatement("DELETE FROM vacation WHERE VacationID = ?");
+		pstmt.setInt(1, vacationID);
+		
+        if (pstmt.executeUpdate() > 0) {
+        	result = "Success";
+        	}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		
+		return result;
+	}
+
+	public boolean checkvacationsettings(VacationRequestVO vacationRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT MeterID, Status, StartDate, EndDate FROM vacation WHERE CRNNumber = ? order by VacationID DESC LIMIT 0,1");
+			pstmt.setString(1, vacationRequestVO.getCRNNumber());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1")) {
+					result = true;
+				} else {
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE ? BETWEEN StartDate AND EndDate");
+					pstmt1.setString(1, vacationRequestVO.getStartDateTime());
+					ResultSet rs1 = pstmt1.executeQuery();
+					if(rs1.next()) {
+						result = true;
+					}else {
+						pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE ? BETWEEN StartDate AND EndDate");
+						pstmt1.setString(1, vacationRequestVO.getEndDateTime());
+						rs1 = pstmt1.executeQuery();
+						if(rs1.next()) {
+							result = true;	
+						}
+					}
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+
+		return result;
+	}
+
+	public boolean checkvacationsettingsdoneby(VacationRequestVO vacationRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Boolean result = false;
+
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT Source FROM vacation WHERE VacationID = ?");
+			pstmt.setInt(1, vacationRequestVO.getCustomerID());
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				if(rs.getString("Source").equalsIgnoreCase("mobile")) {
+					result = true;
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+
 		return result;
 	}
 

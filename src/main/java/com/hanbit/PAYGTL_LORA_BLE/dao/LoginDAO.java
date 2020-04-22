@@ -50,7 +50,7 @@ public class LoginDAO {
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(
-					"SELECT ID, UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID FROM user where UserID = ? AND UserPassword = ?");
+					"SELECT ID, UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CRNNumber FROM user where UserID = ? AND UserPassword = ?");
 			pstmt.setString(1, loginvo.getUserID());
 			pstmt.setString(2, loginvo.getPassword());
 			resultSet = pstmt.executeQuery();
@@ -63,6 +63,7 @@ public class LoginDAO {
 							userDetails.setroleID(resultSet.getInt("RoleID"));
 							userDetails.setBlockID(resultSet.getInt("BlockID"));
 							userDetails.setCustomerID(resultSet.getInt("CustomerID"));
+							userDetails.setCRNNumber(resultSet.getString("CRNNumber"));
 							userDetails.setuserName(resultSet.getString("UserName"));
 							userDetails.setCommunity(resultSet.getInt("CommunityID"));
 							userDetails.setID(resultSet.getInt("ID"));
@@ -124,7 +125,7 @@ public class LoginDAO {
 			con = getConnection();
 			ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 			MailRequestVO mailrequestvo = new MailRequestVO();
-			pstmt = con.prepareStatement("SELECT CustomerID, UserPassword, CommunityID, BlockID FROM user WHERE UserID = ?");
+			pstmt = con.prepareStatement("SELECT CustomerID, CRNNumber, UserPassword, CommunityID, BlockID FROM user WHERE UserID = ?");
 			pstmt.setString(1, userid);
 
 			rs = pstmt.executeQuery();

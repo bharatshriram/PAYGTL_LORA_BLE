@@ -14,6 +14,7 @@ public class VacationResponseVO {
 	private String communityName;
 	private String blockName;
 	private String houseNumber;
+	private String CRNNumber;
 	private String firstName;
 	private String lastName;
 	private String meterID;
@@ -101,6 +102,14 @@ public class VacationResponseVO {
 
 	public void setData(List<VacationResponseVO> data) {
 		this.data = data;
+	}
+
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

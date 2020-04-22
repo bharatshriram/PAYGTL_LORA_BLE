@@ -14,6 +14,7 @@ public class AlarmsResponseVO {
 	private String communityName;
 	private String blockName;
 	private String houseNumber;
+	private String CRNNumber;
 	private String meterID;
 	private String dateTime;
 	private String tamper;
@@ -75,6 +76,12 @@ public class AlarmsResponseVO {
 	}
 	public void setData(List<AlarmsResponseVO> data) {
 		this.data = data;
+	}
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 	
 }

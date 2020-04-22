@@ -60,7 +60,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/status/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		AccountDAO accountdao = new AccountDAO();
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
@@ -103,7 +103,7 @@ public class AccountController {
 
 	@RequestMapping(value = "/configuration/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		AccountDAO accountdao = new AccountDAO();
 		ConfigurationResponseVO configurationresponsevo = new ConfigurationResponseVO();

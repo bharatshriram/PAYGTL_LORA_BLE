@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -42,7 +43,7 @@ public class CommunitySetUpDAO {
 
 	/* Community */
 
-	public List<CommunityResponseVO> getCommunitydetails(int roleid, int id) throws SQLException {
+	public List<CommunityResponseVO> getCommunitydetails(int roleid, String id) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -52,8 +53,8 @@ public class CommunitySetUpDAO {
 			con = getConnection();
 			communitydetailslist = new LinkedList<CommunityResponseVO>();
 			
-			String query = "SELECT CommunityID, CommunityName, Email, MobileNumber, CreatedDate, Address FROM community <change> ";
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==3 || roleid==5) ? "WHERE CommunityID = "+id : "ORDER BY CommunityID ASC"));
+			String query = "SELECT c.CommunityID, c.CommunityName, c.Email, c.MobileNumber, c.CreatedDate, c.Address FROM community AS c <change> ";
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "LEFT JOIN block AS b ON b.CommunityID = c.CommunityID WHERE b.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.CommunityID = c.CommunityID WHERE cmd.CRNNumber = "+id : "ORDER BY c.CommunityID DESC"));
 			
 			rs = pstmt.executeQuery();
 			CommunityResponseVO communityvo = null;
@@ -144,7 +145,7 @@ public class CommunitySetUpDAO {
 
 	/* Block */
 
-	public List<BlockResponseVO> getBlockdetails(int roleid, int id) throws SQLException {
+	public List<BlockResponseVO> getBlockdetails(int roleid, String id) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -158,9 +159,7 @@ public class CommunitySetUpDAO {
 			
 			String query = "SELECT block.BlockID, community.CommunityName, block.BlockName, block.Location, block.MobileNumber, block.Email, block.CreatedDate FROM block LEFT JOIN community ON community.CommunityID = Block.CommunityID <change>";
 			
-			String RoleName = (roleid==2 || roleid==3 || roleid==5) ? "WHERE block.BlockID = "+id+ " ORDER BY block.BlockID ASC" : " ORDER BY block.BlockID ASC" ;
-			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", RoleName));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE block.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.BlockID = Block.BlockID WHERE cmd.CRNNumber = "+id : " ORDER BY block.BlockID DESC"));
 			rs = pstmt.executeQuery();
 			BlockResponseVO blockvo = null;
 
@@ -382,7 +381,7 @@ public class CommunitySetUpDAO {
 
 	/* Customer */
 
-	public List<CustomerResponseVO> getCustomerdetails(int roleid, int id) throws SQLException {
+	public List<CustomerResponseVO> getCustomerdetails(int roleid, String id) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -400,10 +399,10 @@ public class CommunitySetUpDAO {
 			String query =
 					"SELECT community.CommunityName, block.BlockName, customermeterdetails.CustomerID, customermeterdetails.HouseNumber, customermeterdetails.FirstName, customermeterdetails.LastName, \r\n" + 
 							"customermeterdetails.Email, customermeterdetails.MobileNumber, customermeterdetails.MeterID, customermeterdetails.MeterSerialNumber, \r\n" + 
-							"customermeterdetails.DefaultReading, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
+							"customermeterdetails.DefaultReading, customermeterdetails.CRNNumber, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
 							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID LEFT JOIN tariff ON tariff.TariffID = customermeterdetails.TariffID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID ASC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID ASC" : (roleid == 3) ? "WHERE customermeterdetails.CustomerID = "+id:""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = "+id:""));
 			
 			rs = pstmt.executeQuery();
 
@@ -417,6 +416,7 @@ public class CommunitySetUpDAO {
 				customervo.setEmail(rs.getString("Email"));
 				customervo.setMobileNumber(rs.getString("MobileNumber"));
 				customervo.setHouseNumber(rs.getString("HouseNumber"));
+				customervo.setCRNNumber(rs.getString("CRNNumber"));
 				customervo.setCustomerID(rs.getInt("CustomerID"));
 				customervo.setMeterID(rs.getString("MeterID"));
 				customervo.setDefaultReading(rs.getInt("DefaultReading"));
@@ -480,7 +480,7 @@ public class CommunitySetUpDAO {
 				ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 				UserManagementRequestVO usermanagementvo = new UserManagementRequestVO();
 				
-				pstmt1 = con.prepareStatement("SELECT CustomerID from customermeterdetails WHERE MeterID = ?");
+				pstmt1 = con.prepareStatement("SELECT CustomerID, CRNNumber from customermeterdetails WHERE MeterID = ?");
 				pstmt1.setString(1, customervo.getMeterID());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {
@@ -511,6 +511,7 @@ public class CommunitySetUpDAO {
 				usermanagementvo.setCommunityID(customervo.getCommunityID());
 				usermanagementvo.setCustomerID(rs.getInt("CustomerID"));
 				usermanagementvo.setBlockID(customervo.getBlockID());
+				usermanagementvo.setCRNNumber(rs.getString("CRNNumber"));
 				usermanagementvo.setLoggedInRoleID(customervo.getLoggedInRoleID());
 				usermanagementvo.setLoggedInUserID(customervo.getLoggedInUserID());
 				
@@ -569,25 +570,33 @@ public class CommunitySetUpDAO {
 			
 			if(customervo.getLoggedInRoleID() == 3) {
 				
-				pstmt = con.prepareStatement("INSERT INTO (CustomerID, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) updaterequestcustomermeterdetails VALUES (?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CustomerID = ?))");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+				pstmt1.setString(1, customervo.getCRNNumber());
+				ResultSet rs = pstmt1.executeQuery();
+				if(rs.next()) {
+					customervo.setCustomerID(rs.getInt("CustomerID"));
+				}
+				
+				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CustomerID = ?))");
 				pstmt.setInt(1, customervo.getCustomerID());
-				pstmt.setString(2, customervo.getHouseNumber());
-				pstmt.setString(3, customervo.getFirstName());
-				pstmt.setString(4, customervo.getEmail());
-				pstmt.setString(5, customervo.getMobileNumber());
-				pstmt.setInt(6, customervo.getCustomerID());
+				pstmt.setString(2, customervo.getCRNNumber());
+				pstmt.setString(3, customervo.getHouseNumber());
+				pstmt.setString(4, customervo.getFirstName());
+				pstmt.setString(5, customervo.getEmail());
+				pstmt.setString(6, customervo.getMobileNumber());
+				pstmt.setInt(7, customervo.getCustomerID());
 				
 				if (pstmt.executeUpdate() > 0) {
 	            	result = "Request Submitted successfully and is pending for approval by Administrator";
 	            }
 				
 			}else {
-				pstmt = con.prepareStatement("UPDATE customermeterdetails SET HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CustomerID=?");
+				pstmt = con.prepareStatement("UPDATE customermeterdetails SET HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CRNNumber = ?");
 	            pstmt.setString(1, customervo.getHouseNumber());
 	            pstmt.setString(2, customervo.getFirstName());
 	            pstmt.setString(3, customervo.getEmail());
 	            pstmt.setString(4, customervo.getMobileNumber());
-	            pstmt.setInt(5, customervo.getCustomerID());
+	            pstmt.setString(5, customervo.getCRNNumber());
 
 	            if (pstmt.executeUpdate() > 0) {
 	            	result = "Success";
@@ -619,28 +628,28 @@ public class CommunitySetUpDAO {
 			con = getConnection();
 
 				pstmt = con.prepareStatement(
-						"INSERT INTO customerdeletemeter (CustomerID, MeterID, Date) VALUES (?, (SELECT MeterID FROM Customermeterdetails where CustomerID = ?), NOW())");
-				pstmt.setInt(1, customervo.getCustomerID());
-				pstmt.setInt(2, customervo.getCustomerID());
+						"INSERT INTO customerdeletemeter (CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber,DefaultReading, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate)\n" + 
+						"SELECT CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber,DefaultReading, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate FROM customermeterdetails WHERE CRNNumber = ?");
+				pstmt.setString(1, customervo.getCRNNumber());
 
 				if (pstmt.executeUpdate() > 0) {
 					
-						pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails where CustomerID = ?");
-						pstmt1.setInt(1, customervo.getCustomerID());
+						pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails where CRNNumber = ?");
+						pstmt1.setString(1, customervo.getCRNNumber());
 						
 						if (pstmt1.executeUpdate() >= 0) {
 							
-							pstmt2 = con.prepareStatement("DELETE FROM user WHERE CustomerID = ?");
-							pstmt2.setInt(1, customervo.getCustomerID());
+							pstmt2 = con.prepareStatement("DELETE FROM user WHERE CRNNumber = ?");
+							pstmt2.setString(1, customervo.getCRNNumber());
 
 							if (pstmt2.executeUpdate() > 0) {
-								pstmt3 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CustomerID=?");
-								pstmt3.setInt(1, customervo.getCustomerID());
+								pstmt3 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CRNNumber = ?");
+								pstmt3.setString(1, customervo.getCRNNumber());
 								if(pstmt3.executeUpdate() > 0) {
 									result = "Success";	
 								} else {
-									PreparedStatement pstmt4 = con.prepareStatement("DELETE FROM customerdeletemeter where CustomerID = ?");
-									pstmt4.setInt(1, customervo.getCustomerID());
+									PreparedStatement pstmt4 = con.prepareStatement("DELETE FROM customerdeletemeter where CRNNumber = ?");
+									pstmt4.setString(1, customervo.getCRNNumber());
 									if(pstmt4.executeUpdate() > 0) {
 										result = "Failure";
 								}
@@ -676,7 +685,7 @@ public class CommunitySetUpDAO {
 		con = getConnection();
 		updaterequestlist = new LinkedList<CustomerResponseVO>();
 		
-		pstmt = con.prepareStatement("SELECT RequestID, CustomerID, HouseNumber, FirstName, Email, MobileNumber FROM updaterequestcustomermeterdetails WHERE BlockID = ?");
+		pstmt = con.prepareStatement("SELECT RequestID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber FROM updaterequestcustomermeterdetails WHERE BlockID = ?");
 		pstmt.setInt(1, blockid);
 		
 		rs = pstmt.executeQuery();
@@ -685,12 +694,13 @@ public class CommunitySetUpDAO {
         	customerresponsevo = new CustomerResponseVO();
         	customerresponsevo.setRequestID(rs.getInt("RequestID"));
         	customerresponsevo.setHouseNumber(rs.getString("HouseNumber"));
+        	customerresponsevo.setCRNNumber(rs.getString("CRNNumber"));
         	customerresponsevo.setFirstName(rs.getString("FirstName"));
         	customerresponsevo.setEmail(rs.getString("Email"));
         	customerresponsevo.setMobileNumber(rs.getString("MobileNumber"));
         	
-        	PreparedStatement pstmt1 = con.prepareStatement("SELECT UserID FROM user WHERE CustomerID = ?");
-        	pstmt1.setInt(1, rs.getInt("CustomerID"));
+        	PreparedStatement pstmt1 = con.prepareStatement("SELECT UserID FROM user WHERE CRNNumber = ?");
+        	pstmt1.setString(1, rs.getString("CRNNumber"));
         
         	ResultSet rs1 = pstmt1.executeQuery();
         	if(rs1.next()) {
@@ -722,7 +732,7 @@ public class CommunitySetUpDAO {
 			
 			if(action == 1) {
 
-				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CustomerID = urcmd.CustomerID SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CustomerID = (SELECT CustomerID FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
+				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CRNNumber = urcmd.CRNNumber SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CRNNumber = (SELECT CRNNumber FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
 	            pstmt.setInt(1, requestid);
 
 	            if (pstmt.executeUpdate() > 0) {
@@ -754,7 +764,7 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
-	public boolean checkcustomer(String firstName, String lastName) throws SQLException {
+	public boolean checkcustomer(String firstName, String lastName, String CRNNumber) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -763,15 +773,23 @@ public class CommunitySetUpDAO {
 		
 		try{
 		con = getConnection();
-		
-		pstmt = con.prepareStatement("SELECT FirstName, LastName from customermeterdetails where FirstName = ? AND LastName = ?");
-		pstmt.setString(1, firstName.trim());
-		pstmt.setString(2, lastName.trim());
-		
+		//change accordingly based on crn number
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where CRNNumber = ?");
+		pstmt.setString(1, CRNNumber.trim());
 		rs = pstmt.executeQuery();
-        if (rs.next()) {
+        
+		if (rs.next()) {
         	result = true;
-        	}
+        	}  
+		
+		PreparedStatement pstmt1 = con.prepareStatement("SELECT * from customermeterdetails where LastName = ? AND FirstName = ?");
+		pstmt1.setString(1, lastName.trim());
+		pstmt1.setString(2, firstName.trim());
+		ResultSet rs1 = pstmt1.executeQuery();
+		
+		if(rs1.next()) {
+				result = true;
+			}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -783,7 +801,7 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
-	public boolean checkpendingrequest(int customerID) throws SQLException {
+	public boolean checkpendingrequest(String CRNNumber) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -793,8 +811,8 @@ public class CommunitySetUpDAO {
 		try{
 		con = getConnection();
 		
-		pstmt = con.prepareStatement("SELECT CustomerID from updaterequestcustomermeterdetails where CustomerID = ?");
-		pstmt.setInt(1, customerID);
+		pstmt = con.prepareStatement("SELECT CRNNumber from updaterequestcustomermeterdetails where CRNNumber = ?");
+		pstmt.setString(1, CRNNumber);
 		
 		rs = pstmt.executeQuery();
         if (rs.next()) {

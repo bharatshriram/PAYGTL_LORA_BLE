@@ -75,10 +75,9 @@ public class DropDownDAO {
 		return blocks;
 	}
 
-	public HashMap<Integer, String> getallhouses(int blockID, int roleid, int id) {
-		// TODO Auto-generated method stubArrayList<String> blocklist=new
-		// ArrayList<String>();
-		HashMap<Integer, String> houses = new HashMap<Integer, String>();
+	public HashMap<String, String> getallhouses(int blockID, int roleid, int id) {
+		// TODO Auto-generated method stub
+		HashMap<String, String> houses = new HashMap<String, String>();
 		
 		Connection con = null;
 		try {
@@ -88,7 +87,7 @@ public class DropDownDAO {
 			pstmt.setInt(1, blockID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				houses.put(rs.getInt("CustomerID"), rs.getString("HouseNumber"));
+				houses.put(rs.getString("CRNNumber"), rs.getString("HouseNumber"));
 			}
 
 		} catch (Exception e) {
@@ -97,7 +96,7 @@ public class DropDownDAO {
 		return houses;
 	}
 	
-	public TopupDetailsResponseVO gettopupdetails(int customerID) throws SQLException {
+	public TopupDetailsResponseVO gettopupdetails(String CRNNumber) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -108,8 +107,8 @@ public class DropDownDAO {
 		try{
 			con = getConnection();
 
-			ps = con.prepareStatement("SELECT cmd.MeterID, t.TariffID, t.TariffName, t.Tariff, t.EmergencyCredit, t.AlarmCredit FROM customermeterdetails AS cmd LEFT JOIN tariff AS t ON t.TariffID = cmd.TariffID WHERE cmd.CustomerID = ?");
-	        ps.setInt(1, customerID);
+			ps = con.prepareStatement("SELECT cmd.MeterID, t.TariffID, t.TariffName, t.Tariff, t.EmergencyCredit, t.AlarmCredit FROM customermeterdetails AS cmd LEFT JOIN tariff AS t ON t.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
+	        ps.setString(1, CRNNumber);
 	        rs = ps.executeQuery();
 	        if (rs.next()) {
 	        	topupdetailsresponsevo.setMeterID(rs.getString("MeterID"));
@@ -119,8 +118,8 @@ public class DropDownDAO {
 	        	topupdetailsresponsevo.setTariff(rs.getFloat("Tariff"));
 	        	topupdetailsresponsevo.setTariffID(rs.getInt("TariffID"));
 	                    
-	                    pstmt = con.prepareStatement("SELECT IoTTimeStamp, Balance FROM displaybalanceLog WHERE MeterID = ? ");
-	                    pstmt.setString(1, topupdetailsresponsevo.getMeterID());
+	                    pstmt = con.prepareStatement("SELECT IoTTimeStamp, Balance FROM displaybalanceLog WHERE CRNNumber = ? ");
+	                    pstmt.setString(1, CRNNumber);
 	                    ResultSet rs1 = pstmt.executeQuery();
 	                    if (rs1.next()) {
 	                    	if (rs1.getString("IoTTimeStamp") == null) {

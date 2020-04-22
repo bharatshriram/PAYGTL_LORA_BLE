@@ -14,7 +14,7 @@ public class ResponseVO {
 	
 	private HashMap<Integer, String> dropDownCommunities;
 	private HashMap<Integer, String> dropDownBlocks;
-	private HashMap<Integer, String> dropDownHouses;
+	private HashMap<String, String> dropDownHouses;
 	private HashMap<Integer, String> dropDownTariffs;
 	private TopupDetailsResponseVO topupdetails;
 	private String result;
@@ -57,10 +57,10 @@ public class ResponseVO {
 	public void setDropDownBlocks(HashMap<Integer, String> dropDownBlocks) {
 		this.dropDownBlocks = dropDownBlocks;
 	}
-	public HashMap<Integer, String> getDropDownHouses() {
+	public HashMap<String, String> getDropDownHouses() {
 		return dropDownHouses;
 	}
-	public void setDropDownHouses(HashMap<Integer, String> dropDownHouses) {
+	public void setDropDownHouses(HashMap<String, String> dropDownHouses) {
 		this.dropDownHouses = dropDownHouses;
 	}
 	public HashMap<Integer, String> getDropDownTariffs() {
