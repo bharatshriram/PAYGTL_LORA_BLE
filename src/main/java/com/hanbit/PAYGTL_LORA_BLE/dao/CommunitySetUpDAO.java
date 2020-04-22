@@ -53,7 +53,7 @@ public class CommunitySetUpDAO {
 			communitydetailslist = new LinkedList<CommunityResponseVO>();
 			
 			String query = "SELECT c.CommunityID, c.CommunityName, c.Email, c.MobileNumber, c.CreatedDate, c.Address FROM community AS c <change> ";
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "LEFT JOIN block AS b ON b.CommunityID = c.CommunityID WHERE b.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.CommunityID = c.CommunityID WHERE cmd.CRNNumber = "+id : "ORDER BY c.CommunityID DESC"));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "LEFT JOIN block AS b ON b.CommunityID = c.CommunityID WHERE b.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.CommunityID = c.CommunityID WHERE cmd.CRNNumber = '"+id+"'": "ORDER BY c.CommunityID DESC"));
 			
 			rs = pstmt.executeQuery();
 			CommunityResponseVO communityvo = null;
@@ -158,7 +158,7 @@ public class CommunitySetUpDAO {
 			
 			String query = "SELECT block.BlockID, community.CommunityName, block.BlockName, block.Location, block.MobileNumber, block.Email, block.CreatedDate FROM block LEFT JOIN community ON community.CommunityID = Block.CommunityID <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE block.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.BlockID = Block.BlockID WHERE cmd.CRNNumber = "+id : " ORDER BY block.BlockID DESC"));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE block.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.BlockID = Block.BlockID WHERE cmd.CRNNumber = '"+id+"'" : " ORDER BY block.BlockID DESC"));
 			rs = pstmt.executeQuery();
 			BlockResponseVO blockvo = null;
 
@@ -401,7 +401,7 @@ public class CommunitySetUpDAO {
 							"customermeterdetails.DefaultReading, customermeterdetails.CRNNumber, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
 							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID LEFT JOIN tariff ON tariff.TariffID = customermeterdetails.TariffID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = "+id:""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = '"+id+"'":""));
 			
 			rs = pstmt.executeQuery();
 

@@ -23,6 +23,7 @@ import org.codehaus.jettison.json.JSONObject;
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
@@ -42,7 +43,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public List<DashboardResponseVO> getDashboarddetails(int roleid, int id)
+	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -69,7 +70,7 @@ public class DashboardDAO {
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
 		
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CustomerID = "+id:""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CustomerID = '"+id+"'":""));
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
@@ -369,6 +370,118 @@ public class DashboardDAO {
 		}
 
 		return val;
+	}
+	
+	public ResponseVO newPostDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+
+		ResponseVO responsevo = new ResponseVO();
+		DashboardRequestVO dashboardRequestVO = new DashboardRequestVO();
+		String iot_Timestamp = "";
+		PreparedStatement pstmt = null;
+		Connection con = null;
+		ResultSet rsch = null;
+
+		try {
+			
+			con = getConnection();
+
+			
+				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
+
+				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+						.substring(0, 2);
+
+				if (StartByte.equalsIgnoreCase("0A")) {
+
+					// 0A 00 00 00 00 42 29 01 00 00 00 00 00 00 00 00 00 00 00 00 00 17
+
+//					dashboardRequestVO.setMeterID(requestvo.getPayloads_ul().getDeveui());
+
+					String meterReadingbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(2, 10);
+
+					String meterStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(10, 12);
+
+					String batteryStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(12, 14);
+
+					String meterTypebyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(14, 16);
+
+					String creditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(16,
+							24);
+
+					String tariffbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(24,
+							32);
+
+					String emergencyCreditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(32, 40);
+
+					String valveStatusbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(40, 42);
+
+					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
+
+					if (meterStatusbyte.equalsIgnoreCase("40") || meterStatusbyte.equalsIgnoreCase("00")) {
+						dashboardRequestVO.setTamperStatus(0);
+						dashboardRequestVO.setLowBattery(0);
+					} else if (meterStatusbyte.equalsIgnoreCase("42")) {
+						dashboardRequestVO.setTamperStatus(0);
+						dashboardRequestVO.setLowBattery(1);
+					} else if (meterStatusbyte.equalsIgnoreCase("44")) {
+						dashboardRequestVO.setTamperStatus(1);
+						dashboardRequestVO.setLowBattery(0);
+					}
+
+					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(batteryStatusbyte)) * 3.6) / 256));
+
+					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(meterTypebyte));
+
+					Long i = Long.parseLong(creditbyte, 16);
+					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
+
+					Long j = Long.parseLong(tariffbyte, 16);
+					dashboardRequestVO.setTariffAmount(Float.intBitsToFloat(j.intValue()));
+
+					Long k = Long.parseLong(emergencyCreditbyte, 16);
+					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
+
+					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(valveStatusbyte));
+					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
+				
+					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balanceLog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
+					pstmt.setString(1, dashboardRequestVO.getMeterID());
+					rsch = pstmt.executeQuery();
+
+					if (rsch.next()) {
+
+						iot_Timestamp =  rsch.getString("IoTTimeStamp");
+
+					}
+
+					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
+			        ZoneId.of("Asia/Kolkata");
+			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+			        
+					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
+						
+						responsevo.setResult(insertdashboard(dashboardRequestVO));
+				
+				} else {
+
+					responsevo.setResult("No Data to update");
+				}
+					
+				}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return responsevo;
 	}
 	
 }
