@@ -29,7 +29,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class DashboardController {
 
 	@RequestMapping(value = "/dashboard/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		DashboardDAO dashboarddao = new DashboardDAO();
 		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();

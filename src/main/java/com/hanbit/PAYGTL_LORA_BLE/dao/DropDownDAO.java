@@ -31,7 +31,7 @@ public class DropDownDAO {
 		return connection;
 	}
 	
-	public HashMap<Integer, String> getallcommunities(int roleid, int id) {
+	public HashMap<Integer, String> getallcommunities(int roleid, String id) {
 		// TODO Auto-generated method stub
 		
 		HashMap<Integer, String> communities = new HashMap<Integer, String>(); 
@@ -40,9 +40,7 @@ public class DropDownDAO {
 			con = getConnection();
 			
 			String query = "SELECT CommunityID, CommunityName FROM community <change> ";
-			query = query.replaceAll("<change>", (roleid==2 || roleid==3 || roleid==5) ? "WHERE CommunityID = "+id : "ORDER BY CommunityID ASC");
-			PreparedStatement pstmt = con.prepareStatement(query);
-			
+			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "LEFT JOIN block AS b ON b.CommunityID = c.CommunityID WHERE b.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.CommunityID = c.CommunityID WHERE cmd.CRNNumber = '"+id+"'": "ORDER BY c.CommunityID DESC"));
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				communities.put(rs.getInt("CommunityID"), rs.getString("CommunityName"));

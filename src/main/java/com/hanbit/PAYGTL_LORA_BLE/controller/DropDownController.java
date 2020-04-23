@@ -26,7 +26,7 @@ public class DropDownController {
 	
 	@RequestMapping(value = "/communities/{roleID}/{id}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO getallcommunities(@PathVariable("roleID") int roleid, @PathVariable("id") int id) {
+	public @ResponseBody ResponseVO getallcommunities(@PathVariable("roleID") int roleid, @PathVariable("id") String id) {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();
