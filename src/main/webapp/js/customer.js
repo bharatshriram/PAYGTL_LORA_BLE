@@ -45,6 +45,8 @@ return json.data;
 },{
 "data" : "houseNumber"
 },{
+"data" : "CRNNumber"
+},{
 "data" : "mobileNumber"
 },{
 "data" : "email"

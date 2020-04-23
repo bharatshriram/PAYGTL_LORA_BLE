@@ -62,6 +62,7 @@
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>House No</th>
+									<th>CRN Number</th>
 									<th>Mobile</th>
 									<th>Email</th>
 									<th>Meter Sr. No.</th>

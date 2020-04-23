@@ -191,7 +191,7 @@ $(document)
 																sessionStorage
 																.setItem(
 																		"ID",
-																		data.userDetails.customerID);
+																		data.userDetails.CRNNumber);
 																
 																sessionStorage
 																.setItem(
