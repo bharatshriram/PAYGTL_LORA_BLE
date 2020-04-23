@@ -39,6 +39,7 @@ public class DropDownDAO {
 		try {
 			con = getConnection();
 			
+
 			String query = "SELECT c.CommunityID, c.CommunityName FROM community AS c <change> ";
 			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "LEFT JOIN block AS b ON b.CommunityID = c.CommunityID WHERE b.BlockID = "+id : (roleid == 3) ? "LEFT JOIN customermeterdetails AS cmd ON cmd.CommunityID = c.CommunityID WHERE cmd.CRNNumber = '"+id+"'": "ORDER BY c.CommunityID DESC"));
 			
