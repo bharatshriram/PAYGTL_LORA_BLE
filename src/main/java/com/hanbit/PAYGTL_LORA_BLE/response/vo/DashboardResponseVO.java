@@ -29,6 +29,11 @@ public class DashboardResponseVO {
 	private String timeStamp;
 	private String dateColor;
 	private String batteryColor;
+	private int iTotalDisplayRecords;
+	private int recordsFiltered;
+	private int iTotalRecords;
+	private int draw;
+	
 	
 	private List<DashboardResponseVO> data;
 
@@ -182,6 +187,38 @@ public class DashboardResponseVO {
 
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
+	}
+
+	public int getiTotalDisplayRecords() {
+		return iTotalDisplayRecords;
+	}
+
+	public void setiTotalDisplayRecords(int iTotalDisplayRecords) {
+		this.iTotalDisplayRecords = iTotalDisplayRecords;
+	}
+
+	public int getRecordsFiltered() {
+		return recordsFiltered;
+	}
+
+	public void setRecordsFiltered(int recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+
+	public int getiTotalRecords() {
+		return iTotalRecords;
+	}
+
+	public void setiTotalRecords(int iTotalRecords) {
+		this.iTotalRecords = iTotalRecords;
+	}
+
+	public int getDraw() {
+		return draw;
+	}
+
+	public void setDraw(int draw) {
+		this.draw = draw;
 	}
 
 }

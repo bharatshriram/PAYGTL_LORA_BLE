@@ -55,15 +55,16 @@ $(document)
 										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-12'p<br/>i>>",
-										"serverSide" : false,
+										"Processing" : true,
+										"serverSide" : true,
 										"bDestroy" : true,
 										"pagging" : true,
-										"bProcessing" : false,
+										"bProcessing" : true,
 										"bPaginate" : true,
 										"ordering" : true,
 										"order" : [ 0, "desc" ],
 										"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-										"pageLength" : 5,
+										"pageLength" : "5",
 										"scrollY" : 324,
 										"scrollX" : true,
 										"ajax" : {
@@ -160,6 +161,14 @@ $(document)
 																+ "</span>"
 													}
 												} ],
+												"columnDefs" : [ {
+													orderable : false,
+													targets : [ 0 ]
+												},
+												{
+													orderable : false,
+													targets : [ 1 ]
+												}],
 
 										/*
 										 * "columnDefs": [{ "visible": false,
