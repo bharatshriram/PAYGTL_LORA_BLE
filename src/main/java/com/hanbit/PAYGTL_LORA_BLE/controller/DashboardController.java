@@ -1,4 +1,3 @@
-
 /**
  * 
  */
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -49,6 +49,21 @@ public class DashboardController {
 
 		try {
 			responsevo = dashboarddao.postDashboarddetails(json);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/newinputdata", method = RequestMethod.POST, produces = "application/json", consumes = "application/vnd.onem2m-ntfy+json")
+	public @ResponseBody
+	ResponseVO postDashboardDetails(@RequestBody TataRequestVO tataRequestVO) {
+
+		DashboardDAO dashboarddao = new DashboardDAO();
+		ResponseVO responsevo = new ResponseVO();
+
+		try {
+			responsevo = dashboarddao.newPostDashboarddetails(tataRequestVO);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

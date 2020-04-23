@@ -607,23 +607,28 @@ public class AccountDAO {
 
 					else if (configurationvo.getCommandType() == 6) {
 						
-						PreparedStatement pstmt1 = con.prepareStatement("SELECT DefaultReading FROM customermeterdetails WHERE CustomerID = ?");
-						pstmt1.setInt(1, configurationvo.getCustomerID());
-						ResultSet rs1 = pstmt1.executeQuery();
-						if(rs1.next()) {
-							
-							String defaultSetHexa = String.format("%08x", rs1.getInt("DefaultReading"));
+							String defaultSetHexa = String.format("%08x", configurationvo.getDefaultReading());
 
 							dataframe = "0A0C00" + serialNumber + "02000023" + defaultSetHexa + "17";
 	
-							}
 						}
 					// set tariff 
 					
 					else if (configurationvo.getCommandType() == 10) {
+						
+						PreparedStatement pstmt1 = con.prepareStatement("SELECT Tariff FROM tariff WHERE TariffID = "+configurationvo.getTariffID());
+						ResultSet rs1 = pstmt1.executeQuery();
+						if(rs1.next()) {
 
-						String tariffHexa = Float.toHexString(configurationvo.getTariff()).toUpperCase();
+						String tariffHexa = Float.toHexString(rs.getFloat("Tariff")).toUpperCase();
 						dataframe = "0A0C00" + serialNumber + "02070123" + tariffHexa + "17";
+						}
+						
+						PreparedStatement pstmt2 = con.prepareStatement("UPDATE customermeterdetails SET TariffID = ? Where CRNNumber = ?");
+						pstmt2.setInt(1, configurationvo.getTariffID());
+						pstmt2.setString(2, configurationvo.getCRNNumber());
+						pstmt2.executeUpdate();
+						
 					}
 					
 					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17

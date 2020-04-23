@@ -333,6 +333,45 @@ public class CommunitySetUpController {
 		return responsevo;
 	}
 	
+	@RequestMapping(value = "/tariff/edit/{tariffID}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	ResponseVO edittariff(@RequestBody TariffRequestVO tariffvo, @PathVariable("tariffID") int tariffID) throws ClassNotFoundException,
+			SQLException, BusinessException {
+
+		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
+		ResponseVO responsevo = new ResponseVO();
+		tariffvo.setTariffID(tariffID);
+		
+		try {
+			 responsevo.setResult(communitysetupbo.edittariff(tariffvo));
+			
+		} catch (BusinessException e) {
+			String message = e.getMessage();
+			responsevo.setMessage(message);
+		}
+
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/tariff/delete/{tariffID}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody
+	ResponseVO deletetariff(@PathVariable("tariffID") int tariffID) throws ClassNotFoundException,
+			SQLException, BusinessException {
+
+		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
+		ResponseVO responsevo = new ResponseVO();
+		
+		try {
+			 responsevo.setResult(communitysetupbo.deletetariff(tariffID));
+			
+		} catch (BusinessException e) {
+			String message = e.getMessage();
+			responsevo.setMessage(message);
+		}
+
+		return responsevo;
+	}
+	
 	/*@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody String dowhile(@PathVariable("i") String userid) throws SQLException {
 		

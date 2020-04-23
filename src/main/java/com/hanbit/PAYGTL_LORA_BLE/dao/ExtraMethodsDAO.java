@@ -14,8 +14,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -30,7 +32,9 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
@@ -135,22 +139,24 @@ public class ExtraMethodsDAO {
 		return responses.toString();
 	}
 	
-public TataResponseVO restcallget(RestCallVO restcallvo) throws IOException {
+public ResponseEntity<TataResponseVO> restcallget(RestCallVO restcallvo) throws IOException {
 		
 	
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Content-Type", ExtraConstants.ContentType);
-		headers.set("Accept", ExtraConstants.Accept);
+		/*headers.set("Content-Type", ExtraConstants.ContentType);
+		headers.set("Accept", ExtraConstants.Accept);*/
 		
 		final String authHeaderValue = "Basic "
 				+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 		
 		headers.set("Authorization", authHeaderValue);
 		
-		TataResponseVO reponse = restTemplate.getForObject(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+restcallvo.getUrlExtension(), TataResponseVO.class);
+		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
-		return reponse;
+		ResponseEntity<TataResponseVO> response = restTemplate.exchange(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+restcallvo.getUrlExtension()+restcallvo.getTataTransactionID(), HttpMethod.GET, entity, TataResponseVO.class);
+		
+		return response;
 	}
 
 public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
@@ -158,7 +164,13 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 	
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
-	HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+	Map<String, String> params = new HashMap<String, String>();
+	params.put("port", "2");
+	params.put("fcnt", "12");
+	params.put("confirmed", "true");
+	params.put("mode", "enqueue_on_busy");
+	params.put("data_format", "base64");
+	
 	headers.set("Content-Type", ExtraConstants.ContentType);
 	headers.set("Accept", ExtraConstants.Accept);
 	
@@ -166,8 +178,9 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 			+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 	
 	headers.set("Authorization", authHeaderValue);
+	HttpEntity entity = new HttpEntity(headers);
 	
-	TataResponseVO reponse = restTemplate.getForObject(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+restcallvo.getUrlExtension(), TataResponseVO.class);
+	TataResponseVO reponse = restTemplate.postForObject(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+"/payloads/dl", entity, TataResponseVO.class, params);
 	
 	return reponse;
 }
@@ -221,16 +234,18 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM topup WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
+			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM topup WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
 				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
-				restcallvo.setTataTransactionID(""); // add tatatransaction ID
+				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
 				
-				String response = restcall(restcallvo).toString();
+				String response = restcallget(restcallvo).toString();
+				
+//				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
 				
 				Gson gson = new Gson();
 				
@@ -280,13 +295,16 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT MeterID FROM command WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
+			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM command WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
-				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
+				
+//				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
 				
 				String response = restcall(restcallvo);
 				
@@ -338,13 +356,16 @@ public TataResponseVO restcallpost(RestCallVO restcallvo) throws IOException {
 		try {
 			// modify query accordingly
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT DISTINCT v.CustomerID, cmd.MeterID FROM vacation AS v LEFT JOIN customermeterdetails AS cmd ON v.CustomerID = cmd.CustomerID WHERE v.Status BETWEEN 0 AND 1 AND v.Source = 'web'");
+			pstmt = con.prepareStatement("SELECT v.CustomerID, cmd.MeterID, v.TataReferenceNumber FROM vacation AS v LEFT JOIN customermeterdetails AS cmd ON v.CustomerID = cmd.CustomerID WHERE v.Status BETWEEN 0 AND 1 AND v.Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
 				RestCallVO restcallvo  = new RestCallVO();
-				restcallvo.setUrlExtension("/DownlinkPayloadStatus/latest");
+				restcallvo.setUrlExtension("/payloads/dl/");
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
+				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
+				
+//				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
 				
 				String response = restcall(restcallvo);
 				

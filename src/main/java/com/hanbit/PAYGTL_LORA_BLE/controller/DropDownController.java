@@ -38,7 +38,7 @@ public class DropDownController {
 	
 	@RequestMapping(value = "/blocks/{roleID}/{id}/{communityID}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO getallblocks(@PathVariable("roleID") int roleid, @PathVariable("id") int id, @PathVariable ("communityID") int communityID) {
+	public @ResponseBody ResponseVO getallblocks(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("communityID") int communityID) {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();
