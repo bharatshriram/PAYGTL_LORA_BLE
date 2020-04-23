@@ -16,6 +16,7 @@ public class DashboardResponseVO {
 	private String HouseNumber;
 	private String firstName;
 	private String lastName;
+	private String CRNNumber;
 	private String meterID;
 	private float reading;
 	private float balance;
@@ -173,6 +174,14 @@ public class DashboardResponseVO {
 
 	public void setData(List<DashboardResponseVO> data) {
 		this.data = data;
+	}
+
+	public String getCRNNumber() {
+		return CRNNumber;
+	}
+
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
 
 }

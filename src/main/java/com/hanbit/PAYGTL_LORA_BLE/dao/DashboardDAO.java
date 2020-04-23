@@ -65,12 +65,12 @@ public class DashboardDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 			
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 		
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CustomerID = '"+id+"'":""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
@@ -80,6 +80,7 @@ public class DashboardDAO {
 				dashboardvo.setFirstName(rs.getString("FirstName"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
+				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
@@ -131,7 +132,7 @@ public class DashboardDAO {
 		return dashboard_list;
 	}
 
-	public ResponseVO postDashboarddetails(String json) throws SQLException {
+/*	public ResponseVO postDashboarddetails(String json) throws SQLException {
 		// TODO Auto-generated method stub
 
 		ResponseVO responsevo = new ResponseVO();
@@ -249,7 +250,7 @@ public class DashboardDAO {
 		}
 
 		return responsevo;
-	}
+	}*/
 	
 	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
 		

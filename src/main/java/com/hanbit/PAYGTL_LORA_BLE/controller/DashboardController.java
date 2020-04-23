@@ -49,14 +49,14 @@ public class DashboardController {
 		String json = httpEntity.getBody();
 
 		try {
-			responsevo = dashboarddao.postDashboarddetails(json);
+//			responsevo = dashboarddao.postDashboarddetails(json);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/newinputdata", method = RequestMethod.POST, produces = "application/json", consumes = "application/vnd.onem2m-ntfy+json")
+	@RequestMapping(value = "/newinputdata", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
 	ResponseVO postDashboardDetails(@RequestBody TataRequestVO tataRequestVO) {
 

@@ -50,7 +50,7 @@ public class DropDownController {
 	
 	@RequestMapping(value = "/customers/{roleID}/{id}/{blockID}",method = RequestMethod.GET, 
 			produces="application/json")
-	public @ResponseBody ResponseVO getallhouses(@PathVariable("roleID") int roleid, @PathVariable("id") int id, @PathVariable ("blockID") int blockID) {
+	public @ResponseBody ResponseVO getallhouses(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("blockID") int blockID) {
 		
 		DropDownDAO dropdowndao = new DropDownDAO();
 		ResponseVO responsevo = new ResponseVO();

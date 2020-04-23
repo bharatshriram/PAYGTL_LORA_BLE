@@ -11,6 +11,7 @@ public class TataRequestVO {
 	
 	private boolean confirmed;
 	private String cr_used;
+	private String devEUI;
 	private String dataFrame;
 	private String data_format;
 	private boolean decrypted;
@@ -135,6 +136,12 @@ public class TataRequestVO {
 	}
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
+	}
+	public String getDevEUI() {
+		return devEUI;
+	}
+	public void setDevEUI(String devEUI) {
+		this.devEUI = devEUI;
 	}
 
 }

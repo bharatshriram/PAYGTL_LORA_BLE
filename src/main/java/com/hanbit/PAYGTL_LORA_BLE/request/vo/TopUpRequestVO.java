@@ -20,7 +20,7 @@ public class TopUpRequestVO {
 	private int status;
 	private int transactedByID;
 	private int transactedByRoleID;
-	private String transactionIDForTata;
+	private long transactionIDForTata;
 	
 	public float getAmount() {
 		return amount;
@@ -58,10 +58,10 @@ public class TopUpRequestVO {
 	public void setModeOfPayment(String modeOfPayment) {
 		this.modeOfPayment = modeOfPayment;
 	}
-	public String getTransactionIDForTata() {
+	public long getTransactionIDForTata() {
 		return transactionIDForTata;
 	}
-	public void setTransactionIDForTata(String transactionIDForTata) {
+	public void setTransactionIDForTata(long transactionIDForTata) {
 		this.transactionIDForTata = transactionIDForTata;
 	}
 	public String getMeterID() {

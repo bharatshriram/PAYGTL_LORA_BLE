@@ -3,11 +3,13 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,17 +20,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.bo.CommunitySetUpBO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.CommunitySetUpDAO;
+import com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.LoginDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CommunityResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CustomerResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TariffResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 
 /**
  * @author K VimaL Kumar
@@ -419,16 +424,20 @@ public class CommunitySetUpController {
 		return null;
 	}*/
 	
-	@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String dowhile(@PathVariable("i") String userid) throws SQLException {
+	/*@RequestMapping(value="/dowhile/{meterid}/{id}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody ResponseEntity<TataResponseVO> dowhile(@PathVariable("meterid") String meterid, @PathVariable("id") String id) throws SQLException, IOException {
 		
-		System.out.println("input date:--"+userid);
-		Instant instant = Instant.parse(userid+".348Z");
-        ZoneId.of("Asia/Kolkata");
-        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-        System.out.println("date time in IST:--- "+datetime.toString().replaceAll("T", " ").substring(0, 19));
+		ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
+		RestCallVO restcallvo = new RestCallVO();
 		
-		return null;
-	}
+		restcallvo.setMeterID(meterid.toLowerCase());
+		restcallvo.setDataFrame("ChgASBECDAAjQ8gAAEEgAABBoAAAQkgAABc=");
+		restcallvo.setUrlExtension("/payloads/dl/");
+		restcallvo.setTataTransactionID(id);
+		
+		ResponseEntity<TataResponseVO> restcallresponse = extramethodsdao.restcallget(restcallvo);
+		
+		return restcallresponse;
+	}*/
 	
 }

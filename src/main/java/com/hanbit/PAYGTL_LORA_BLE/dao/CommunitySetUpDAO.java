@@ -468,10 +468,10 @@ public class CommunitySetUpDAO {
 			pstmt.setString(7, customervo.getMobileNumber());
 			pstmt.setString(8, customervo.getMeterID());
 			pstmt.setString(9, customervo.getMeterSerialNumber());
-			pstmt.setInt(11, customervo.getTariffID());
-			pstmt.setString(12, customervo.getCRNNumber());
-			pstmt.setInt(13, customervo.getCreatedByID());
-			pstmt.setInt(14, customervo.getLoggedInRoleID());
+			pstmt.setInt(10, customervo.getTariffID());
+			pstmt.setString(11, customervo.getCRNNumber());
+			pstmt.setInt(12, customervo.getCreatedByID());
+			pstmt.setInt(13, customervo.getLoggedInRoleID());
 
 			if (pstmt.executeUpdate() > 0) {
 				

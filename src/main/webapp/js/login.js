@@ -137,6 +137,10 @@ $(document)
 																	} else if (data.userDetails.roleID == 2) {
 																		sessionStorage
 																		.setItem(
+																		"communityID",
+																		data.userDetails.communityID);
+																		sessionStorage
+																		.setItem(
 																				"type",
 																				"Admin");
 																sessionStorage
