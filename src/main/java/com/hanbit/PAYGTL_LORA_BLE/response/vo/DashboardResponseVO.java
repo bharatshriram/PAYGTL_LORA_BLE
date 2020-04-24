@@ -18,12 +18,13 @@ public class DashboardResponseVO {
 	private String lastName;
 	private String CRNNumber;
 	private String meterID;
-	private float reading;
-	private float balance;
-	private float emergencyCredit;
+	private String meterSerialNumber;
+	private String reading;
+	private String balance;
+	private String emergencyCredit;
 	private String battery;
 	private String valveStatus;
-	private float tariff;
+	private String tariff;
 	private String tariffName;
 	private String tamperStatus;
 	private String timeStamp;
@@ -36,6 +37,16 @@ public class DashboardResponseVO {
 	
 	
 	private List<DashboardResponseVO> data;
+
+	
+	
+	public String getMeterSerialNumber() {
+		return meterSerialNumber;
+	}
+
+	public void setMeterSerialNumber(String meterSerialNumber) {
+		this.meterSerialNumber = meterSerialNumber;
+	}
 
 	public String getCommunityName() {
 		return communityName;
@@ -77,36 +88,46 @@ public class DashboardResponseVO {
 		this.lastName = lastName;
 	}
 
+	
+	
+	public String getReading() {
+		return reading;
+	}
+
+	public void setReading(String reading) {
+		this.reading = reading;
+	}
+
+	public String getBalance() {
+		return balance;
+	}
+
+	public void setBalance(String balance) {
+		this.balance = balance;
+	}
+
+	public String getEmergencyCredit() {
+		return emergencyCredit;
+	}
+
+	public void setEmergencyCredit(String emergencyCredit) {
+		this.emergencyCredit = emergencyCredit;
+	}
+
+	public String getTariff() {
+		return tariff;
+	}
+
+	public void setTariff(String tariff) {
+		this.tariff = tariff;
+	}
+
 	public String getMeterID() {
 		return meterID;
 	}
 
 	public void setMeterID(String meterID) {
 		this.meterID = meterID;
-	}
-
-	public float getReading() {
-		return reading;
-	}
-
-	public void setReading(float reading) {
-		this.reading = reading;
-	}
-
-	public float getBalance() {
-		return balance;
-	}
-
-	public void setBalance(float balance) {
-		this.balance = balance;
-	}
-
-	public float getEmergencyCredit() {
-		return emergencyCredit;
-	}
-
-	public void setEmergencyCredit(float emergencyCredit) {
-		this.emergencyCredit = emergencyCredit;
 	}
 
 	public String getBattery() {
@@ -123,14 +144,6 @@ public class DashboardResponseVO {
 
 	public void setValveStatus(String valveStatus) {
 		this.valveStatus = valveStatus;
-	}
-
-	public float getTariff() {
-		return tariff;
-	}
-
-	public void setTariff(float tariff) {
-		this.tariff = tariff;
 	}
 
 	public String getTariffName() {

@@ -71,13 +71,13 @@ public class DashboardDAO {
 			}
 
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp\r\n" + 
 					"FROM balancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
 			
-			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.FirstName", "cmd.LastName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
+			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
 					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
 					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp" };
 			String columnName = "";
@@ -107,7 +107,7 @@ public class DashboardDAO {
 			rs2.beforeFirst();  
 			rs2.last();  
 			  //size = rs2.getRow(); 
-			Integer totalRowCount =rs2.getRow();;
+			Integer totalRowCount =rs2.getRow();
 
 			System.out.println("totalRowCount==?>"+totalRowCount);
 			
@@ -120,9 +120,8 @@ public class DashboardDAO {
 			StringBuilder sql = new StringBuilder();
 			sql.append(query);
 			
-			String globeSearch = "c.CommunityName like'%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
-					+ globalSearchUnit + "%'" + " or cmd.FirstName like '%" + globalSearchUnit + "%'"
-					+ " or cmd.LastName like '%" + globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
+			String globeSearch = "c.CommunityName like '%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
+					+ globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
 					+ "%'" + " or cmd.MeterSerialNumber like '%" + globalSearchUnit + "%'" + " or dbl.CRNNumber like '%"
 					+ globalSearchUnit + "%'" + " or dbl.MeterID like '%" + globalSearchUnit + "%'"
 					+ " or dbl.Reading like '%" + globalSearchUnit + "%'" + " or dbl.Balance like '%" + globalSearchUnit
@@ -134,7 +133,7 @@ public class DashboardDAO {
 			}
 
 			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append(" AND ");
+				sql.append((roleid == 1 || roleid == 4) ? "WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
 				sql.append(searchSQL);
 			}
 
@@ -154,14 +153,15 @@ public class DashboardDAO {
 				dashboardvo.setBlockName(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
 				dashboardvo.setFirstName(rs.getString("FirstName"));
+				dashboardvo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
-				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
+				dashboardvo.setTariffName(String.valueOf(rs.getFloat("TariffAmount")));
 				// send tariff id/TariffName after fetching from db
-				dashboardvo.setReading(rs.getFloat("Reading"));
-				dashboardvo.setBalance(rs.getFloat("Balance"));
-				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
+				dashboardvo.setReading(String.valueOf(rs.getFloat("Reading")));
+				dashboardvo.setBalance(String.valueOf(rs.getFloat("Balance")));
+				dashboardvo.setEmergencyCredit(String.valueOf(rs.getFloat("EmergencyCredit")));
 				
 				if(rs.getInt("SolonideStatus") == 0) {
 					dashboardvo.setValveStatus("OPEN");	
@@ -198,6 +198,13 @@ public class DashboardDAO {
 				dashboardvo.setiTotalRecords(recordSize);
 				dashboard_list.add(dashboardvo);
 			}
+			if(dashboard_list.size() == 0) {
+				dashboardvo = new DashboardResponseVO();
+				System.out.println(dashboardvo.getBlockName()+"==>"+dashboardvo.getCommunityName());
+				dashboardvo.setiTotalDisplayRecords(totalRowCount);
+				dashboardvo.setiTotalRecords(recordSize);
+				dashboard_list.add(dashboardvo);
+				}
 			
 		}
 
