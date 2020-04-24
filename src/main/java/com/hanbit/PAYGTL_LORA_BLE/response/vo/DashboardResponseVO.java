@@ -18,7 +18,7 @@ public class DashboardResponseVO {
 	private String lastName;
 	private String CRNNumber;
 	private String meterID;
-	private float reading;
+	private String reading;
 	private float balance;
 	private float emergencyCredit;
 	private String battery;
@@ -85,11 +85,11 @@ public class DashboardResponseVO {
 		this.meterID = meterID;
 	}
 
-	public float getReading() {
+	public String getReading() {
 		return reading;
 	}
 
-	public void setReading(float reading) {
+	public void setReading(String reading) {
 		this.reading = reading;
 	}
 

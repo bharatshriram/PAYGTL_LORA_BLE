@@ -126,9 +126,9 @@ public class ManagementSettingsBO {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		
-		if (managementsettingsdao.checkvacationsettingsdoneby(vacationRequestVO)) {
+		/*if (managementsettingsdao.checkvacationsettingsdoneby(vacationRequestVO)) {
 			throw new BusinessException("PLEASE DO THE UPDATE FROM MOBILE APP AS THE VACATION HAS BEEN RAISED FROM MOBILE APP ONLY");
-		}
+		}*/
 		
 		return managementsettingsdao.editvacation(vacationRequestVO);
 	}

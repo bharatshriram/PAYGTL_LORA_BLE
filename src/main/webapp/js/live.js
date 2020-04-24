@@ -92,8 +92,8 @@ $(document)
 											"data" : function(search) {
 											},
 											"complete" : function(json) {
-												alert("===>"
-														+ JSON.stringify(json));
+												/*alert("===>"
+														+ JSON.stringify(json));*/
 												console.log(JSON.stringify(json));
 												return json.data;
 											},
@@ -210,50 +210,6 @@ $(document)
 													orientation : 'landscape',
 													title : 'Dashboard'
 												} ]
-									/*
-									 * "buttons": [{ extend: 'colvis',
-									 * collectionLayout: 'three-column', text:
-									 * function() { var totCols = $('#liveTable
-									 * thead th').length; var hiddenCols =
-									 * hCols.length; var shownCols = totCols -
-									 * hiddenCols; return 'Columns (' +
-									 * shownCols + ' of ' + totCols + ')'; },
-									 * prefixButtons: [{ extend: 'colvisGroup',
-									 * text: 'Show all', show: ':hidden' }, {
-									 * extend: 'colvisRestore', text: 'Restore' }] }, {
-									 * extend: 'collection', text: 'Export',
-									 * buttons: [{ text: 'Excel', extend:
-									 * 'excelHtml5', footer: false,
-									 * exportOptions: { columns: ':visible' } }, {
-									 * text: 'CSV', extend: 'csvHtml5',
-									 * fieldSeparator: ';', exportOptions: {
-									 * columns: ':visible' } }, { text: 'PDF
-									 * Portrait', extend: 'pdfHtml5', message:
-									 * '', exportOptions: { columns: ':visible' } }, {
-									 * text: 'PDF Landscape', extend:
-									 * 'pdfHtml5', message: '', orientation:
-									 * 'landscape', exportOptions: { columns:
-									 * ':visible' } }] }] ,oLanguage: {
-									 * oPaginate: { sNext: '<span
-									 * class="pagination-default">&#x276f;</span>',
-									 * sPrevious: '<span
-									 * class="pagination-default">&#x276e;</span>' } }
-									 * ,"initComplete": function(settings, json) { //
-									 * Adjust hidden columns counter text in
-									 * button -->
-									 * $('#liveTable').on('column-visibility.dt',
-									 * function(e, settings, column, state) {
-									 * var visCols = $('#liveTable thead
-									 * tr:first th').length; //Below: The minus
-									 * 2 because of the 2 extra buttons Show all
-									 * and Restore var tblCols =
-									 * $('.dt-button-collection
-									 * li[aria-controls=liveTable] a').length -
-									 * 2;
-									 * $('.buttons-colvis[aria-controls=liveTable]
-									 * span').html('Columns (' + visCols + ' of ' +
-									 * tblCols + ')'); e.stopPropagation(); }); }
-									 */
 									}).columns.adjust().draw();
 								      ;
 				});

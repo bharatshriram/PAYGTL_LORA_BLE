@@ -350,17 +350,6 @@ public class ManagementSettingsDAO {
 
 			con = getConnection();
 
-			 pstmt1 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");
-			pstmt1.setString(1, vacationRequestVO.getCRNNumber());
-
-			ResultSet rs1 = pstmt1.executeQuery();
-
-			if (rs1.next()) {
-				vacationRequestVO.setMeterID(rs1.getString("MeterID"));
-				vacationRequestVO.setCommunityID(rs1.getInt("CommunityID"));
-				vacationRequestVO.setBlockID(rs1.getInt("BlockID"));
-				vacationRequestVO.setCustomerID(rs1.getInt("CustomerID"));
-
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
 						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
@@ -393,7 +382,6 @@ public class ManagementSettingsDAO {
 						vacationRequestVO.setTransactionIDForTata(0);
 						result = insertvacation(vacationRequestVO);
 					}
-			} 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -408,29 +396,40 @@ public class ManagementSettingsDAO {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		String result = "Failure";
 		
 		try {
 			con = getConnection();
-			
-			pstmt = con.prepareStatement("INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-			
-			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());	
-			pstmt.setInt(2, vacationRequestVO.getCommunityID());
-			pstmt.setInt(3, vacationRequestVO.getBlockID());
-			pstmt.setInt(4, vacationRequestVO.getCustomerID());
-			pstmt.setString(5, vacationRequestVO.getMeterID());
-			pstmt.setString(6, vacationRequestVO.getVacationName());
-			pstmt.setString(7, vacationRequestVO.getStartDateTime());
-			pstmt.setString(8, vacationRequestVO.getEndDateTime());
-			pstmt.setInt(9, vacationRequestVO.getStatus()); 
-			pstmt.setString(10, vacationRequestVO.getSource());
-			pstmt.setString(11, vacationRequestVO.getCRNNumber());
+			String query = "SELECT CommunityID, BlockID, CustomerID, MeterID FROM customermeterdetails WHERE <change>";
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", vacationRequestVO.getVacationID()==0 ? "CRNNumber = '"+vacationRequestVO.getCRNNumber()+"'" : "VacationID = "+vacationRequestVO.getVacationID()));
+			ResultSet rs1 = pstmt1.executeQuery();
 
-			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
-			}
+			if (rs1.next()) {
+				vacationRequestVO.setMeterID(rs1.getString("MeterID"));
+				vacationRequestVO.setCommunityID(rs1.getInt("CommunityID"));
+				vacationRequestVO.setBlockID(rs1.getInt("BlockID"));
+				vacationRequestVO.setCustomerID(rs1.getInt("CustomerID"));
 			
+				pstmt = con.prepareStatement(
+						"INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+
+				pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
+				pstmt.setInt(2, vacationRequestVO.getCommunityID());
+				pstmt.setInt(3, vacationRequestVO.getBlockID());
+				pstmt.setInt(4, vacationRequestVO.getCustomerID());
+				pstmt.setString(5, vacationRequestVO.getMeterID());
+				pstmt.setString(6, vacationRequestVO.getVacationName());
+				pstmt.setString(7, vacationRequestVO.getStartDateTime());
+				pstmt.setString(8, vacationRequestVO.getEndDateTime());
+				pstmt.setInt(9, vacationRequestVO.getStatus());
+				pstmt.setString(10, vacationRequestVO.getSource());
+				pstmt.setString(11, vacationRequestVO.getCRNNumber());
+
+				if (pstmt.executeUpdate() > 0) {
+					result = "Success";
+				}
+				}	
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -448,13 +447,6 @@ public class ManagementSettingsDAO {
 		
 		try {
 			con = getConnection();
-			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM vacation WHERE VacationID = ? ");
-			ResultSet rs = pstmt1.executeQuery();
-			if (rs.next()) {
-//				vacationRequestVO.setTransactionIDForTata(rs.getString("TataReferenceNumber"));
-				vacationRequestVO.setMeterID(rs.getString("MeterID"));
-			}			
 			
 			String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 
@@ -480,17 +472,13 @@ public class ManagementSettingsDAO {
 			vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 			vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
 			
-			// change to insert after discussion with the team...
+			result = insertvacation(vacationRequestVO);
 			
-			pstmt = con.prepareStatement("UPDATE vacation SET StartDate = ?, EndDate = ?, STATUS = 0, ModifiedDate = NOW() WHERE VacationID =  ? and TataReferenceNumber = ?");
-			
-			pstmt.setString(1, vacationRequestVO.getStartDateTime());
-			pstmt.setString(2, vacationRequestVO.getEndDateTime());
-			pstmt.setInt(3, vacationRequestVO.getVacationID());
-			pstmt.setLong(4, vacationRequestVO.getTransactionIDForTata());
-			
-			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+			if(result.equalsIgnoreCase("Success")) {
+				pstmt = con.prepareStatement("DELETE FROM vacation WHERE VacationID = "+vacationRequestVO.getVacationID());
+				if(pstmt.executeUpdate() > 0) {
+					result = "Success";
+				}
 			}
 			
 		} catch(Exception e){
@@ -597,7 +585,7 @@ public class ManagementSettingsDAO {
 		return result;
 	}
 
-	public boolean checkvacationsettingsdoneby(VacationRequestVO vacationRequestVO) throws SQLException {
+/*	public boolean checkvacationsettingsdoneby(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -624,6 +612,6 @@ public class ManagementSettingsDAO {
 		}
 
 		return result;
-	}
+	}*/
 
 }

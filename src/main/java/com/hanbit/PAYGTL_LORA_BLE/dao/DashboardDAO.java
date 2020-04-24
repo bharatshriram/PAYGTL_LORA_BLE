@@ -120,21 +120,21 @@ public class DashboardDAO {
 			StringBuilder sql = new StringBuilder();
 			sql.append(query);
 			
-			String globeSearch = "c.CommunityName like'%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
+			String globeSearch = "c.CommunityName like '%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
 					+ globalSearchUnit + "%'" + " or cmd.FirstName like '%" + globalSearchUnit + "%'"
 					+ " or cmd.LastName like '%" + globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
 					+ "%'" + " or cmd.MeterSerialNumber like '%" + globalSearchUnit + "%'" + " or dbl.CRNNumber like '%"
 					+ globalSearchUnit + "%'" + " or dbl.MeterID like '%" + globalSearchUnit + "%'"
 					+ " or dbl.Reading like '%" + globalSearchUnit + "%'" + " or dbl.Balance like '%" + globalSearchUnit
 					+ "%'" + " or dbl.BatteryVoltage like '%" + globalSearchUnit + "%'" + " or dbl.TariffAmount like '%" + globalSearchUnit
-					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'";
+					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'" + "or dbl.ReadingID like '%" + globalSearchUnit + "%'";
 
 			if (!StringUtils.isEmpty(globalSearchUnit)) {
 				searchSQL = globeSearch;
 			}
 
 			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append(" AND ");
+				sql.append((roleid == 1 || roleid == 4) ? "WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
 				sql.append(searchSQL);
 			}
 
@@ -159,7 +159,7 @@ public class DashboardDAO {
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				// send tariff id/TariffName after fetching from db
-				dashboardvo.setReading(rs.getFloat("Reading"));
+				dashboardvo.setReading(rs.getString("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				
@@ -197,6 +197,12 @@ public class DashboardDAO {
 				dashboardvo.setiTotalDisplayRecords(totalRowCount);
 				dashboardvo.setiTotalRecords(recordSize);
 				dashboard_list.add(dashboardvo);
+			}
+			if(!rs.next()) {
+			dashboardvo = new DashboardResponseVO();
+			dashboardvo.setiTotalDisplayRecords(totalRowCount);
+			dashboardvo.setiTotalRecords(recordSize);
+			dashboard_list.add(dashboardvo);
 			}
 			
 		}
