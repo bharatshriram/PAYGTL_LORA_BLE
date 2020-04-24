@@ -55,18 +55,32 @@ $(document)
 										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-12'p<br/>i>>",
-										"Processing" : true,
-										"serverSide" : true,
-										"bDestroy" : true,
-										"pagging" : true,
-										"bProcessing" : true,
-										"bPaginate" : true,
-										"ordering" : true,
-										"order" : [ 0, "desc" ],
-										"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-										"pageLength" : "5",
-										"scrollY" : 324,
-										"scrollX" : true,
+												/*"pagingType" : 'full_numbers',*/
+												"responsive" : true,
+												"processing" : true,
+												"serverSide" : true,
+												"bDestroy" : true,
+												"bPaginate": true,
+												"pagging" : true,
+												"bProcessing" : true,
+												"ordering" : true,
+												"order" : [ 0, "desc" ],
+												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+												"pageLength" : 5,
+												"scrollY" : 324,
+												"scrollX" : true,	
+												/*"processing" : true,
+												"serverSide" : true,
+												"bDestroy" : true,
+												"pagging" : true,
+												"bProcessing" : true,
+												"ordering" : true,
+												"order" : [ 0, "desc" ],
+												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+												"pageLength" : "5",
+												"scrollY" : 324,
+												"scrollX" : true,*/
+												
 										"ajax" : {
 											"url" : "/PAYGTL_LORA_BLE/dashboard/"
 													+ sessionStorage
@@ -78,7 +92,9 @@ $(document)
 											"data" : function(search) {
 											},
 											"complete" : function(json) {
-												console.log(json);
+												alert("===>"
+														+ JSON.stringify(json));
+												console.log(JSON.stringify(json));
 												return json.data;
 											},
 										},
@@ -238,5 +254,6 @@ $(document)
 									 * span').html('Columns (' + visCols + ' of ' +
 									 * tblCols + ')'); e.stopPropagation(); }); }
 									 */
-									});
+									}).columns.adjust().draw();
+								      ;
 				});
