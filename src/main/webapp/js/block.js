@@ -15,12 +15,13 @@ table = $('#blockTable')
 .DataTable(
 {
 "dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
-"processing" : false,
-"serverSide" : false,
+"responsive" : true,
+"processing" : true,
+"serverSide" : true,
 "bDestroy" : true,
-"pagging" : true,
 "bPaginate": true,
-"bProcessing" : false,
+"pagging" : true,
+"bProcessing" : true,
 "ordering" : true,
 "order" : [ 0, "desc" ],
 "lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
@@ -76,7 +77,15 @@ return json.data;
 
 
 
-], "buttons": [
+],
+"columnDefs" : [ {
+	orderable : false,
+	targets : [ 0 ]
+},
+{
+	orderable : false,
+	targets : [ 1 ]
+}], "buttons": [
 	   
 	]
 });

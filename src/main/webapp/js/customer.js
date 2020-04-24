@@ -8,19 +8,19 @@ table = $('#customerTable')
 .DataTable(
 {//'Pfrtip'
 	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
-"processing" : false,
-"serverSide" : false,
-"bDestroy" : true,
-"bPaginate": true,
-"search": true,
-"pagging" : true,
-"bProcessing" : false,
-"ordering" : true,
-"order" : [ 0, "desc" ],
-"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-"pageLength" : 5,
-"scrollY" : 324,
-"scrollX" : true,
+	"responsive" : true,
+	"processing" : true,
+	"serverSide" : false,
+	"bDestroy" : true,
+	"bPaginate": true,
+	"pagging" : true,
+	"bProcessing" : true,
+	"ordering" : true,
+	"order" : [ 0, "desc" ],
+	"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+	"pageLength" : 5,
+	"scrollY" : 324,
+	"scrollX" : true,
 "ajax" : {
 "url":"/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 "type" : "GET",
@@ -32,9 +32,7 @@ return json.data;
 },
 },
 "columns" : [
- /*{
-    	"data" : "communityName"
- },*/{
+{
 "data" : "communityName"
 },{
 "data" : "blockName"
@@ -82,7 +80,15 @@ return json.data;
 
 
 
-], "buttons": [
+],
+"columnDefs" : [ {
+	orderable : false,
+	targets : [ 0 ]
+},
+{
+	orderable : false,
+	targets : [ 1 ]
+}], "buttons": [
    /* 'csvHtml5',
 	'excelHtml5',
 'pdfHtml5'*/
