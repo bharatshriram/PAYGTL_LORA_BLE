@@ -55,8 +55,6 @@ return json.data;
 },{
 "data" : "meterID"
 },{
-"data" : "defaultReading"
-},{
 "data" : "createdByUserName"
 },{
 "data" : "createdByRoleDescription"
@@ -66,13 +64,6 @@ return json.data;
 ,{
 	"mData" : "action",
 	"render" : function(data, type, row) {
-		
-		/*<button type="button"
-			class="btn btn-raised btn-primary float-right"
-			data-toggle="modal" data-target="#exampleModal">
-			<i class="fa fa-user"></i>
-		</button>*/
-	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
 		
 		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
 																	+ row.customerID
@@ -130,31 +121,20 @@ $(document)
 												},
 												fields : {
 													
-													selectcommunityName: {
-									                    validators: {
-									                        notEmpty: {
-									                            message: 'Please select your native language.'
-									                        }
-									                    }
-									                },
-									                selectBlockBasedonCommunity: {
-									                    validators: {
-									                        notEmpty: {
-									                            message: 'Please select your native language.'
-									                        }
-									                    }
-									                },
-													
 													firstNameAdd : {
-														message : 'The Customer Name is not valid',
+														message : 'The First Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Customer Name is required and cannot be empty'
+																message : 'The First Name is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
+																min : 4,
 																max : 30,
-																message : 'The Customer Name must be more than 2 and less than 30 characters long'
+																message : 'The First Name must be more than 4 and less than 30 characters long'
+															},
+															regexp : {
+																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+																message : 'The First Name can only consist of Alphanumaric'
 															}
 														}
 													},
@@ -165,13 +145,13 @@ $(document)
 																message : 'The Last Name is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
+																min : 4,
 																max : 30,
-																message : 'The Last Name must be more than 2 and less than 30 characters long'
+																message : 'The Last Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Last Name can only consist of alphabetical and number'
+																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+																message : 'The Last Name can only consist of Alphanumaric'
 															}
 														}
 													},
@@ -180,6 +160,11 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The House No is required and cannot be empty'
+															},
+															stringLength : {
+																min : 4,
+																max : 30,
+																message : 'The House No must be more than 4 and less than 30 characters long'
 															}
 														}
 													},
@@ -188,11 +173,11 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The Mobile No. is required and cannot be empty'
-															}/*,
+															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																regexp : /^[0-9]{10}$/,
+																message : 'The Customer Mobile can only consist of number'
+															}
 														}
 													},
 													emailAdd : {
@@ -200,11 +185,7 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The Email is required and cannot be empty'
-															}/*,
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+															}
 														}
 													},
 													meterSerialAdd : {
@@ -212,11 +193,16 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The Meter sr. No. is required and cannot be empty'
-															}/*,
+															},
+															stringLength : {
+																min : 4,
+																max : 15,
+																message : 'The Meter Serial Number must be more than 4 and less than 15 characters long'
+															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
+																message : 'The Meter Serial Number can only consist of Alphanumaric and Could not start with zero'
+															}
 														}
 													},
 													amrAdd : {
@@ -224,11 +210,16 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The AMR No. is required and cannot be empty'
-															}/*,
+															},
+															stringLength : {
+																min : 4,
+																max : 15,
+																message : 'The AMR ID must be more than 4 and less than 15 characters long'
+															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
+																message : 'The AMR ID can only consist of Alphanumaric and Could not start with zero'
+															}
 														}
 													},
 													
@@ -239,17 +230,21 @@ $(document)
 									                        }
 									                    }
 									                },
-													
-													defaultReadingAdd : {
-														message : 'The Default Reading is not valid',
+									                CRNAdd : {
+														message : 'The CRN is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Default Reading is required and cannot be empty'
-															}/*,
+																message : 'The CRN is required and cannot be empty'
+															},
+															stringLength : {
+																min : 4,
+																max : 30,
+																message : 'The CRN must be more than 4 and less than 30 characters long'
+															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+																message : 'The CRN can only consist of Alphanumaric'
+															}
 														}
 													}
 												}
@@ -268,31 +263,20 @@ $(document)
 										},
 										fields : {
 											
-											selectcommunityName: {
-							                    validators: {
-							                        notEmpty: {
-							                            message: 'Please select your native language.'
-							                        }
-							                    }
-							                },
-							                blockNameEdit: {
-							                    validators: {
-							                        notEmpty: {
-							                            message: 'Please select your native language.'
-							                        }
-							                    }
-							                },
-											
 											firstNameEdit : {
-												message : 'The Customer Name is not valid',
+												message : 'The First Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Customer Name is required and cannot be empty'
+														message : 'The First Name is required and cannot be empty'
 													},
 													stringLength : {
-														min : 2,
+														min : 4,
 														max : 30,
-														message : 'The Customer Name must be more than 2 and less than 30 characters long'
+														message : 'The First Name must be more than 4 and less than 30 characters long'
+													},
+													regexp : {
+														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+														message : 'The First Name can only consist of Alphanumaric'
 													}
 												}
 											},
@@ -303,13 +287,13 @@ $(document)
 														message : 'The Last Name is required and cannot be empty'
 													},
 													stringLength : {
-														min : 2,
+														min : 4,
 														max : 30,
-														message : 'The Last Name must be more than 2 and less than 30 characters long'
+														message : 'The Last Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Last Name can only consist of alphabetical and number'
+														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+														message : 'The First Name can only consist of Alphanumaric'
 													}
 												}
 											},
@@ -318,6 +302,11 @@ $(document)
 												validators : {
 													notEmpty : {
 														message : 'The House No is required and cannot be empty'
+													},
+													stringLength : {
+														min : 4,
+														max : 30,
+														message : 'The House Number must be more than 4 and less than 30 characters long'
 													}
 												}
 											},
@@ -326,11 +315,11 @@ $(document)
 												validators : {
 													notEmpty : {
 														message : 'The Mobile No. is required and cannot be empty'
-													}/*,
+													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
-													}*/
+														regexp : /^[0-9]{10}$/,
+														message : 'The Customer Mobile can only consist of number'
+													}
 												}
 											},
 											emailEdit : {
@@ -350,11 +339,16 @@ $(document)
 												validators : {
 													notEmpty : {
 														message : 'The Meter sr. No. is required and cannot be empty'
-													}/*,
+													},
+													stringLength : {
+														min : 4,
+														max : 15,
+														message : 'The Meter Serial Number must be more than 4 and less than 15 characters long'
+													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
-													}*/
+														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
+														message : 'The Meter Serial Number can only consist of Alphanumaric and Could not start with zero'
+													}
 												}
 											},
 											amrEdit : {
@@ -362,11 +356,16 @@ $(document)
 												validators : {
 													notEmpty : {
 														message : 'The AMR No. is required and cannot be empty'
-													}/*,
+													},
+													stringLength : {
+														min : 4,
+														max : 15,
+														message : 'The AMR ID must be more than 4 and less than 15 characters long'
+													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
-													}*/
+														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
+														message : 'The AMR ID can only consist of Alphanumaric and Could not start with zero'
+													}
 												}
 											},
 											
@@ -377,17 +376,21 @@ $(document)
 							                        }
 							                    }
 							                },
-											
-											defaultReadingEdit : {
-												message : 'The Default Reading is not valid',
+							                CRNEdit : {
+												message : 'The CRN is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Default Reading is required and cannot be empty'
-													}/*,
+														message : 'The CRN is required and cannot be empty'
+													},
+													stringLength : {
+														min : 4,
+														max : 30,
+														message : 'The CRN must be more than 4 and less than 30 characters long'
+													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
-													}*/
+														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+														message : 'The CRN can only consist of Alphanumaric'
+													}
 												}
 											}
 										}
@@ -464,6 +467,18 @@ $(document)
 									.click(
 											function() {
 
+												if($("#selectcommunityName").val() == -1 || $("#selectcommunityName").val() == null || $("#selectcommunityName").val() == "Select Community"){
+													bootbox
+													.alert("Select Community Id");
+													return false;
+												} 
+												
+												if($("#selectBlockBasedonCommunity").val() == -1 || $("#selectBlockBasedonCommunity").val() == null || $("#selectBlockBasedonCommunity").val() == "Select Block"){
+													bootbox
+													.alert("Select Block Id");
+													return false;
+												}
+												
 												var data1 = {}
 												data1["communityID"] = $("#selectcommunityName").val();
 												data1["blockID"] = $("#selectBlockBasedonCommunity").val();
@@ -535,6 +550,10 @@ $(document)
 																		window.location = "customerDetails.jsp";
 																		return false
 																				});
+																}else {
+																	
+																	bootbox.alert(data.Message);
+																	return false;
 																}
 															}
 														});
@@ -601,6 +620,10 @@ $(document)
 																
 																		});
 															
+														}else {
+															
+															bootbox.alert(data.Message);
+															return false;
 														}
 													}
 												});

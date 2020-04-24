@@ -27,7 +27,7 @@
 
 <body>
 
-<%
+	<%
 		String user_id = (String) session.getAttribute("roleID");
 
 		System.out.println("======>" + user_id);
@@ -38,7 +38,7 @@
 			response.sendRedirect("login.jsp");
 		}
 	%>
-	
+
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -74,6 +74,7 @@
 									<th>Alarm Credit</th>
 									<th>Fixed Charge</th>
 									<th>Date</th>
+									<th>Edit</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -94,8 +95,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Tariff Add
-						Form</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Tariff Add Form</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -133,7 +133,7 @@
 										id="alarmCreditAdd">
 								</div>
 							</div>
-							
+
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Fixed Charge</label> <input
@@ -142,14 +142,12 @@
 								</div>
 							</div>
 
-							<div class="col-md-6">
-								
-							</div>
+							<div class="col-md-6"></div>
 
 							<div class="col-md-6">
 								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="tariffAdd"
-									type="button" disabled></input>
+									style="width: 100%;" value="Save!" id="tariffAdd" type="button"
+									disabled></input>
 							</div>
 
 							<div class="col-md-6">
@@ -162,6 +160,80 @@
 						</div>
 					</form>
 
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="myTariffEdit" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" align="center">Edit Tariff</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="tariffEdit">
+						<div class="row">
+							<div class="col-md-6">
+								<div id="formtariffName" class="input-group form-group">
+									<label class="bmd-label-floating">Tariff Name</label> <input
+										type="text" class="form-control" name="tariffNameEdit"
+										id="tariffNameEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formtariffRate" class="input-group form-group">
+									<label class="bmd-label-floating">Tariff Rate</label> <input
+										type="text" class="form-control" name="tariffRateEdit"
+										id="tariffRateEdit">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div id="formemergencyCredit" class="input-group form-group">
+									<label class="bmd-label-floating">Emergency Credit</label> <input
+										type="text" class="form-control" name="emergencyCreditEdit"
+										id="emergencyCreditEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formalarmCredit" class="input-group form-group">
+									<label class="bmd-label-floating">Alarm Credit</label> <input
+										type="text" class="form-control" name="alarmCreditEdit"
+										id="alarmCreditEdit"> <input type="hidden"
+										id="tariffIdhidden">
+								</div>
+							</div>
+
+
+							<div class="col-md-6">
+								<div id="formfixedCharge" class="input-group form-group">
+									<label class="bmd-label-floating">Fixed Charge</label> <input
+										type="text" class="form-control" name="fixedChargeEdit"
+										id="fixedChargeEdit">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<input class="btn btn-lg btn-success submit-button"
+									style="width: 100%;" value="Save!" id="tariffEditsave"
+									type="button" disabled />
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-secondary btn-raised mr-4"
+									data-dismiss="modal">
+									Close
+									<div class="ripple-container"></div>
+								</button>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -197,56 +269,56 @@
 	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-		
+
 	<script
 		src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-		
-		<script
+
+	<script
 		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
-		
-		<script
+
+	<script
 		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-		
-		
-		<script
+
+
+	<script
 		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-		
-		<script
+
+	<script
 		src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-		
-		
-		<script
-		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>	
-		
-		
-		<script
+
+
+	<script
+		src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+
+
+	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-		
-		<script
-		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
-		
-		<script
+
+	<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+
+	<script
 		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-		
-		
-		
+
+
+
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-		
+
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-		
-		
+
+
 
 	<script
 		src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
-		
-		
-		
-		<script
+
+
+
+	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
-	
+
 	<script>
 		$(document).ready(function() {
 			$('#tariffTable').DataTable();

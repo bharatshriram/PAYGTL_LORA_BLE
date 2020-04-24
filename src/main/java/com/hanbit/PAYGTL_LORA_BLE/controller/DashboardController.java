@@ -41,6 +41,7 @@ public class DashboardController {
 		dasboardresponsevo.setDraw(0);
 		dasboardresponsevo.setiTotalDisplayRecords(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getiTotalDisplayRecords());
 		dasboardresponsevo.setiTotalRecords(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getiTotalRecords());
+		//dasboardresponsevo.setiTotalRecords(20);
 		return dasboardresponsevo;
 	}
 	

@@ -841,7 +841,7 @@ public class CommunitySetUpDAO {
 		try {
 			con = getConnection();
 			tariff_list = new LinkedList<TariffResponseVO>();
-			pstmt = con.prepareStatement("SELECT TariffID, Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, ModifiedDate FROM tariff");
+			pstmt = con.prepareStatement("SELECT TariffID, Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate FROM tariff");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -852,7 +852,7 @@ public class CommunitySetUpDAO {
 				tariffvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				tariffvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				tariffvo.setFixedCharges(rs.getString("FixedCharges"));
-				tariffvo.setRegisteredDate(rs.getString("ModifiedDate"));
+				tariffvo.setRegisteredDate(rs.getString("RegisteredDate"));
 				tariff_list.add(tariffvo);
 			}
 		} catch (Exception ex) {
@@ -932,7 +932,7 @@ public class CommunitySetUpDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("UPDATE tariff SET Tariff = ?, TariffName = ?, EmergencyCredit = ?, AlarmCredit = ?, FixedCharges = ?, ModifiedDate = NOW() WHERE TariffID = ?");
+			pstmt = con.prepareStatement("UPDATE tariff SET Tariff = ?, TariffName = ?, EmergencyCredit = ?, AlarmCredit = ?, FixedCharges = ?, RegisteredDate = NOW() WHERE TariffID = ?");
 			pstmt.setFloat(1, tariffvo.getTariff());
 			pstmt.setString(2, tariffvo.getTariffName());
 			pstmt.setFloat(3, tariffvo.getEmergencyCredit());

@@ -95,9 +95,13 @@ $(document)
 																message : 'The Community Name is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
+																min : 6,
 																max : 30,
 																message : 'The Community Name must be more than 6 and less than 30 characters long'
+															},
+															regexp : {
+																regexp : /^[a-zA-Z ]*$/,
+																message : 'The Tariff Name can only consist of alphabet'
 															}
 														}
 													},
@@ -111,10 +115,6 @@ $(document)
 																min : 2,
 																max : 30,
 																message : 'The Community Address must be more than 6 and less than 30 characters long'
-															},
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
 															}
 														}
 													},
@@ -125,8 +125,8 @@ $(document)
 																message : 'The Community Mobile is required and cannot be empty'
 															},
 															regexp : {
-																regexp : /^[0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
+																regexp : /^[0-9]{10}$/,
+																message : 'The Community Mobile can only consist of number'
 															}
 														}
 													},
@@ -164,9 +164,13 @@ $(document)
 														message : 'The Community Name is required and cannot be empty'
 													},
 													stringLength : {
-														min : 2,
+														min : 6,
 														max : 30,
 														message : 'The Community Name must be more than 6 and less than 30 characters long'
+													},
+													regexp : {
+														regexp : /^[a-zA-Z ]*$/,
+														message : 'The Community Name can only consist of alphabet'
 													}
 												}
 											},
@@ -180,10 +184,6 @@ $(document)
 														min : 2,
 														max : 30,
 														message : 'The Community Address must be more than 6 and less than 30 characters long'
-													},
-													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
 													}
 												}
 											},
@@ -194,8 +194,8 @@ $(document)
 														message : 'The Community Mobile is required and cannot be empty'
 													},
 													regexp : {
-														regexp : /^[0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														regexp : /^[0-9]{10}$/,
+														message : 'The Community Mobile can only consist of number'
 													}
 												}
 											},
@@ -234,7 +234,6 @@ $(document)
 																							'has-success');
 																	
 																	//alert("!!@@=>"+formIsValid);
-																	
 																});
 
 												if (formIsValid) {

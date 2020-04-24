@@ -77,7 +77,6 @@ public class DashboardDAO {
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
 			
-			final List<Map<String, Object>> finalList = new ArrayList<>();
 			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.FirstName", "cmd.LastName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
 					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
 					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp" };
@@ -87,16 +86,31 @@ public class DashboardDAO {
 //			String commonString = " where ";
 			String searchSQL = "";
 			String pageNo = req.getParameter("start");
+			System.out.println("Start==?>"+pageNo);
 			String pageSize = req.getParameter("length");
 			Integer initial = null;
 			Integer recordSize = null;
 			String orderByColumnIndex = req.getParameter("order[0][column]");
 
+			System.out.println("orderByColumnIndex==?>"+orderByColumnIndex);
+			
 			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
 			direction = req.getParameter("order[0][dir]");
 
 			globalSearchUnit = req.getParameter("search[value]");
+			
+			System.out.println("globalSearchUnit==?>"+globalSearchUnit);
+			
+			PreparedStatement pstmt2 = con.prepareStatement(query);
 
+			ResultSet rs2 = pstmt2.executeQuery();
+			rs2.beforeFirst();  
+			rs2.last();  
+			  //size = rs2.getRow(); 
+			Integer totalRowCount =rs2.getRow();;
+
+			System.out.println("totalRowCount==?>"+totalRowCount);
+			
 			if (!StringUtils.isEmpty(pageNo)) {
 				initial = Integer.parseInt(pageNo);
 			}
@@ -131,8 +145,9 @@ public class DashboardDAO {
 			System.out.println("sql >>>>>>>>>>>>> " + sql.toString());
 			
 			pstmt = con.prepareStatement(sql.toString());
+
 			rs = pstmt.executeQuery();
-			Integer totalRowCount = rs.getFetchSize();
+			//Integer totalRowCount = rs.getFetchSize();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
 				dashboardvo.setCommunityName(rs.getString("CommunityName"));
