@@ -93,7 +93,7 @@
 					<form id="blockDetails">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="input-group form-group">
+								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
 									<label class="bmd-label-floating">Community Name</label> <select
 										class="form-control" id="selectcommunityName" name="selectcommunityName">
 										<!-- <option style = "color: Red" value="" disabled>Select Community</option> <option>Select Community</option> --> 

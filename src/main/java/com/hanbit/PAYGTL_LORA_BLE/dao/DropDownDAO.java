@@ -75,15 +75,15 @@ public class DropDownDAO {
 		return blocks;
 	}
 
-	public HashMap<String, String> getallhouses(int blockID, int roleid, int id) {
+	public HashMap<String, String> getallhouses(int blockID, int roleid, String id) {
 		// TODO Auto-generated method stub
 		HashMap<String, String> houses = new HashMap<String, String>();
 		
 		Connection con = null;
 		try {
 			con = getConnection();
-			String query = "SELECT CustomerID, HouseNumber from customermeterdetails where BlockID = ? <change>";
-			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 2 || roleid == 4 || roleid == 5) ? "ORDER BY CustomerID ASC" : (roleid == 3) ? " AND CustomerID = "+id :""));
+			String query = "SELECT CRNNumber, HouseNumber from customermeterdetails where BlockID = ? <change>";
+			PreparedStatement pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 2 || roleid == 4 || roleid == 5) ? "ORDER BY CustomerID ASC" : (roleid == 3) ? " AND CRNNumber = '"+id+"'" :""));
 			pstmt.setInt(1, blockID);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {

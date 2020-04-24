@@ -67,7 +67,6 @@
 									<th>Email</th>
 									<th>Meter Sr. No.</th>
 									<th>AMR ID</th>
-									<th>Default Reading</th>
 									<th>Created UserName</th>
 									<th>Created Role</th>
 									<th>Registration Date</th>
@@ -103,7 +102,7 @@
 					<form id="customerDetails">
 						<div class="row">
 							<div class="col-md-6">
-								<div class="input-group form-group">
+								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
 									<label class="bmd-label-floating">Community Name</label> 
 									<select
 										class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
@@ -117,7 +116,7 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div class="input-group form-group">
+								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
 									<label class="bmd-label-floating">Select Block</label> <select
 										class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity">
 						<!-- <option style = "color: Red" value="" disabled selected>Select Block</option> --><!--  <option>Select Community</option> --> 
@@ -202,24 +201,18 @@
 							
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Default Reading</label> <input
-										type="text" class="form-control" name="defaultReadingAdd"
-										id="defaultReadingAdd">
-								</div>
-							</div>
-							
-							
-							<div class="col-md-6">
-								<div class="input-group form-group">
 									<label class="bmd-label-floating">CRN</label> <input
-										type="email" class="form-control" name="CRNAdd"
+										type="text" class="form-control" name="CRNAdd"
 										id="CRNAdd">
 								</div>
 							</div>
-
+							
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="customerAdd"
+							
+							</div>
+							<div class="col-md-6">
+								<input class="btn btn-success submit-button"
+									 value="Save!" id="customerAdd"
 									type="button" disabled></input>
 							</div>
 
@@ -337,15 +330,6 @@
 							
 							
 							<div class="col-md-6">
-								<div id="formdefaultReadingEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Default Reading</label> <input
-										type="text" class="form-control" name="defaultReadingEdit"
-										id="defaultReadingEdit">
-								</div>
-							</div>
-							
-							
-							<div class="col-md-6">
 								<div id="formCRNEdit" class="input-group form-group">
 									<label class="bmd-label-floating">CRN</label> <input
 										type="email" class="form-control" name="CRNEdit"
@@ -354,9 +338,12 @@
 								</div>
 							</div>
 
+							<div class="col-md-6">	
+								
+							</div>
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="customerEditsave"
+								<input class="btn btn-success submit-button"
+									 value="Save!" id="customerEditsave"
 									type="button" disabled />
 							</div>
 

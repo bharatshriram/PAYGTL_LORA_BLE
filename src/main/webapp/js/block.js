@@ -107,13 +107,13 @@ $(document)
 													validating : 'glyphicon glyphicon-refresh'
 												},
 												fields : {
-													selectcommunityName: {
+													/*selectcommunityName: {
 									                    validators: {
 									                        notEmpty: {
 									                            message: 'Please select your native language.'
 									                        }
 									                    }
-									                },
+									                },*/
 													blockNameAdd : {
 														message : 'The Block Name is not valid',
 														validators : {
@@ -121,9 +121,13 @@ $(document)
 																message : 'The Block Name is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
+																min : 4,
 																max : 30,
-																message : 'The Block Name must be more than 6 and less than 30 characters long'
+																message : 'The Block Name must be more than 4 and less than 30 characters long'
+															},
+															regexp : {
+																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+																message : 'The Block Name can only consist of Alphanumaric'
 															}
 														}
 													},
@@ -134,13 +138,13 @@ $(document)
 																message : 'The Block Location is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
+																min : 4,
 																max : 30,
-																message : 'The Block Locaton must be more than 6 and less than 30 characters long'
+																message : 'The Block Locaton must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Block Location can only consist of alphabetical and number'
+																regexp : /^[a-zA-Z ]+$/,
+																message : 'The Block Location can only consist of alphabetical'
 															}
 														}
 													},
@@ -149,11 +153,11 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The Mobile is required and cannot be empty'
-															}/*,
+															},
 															regexp : {
-																regexp : /^[0-9]+$/,
-																message : 'The Mobile can only consist of alphabetical and number'
-															}*/
+																regexp : /^[0-9]{10}$/,
+																message : 'The Mobile can only consist of number'
+															}
 														}
 													},
 													blockEmailAdd : {
@@ -190,9 +194,13 @@ $(document)
 														message : 'The Block Name is required and cannot be empty'
 													},
 													stringLength : {
-														min : 2,
+														min : 4,
 														max : 30,
-														message : 'The Block Name must be more than 6 and less than 30 characters long'
+														message : 'The Block Name must be more than 4 and less than 30 characters long'
+													},
+													regexp : {
+														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+														message : 'The Block Name can only consist of Alphanumaric'
 													}
 												}
 											},
@@ -203,13 +211,13 @@ $(document)
 														message : 'The Block Location is required and cannot be empty'
 													},
 													stringLength : {
-														min : 2,
+														min : 6,
 														max : 30,
 														message : 'The Block Location must be more than 6 and less than 30 characters long'
 													},
 													regexp : {
-														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														regexp : /^[a-zA-Z ]+$/,
+														message : 'The Community Location can only consist of alphabetical'
 													}
 												}
 											},
@@ -220,8 +228,8 @@ $(document)
 														message : 'The Block Mobile is required and cannot be empty'
 													},
 													regexp : {
-														regexp : /^[0-9]+$/,
-														message : 'The Block Address can only consist of alphabetical and number'
+														regexp : /^[0-9]{10}$/,
+														message : 'The Block Address can only consist of number'
 													}
 												}
 											},
@@ -310,7 +318,15 @@ $(document)
 							$("#blockAdd")
 									.click(
 											function() {
+												
+												//alert(""+$("#selectcommunityName").val());
 
+												if($("#selectcommunityName").val() == -1 || $("#selectcommunityName").val() == null || $("#selectcommunityName").val() == "Select Community"){
+													bootbox
+													.alert("Select Community Id");
+													return false;
+												}
+												
 												var data1 = {}
 												data1["communityID"] = $("#selectcommunityName").val();
 												data1["blockName"] = $("#blockNameAdd").val();
