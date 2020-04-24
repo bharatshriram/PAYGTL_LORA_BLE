@@ -11,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
@@ -24,6 +24,8 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -58,7 +60,7 @@ public class AccountDAO {
 		Connection con = null;
 		String result = "Failure";
 		Random randomNumber = new Random();
-		String dataframe = "";
+		Gson gson = new Gson();
 		String hexaAmount = "";
 		String hexaEmergencyCredit = "";
 		String hexaAlarmCredit = "";
@@ -69,17 +71,7 @@ public class AccountDAO {
 				
 				if(topupvo.getSource().equalsIgnoreCase("web")) {
 					
-				PreparedStatement pstmt = con.prepareStatement("SELECT TransactionID FROM topup ORDER BY TransactionID DESC LIMIT 0,1");
-				ResultSet rs = pstmt.executeQuery();
-				if(rs.next()) {
-					if(rs.getString("TransactionID") == null) {
-						 topupvo.setTransactionIDForTata("T-" + 1);
-					} else {
-						topupvo.setTransactionIDForTata("T-" + (rs.getInt("TransactionID")+1));
-						}
-					}
-					
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff, t.CRNNumber FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
 					pstmt1.setString(1, topupvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if (rs1.next()) {
@@ -96,28 +88,29 @@ public class AccountDAO {
 					
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 					
-					dataframe = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaAlarmCredit	+ hexaEmergencyCredit + hexaTariff + "17";
-
 					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
 					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
-					
+					String dataFrame = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaAlarmCredit	+ hexaEmergencyCredit + hexaTariff + "17";
+
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					RestCallVO restcallvo = new RestCallVO();
 					
-					restcallvo.setData(extramethodsdao.createjson(dataframe, topupvo.getMeterID(), topupvo.getTransactionIDForTata()));
+					restcallvo.setDataFrame(Encoding.getHexBase644(dataFrame));
 					restcallvo.setMeterID(topupvo.getMeterID().toLowerCase());
-					restcallvo.setUrlExtension("/DownlinkPayload");
 					
-					String restcallresponse = extramethodsdao.restcall(restcallvo);
+					String restcallresponse = extramethodsdao.restcallpost(restcallvo);
 					
-					//perform some action with restcallresponse in future based on requirement
+					TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
 					
 					//check for payment status with the payment gateway
+					
+					topupvo.setTransactionIDForTata(tataResponseVO.getId());
+					topupvo.setStatus(tataResponseVO.getTransmissionStatus());
 					
 					result = inserttopup(topupvo);
 					
 				} else {
-					topupvo.setTransactionIDForTata("M");
+					topupvo.setTransactionIDForTata(0);
 					result = inserttopup(topupvo);
 				}
 					
@@ -138,40 +131,28 @@ public class AccountDAO {
 		Connection con = null;
 		PreparedStatement ps = null;
 		String result = "Failure";
-		// perform some action with restcallresponse in future based on requirement
 
 		// check for payment status with the payment gateway
 
 		try {
 			con = getConnection();
 			
-			PreparedStatement pstmt = con.prepareStatement("SELECT CommunityID, BlockID, MeterID, TariffID FROM customermeterdetails WHERE CRNNumber = ?");
+			PreparedStatement pstmt = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, MeterID, TariffID FROM customermeterdetails WHERE CRNNumber = ?");
 			pstmt.setString(1, topUpRequestVO.getCRNNumber());
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				
-			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 			ps = con.prepareStatement(sql);
 			
-			if(topUpRequestVO.getTransactionIDForTata().startsWith("T")) {
-				ps.setString(1, topUpRequestVO.getTransactionIDForTata());	
-			}else {
-				ps.setString(1, "M");	
-			}
-			
+			ps.setLong(1, topUpRequestVO.getTransactionIDForTata());					
 			ps.setInt(2, rs.getInt("CommunityID")); 
 			ps.setInt(3, rs.getInt("BlockID"));
 			ps.setInt(4, rs.getInt("CustomerID"));
 			ps.setString(5, rs.getString("MeterID"));
 			ps.setInt(6, rs.getInt("TariffID"));
 			ps.setFloat(7, topUpRequestVO.getAmount());
-			
-			if(topUpRequestVO.getTransactionIDForTata().startsWith("T")) {
-				ps.setInt(8, 0); 	
-			}else {
-				ps.setInt(8, topUpRequestVO.getStatus()); 
-			}
-			
+			ps.setInt(8, topUpRequestVO.getStatus());
 			ps.setString(9, topUpRequestVO.getModeOfPayment());
 			ps.setInt(10, 0); // payment status from payment gateway
 			ps.setString(11, topUpRequestVO.getSource());
@@ -186,6 +167,7 @@ public class AccountDAO {
 		}
 
 		} catch (Exception e) {
+			e.printStackTrace();
 
 		}
 		return result;
@@ -534,42 +516,31 @@ public class AccountDAO {
 		PreparedStatement ps = null;
 		String result = "Failure";
 		Random randomNumber = new Random();
+		Gson gson = new Gson();
 		String dataframe = "";
 
 		try {
 				con = getConnection();
 				
-				PreparedStatement pstmt = con.prepareStatement("SELECT TransactionID FROM command ORDER BY TransactionID DESC LIMIT 0,1");
-				ResultSet rs = pstmt.executeQuery();
-				if(rs.next()) {
-					if(rs.getString("TransactionID") == null) {
-						configurationvo.setTransactionIDForTata("T-" + 1);
-					} else {
-						configurationvo.setTransactionIDForTata("T-" + (rs.getInt("TransactionID")+1));
-						}
-					
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 					
 					/* RTC */
 					
 					if (configurationvo.getCommandType() == 5) {
 
-						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
 						LocalDateTime now = LocalDateTime.now();
 
-						String[] arrSplit = dtf.format(now).split("-");
+						String currentday = String.format("%02x", now.getDayOfMonth());
 
-						String currentday = String.format("%02x", Integer.parseInt(arrSplit[2]));
+						String currentmonth = String.format("%02x", now.getMonthValue());
 
-						String currentmonth = String.format("%02x", Integer.parseInt(arrSplit[1]));
+						String currentyear = String.format("%02x", now.getYear());
 
-						String currentyear = String.format("%02x", Integer.parseInt(arrSplit[0]));
+						String currenthour = String.format("%02x", now.getHour());
 
-						String currenthour = String.format("%02x", Integer.parseInt(arrSplit[3]));
+						String currentminute = String.format("%02x", now.getMinute());
 
-						String currentminute = String.format("%02x", Integer.parseInt(arrSplit[4]));
-
-						String currentsecond = String.format("%02x", Integer.parseInt(arrSplit[5]));
+						String currentsecond = String.format("%02x", now.getSecond());
 
 						dataframe = "0A0F00" + serialNumber + "02090041" + currentday + currentmonth
 								+ currentyear + currenthour + currentminute + currentsecond + "0017";
@@ -603,8 +574,6 @@ public class AccountDAO {
 
 					// Set Default Read
 
-					// 0A0C00 0001 02 0000 23 00000000   17
-
 					else if (configurationvo.getCommandType() == 6) {
 						
 							String defaultSetHexa = String.format("%08x", configurationvo.getDefaultReading());
@@ -612,6 +581,7 @@ public class AccountDAO {
 							dataframe = "0A0C00" + serialNumber + "02000023" + defaultSetHexa + "17";
 	
 						}
+					
 					// set tariff 
 					
 					else if (configurationvo.getCommandType() == 10) {
@@ -620,7 +590,7 @@ public class AccountDAO {
 						ResultSet rs1 = pstmt1.executeQuery();
 						if(rs1.next()) {
 
-						String tariffHexa = Float.toHexString(rs.getFloat("Tariff")).toUpperCase();
+						String tariffHexa = Float.toHexString(rs1.getFloat("Tariff")).toUpperCase();
 						dataframe = "0A0C00" + serialNumber + "02070123" + tariffHexa + "17";
 						}
 						
@@ -631,22 +601,14 @@ public class AccountDAO {
 						
 					}
 					
-					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
-					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
-
-
-					//	String hexadecimal = "0A0000000042290100000000000000000000000017";
-					
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					RestCallVO restcallvo = new RestCallVO();
 					
-					restcallvo.setData(extramethodsdao.createjson(dataframe, configurationvo.getMeterID(), configurationvo.getTransactionIDForTata()));
 					restcallvo.setMeterID(configurationvo.getMeterID().toLowerCase());
-					restcallvo.setUrlExtension("/DownlinkPayload");
-					
-					String restcallresponse = extramethodsdao.restcall(restcallvo);
-						//perform some action with restcallresponse in future based on requirement
-					
+					restcallvo.setDataFrame(Encoding.getHexBase644(dataframe));
+
+					TataResponseVO tataResponseVO = gson.fromJson(extramethodsdao.restcallpost(restcallvo), TataResponseVO.class);
+						
 					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
 					pstmt1.setString(1, configurationvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
@@ -654,18 +616,17 @@ public class AccountDAO {
 						configurationvo.setCustomerID(rs1.getInt("CustomerID"));
 					}
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, 0, ?, ?, NOW())");
-					ps.setString(1, configurationvo.getTransactionIDForTata());
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+					ps.setLong(1, tataResponseVO.getId());
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
-					ps.setString(5, configurationvo.getSource());
+					ps.setInt(5, tataResponseVO.getTransmissionStatus());
 					ps.setString(6, configurationvo.getCRNNumber());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";
 						}
-				}
 						
 		} catch (Exception ex) {
 			ex.printStackTrace();

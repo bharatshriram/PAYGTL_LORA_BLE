@@ -21,7 +21,7 @@ public class VacationRequestVO {
 	private int endDay;
 	private String source;
 	private int status;
-	private String transactionIDForTata;
+	private long transactionIDForTata;
 	private int vacationID;
 	
 	public int getCommunityID() {
@@ -85,10 +85,10 @@ public class VacationRequestVO {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getTransactionIDForTata() {
+	public long getTransactionIDForTata() {
 		return transactionIDForTata;
 	}
-	public void setTransactionIDForTata(String transactionIDForTata) {
+	public void setTransactionIDForTata(long transactionIDForTata) {
 		this.transactionIDForTata = transactionIDForTata;
 	}
 	public int getStatus() {

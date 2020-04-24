@@ -9,43 +9,12 @@ package com.hanbit.PAYGTL_LORA_BLE.response.vo;
  */
 public class TataResponseVO {
 	
-	private String userid;
-    private payloads_ul payloads_ul;
-    private payloads_dl payloads_dl;
-    
     private long id;
     private String data;
     private int fcnt;
     private int port;
     private int transmissionStatus;
     private String session_id;
-
-    public String getUserid() {
-        return userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
-
-	public payloads_ul getPayloads_ul() {
-		return payloads_ul;
-	}
-
-	public void setPayloads_ul(payloads_ul payloads_ul) {
-		this.payloads_ul = payloads_ul;
-	}
-
-	public payloads_dl getPayloads_dl() {
-		return payloads_dl;
-	}
-
-	public void setPayloads_dl(payloads_dl payloads_dl) {
-		this.payloads_dl = payloads_dl;
-	}
-	
-	
-	
 
 	public long getId() {
 		return id;

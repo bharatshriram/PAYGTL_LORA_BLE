@@ -19,7 +19,6 @@ public class ConfigurationRequestVO {
 	private int tariffID;
 	private int transactionID;
 	private String source;
-	private String transactionIDForTata;
 	
 	public String getMeterID() {
 		return meterID;
@@ -69,12 +68,6 @@ public class ConfigurationRequestVO {
 	public void setSource(String source) {
 		this.source = source;
 	}
-	public String getTransactionIDForTata() {
-		return transactionIDForTata;
-	}
-	public void setTransactionIDForTata(String transactionIDForTata) {
-		this.transactionIDForTata = transactionIDForTata;
-	}
 	public String getCRNNumber() {
 		return CRNNumber;
 	}
@@ -87,4 +80,5 @@ public class ConfigurationRequestVO {
 	public void setDefaultReading(int defaultReading) {
 		this.defaultReading = defaultReading;
 	}
+	
 }

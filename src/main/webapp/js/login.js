@@ -137,17 +137,16 @@ $(document)
 																	} else if (data.userDetails.roleID == 2) {
 																		sessionStorage
 																		.setItem(
+																		"communityID",
+																		data.userDetails.communityID);
+																		sessionStorage
+																		.setItem(
 																				"type",
 																				"Admin");
 																sessionStorage
 																		.setItem(
 																				"createdByID",
 																				data.userDetails.ID);
-																
-																sessionStorage
-																.setItem(
-																		"communityID",
-																		data.userDetails.communityID);
 																
 																sessionStorage
 																.setItem(
@@ -196,7 +195,7 @@ $(document)
 																sessionStorage
 																.setItem(
 																		"ID",
-																		data.userDetails.CRNNumber);
+																		data.userDetails.customerID);
 																
 																sessionStorage
 																.setItem(

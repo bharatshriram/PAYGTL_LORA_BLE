@@ -5,23 +5,11 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class RestCallVO {
 	
-	private String urlExtension;
-	private String data;
 	private String meterID;
 	private String tataTransactionID;
+	private String dataFrame;
+	private String urlExtension;
 		
-	public String getUrlExtension() {
-		return urlExtension;
-	}
-	public void setUrlExtension(String urlExtension) {
-		this.urlExtension = urlExtension;
-	}
-	public String getData() {
-		return data;
-	}
-	public void setData(String data) {
-		this.data = data;
-	}
 	public String getMeterID() {
 		return meterID;
 	}
@@ -33,6 +21,18 @@ public class RestCallVO {
 	}
 	public void setTataTransactionID(String tataTransactionID) {
 		this.tataTransactionID = tataTransactionID;
+	}
+	public String getDataFrame() {
+		return dataFrame;
+	}
+	public void setDataFrame(String dataFrame) {
+		this.dataFrame = dataFrame;
+	}
+	public String getUrlExtension() {
+		return urlExtension;
+	}
+	public void setUrlExtension(String urlExtension) {
+		this.urlExtension = urlExtension;
 	}
 
 }

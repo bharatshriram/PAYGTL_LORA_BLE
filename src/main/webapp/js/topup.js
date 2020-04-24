@@ -151,7 +151,7 @@ $(document)
 										
 										data1["communityID"] = $("#selectcommunityName").val();
 										data1["blockID"] = $("#selectBlockBasedonCommunity").val();
-										data1["customerID"] = $("#selectHouseBasedonBlock").val();
+										data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();
 										data1["meterID"] = $("#AMR_topup").val();
 										data1["currentBalance"] = $("#currentBalance_topup").val();
 										data1["tariffID"] = $("#tariffID").val();

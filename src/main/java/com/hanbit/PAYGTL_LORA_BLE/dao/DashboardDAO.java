@@ -12,13 +12,18 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.util.StringUtils;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
@@ -43,7 +48,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id)
+	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id, HttpServletRequest req)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -65,13 +70,70 @@ public class DashboardDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 			
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
-		
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
+
+			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
+			
+			final List<Map<String, Object>> finalList = new ArrayList<>();
+			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.FirstName", "cmd.LastName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
+					"dbl.ReadingID", "dbl.MainBalanceLogID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
+					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp"  };
+			String columnName = "";
+			String direction = "";
+			String globalSearchUnit = "";
+//			String commonString = " where ";
+			String searchSQL = "";
+			String pageNo = req.getParameter("start");
+			String pageSize = req.getParameter("length");
+			Integer initial = null;
+			Integer recordSize = null;
+			String orderByColumnIndex = req.getParameter("order[0][column]");
+
+			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
+			direction = req.getParameter("order[0][dir]");
+
+			globalSearchUnit = req.getParameter("search[value]");
+
+			if (!StringUtils.isEmpty(pageNo)) {
+				initial = Integer.parseInt(pageNo);
+			}
+			if (!StringUtils.isEmpty(pageNo)) {
+				recordSize = Integer.parseInt(pageSize);
+			}
+			StringBuilder sql = new StringBuilder();
+			sql.append(query);
+			
+			String globeSearch = "c.CommunityName like'%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
+					+ globalSearchUnit + "%'" + " or cmd.FirstName like '%" + globalSearchUnit + "%'"
+					+ " or cmd.LastName like '%" + globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
+					+ "%'" + " or cmd.MeterSerialNumber like '%" + globalSearchUnit + "%'" + " or dbl.CRNNumber like '%"
+					+ globalSearchUnit + "%'" + " or dbl.MeterID like '%" + globalSearchUnit + "%'"
+					+ " or dbl.Reading like '%" + globalSearchUnit + "%'" + " or dbl.Balance like '%" + globalSearchUnit
+					+ "%'" + " or dbl.BatteryVoltage like '%" + globalSearchUnit + "%'" + " or dbl.TariffAmount like '%" + globalSearchUnit
+					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'";
+
+			if (!StringUtils.isEmpty(globalSearchUnit)) {
+				searchSQL = globeSearch;
+			}
+
+			if (!StringUtils.isEmpty(searchSQL)) {
+				sql.append(" AND ");
+				sql.append(searchSQL);
+			}
+
+			if (!columnName.equalsIgnoreCase("dbl.IoTTimeStamp")) {
+				sql.append(" order by " + columnName + " " + direction);
+			}
+			sql.append(" limit " + recordSize + " offset " + initial);
+			System.out.println("sql >>>>>>>>>>>>> " + sql.toString());
+			
+			pstmt = con.prepareStatement(sql.toString());
+
 			rs = pstmt.executeQuery();
+			Integer totalRowCount = rs.getFetchSize();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
 				dashboardvo.setCommunityName(rs.getString("CommunityName"));
@@ -80,6 +142,7 @@ public class DashboardDAO {
 				dashboardvo.setFirstName(rs.getString("FirstName"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
+				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
@@ -117,8 +180,11 @@ public class DashboardDAO {
 					dashboardvo.setDateColor("GREEN");
 				}
 				
+				dashboardvo.setiTotalDisplayRecords(totalRowCount);
+				dashboardvo.setiTotalRecords(recordSize);
 				dashboard_list.add(dashboardvo);
 			}
+			
 		}
 
 		catch (Exception ex) {
@@ -131,7 +197,7 @@ public class DashboardDAO {
 		return dashboard_list;
 	}
 
-	public ResponseVO postDashboarddetails(String json) throws SQLException {
+/*	public ResponseVO postDashboarddetails(String json) throws SQLException {
 		// TODO Auto-generated method stub
 
 		ResponseVO responsevo = new ResponseVO();
@@ -249,7 +315,7 @@ public class DashboardDAO {
 		}
 
 		return responsevo;
-	}
+	}*/
 	
 	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
 		
