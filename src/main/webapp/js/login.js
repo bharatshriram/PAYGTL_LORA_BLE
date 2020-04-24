@@ -146,6 +146,11 @@ $(document)
 																
 																sessionStorage
 																.setItem(
+																		"communityID",
+																		data.userDetails.communityID);
+																
+																sessionStorage
+																.setItem(
 																		"roleID",
 																		data.userDetails.roleID);
 																
