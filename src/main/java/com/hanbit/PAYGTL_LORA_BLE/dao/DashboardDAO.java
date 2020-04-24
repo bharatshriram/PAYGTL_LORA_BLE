@@ -69,18 +69,18 @@ public class DashboardDAO {
 				noAMRInterval = rs1.getInt("NoAMRInterval");
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
-			
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
-					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
+					"FROM balancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
 			
 			final List<Map<String, Object>> finalList = new ArrayList<>();
 			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.FirstName", "cmd.LastName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
-					"dbl.ReadingID", "dbl.MainBalanceLogID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
-					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp"  };
+					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
+					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp" };
 			String columnName = "";
 			String direction = "";
 			String globalSearchUnit = "";
@@ -450,8 +450,8 @@ public class DashboardDAO {
 		try {
 			
 			con = getConnection();
-
 			
+				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
 				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
 
 				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
