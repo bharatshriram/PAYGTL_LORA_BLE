@@ -61,7 +61,7 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			user_list = new LinkedList<UserManagementResponseVO>();
 			
-			String query = "SELECT user.ID, user.UserID, user.UserName, userrole.RoleDescription, community.CommunityName, block.BlockName, user.CreatedByID, user.ModifiedDate \r\n" + 
+			String query = "SELECT user.ID, user.UserID, user.UserName, userrole.RoleDescription, community.CommunityID, community.CommunityName, block.BlockID, block.BlockName, user.CreatedByID, user.ModifiedDate \r\n" + 
 					"	FROM USER LEFT JOIN community ON community.CommunityID = user.CommunityID LEFT JOIN block ON block.BlockID = user.BlockID\r\n" + 
 					"	LEFT JOIN userrole ON userrole.RoleID = user.RoleID <change> ";
 			
@@ -74,8 +74,8 @@ public class ManagementSettingsDAO {
 				usermanagementvo.setUserName(rs.getString("UserName"));
 				usermanagementvo.setRole(rs.getString("RoleDescription"));
 				usermanagementvo.setID(rs.getInt("ID"));
-				usermanagementvo.setCommunityName(rs.getString("CommunityName"));
-				usermanagementvo.setBlockName(rs.getString("BlockName"));
+				usermanagementvo.setCommunityName((rs.getInt("CommunityID") != 0) ? rs.getString("CommunityName") : "NA");
+				usermanagementvo.setBlockName((rs.getInt("BlockID") != 0) ? rs.getString("BlockName") : "NA");
 
 				if(rs.getInt("CreatedByID")>0) {
 					pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
@@ -83,7 +83,10 @@ public class ManagementSettingsDAO {
 					if(rs1.next()) {
 					usermanagementvo.setCreatedByUserName(rs1.getString("UserName"));
 					usermanagementvo.setCreatedByRoleDescription(rs1.getString("RoleDescription"));
-					}
+					} 
+				}else {
+					usermanagementvo.setCreatedByUserName("NA");
+					usermanagementvo.setCreatedByRoleDescription("NA");
 				}
 				
 				user_list.add(usermanagementvo);
@@ -340,27 +343,11 @@ public class ManagementSettingsDAO {
 	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
-		Connection con = null;
-		PreparedStatement pstmt1 = null;
 		String result = "Failure";
 		Random randomNumber = new Random();
 		Gson gson = new Gson();
 
 		try {
-
-			con = getConnection();
-
-			 pstmt1 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");
-			pstmt1.setString(1, vacationRequestVO.getCRNNumber());
-
-			ResultSet rs1 = pstmt1.executeQuery();
-
-			if (rs1.next()) {
-				vacationRequestVO.setMeterID(rs1.getString("MeterID"));
-				vacationRequestVO.setCommunityID(rs1.getInt("CommunityID"));
-				vacationRequestVO.setBlockID(rs1.getInt("BlockID"));
-				vacationRequestVO.setCustomerID(rs1.getInt("CustomerID"));
-
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
 						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
@@ -393,14 +380,9 @@ public class ManagementSettingsDAO {
 						vacationRequestVO.setTransactionIDForTata(0);
 						result = insertvacation(vacationRequestVO);
 					}
-			} 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		} finally {
-			pstmt1.close();
-			con.close();
 		}
-
 		return result;
 	}
 	
@@ -408,29 +390,40 @@ public class ManagementSettingsDAO {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		String result = "Failure";
 		
 		try {
 			con = getConnection();
-			
-			pstmt = con.prepareStatement("INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-			
-			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());	
-			pstmt.setInt(2, vacationRequestVO.getCommunityID());
-			pstmt.setInt(3, vacationRequestVO.getBlockID());
-			pstmt.setInt(4, vacationRequestVO.getCustomerID());
-			pstmt.setString(5, vacationRequestVO.getMeterID());
-			pstmt.setString(6, vacationRequestVO.getVacationName());
-			pstmt.setString(7, vacationRequestVO.getStartDateTime());
-			pstmt.setString(8, vacationRequestVO.getEndDateTime());
-			pstmt.setInt(9, vacationRequestVO.getStatus()); 
-			pstmt.setString(10, vacationRequestVO.getSource());
-			pstmt.setString(11, vacationRequestVO.getCRNNumber());
+			String query = "SELECT CommunityID, BlockID, CustomerID, MeterID <change>";
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", vacationRequestVO.getVacationID()==0 ? "FROM customermeterdetails WHERE CRNNumber = '"+vacationRequestVO.getCRNNumber()+"'" : "FROM vacation WHERE VacationID = "+vacationRequestVO.getVacationID()));
+			ResultSet rs1 = pstmt1.executeQuery();
 
-			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
-			}
+			if (rs1.next()) {
+				vacationRequestVO.setMeterID(rs1.getString("MeterID"));
+				vacationRequestVO.setCommunityID(rs1.getInt("CommunityID"));
+				vacationRequestVO.setBlockID(rs1.getInt("BlockID"));
+				vacationRequestVO.setCustomerID(rs1.getInt("CustomerID"));
 			
+				pstmt = con.prepareStatement(
+						"INSERT INTO vacation (TataReferenceNumber, communityID, BlockID, CustomerID, MeterID, VacationName, StartDate, EndDate, Status, Source, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+
+				pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
+				pstmt.setInt(2, vacationRequestVO.getCommunityID());
+				pstmt.setInt(3, vacationRequestVO.getBlockID());
+				pstmt.setInt(4, vacationRequestVO.getCustomerID());
+				pstmt.setString(5, vacationRequestVO.getMeterID());
+				pstmt.setString(6, vacationRequestVO.getVacationName());
+				pstmt.setString(7, vacationRequestVO.getStartDateTime());
+				pstmt.setString(8, vacationRequestVO.getEndDateTime());
+				pstmt.setInt(9, vacationRequestVO.getStatus());
+				pstmt.setString(10, vacationRequestVO.getSource());
+				pstmt.setString(11, vacationRequestVO.getCRNNumber());
+
+				if (pstmt.executeUpdate() > 0) {
+					result = "Success";
+				}
+				}	
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -448,13 +441,6 @@ public class ManagementSettingsDAO {
 		
 		try {
 			con = getConnection();
-			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM vacation WHERE VacationID = ? ");
-			ResultSet rs = pstmt1.executeQuery();
-			if (rs.next()) {
-//				vacationRequestVO.setTransactionIDForTata(rs.getString("TataReferenceNumber"));
-				vacationRequestVO.setMeterID(rs.getString("MeterID"));
-			}			
 			
 			String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 
@@ -480,17 +466,13 @@ public class ManagementSettingsDAO {
 			vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 			vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
 			
-			// change to insert after discussion with the team...
+			result = insertvacation(vacationRequestVO);
 			
-			pstmt = con.prepareStatement("UPDATE vacation SET StartDate = ?, EndDate = ?, STATUS = 0, ModifiedDate = NOW() WHERE VacationID =  ? and TataReferenceNumber = ?");
-			
-			pstmt.setString(1, vacationRequestVO.getStartDateTime());
-			pstmt.setString(2, vacationRequestVO.getEndDateTime());
-			pstmt.setInt(3, vacationRequestVO.getVacationID());
-			pstmt.setLong(4, vacationRequestVO.getTransactionIDForTata());
-			
-			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+			if(result.equalsIgnoreCase("Success")) {
+				pstmt = con.prepareStatement("DELETE FROM vacation WHERE VacationID = "+vacationRequestVO.getVacationID());
+				if(pstmt.executeUpdate() > 0) {
+					result = "Success";
+				}
 			}
 			
 		} catch(Exception e){
@@ -597,7 +579,7 @@ public class ManagementSettingsDAO {
 		return result;
 	}
 
-	public boolean checkvacationsettingsdoneby(VacationRequestVO vacationRequestVO) throws SQLException {
+/*	public boolean checkvacationsettingsdoneby(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -624,6 +606,6 @@ public class ManagementSettingsDAO {
 		}
 
 		return result;
-	}
+	}*/
 
 }

@@ -37,11 +37,12 @@ public class DashboardController {
 		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();
 		
 		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id, req));
+
 		dasboardresponsevo.setRecordsFiltered(0);
 		dasboardresponsevo.setDraw(0);
-		dasboardresponsevo.setiTotalDisplayRecords(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getiTotalDisplayRecords());
-		dasboardresponsevo.setiTotalRecords(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getiTotalRecords());
-		//dasboardresponsevo.setiTotalRecords(20);
+		dasboardresponsevo.setiTotalDisplayRecords(dasboardresponsevo.getData().get((dasboardresponsevo.getData().size() == 0) ? 0 : dasboardresponsevo.getData().size()-1).getiTotalDisplayRecords());
+		dasboardresponsevo.setiTotalRecords(dasboardresponsevo.getData().get((dasboardresponsevo.getData().size() == 0) ? 0 : dasboardresponsevo.getData().size()-1).getiTotalRecords());
+		
 		return dasboardresponsevo;
 	}
 	

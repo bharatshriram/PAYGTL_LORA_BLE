@@ -203,5 +203,6 @@ $(document)
 													orientation : 'landscape',
 													title : 'Dashboard'
 												} ]
+
 									}).columns.adjust().draw().clear().draw().rows.add().draw();
 				});

@@ -16,6 +16,10 @@ public class CommunityResponseVO {
 	private String mobileNumber;
 	private String address;
 	private int communityID;
+	private int iTotalDisplayRecords;
+	private int recordsFiltered;
+	private int iTotalRecords;
+	private int draw;
 	
 	private List<CommunityResponseVO> data;
 	
@@ -55,6 +59,30 @@ public class CommunityResponseVO {
 	}
 	public void setData(List<CommunityResponseVO> data) {
 		this.data = data;
+	}
+	public int getiTotalDisplayRecords() {
+		return iTotalDisplayRecords;
+	}
+	public void setiTotalDisplayRecords(int iTotalDisplayRecords) {
+		this.iTotalDisplayRecords = iTotalDisplayRecords;
+	}
+	public int getRecordsFiltered() {
+		return recordsFiltered;
+	}
+	public void setRecordsFiltered(int recordsFiltered) {
+		this.recordsFiltered = recordsFiltered;
+	}
+	public int getiTotalRecords() {
+		return iTotalRecords;
+	}
+	public void setiTotalRecords(int iTotalRecords) {
+		this.iTotalRecords = iTotalRecords;
+	}
+	public int getDraw() {
+		return draw;
+	}
+	public void setDraw(int draw) {
+		this.draw = draw;
 	}
 	
 }

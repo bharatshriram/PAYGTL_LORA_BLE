@@ -76,33 +76,25 @@ public class DashboardDAO {
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
-			
-			String columnNames[] = { "dbl.IoTTimeStamp" , "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
+
+			String columnNames[] = { "dbl.IoTTimeStamp", "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
 					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
 					"dbl.SolonideStatus", "dbl.TamperDetect" };
 			String columnName = "";
 			String direction = "";
 			String globalSearchUnit = "";
-//			String commonString = " where ";
 			String searchSQL = "";
 			String pageNo = req.getParameter("start");
-			System.out.println("Start==?>"+pageNo);
 			String pageSize = req.getParameter("length");
 			Integer initial = null;
 			Integer recordSize = null;
 			String orderByColumnIndex = req.getParameter("order[0][column]");
 
-			System.out.println("orderByColumnIndex==?>"+orderByColumnIndex);
-			
 			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
 			direction = req.getParameter("order[0][dir]");
 
 			globalSearchUnit = req.getParameter("search[value]");
-			
-			System.out.println("globalSearchUnit==?>"+globalSearchUnit);
-			
-			
-			
+
 			if (!StringUtils.isEmpty(pageNo)) {
 				initial = Integer.parseInt(pageNo);
 			}
@@ -112,27 +104,34 @@ public class DashboardDAO {
 			StringBuilder sql = new StringBuilder();
 			sql.append(query);
 			
+			PreparedStatement pstmt3 = con.prepareStatement(query);
+
+			ResultSet rs3 = pstmt3.executeQuery();
+			rs3.beforeFirst();  
+			rs3.last();  
+			Integer totalRowCount =rs3.getRow();
+			
 			String globeSearch = "c.CommunityName like '%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
 					+ globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
 					+ "%'" + " or cmd.MeterSerialNumber like '%" + globalSearchUnit + "%'" + " or dbl.CRNNumber like '%"
 					+ globalSearchUnit + "%'" + " or dbl.MeterID like '%" + globalSearchUnit + "%'"
 					+ " or dbl.Reading like '%" + globalSearchUnit + "%'" + " or dbl.Balance like '%" + globalSearchUnit
 					+ "%'" + " or dbl.BatteryVoltage like '%" + globalSearchUnit + "%'" + " or dbl.TariffAmount like '%" + globalSearchUnit
-					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'";
+					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'" + "or dbl.ReadingID like '%" + globalSearchUnit + "%'";
 
 			if (!StringUtils.isEmpty(globalSearchUnit)) {
 				searchSQL = globeSearch;
 			}
 
 			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append((roleid == 1 || roleid == 4) ? "WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
+				sql.append((roleid == 1 || roleid == 4) ? " WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
 				sql.append(searchSQL);
-			}
-
-			if (!columnName.equalsIgnoreCase("c.CommunityName")) {
-				sql.append(" order by " + columnName + " " + direction);
+				
 			}
 			
+			if (columnName.equalsIgnoreCase("dbl.IoTTimeStamp")) {
+				sql.append(" order by " + columnName + " " + direction);
+			}
 			
 			PreparedStatement pstmt2 = con.prepareStatement(sql.toString());
 
@@ -140,20 +139,9 @@ public class DashboardDAO {
 			rs2.beforeFirst();  
 			rs2.last();  
 			  //size = rs2.getRow(); 
-			Integer totalRowCount =rs2.getRow();
-			
-			PreparedStatement pstmt3 = con.prepareStatement(query);
-
-			ResultSet rs3 = pstmt3.executeQuery();
-			rs3.beforeFirst();  
-			rs3.last();  
-			  //size = rs2.getRow(); 
-			Integer totalRowCount1 =rs3.getRow();
-
-			System.out.println("totalRowCount==?>"+totalRowCount);
+			Integer searchRowCount =rs2.getRow();
 			
 			sql.append(" limit " + recordSize + " offset " + initial);
-			System.out.println("sql >>>>>>>>>>>>> " + sql.toString());
 			
 			pstmt = con.prepareStatement(sql.toString());
 
@@ -161,6 +149,7 @@ public class DashboardDAO {
 			//Integer totalRowCount = rs.getFetchSize();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
+
 				dashboardvo.setCommunityName(rs.getString("CommunityName"));
 				dashboardvo.setBlockName(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
@@ -205,16 +194,16 @@ public class DashboardDAO {
 				}else {
 					dashboardvo.setDateColor("GREEN");
 				}
-				
-				dashboardvo.setiTotalDisplayRecords(totalRowCount);
-				dashboardvo.setiTotalRecords(totalRowCount1);
+
+				dashboardvo.setiTotalDisplayRecords(searchRowCount);
+				dashboardvo.setiTotalRecords(totalRowCount);
 				dashboard_list.add(dashboardvo);
 			}
+
 			if(dashboard_list.size() == 0) {
 				dashboardvo = new DashboardResponseVO();
-				System.out.println(dashboardvo.getBlockName()+"==>"+dashboardvo.getCommunityName());
-				dashboardvo.setiTotalDisplayRecords(totalRowCount);
-				dashboardvo.setiTotalRecords(totalRowCount1);
+				dashboardvo.setiTotalDisplayRecords(0);
+				dashboardvo.setiTotalRecords(0);
 				dashboard_list.add(dashboardvo);
 				}
 			
