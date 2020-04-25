@@ -3,13 +3,10 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 
-import org.springframework.http.ResponseEntity;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,23 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.bo.CommunitySetUpBO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.CommunitySetUpDAO;
-import com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO;
-import com.hanbit.PAYGTL_LORA_BLE.dao.LoginDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CommunityResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CustomerResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TariffResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 
 /**
  * @author K VimaL Kumar
@@ -46,12 +38,17 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/community/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CommunityResponseVO communityResponsevo = new CommunityResponseVO();
 		
-		communityResponsevo.setData(communitysetupdao.getCommunitydetails(roleid, id));
+		communityResponsevo.setData(communitysetupdao.getCommunitydetails(roleid, id, req));
+		
+		communityResponsevo.setRecordsFiltered(0);
+		communityResponsevo.setDraw(0);
+		communityResponsevo.setiTotalDisplayRecords(communityResponsevo.getData().get((communityResponsevo.getData().size() == 0) ? 0 : communityResponsevo.getData().size()-1).getiTotalDisplayRecords());
+		communityResponsevo.setiTotalRecords(communityResponsevo.getData().get((communityResponsevo.getData().size() == 0) ? 0 : communityResponsevo.getData().size()-1).getiTotalRecords());
 
 		return communityResponsevo;
 	}
@@ -107,12 +104,17 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/block/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		BlockResponseVO blockresponsevo = new BlockResponseVO();
 
-		blockresponsevo.setData(communitysetupdao.getBlockdetails(roleid, id));
+		blockresponsevo.setData(communitysetupdao.getBlockdetails(roleid, id, req));
+		
+		blockresponsevo.setRecordsFiltered(0);
+		blockresponsevo.setDraw(0);
+		blockresponsevo.setiTotalDisplayRecords(blockresponsevo.getData().get((blockresponsevo.getData().size() == 0) ? 0 : blockresponsevo.getData().size()-1).getiTotalDisplayRecords());
+		blockresponsevo.setiTotalRecords(blockresponsevo.getData().get((blockresponsevo.getData().size() == 0) ? 0 : blockresponsevo.getData().size()-1).getiTotalRecords());
 
 		return blockresponsevo;
 	}
@@ -190,12 +192,18 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/customer/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
 
-		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id));
+		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id, req));
+		
+		customerresponsevo.setRecordsFiltered(0);
+		customerresponsevo.setDraw(0);
+		customerresponsevo.setiTotalDisplayRecords(customerresponsevo.getData().get((customerresponsevo.getData().size() == 0) ? 0 : customerresponsevo.getData().size()-1).getiTotalDisplayRecords());
+		customerresponsevo.setiTotalRecords(customerresponsevo.getData().get((customerresponsevo.getData().size() == 0) ? 0 : customerresponsevo.getData().size()-1).getiTotalRecords());
+
 
 		return customerresponsevo;
 	}
@@ -376,53 +384,6 @@ public class CommunitySetUpController {
 
 		return responsevo;
 	}
-	
-	/*@RequestMapping(value="/dowhile/{i}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody String dowhile(@PathVariable("i") String userid) throws SQLException {
-		
-		boolean flag;
-		int i = 0;
-		LoginDAO logindao = new LoginDAO();
-		do {
-			System.out.println(i);
-			System.out.println(userid);
-			
-			flag = logindao.checkuserid(userid);
-			System.out.println("flag in while---"+flag);
-			i++;
-			if(flag) {
-				userid = userid+i;	
-			}
-			
-		} while (flag == true);
-		
-		System.out.println("i value---"+i);
-		if(i<=1) {
-			System.out.println("in if");
-		}else {
-			System.out.println("in else");
-		}
-		
-		i = 0;
-		String conv = userid.replace("\"", "");
-		return conv;
-	}*/
-	
-/*	@RequestMapping(value="/dowhile", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public @ResponseBody String dowhile(@RequestBody String json) throws SQLException, JSONException {
-		
-		Gson gson = new Gson();
-		
-		RequestVO requestvo = new RequestVO();
-		
-		JSONObject jsonObj = new JSONObject(json);
-		
-		requestvo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), RequestVO.class);
-		
-		System.out.println(requestvo.getPayloads_ul().getDataFrame());
-		
-		return null;
-	}*/
 	
 	/*@RequestMapping(value="/dowhile/{meterid}/{id}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody ResponseEntity<TataResponseVO> dowhile(@PathVariable("meterid") String meterid, @PathVariable("id") String id) throws SQLException, IOException {

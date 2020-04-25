@@ -61,7 +61,7 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			user_list = new LinkedList<UserManagementResponseVO>();
 			
-			String query = "SELECT user.ID, user.UserID, user.UserName, userrole.RoleDescription, community.CommunityName, block.BlockName, user.CreatedByID, user.ModifiedDate \r\n" + 
+			String query = "SELECT user.ID, user.UserID, user.UserName, userrole.RoleDescription, community.CommunityID, community.CommunityName, block.BlockID, block.BlockName, user.CreatedByID, user.ModifiedDate \r\n" + 
 					"	FROM USER LEFT JOIN community ON community.CommunityID = user.CommunityID LEFT JOIN block ON block.BlockID = user.BlockID\r\n" + 
 					"	LEFT JOIN userrole ON userrole.RoleID = user.RoleID <change> ";
 			
@@ -74,8 +74,8 @@ public class ManagementSettingsDAO {
 				usermanagementvo.setUserName(rs.getString("UserName"));
 				usermanagementvo.setRole(rs.getString("RoleDescription"));
 				usermanagementvo.setID(rs.getInt("ID"));
-				usermanagementvo.setCommunityName(rs.getString("CommunityName"));
-				usermanagementvo.setBlockName(rs.getString("BlockName"));
+				usermanagementvo.setCommunityName((rs.getInt("CommunityID") != 0) ? rs.getString("CommunityName") : "NA");
+				usermanagementvo.setBlockName((rs.getInt("BlockID") != 0) ? rs.getString("BlockName") : "NA");
 
 				if(rs.getInt("CreatedByID")>0) {
 					pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
@@ -83,7 +83,10 @@ public class ManagementSettingsDAO {
 					if(rs1.next()) {
 					usermanagementvo.setCreatedByUserName(rs1.getString("UserName"));
 					usermanagementvo.setCreatedByRoleDescription(rs1.getString("RoleDescription"));
-					}
+					} 
+				}else {
+					usermanagementvo.setCreatedByUserName("NA");
+					usermanagementvo.setCreatedByRoleDescription("NA");
 				}
 				
 				user_list.add(usermanagementvo);
@@ -340,16 +343,11 @@ public class ManagementSettingsDAO {
 	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
-		Connection con = null;
-		PreparedStatement pstmt1 = null;
 		String result = "Failure";
 		Random randomNumber = new Random();
 		Gson gson = new Gson();
 
 		try {
-
-			con = getConnection();
-
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
 						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
@@ -384,11 +382,7 @@ public class ManagementSettingsDAO {
 					}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		} finally {
-			pstmt1.close();
-			con.close();
 		}
-
 		return result;
 	}
 	
@@ -401,8 +395,8 @@ public class ManagementSettingsDAO {
 		
 		try {
 			con = getConnection();
-			String query = "SELECT CommunityID, BlockID, CustomerID, MeterID FROM customermeterdetails WHERE <change>";
-			pstmt1 = con.prepareStatement(query.replaceAll("<change>", vacationRequestVO.getVacationID()==0 ? "CRNNumber = '"+vacationRequestVO.getCRNNumber()+"'" : "VacationID = "+vacationRequestVO.getVacationID()));
+			String query = "SELECT CommunityID, BlockID, CustomerID, MeterID <change>";
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", vacationRequestVO.getVacationID()==0 ? "FROM customermeterdetails WHERE CRNNumber = '"+vacationRequestVO.getCRNNumber()+"'" : "FROM vacation WHERE VacationID = "+vacationRequestVO.getVacationID()));
 			ResultSet rs1 = pstmt1.executeQuery();
 
 			if (rs1.next()) {
