@@ -70,16 +70,16 @@ public class DashboardDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp\r\n" + 
+			String query = "SELECT DISTINCT dbl.IoTTimeStamp,c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect \r\n" + 
 					"FROM balancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
 			
-			String columnNames[] = { "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
+			String columnNames[] = { "dbl.IoTTimeStamp" , "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
 					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
-					"dbl.SolonideStatus", "dbl.TamperDetect", "dbl.IoTTimeStamp" };
+					"dbl.SolonideStatus", "dbl.TamperDetect" };
 			String columnName = "";
 			String direction = "";
 			String globalSearchUnit = "";
@@ -101,15 +101,7 @@ public class DashboardDAO {
 			
 			System.out.println("globalSearchUnit==?>"+globalSearchUnit);
 			
-			PreparedStatement pstmt2 = con.prepareStatement(query);
-
-			ResultSet rs2 = pstmt2.executeQuery();
-			rs2.beforeFirst();  
-			rs2.last();  
-			  //size = rs2.getRow(); 
-			Integer totalRowCount =rs2.getRow();
-
-			System.out.println("totalRowCount==?>"+totalRowCount);
+			
 			
 			if (!StringUtils.isEmpty(pageNo)) {
 				initial = Integer.parseInt(pageNo);
@@ -137,9 +129,29 @@ public class DashboardDAO {
 				sql.append(searchSQL);
 			}
 
-			if (!columnName.equalsIgnoreCase("dbl.IoTTimeStamp")) {
+			if (!columnName.equalsIgnoreCase("c.CommunityName")) {
 				sql.append(" order by " + columnName + " " + direction);
 			}
+			
+			
+			PreparedStatement pstmt2 = con.prepareStatement(sql.toString());
+
+			ResultSet rs2 = pstmt2.executeQuery();
+			rs2.beforeFirst();  
+			rs2.last();  
+			  //size = rs2.getRow(); 
+			Integer totalRowCount =rs2.getRow();
+			
+			PreparedStatement pstmt3 = con.prepareStatement(query);
+
+			ResultSet rs3 = pstmt3.executeQuery();
+			rs3.beforeFirst();  
+			rs3.last();  
+			  //size = rs2.getRow(); 
+			Integer totalRowCount1 =rs3.getRow();
+
+			System.out.println("totalRowCount==?>"+totalRowCount);
+			
 			sql.append(" limit " + recordSize + " offset " + initial);
 			System.out.println("sql >>>>>>>>>>>>> " + sql.toString());
 			
@@ -195,14 +207,14 @@ public class DashboardDAO {
 				}
 				
 				dashboardvo.setiTotalDisplayRecords(totalRowCount);
-				dashboardvo.setiTotalRecords(recordSize);
+				dashboardvo.setiTotalRecords(totalRowCount1);
 				dashboard_list.add(dashboardvo);
 			}
 			if(dashboard_list.size() == 0) {
 				dashboardvo = new DashboardResponseVO();
 				System.out.println(dashboardvo.getBlockName()+"==>"+dashboardvo.getCommunityName());
 				dashboardvo.setiTotalDisplayRecords(totalRowCount);
-				dashboardvo.setiTotalRecords(recordSize);
+				dashboardvo.setiTotalRecords(totalRowCount1);
 				dashboard_list.add(dashboardvo);
 				}
 			

@@ -375,13 +375,13 @@ $(document)
 												}
 											},
 											
-											selectTariffNameEdit: {
+											/*selectTariffNameEdit: {
 							                    validators: {
 							                        notEmpty: {
 							                            message: 'Please select your Tariff language.'
 							                        }
 							                    }
-							                },
+							                },*/
 							                CRNEdit : {
 												message : 'The CRN is not valid',
 												validators : {
@@ -578,9 +578,11 @@ $(document)
 										data1["houseNumber"] = $("#houseNoEdit").val();
 										data1["mobileNumber"] = $("#mobileNoEdit").val();
 										data1["email"] = $("#emailEdit").val();
-										data1["meterID"] = $("#amrEdit").val();
-										data1["tariffID"] = $("#selectTariffNameEdit").val();
-										data1["defaultReading"] = $("#defaultReadingEdit").val();
+										data1["CRNNumber"] = $("#CRNEdit").val();
+										if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2 ){
+											data1["meterID"] = $("#amrEdit").val();
+											//data1["tariffID"] = $("#selectTariffNameEdit").val();	
+										}
 										data1["createdByID"] = sessionStorage.getItem("createdByID");
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
 										data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
@@ -591,7 +593,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/customer/edit/"+$("#customerIdhidden").val(),
+													url : "/PAYGTL_LORA_BLE/customer/edit/"+$("#CRNEdit").val(),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -614,7 +616,7 @@ $(document)
 																window.location = "customerDetails.jsp";
 																return false
 															});
-														} else if(data.result == "Failure"){
+														} else if(data.result == "Failure" && data.Message == undefined){
 															
 															bootbox.alert(data.result,
 																	function(
@@ -628,8 +630,16 @@ $(document)
 															
 														}else {
 															
-															bootbox.alert(data.Message);
-															return false;
+															bootbox.alert(data.Message,
+																	function(
+																			result) {
+																			
+																//alert();
+																window.location = "customerDetails.jsp";
+																return false
+																
+																		});
+															//return false;
 														}
 													}
 												});
@@ -680,16 +690,24 @@ function getCustomerFormEdit(id) {
 				$('#amrEdit').val(item.meterID).trigger("change");
 				$("#formamrEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 
-				$('#defaultReadingEdit').val(item.defaultReading).trigger("change");
-				$("#formdefaultReadingEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#CRNEdit').val(item.mobileNumber).trigger("change");
+				//$('#defaultReadingEdit').val(item.defaultReading).trigger("change");
+				//$("#formdefaultReadingEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#CRNEdit').val(item.CRNNumber).trigger("change");
 				$("#formCRNEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 			    
-				$("#customerIdhidden").val(item.customerID);
+				$("#customerIdhidden").val(item.CRNNumber);
 			
 				$('#customerEditsave')
 				.attr('disabled',
 						false);
+				if(sessionStorage.getItem("roleID") == 3){
+				
+					$('#amrEdit', '#amrEdit')
+					.attr('disabled',
+							true);
+					
+				}
+				
 				
 			} else {
 			}
@@ -701,6 +719,27 @@ function getCustomerFormEdit(id) {
 
 function getCustomerFormDelete(cust_id){
 	
-	
+	$.ajax({
+		type : "POST",
+		contentType : "application/json",
+		url : "/BGLWalkByAMR_Gas/approverequest/" + id,
+		dataType : "JSON",
+		success : function(data) {
+			alert("Success====" + data);
+			if (data.result == "Success") {
+				bootbox
+					.confirm(
+						"Deleted successfully!",
+						function(
+							result) {
+							window.location = "Customer_home.jsp";
+						});
+
+			} else {
+				//				//alert("fail");
+				window.location = "Customer_home.jsp";
+			}
+		}
+	});
 	
 }

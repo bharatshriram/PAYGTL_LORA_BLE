@@ -5,7 +5,7 @@
 $(document)
 		.ready(
 				function() {
-					$("#topupSummary")
+					$("#financialReport")
 							.click(
 									function() {
 
@@ -13,8 +13,6 @@ $(document)
 												"#selectcommunityName")
 												.val();
 
-										alert($("#selectBlockBasedonCommunity").val());
-										
 										if ($("#selectcommunityName").val() == "-1") {
 											
 											bootbox
@@ -22,7 +20,7 @@ $(document)
 											return false;
 										}
 
-										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
+										/*if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
 
 											bootbox
 											.alert("Select Block Name");
@@ -34,51 +32,49 @@ $(document)
 											bootbox
 											.alert("Select House Name");
 											return false;
-										}
+										}*/
 
 
 										if ($("#start_date").val() == "null" || $("#start_date").val() == "") {
 
 											bootbox
-											.alert("Select Start Date");
+											.alert("Select Only Year");
 											return false;
 										}
 										
-										if ($("#end_date").val() == "null" || $("#end_date").val() == "") {
+										/*if ($("#end_date").val() == "null" || $("#end_date").val() == "") {
 
 											bootbox
 											.alert("Select End Date");
 											return false;
-										}
+										}*/
 										
 										
 										var data1 = {}
 										data1["communityID"] = $(
 												"#selectcommunityName").val();
-										data1["blockID"] = $(
-												"#selectBlockBasedonCommunity")
-												.val();
-										data1["CRNNumber"] = $(
+										data1["blockID"] = $("#selectBlockBasedonCommunity").val() == "Select Block" ? 0 : $("#selectBlockBasedonCommunity").val();
+										/*data1["CRNNumber"] = $(
 												"#selectHouseBasedonBlock")
 												.val();
 										data1["meterID"] = $("#AMR_topup")
+												.val();*/
+										data1["year"] = $("#start_date")
 												.val();
-										data1["fromDate"] = $("#start_date")
-												.val();
-										data1["toDate"] = $("#end_date").val();
+										data1["month"] =  $("#end_date").val() == "" ? 0 : $("#end_date").val();
 
 										alert("===>" + JSON.stringify(data1));
 										$
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/topupsummary",
+													url : "/PAYGTL_LORA_BLE/financialreports/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
 
 													success : function(d) {
-														alert("data"
+														console.log("data"
 																+ JSON
 																		.stringify(d));
 														//if (data.result == "Success") {
@@ -86,12 +82,12 @@ $(document)
 														$("#form").hide();
 														$("#tablereport").show();
 
-														 table = $('#topupsummaryTable').DataTable(
+														 table = $('#financialTable').DataTable(
 																	{
 																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 																		"responsive" : true,
 																		"processing" : true,
-																		"serverSide" : true,
+																		"serverSide" : false,
 																		"bDestroy" : true,
 																		"bPaginate": true,
 																		"pagging" : true,
@@ -104,36 +100,21 @@ $(document)
 																		"scrollX" : true,
 																		"data" : d.data,
 																		"columns" : [ {
-																			
-																			"data" : "firstName"
-																		},{
-																			
-																			"data" : "lastName"
-																		},{
-																			
+																			"data" : "communityName"
+																		}, {
+																			"data" : "blockName"
+																		}, {
 																			"data" : "houseNumber"
 																		}, {
 																			"data" : "meterID"
 																		}, {
-																			"data" : "rechargeAmount"
+																			"data" : "totalAmount"
 																		}, {
-																			"data" : "modeOfPayment"
+																			"data" : "totalAmountForSelectedPeriod"
 																		}, {
-																			"data" : "status"
+																			"data" : "totalUnits"
 																		}, {
-																			"data" : "transactedByUserName"
-																		}, {
-																			"data" : "transactedByRoleDescription"
-																		}, {
-																			"data" : "dateTime"
-																		}],
-																		"columnDefs" : [ {
-																			orderable : false,
-																			targets : [ 0 ]
-																		},
-																		{
-																			orderable : false,
-																			targets : [ 1 ]
+																			"data" : "totalUnitsForSelectedPeriod"
 																		}], "buttons": [
 																			   /* 'csvHtml5',
 																			'excelHtml5',
@@ -142,16 +123,16 @@ $(document)
 																			{extend: 'excel',
 																		        footer: 'true',
 																		        text: 'Excel',
-																		        title:'Top Up Summary'  },
+																		        title:'Financial Report'  },
 																		         
 																		        {extend: 'pdf',
 																		        footer: 'true',
 																		        exportOptions: {
-																		            columns: [1,2,3,4,5,6,7,8,9]
+																		            columns: [1,2,3,4,5,6,7]
 																		        },
 																		        text: 'pdf',
 																		        orientation: 'landscape',
-																		        title:'Top Up Summary'  }
+																		        title:'Financial Report'  }
 																		]
 																	});
 															//table.ajax.reload()

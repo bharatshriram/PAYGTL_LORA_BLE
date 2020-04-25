@@ -38,7 +38,6 @@ $(function() {
 
 
 function showBlockbyCommunity(communityId){
-	alert("@@-->"+communityId);
 	$("#selectBlockBasedonCommunity").find('option').remove();
 
 	$("#selectBlockBasedonCommunity").append("<option>" + "Select Block" + "</option>");
@@ -103,8 +102,6 @@ function showTopupDetails(customerId){
 
 
 function showCommunitybyTypeuser(id){
-	
-	alert(id);
 	
 	if(id=="Super")
 		$("#usercommunityId,#userblockId").hide();

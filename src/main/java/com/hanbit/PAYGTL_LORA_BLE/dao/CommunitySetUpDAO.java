@@ -568,21 +568,23 @@ public class CommunitySetUpDAO {
 			
 			if(customervo.getLoggedInRoleID() == 3) {
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID,BlockID FROM customermeterdetails WHERE CRNNumber = ?");
 				pstmt1.setString(1, customervo.getCRNNumber());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {
 					customervo.setCustomerID(rs.getInt("CustomerID"));
+					customervo.setBlockID(rs.getInt("BlockID"));
 				}
 				
-				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CustomerID = ?))");
-				pstmt.setInt(1, customervo.getCustomerID());
-				pstmt.setString(2, customervo.getCRNNumber());
-				pstmt.setString(3, customervo.getHouseNumber());
-				pstmt.setString(4, customervo.getFirstName());
-				pstmt.setString(5, customervo.getEmail());
-				pstmt.setString(6, customervo.getMobileNumber());
-				pstmt.setInt(7, customervo.getCustomerID());
+				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CustomerID = ?))");
+				pstmt.setInt(1, customervo.getBlockID());
+				pstmt.setInt(2, customervo.getCustomerID());
+				pstmt.setString(3, customervo.getCRNNumber());
+				pstmt.setString(4, customervo.getHouseNumber());
+				pstmt.setString(5, customervo.getFirstName());
+				pstmt.setString(6, customervo.getEmail());
+				pstmt.setString(7, customervo.getMobileNumber());
+				pstmt.setInt(8, customervo.getCustomerID());
 				
 				if (pstmt.executeUpdate() > 0) {
 	            	result = "Request Submitted successfully and is pending for approval by Administrator";
@@ -590,7 +592,10 @@ public class CommunitySetUpDAO {
 				
 			}else {
 				pstmt = con.prepareStatement("UPDATE customermeterdetails SET MeterID = ?, HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CRNNumber = ?");
-	            pstmt.setString(1, customervo.getMeterID());
+	           
+				System.out.println("customervo.getCRNNumber()==>"+customervo.getCRNNumber());
+				
+				pstmt.setString(1, customervo.getMeterID());
 				pstmt.setString(2, customervo.getHouseNumber());
 	            pstmt.setString(3, customervo.getFirstName());
 	            pstmt.setString(4, customervo.getEmail());

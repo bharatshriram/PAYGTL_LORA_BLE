@@ -319,14 +319,14 @@
 										id="amrEdit">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Tariff Name</label>  <select
 										class="form-control" id="selectTariffNameEdit" name="selectTariffNameEdit">
-										<!-- <option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> --> 
+										<option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> 
 									</select>
 								</div>
-							</div>
+							</div> -->
 							
 							
 							<div class="col-md-6">
@@ -338,9 +338,6 @@
 								</div>
 							</div>
 
-							<div class="col-md-6">	
-								
-							</div>
 							<div class="col-md-6">
 								<input class="btn btn-success submit-button"
 									 value="Save!" id="customerEditsave"

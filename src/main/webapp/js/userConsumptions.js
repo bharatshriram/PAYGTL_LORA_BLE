@@ -58,7 +58,7 @@ $(document)
 										data1["blockID"] = $(
 												"#selectBlockBasedonCommunity")
 												.val();
-										data1["customerID"] = $(
+										data1["CRNNumber"] = $(
 												"#selectHouseBasedonBlock")
 												.val();
 										data1["meterID"] = $("#AMR_topup")
@@ -80,7 +80,7 @@ $(document)
 													success : function(d) {
 														alert("data"
 																+ JSON
-																		.stringify(d));
+																		.stringify(d.data));
 														//if (data.result == "Success") {
 														
 														$("#form").hide();
@@ -91,7 +91,7 @@ $(document)
 																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 																		"responsive" : true,
 																		"processing" : true,
-																		"serverSide" : true,
+																		"serverSide" : false,
 																		"bDestroy" : true,
 																		"bPaginate": true,
 																		"pagging" : true,
@@ -101,9 +101,11 @@ $(document)
 																		"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
 																		"pageLength" : 5,
 																		"scrollY" : 324,
-																		"scrollX" : true,
+																		"scrollX" : false,
 																		"data" : d.data,
 																		"columns" : [ {
+																			"data" : "CRNNumber"
+																		}, {
 																			"data" : "meterID"
 																		}, {
 																			"data" : "reading"
