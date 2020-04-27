@@ -12,8 +12,6 @@ $(function() {
 			+ sessionStorage.getItem("ID"), function(data) {
 		var Options = "<option value='-1'>Select  Community</option>";
 		
-		
-		
 		$.each(data.dropDownCommunities, function(key, value) {
 			Options = Options + "<option value='" + key + "'>" + value
 					+ "</option>";
@@ -41,6 +39,14 @@ function showBlockbyCommunity(communityId){
 	$("#selectBlockBasedonCommunity").find('option').remove();
 
 	$("#selectBlockBasedonCommunity").append("<option>" + "Select Block" + "</option>");
+	
+	$("#selectHouseBasedonBlock").find('option').remove();
+
+	$("#selectHouseBasedonBlock").append("<option>" + "Select House" + "</option>");
+	
+	$("#AMR_topup").find('option').remove();
+
+	$("#AMR_topup").val("");
 	
 	$.getJSON("/PAYGTL_LORA_BLE/blocks/"+ sessionStorage.getItem("roleID") + "/"
 			+ sessionStorage.getItem("ID")+ "/" + communityId, function(data) {
@@ -75,6 +81,9 @@ function showCustomerbyBlock(blockId){
 }
 
 function showTopupDetails(customerId){
+	
+	
+	
 	
 	$.getJSON("/PAYGTL_LORA_BLE/topupdetails/" + customerId, function(data) {
 		//var Options = "";
@@ -113,5 +122,32 @@ function showCommunitybyTypeuser(id){
 		$("#userblockId").show();
 		
 		}	
+		
+}
+
+
+
+
+
+function showFieldsBasedONCommand(id){
+	
+	if(id=="6"){
+		$("#confdefaultReading").show();
+		$("#conftariff").hide();
+		$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		//$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		
+		}else if(id =="10")
+		{
+		$("#conftariff").show();
+		$("#confdefaultReading").hide();		
+		$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		}	else {
+			$("#conftariff").hide();
+			$("#confdefaultReading").hide();
+			$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+			$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		}
 		
 }

@@ -9,6 +9,7 @@ $(document).ready(function() {
 		$("#blockAddButton").show();
 	}else{
 		$("#blockAddButton").hide();
+		
 	}
 	
 table = $('#blockTable')
@@ -17,7 +18,7 @@ table = $('#blockTable')
 "dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 "responsive" : true,
 "processing" : true,
-"serverSide" : false,
+"serverSide" : true,
 "bDestroy" : true,
 "bPaginate": true,
 "pagging" : true,
@@ -62,7 +63,7 @@ return json.data;
 		</button>*/
 	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
 		
-		return "<a href=# id=BlockEdit data-toggle=modal data-target=#myBlockEdit onclick='getBlockFormEdit("
+		return "<div id = actionfield> <a href=# id=BlockEdit data-toggle=modal data-target=#myBlockEdit onclick='getBlockFormEdit("
 																	+ row.blockID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
@@ -71,7 +72,7 @@ return json.data;
 																	+ row.blockID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
-																	+ "</a>"
+																	+ "</a></div>"
 	}
 	}
 

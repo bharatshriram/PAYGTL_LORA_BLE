@@ -95,11 +95,15 @@ $(document)
 														validators : {
 															notEmpty : {
 																message : 'The Recharge Amount is required and cannot be empty'
-															}/*,
+															},stringLength : {
+																min : 3,
+																max : 10,
+																message : 'The Recharge Amount must be more than 3 and less than 10 characters long'
+															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+																message : 'The Recharge Amount can only consist of number'
+															}
 														}
 													}
 												}

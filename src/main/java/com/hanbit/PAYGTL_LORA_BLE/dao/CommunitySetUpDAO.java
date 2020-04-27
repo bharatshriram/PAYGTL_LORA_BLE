@@ -329,7 +329,7 @@ public class CommunitySetUpDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			pstmt.close();
+//			pstmt.close();
 //			rs.close();
 			con.close();
 		}

@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id, HttpServletRequest req)
+	public Map<String, Object> getDashboarddetails(int roleid, String id, HttpServletRequest req)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -57,7 +58,7 @@ public class DashboardDAO {
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
-		
+		final Map<String, Object> finalMap = new HashMap<>();
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
@@ -200,12 +201,15 @@ public class DashboardDAO {
 				dashboard_list.add(dashboardvo);
 			}
 
-			if(dashboard_list.size() == 0) {
+			/*if(dashboard_list.size() == 0) {
 				dashboardvo = new DashboardResponseVO();
 				dashboardvo.setiTotalDisplayRecords(0);
 				dashboardvo.setiTotalRecords(0);
 				dashboard_list.add(dashboardvo);
-				}
+				}*/
+			finalMap.put("data", dashboard_list);
+			finalMap.put("iTotalDisplayRecords", searchRowCount);
+			finalMap.put("iTotalRecords", totalRowCount);
 			
 		}
 
@@ -216,7 +220,7 @@ public class DashboardDAO {
 			rs.close();
 			con.close();
 		}
-		return dashboard_list;
+		return finalMap;
 	}
 
 /*	public ResponseVO postDashboarddetails(String json) throws SQLException {

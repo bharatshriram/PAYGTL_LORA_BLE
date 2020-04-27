@@ -7,6 +7,18 @@ $(document).ready(function() {
 table = $('#communityTable')
 .DataTable(
 {
+	
+	/*"initComplete": function(settings, json) {            
+	    if (sessionStorage.getItem("roleID") == 1){
+	        oTable.columns([0,1,3,4]).visible(false);
+	        oTable.columns([]).visible(true);
+	    }
+	    else if (sessionStorage.getItem("roleID") == 4){
+	        oTable.columns([0,1,3]).visible(false);
+	        oTable.columns([4]).visible(true);
+	    }
+	},*/
+
 	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
 	"processing" : true,
@@ -45,14 +57,7 @@ return json.data;
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		/*<button type="button"
-			class="btn btn-raised btn-primary float-right"
-			data-toggle="modal" data-target="#exampleModal">
-			<i class="fa fa-user"></i>
-		</button>*/
-	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-		
-		return "<a href=# id=CommunityEdit data-toggle=modal data-target=#myCommunityEdit onclick='getCommunityFormEdit("
+		return "<div id=tdfiled><a href=# id=CommunityEdit data-toggle=modal data-target=#myCommunityEdit onclick='getCommunityFormEdit("
 																	+ row.communityID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
@@ -60,7 +65,7 @@ return json.data;
 																	+ row.communityID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>pageview</i>"
-																	+ "</a>"
+																	+ "</a></div>"
 	}
 	}
 
@@ -69,7 +74,9 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets : [ 0 ]
+	//targets : [ 0 ],
+	targets: 4, visible: (!(sessionStorage.getItem("roleID") == 4) || !(sessionStorage.getItem("roleID") == 5))
+	
 },
 {
 	orderable : false,
@@ -78,6 +85,7 @@ return json.data;
    
 ]
 });
+
 });
 
 
@@ -87,8 +95,15 @@ return json.data;
 
 $(document)
 				.ready(
-						function() {
-							$('#communityDetails')
+						function() {							/*alert(sessionStorage.getItem("roleID"));
+							if(sessionStorage.getItem("roleID") == 1){
+								$("#thfiled,#tdfiled").show();
+							}else if(sessionStorage.getItem("roleID") == 4){
+								$("#thfiled").hide();
+								$("#tdfiled").hide();
+								
+							}*/
+								$('#communityDetails')
 									.bootstrapValidator(
 											{
 												feedbackIcons : {

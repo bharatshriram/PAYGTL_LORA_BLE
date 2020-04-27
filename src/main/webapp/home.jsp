@@ -105,15 +105,6 @@
     	var flag =true;
       $('.button-left').click(function () {
         $('.left ').toggleClass('fliph');
-		flag = !flag;
-		
-		if(true){
-			
-		}else if(false){
-			
-		}
-		
-        alert(flag);
       });
 
     });

@@ -4,6 +4,7 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,19 +32,22 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class DashboardController {
 
 	@RequestMapping(value = "/dashboard/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	public @ResponseBody Map<String, Object> dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
 
 		DashboardDAO dashboarddao = new DashboardDAO();
 		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();
 		
-		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id, req));
+		dashboarddao.getDashboarddetails(roleid, id, req);
 
-		dasboardresponsevo.setRecordsFiltered(0);
+		/*dasboardresponsevo.setRecordsFiltered(0);
 		dasboardresponsevo.setDraw(0);
 		dasboardresponsevo.setiTotalDisplayRecords(dasboardresponsevo.getData().get((dasboardresponsevo.getData().size() == 0) ? 0 : dasboardresponsevo.getData().size()-1).getiTotalDisplayRecords());
 		dasboardresponsevo.setiTotalRecords(dasboardresponsevo.getData().get((dasboardresponsevo.getData().size() == 0) ? 0 : dasboardresponsevo.getData().size()-1).getiTotalRecords());
 		
-		return dasboardresponsevo;
+		System.out.println("dasboardresponsevo.getCommunityName()==>"+dasboardresponsevo.getCommunityName()+"dasboardresponsevo.getBlockName()=>"+dasboardresponsevo.getBlockName()
+		+"HouseNumber()->"+dasboardresponsevo.getHouseNumber());
+		*/
+		return dashboarddao.getDashboarddetails(roleid, id, req);
 	}
 	
 	@RequestMapping(value = "/inputdata", method = RequestMethod.POST, produces = "application/json", consumes = "application/vnd.onem2m-ntfy+json")
