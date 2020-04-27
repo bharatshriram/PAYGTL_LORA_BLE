@@ -29,11 +29,6 @@ public class StatusResponseVO {
 	private String paymentStatus;
 	private String transactedByUserName;
 	private String transactedByRoleDescription;
-	
-	private int iTotalDisplayRecords;
-	private int recordsFiltered;
-	private int iTotalRecords;
-	private int draw;
 
 	private List<StatusResponseVO> data;
 	
@@ -150,30 +145,6 @@ public class StatusResponseVO {
 	}
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
-	}
-	public int getiTotalDisplayRecords() {
-		return iTotalDisplayRecords;
-	}
-	public void setiTotalDisplayRecords(int iTotalDisplayRecords) {
-		this.iTotalDisplayRecords = iTotalDisplayRecords;
-	}
-	public int getRecordsFiltered() {
-		return recordsFiltered;
-	}
-	public void setRecordsFiltered(int recordsFiltered) {
-		this.recordsFiltered = recordsFiltered;
-	}
-	public int getiTotalRecords() {
-		return iTotalRecords;
-	}
-	public void setiTotalRecords(int iTotalRecords) {
-		this.iTotalRecords = iTotalRecords;
-	}
-	public int getDraw() {
-		return draw;
-	}
-	public void setDraw(int draw) {
-		this.draw = draw;
 	}
 	
 }

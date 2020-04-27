@@ -5,8 +5,6 @@ package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,18 +60,12 @@ public class AccountController {
 
 	@RequestMapping(value = "/status/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		AccountDAO accountdao = new AccountDAO();
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
 
-		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id, req));
-		
-		statusresponsevo.setRecordsFiltered(0);
-		statusresponsevo.setDraw(0);
-		statusresponsevo.setiTotalDisplayRecords(statusresponsevo.getData().get((statusresponsevo.getData().size() == 0) ? 0 : statusresponsevo.getData().size()-1).getiTotalDisplayRecords());
-		statusresponsevo.setiTotalRecords(statusresponsevo.getData().get((statusresponsevo.getData().size() == 0) ? 0 : statusresponsevo.getData().size()-1).getiTotalRecords());
-
+		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id));
 
 		return statusresponsevo;
 	}
@@ -111,12 +103,12 @@ public class AccountController {
 
 	@RequestMapping(value = "/configuration/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		AccountDAO accountdao = new AccountDAO();
 		ConfigurationResponseVO configurationresponsevo = new ConfigurationResponseVO();
 
-		configurationresponsevo.setData(accountdao.getConfigurationdetails(roleid, id, req));
+		configurationresponsevo.setData(accountdao.getConfigurationdetails(roleid, id));
 
 		return configurationresponsevo;
 	}

@@ -15,10 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.util.StringUtils;
-
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
@@ -179,7 +175,7 @@ public class AccountDAO {
 
 	/* Status */
 
-	public List<StatusResponseVO> getStatusdetails(int roleid, String id, HttpServletRequest req) throws SQLException {
+	public List<StatusResponseVO> getStatusdetails(int roleid, String id) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -197,74 +193,7 @@ public class AccountDAO {
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber <change>";
 			
-			query = query.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id : (roleid == 3) ? "WHERE t.CRNNumber = "+id:"");
-
-			String columnNames[] = { "t.TransactionID", "c.CommunityName", "b.BlockName", "cmd.FirstName", "cmd.HouseNumber", "cmd.CreatedByID", "cmd.LastName", "cmd.CRNNumber", "t.MeterID", "t.Amount", "tr.AlarmCredit", "tr.EmergencyCredit", "t.Status", "t.ModeOfPayment", "t.PaymentStatus", "t.TransactionDate", "t.AcknowledgeDate" };
-			String columnName = "";
-			String direction = "";
-			String globalSearchUnit = "";
-			String searchSQL = "";
-			String pageNo = req.getParameter("start");
-			String pageSize = req.getParameter("length");
-			Integer initial = null;
-			Integer recordSize = null;
-			String orderByColumnIndex = req.getParameter("order[0][column]");
-
-			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
-			direction = req.getParameter("order[0][dir]");
-
-			globalSearchUnit = req.getParameter("search[value]");
-			
-			if (!StringUtils.isEmpty(pageNo)) {
-				initial = Integer.parseInt(pageNo);
-			}
-			if (!StringUtils.isEmpty(pageNo)) {
-				recordSize = Integer.parseInt(pageSize);
-			}
-			StringBuilder sql = new StringBuilder();
-			sql.append(query);
-			
-			PreparedStatement pstmt3 = con.prepareStatement(query);
-
-			ResultSet rs3 = pstmt3.executeQuery();
-			rs3.beforeFirst();  
-			rs3.last();  
-			Integer totalRowCount =rs3.getRow();
-			
-			String globeSearch = "t.TransactionID like '%" + globalSearchUnit + "%'" + " or c.CommunityName like '%" + globalSearchUnit + "%'" + " or b.BlockName like '%" + 
-					  globalSearchUnit  + "%'" + " or cmd.FirstName like '%" + globalSearchUnit + "%'" + " or cmd.LastName like '%" + globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit + "%'"
-					  + " or cmd.CreatedByID like '%" + globalSearchUnit + "%'" + " or cmd.CRNNumber like '%" + globalSearchUnit + "%'" + " or t.MeterID like '%" + globalSearchUnit + "%'" + " or t.Amount like '%" + globalSearchUnit + "%'" +
-					  " or tr.AlarmCredit like '%" + globalSearchUnit + "%'" + " or tr.EmergencyCredit like '%" + globalSearchUnit + "%'" + " or t.Status like '%" + globalSearchUnit + "%'" + " or t.ModeOfPayment like '%" + globalSearchUnit + "%'"
-					  + " or t.PaymentStatus like '%" + globalSearchUnit + "%'" + " or t.TransactionDate like '%" + globalSearchUnit + "%'" + " or t.AcknowledgeDate like '%" + globalSearchUnit + "%'";
-
-			if (!StringUtils.isEmpty(globalSearchUnit)) {
-				searchSQL = globeSearch;
-			}
-
-			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append((roleid == 1 || roleid == 4) ? " WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
-				sql.append(searchSQL);
-				
-			} else {
-				sql.append("ORDER BY t.TransactionDate DESC");
-			}
-			
-			if (columnName.equalsIgnoreCase("t.TransactionID")) {
-				sql.append(" order by " + columnName + " " + direction);
-			}
-			
-			PreparedStatement pstmt2 = con.prepareStatement(sql.toString());
-
-			ResultSet rs2 = pstmt2.executeQuery();
-			rs2.beforeFirst();  
-			rs2.last();  
-			  //size = rs2.getRow(); 
-			Integer searchRowCount =rs2.getRow();
-			
-			sql.append(" limit " + recordSize + " offset " + initial);
-			
-			pstmt = con.prepareStatement(sql.toString());
-			
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CRNNumber = "+id:""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -299,19 +228,8 @@ public class AccountDAO {
 				}else {
 					statusvo.setStatus("Failed");
 				}
-				
-				statusvo.setiTotalDisplayRecords(searchRowCount);
-				statusvo.setiTotalRecords(totalRowCount);
 				statuslist.add(statusvo);
 			}
-			
-			if(statuslist.size() == 0) {
-				statusvo = new StatusResponseVO();
-				statusvo.setiTotalDisplayRecords(0);
-				statusvo.setiTotalRecords(0);
-				statuslist.add(statusvo);
-				}
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
@@ -512,7 +430,7 @@ public class AccountDAO {
 
 	/* Configuration */
 
-	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, String id, HttpServletRequest req)
+	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, String id)
 			throws SQLException {
 
 		Connection con = null;
@@ -528,68 +446,7 @@ public class AccountDAO {
 					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
 					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
 			
-			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = "+id+ " ORDER BY cmd.ModifiedDate DESC":"");
-			
-			String columnNames[] = { "cmd.TransactionID", "cmd.CRNNumber", "cmd.MeterID", "cmd.CommandType", "cmd.ModifiedDate", "cmd.Status" };
-			String columnName = "";
-			String direction = "";
-			String globalSearchUnit = "";
-			String searchSQL = "";
-			String pageNo = req.getParameter("start");
-			String pageSize = req.getParameter("length");
-			Integer initial = null;
-			Integer recordSize = null;
-			String orderByColumnIndex = req.getParameter("order[0][column]");
-
-			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
-			direction = req.getParameter("order[0][dir]");
-
-			globalSearchUnit = req.getParameter("search[value]");
-			
-			if (!StringUtils.isEmpty(pageNo)) {
-				initial = Integer.parseInt(pageNo);
-			}
-			if (!StringUtils.isEmpty(pageNo)) {
-				recordSize = Integer.parseInt(pageSize);
-			}
-			StringBuilder sql = new StringBuilder();
-			sql.append(query);
-			
-			PreparedStatement pstmt3 = con.prepareStatement(query);
-
-			ResultSet rs3 = pstmt3.executeQuery();
-			rs3.beforeFirst();  
-			rs3.last();  
-			Integer totalRowCount =rs3.getRow();
-			
-			String globeSearch = "cmd.CRNNumber like '%" + globalSearchUnit + "%'" + " or cmd.MeterID like '%" + globalSearchUnit + "%'" + " or cmd.CommandType like '%" + globalSearchUnit
-								  + "%'" + " or cmd.ModifiedDate like '%" + globalSearchUnit + "%'" + " or cmd.Status like '%" + globalSearchUnit + "%'";
-
-			if (!StringUtils.isEmpty(globalSearchUnit)) {
-				searchSQL = globeSearch;
-			}
-
-			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append((roleid == 1) ? "ORDER BY c.CommunityID DESC" : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
-				sql.append(searchSQL);
-				
-			}
-			
-			if (!columnName.equalsIgnoreCase("c.CreatedDate")) {
-				sql.append(" order by " + columnName + " " + direction);
-			}
-			
-			PreparedStatement pstmt2 = con.prepareStatement(sql.toString());
-
-			ResultSet rs2 = pstmt2.executeQuery();
-			rs2.beforeFirst();  
-			rs2.last();  
-			  //size = rs2.getRow(); 
-			Integer searchRowCount =rs2.getRow();
-			
-			sql.append(" limit " + recordSize + " offset " + initial);
-			
-			pstmt = con.prepareStatement(sql.toString());
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = "+id+ " ORDER BY cmd.ModifiedDate DESC":""));
 			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;
@@ -637,20 +494,9 @@ public class AccountDAO {
 					configurationvo.setStatus("Failed");
 				}
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
-				
-				configurationvo.setiTotalDisplayRecords(searchRowCount);
-				configurationvo.setiTotalRecords(totalRowCount);
-				
 				configurationdetailslist.add(configurationvo);
 
 			}
-			
-			if(configurationdetailslist.size() == 0) {
-				configurationvo = new ConfigurationResponseVO();
-				configurationvo.setiTotalDisplayRecords(0);
-				configurationvo.setiTotalRecords(0);
-				configurationdetailslist.add(configurationvo);
-				}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
