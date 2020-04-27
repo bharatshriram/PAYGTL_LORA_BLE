@@ -568,15 +568,14 @@ public class CommunitySetUpDAO {
 			
 			if(customervo.getLoggedInRoleID() == 3) {
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, LastName FROM customermeterdetails WHERE CRNNumber = ?");
 				pstmt1.setString(1, customervo.getCRNNumber());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {
 					customervo.setCustomerID(rs.getInt("CustomerID"));
 					customervo.setBlockID(rs.getInt("BlockID"));
-				}
 				
-				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CustomerID = ?))");
+				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CRNNumber = ?))");
 				pstmt.setInt(1, customervo.getBlockID());
 				pstmt.setInt(2, customervo.getCustomerID());
 				pstmt.setString(3, customervo.getCRNNumber());
@@ -584,11 +583,13 @@ public class CommunitySetUpDAO {
 				pstmt.setString(5, customervo.getFirstName());
 				pstmt.setString(6, customervo.getEmail());
 				pstmt.setString(7, customervo.getMobileNumber());
-				pstmt.setInt(8, customervo.getCustomerID());
+				pstmt.setString(8, customervo.getCRNNumber());
 				
 				if (pstmt.executeUpdate() > 0) {
 	            	result = "Request Submitted successfully and is pending for approval by Administrator";
-	            }
+	            	}
+				
+				}
 				
 			}else {
 				pstmt = con.prepareStatement("UPDATE customermeterdetails SET MeterID = ?, HouseNumber=?, FirstName=?, Email=?, MobileNumber=?, ModifiedDate=NOW() WHERE CRNNumber = ?");
@@ -600,7 +601,15 @@ public class CommunitySetUpDAO {
 	            pstmt.setString(6, customervo.getCRNNumber());
 
 	            if (pstmt.executeUpdate() > 0) {
-	            	result = "Success";
+	            	
+	            	PreparedStatement pstmt1 = con.prepareStatement("UPDATE USER SET UserName = CONCAT (?, (SELECT LastName FROM customermeterdetails WHERE CRNNumber = ?)) WHERE CRNNumber = ?");
+	            	pstmt1.setString(1, customervo.getFirstName() + " ");
+	            	pstmt1.setString(2, customervo.getCRNNumber());
+	            	pstmt1.setString(3, customervo.getCRNNumber());
+	            	if(pstmt1.executeUpdate() > 0) {
+	            		result = "Success";	
+	            	}
+	            	
 	            }
 			}
 			
@@ -732,17 +741,29 @@ public class CommunitySetUpDAO {
 			con = getConnection();
 			
 			if(action == 1) {
-
+				
 				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CRNNumber = urcmd.CRNNumber SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CRNNumber = (SELECT CRNNumber FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
 	            pstmt.setInt(1, requestid);
 
 	            if (pstmt.executeUpdate() > 0) {
 	            	
-	            	PreparedStatement pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails WHERE RequestID = ?");
-	            	pstmt1.setInt(1, requestid);
-	            	if(pstmt1.executeUpdate() > 0) {
-	            		result = "Success";	
+	            	PreparedStatement pstmt2 = con.prepareStatement("SELECT * FROM updaterequestcustomermeterdetails WHERE RequestID = "+requestid);
+	            	ResultSet rs = pstmt2.executeQuery();
+	            	if(rs.next()) {
+	            		
+	            		PreparedStatement pstmt3 = con.prepareStatement("UPDATE USER SET UserName = CONCAT (?, (SELECT LastName FROM customermeterdetails WHERE CRNNumber = ?)) WHERE CRNNumber = ?");
+		            	pstmt3.setString(1, rs.getString("FirstName")+ " ");
+		            	pstmt3.setString(2, rs.getString("CRNNumber"));
+		            	pstmt3.setString(3, rs.getString("CRNNumber"));
+		            	if(pstmt3.executeUpdate() > 0) {
+		            		PreparedStatement pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails WHERE RequestID = ?");
+			            	pstmt1.setInt(1, requestid);
+			            	if(pstmt1.executeUpdate() > 0) {
+			            		result = "Success";			            		
+			            	}
+		            	}
 	            	}
+	            	
 	            }
 
 			}else {

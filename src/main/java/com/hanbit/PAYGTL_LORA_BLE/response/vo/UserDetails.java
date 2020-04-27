@@ -11,6 +11,8 @@ public class UserDetails {
 	
 	private int roleID;
 	private int blockID;
+	private String email;
+	private String mobileNumber;
 	private String houseNo;
 	private int communityID;
 	private String userName;
@@ -18,7 +20,7 @@ public class UserDetails {
 	private int customerID;
 	private String CRNNumber;
 	private String communityName;
-	private int pendingCommandID;
+	private int pendingCommandType;
 	private int pendingTransactionID;
 	
 	public String getCommunityName() {
@@ -26,12 +28,6 @@ public class UserDetails {
 	}
 	public void setCommunityName(String communityName) {
 		this.communityName = communityName;
-	}
-	public int getroleID() {
-		return roleID;
-	}
-	public void setroleID(int roleID) {
-		this.roleID = roleID;
 	}
 	public int getBlockID() {
 		return blockID;
@@ -81,11 +77,12 @@ public class UserDetails {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public int getPendingCommandID() {
-		return pendingCommandID;
+	
+	public int getPendingCommandType() {
+		return pendingCommandType;
 	}
-	public void setPendingCommandID(int pendingCommandID) {
-		this.pendingCommandID = pendingCommandID;
+	public void setPendingCommandType(int pendingCommandType) {
+		this.pendingCommandType = pendingCommandType;
 	}
 	public int getPendingTransactionID() {
 		return pendingTransactionID;
@@ -102,5 +99,16 @@ public class UserDetails {
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
 	}
-	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
 }
