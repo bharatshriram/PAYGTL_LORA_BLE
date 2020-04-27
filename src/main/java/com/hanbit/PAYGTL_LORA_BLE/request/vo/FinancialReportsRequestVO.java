@@ -11,7 +11,7 @@ public class FinancialReportsRequestVO {
 	
 	private int communityID;
 	private int blockID;
-	private int customerID;
+	private String customerID;
 	private int year;
 	private int month;
 	
@@ -27,10 +27,11 @@ public class FinancialReportsRequestVO {
 	public void setBlockID(int blockID) {
 		this.blockID = blockID;
 	}
-	public int getCustomerID() {
+	
+	public String getCustomerID() {
 		return customerID;
 	}
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 	public int getYear() {

@@ -26,18 +26,19 @@
           <aside>
             <div class="sidebar left ">
               <div class="user-panel">
-                <div class="float-left image">
+                <!-- <div class="float-left image">
                   <img src="http://via.placeholder.com/160x160" class="rounded-circle" alt="User Image">
-                </div>
-                <div class="float-left info">
-                  <p class="userNameDisplay"></p>
-                  <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div> -->
+                <div class="float-left mt-2">
+                  <!-- <p class="userNameDisplay"></p> -->
+                  <a><i class="fa fa-circle text-success"></i><span class = "text-white" id="userID"></span> </a>
                 </div>
               </div>
               <ul class="list-sidebar bg-defoult">
                 <%
 			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	
+				<li> <a href="approval.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">List Of Approval</span></a> </li>
                 <li> <a href="tariff.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Tariff</span></a> </li>
                 <li> <a href="communityDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Community</span></a> </li>
 				<li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
@@ -56,13 +57,14 @@
                   </ul>
                 </li> -->
                 
-                <li class="active"><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
+                <li><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
                     <li><a href="topupSummary.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Top Up Summary</span></a></li>
                     <li><a href="financialreports.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Alarms</span></a></li>
 <li><a href="Mgmt.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Management</span></a></li>                
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
+ 				<li> <a href="approval.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">List Of Approval</span></a> </li>
                 <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
 				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
@@ -74,9 +76,9 @@
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>
                   <ul class="sub-menu collapse" id="dashboard">
-                    <li class="active"><a href="userConsumptions.jsp">User Consumptions</a></li>
-                    <li><a href="topupSummary.jsp">Top Up Summary</a></li>
-                    <li><a href="financialreports.jsp">Financial Reports</a></li>
+                  <li class=""><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
+                    <li><a href="topupSummary.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="financialreports.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp">Alarms</a></li>
                 <% } else if (user_id.equalsIgnoreCase("3")) {%>
                 
@@ -135,6 +137,11 @@
         </div>
         <!--sidebar end-->
 
+<script>
+
+document.querySelector("#userID").innerText = "  "+sessionStorage.getItem("userID");
+
+</script>
 
 </body>
 </html>

@@ -53,7 +53,7 @@ $(document)
 												      "emptyTable": "No data available in table"
 												    },
 												 
-												 "responsive" : true,
+												/* "responsive" : true,
 													"processing" : true,
 													"serverSide" : true,
 													"bDestroy" : true,
@@ -65,6 +65,25 @@ $(document)
 													"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
 													"pageLength" : 5,
 													"scrollY" : 324,
+													"scrollX" : true,*/
+												    
+/*												    destroy: true,
+*/												    processing: true,
+												    serverSide: true,
+												    fixedColumns    : true
+												    ,autoWidth  : true
+												    ,responsive : true
+												    ,deferRender    : true
+												    ,processing : true
+												    ,paging     : true
+												    ,pageLength : 5
+												    ,searching  : true
+												    ,info       : true,
+												    "ordering" : true,
+													"order" : [ 0, "desc" ],
+													"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ]
+												    ,bPaginate  : false,
+												    "scrollY" : 324,
 													"scrollX" : true,
 												/*"processing" : true,
 												"serverSide" : true,
@@ -89,11 +108,12 @@ $(document)
 											"data" : function(search) {
 											},
 											"complete" : function(json) {
-												console.log(JSON.stringify(json));
+												console.log("JSON==>"+JSON.stringify(json));
 												return json.data;
 											},
 										},
 										"columns" : [
+											
 												{
 													"data" : "communityName"
 												},
@@ -123,12 +143,12 @@ $(document)
 													"data" : "emergencyCredit"
 												},
 												{
-													    //"data":"battery"
-													"mData" : "action",
+													    "data":"battery"
+													/*"mData" : "action",
 													"render" : function(data,
 															type, row) {
 														if(!row.battery == undefined){
-															
+														}	
 														console.log(data+"!!"+type+"@@"+JSON.stringify(row));
 														if ( type === 'display' ) {
 															return "<span id=color style = color:"
@@ -137,10 +157,10 @@ $(document)
 															+ row.battery
 															+ "</span>"
 													    }
-														}
+														//}
 													},
 													"defaultContent": "",
-													orderable: false 
+													orderable: false */
 												},
 												{
 													"data" : "valveStatus"
@@ -170,8 +190,9 @@ $(document)
 													}*/
 												} ],
 												"columnDefs" : [ {
-													"orderable" : false,
-													"targets":  9 
+													"orderable" : true,
+													"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+													"className": "text-center"
 												},
 												{
 													orderable : false,
@@ -203,5 +224,5 @@ $(document)
 													title : 'Dashboard'
 												} ]
 
-									}).columns.adjust().draw().clear().draw().rows.add().draw();
+									}).columns.adjust();
 				});

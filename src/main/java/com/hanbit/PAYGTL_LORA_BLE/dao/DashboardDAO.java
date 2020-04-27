@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id, HttpServletRequest req)
+	public Map<String, Object> getDashboarddetails(int roleid, String id, HttpServletRequest req)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -57,7 +58,7 @@ public class DashboardDAO {
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
-		
+		final Map<String, Object> finalMap = new HashMap<>();
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
@@ -70,13 +71,13 @@ public class DashboardDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp\r\n" + 
+			String query = "SELECT DISTINCT dbl.IoTTimeStamp,c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect \r\n" + 
 					"FROM balancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
-			
+
 			String columnNames[] = { "dbl.IoTTimeStamp", "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
 					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
 					"dbl.SolonideStatus", "dbl.TamperDetect" };
@@ -94,7 +95,7 @@ public class DashboardDAO {
 			direction = req.getParameter("order[0][dir]");
 
 			globalSearchUnit = req.getParameter("search[value]");
-			
+
 			if (!StringUtils.isEmpty(pageNo)) {
 				initial = Integer.parseInt(pageNo);
 			}
@@ -194,17 +195,21 @@ public class DashboardDAO {
 				}else {
 					dashboardvo.setDateColor("GREEN");
 				}
+
 				dashboardvo.setiTotalDisplayRecords(searchRowCount);
 				dashboardvo.setiTotalRecords(totalRowCount);
 				dashboard_list.add(dashboardvo);
 			}
 
-			if(dashboard_list.size() == 0) {
+			/*if(dashboard_list.size() == 0) {
 				dashboardvo = new DashboardResponseVO();
 				dashboardvo.setiTotalDisplayRecords(0);
 				dashboardvo.setiTotalRecords(0);
 				dashboard_list.add(dashboardvo);
-				}
+				}*/
+			finalMap.put("data", dashboard_list);
+			finalMap.put("iTotalDisplayRecords", searchRowCount);
+			finalMap.put("iTotalRecords", totalRowCount);
 			
 		}
 
@@ -215,7 +220,7 @@ public class DashboardDAO {
 			rs.close();
 			con.close();
 		}
-		return dashboard_list;
+		return finalMap;
 	}
 
 /*	public ResponseVO postDashboarddetails(String json) throws SQLException {

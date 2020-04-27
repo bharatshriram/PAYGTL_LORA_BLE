@@ -130,7 +130,7 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" id="topup" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
+                            <button type="button" id="topup" class="btn btn-primary submit-button btn-raised float-right mr-4" disabled>Submit<div class="ripple-container"></div></button>
                         </div>
                     </div>
                     </form>

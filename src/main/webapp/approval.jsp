@@ -6,8 +6,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
-<link href="common/css/materialize.fontawsome.css"
-	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -20,10 +18,13 @@
 <link rel="stylesheet" href="common/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+	
+	<link rel="stylesheet"
+	href=https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Configuration Details</title>
+<title>Approval Details</title>
 </head>
 
 
@@ -40,20 +41,21 @@
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
-						<h3>Configuration Status</h3>
+						<h3>Approval Details</h3>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
-						<table id="configurationstatusTable"
+						<table id="approvalTable"
 							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>AMR ID</th>
-									<th>Command Type</th>
-									<th>Date</th>
-									<th>Status</th>
+									<th>First Name</th>
+									<th>House Number</th>
+									<th>Email</th>
+									<th>Mobile Number</th>
+									<th>User ID</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -77,11 +79,10 @@
 
 	<script src="common/js/bootstrap.min.js"></script>
 
-
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
-	<script src="js/configuration.js"></script>
+	<script src="js/approval.js"></script>
 	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
@@ -96,7 +97,7 @@
 			$('body').bootstrapMaterialDesign();
 		});
 	</script>
-<script
+	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		
 	<script

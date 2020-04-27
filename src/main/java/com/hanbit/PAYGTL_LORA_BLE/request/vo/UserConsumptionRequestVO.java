@@ -11,7 +11,7 @@ public class UserConsumptionRequestVO {
 
 	private String CRNNumber;
 	private int blockID;
-	private int customerID;
+	private String customerID;
 	private String fromDate;
 	private String toDate;
 	
@@ -28,10 +28,11 @@ public class UserConsumptionRequestVO {
 	public void setBlockID(int blockID) {
 		this.blockID = blockID;
 	}
-	public int getCustomerID() {
+	
+	public String getCustomerID() {
 		return customerID;
 	}
-	public void setCustomerID(int customerID) {
+	public void setCustomerID(String customerID) {
 		this.customerID = customerID;
 	}
 	public String getFromDate() {

@@ -85,9 +85,9 @@
                           </div>
                           
                           <div class="col-md-4">
-                            <div class="input-group form-group">
+                            <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
                               <label class="bmd-label-floating">Command Type</label>
-                               <select class="form-control" id="selectcommandType" name="selectcommandType">
+                               <select class="form-control" id="selectcommandType" name="selectcommandType" onchange="showFieldsBasedONCommand(this.value);">
                                <option style = "color: Red" value="-1" selected>Select Command Type</option>
                                 <option value="-1">Select</option>
                                  <option value="5">RTC</option>
@@ -104,17 +104,27 @@
                               </select>
                             </div>
                           </div>
-                          <!-- <div class="col-md-4">
-                            <div class="custom-control custom-checkbox mt-4">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                <label class="custom-control-label" for="defaultUnchecked">Set Tariff</label>
+                          
+                          
+                           <div class="col-md-4" id="conftariff" style = "display  : none">
+                            <div id="formtariff" class="input-group form-group">
+                              <label class="bmd-label-floating">Tariff</label>
+                               <select class="form-control" id="selectTariffName" name="selectTariffName">
+                              </select>
                             </div>
-                          </div> -->
+                          </div>
+                          
+                          <div class="col-md-4" id="confdefaultReading" style = "display:none">
+                            <div id="formdefaultReading" class="input-group form-group">
+                              <label class="bmd-label-floating">Default Reading</label>
+                              <input type="text" class="form-control" id="defaultReading" name="defaultReading">
+                            </div>
+                          </div>
                     </div>
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" id="configuration" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
+                            <button type="button" id="configuration" class="btn btn-primary submit-button btn-raised float-right mr-4" disabled>Submit<div class="ripple-container"></div></button>
                         </div>
                     </div>
                     </form>

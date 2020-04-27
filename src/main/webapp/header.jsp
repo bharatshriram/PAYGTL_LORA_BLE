@@ -37,7 +37,9 @@
 				class="nav-link dropdown-toggle text-white" href="#" id="navbardrop"
 				data-toggle="dropdown"> Setting </a>
 				<div class="dropdown-menu  dropdown-menu-right">
-					<a class="dropdown-item" href="#">Help</a> <a class="dropdown-item"
+					<a class="dropdown-item" href="#">Help</a>
+					<a class="dropdown-item" href="myprofile.jsp">My Profile</a>
+					 <a class="dropdown-item"
 						href="logout.jsp">Logout</a>
 				</div></li>
 		</ul>

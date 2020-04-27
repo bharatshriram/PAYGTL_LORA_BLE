@@ -62,7 +62,7 @@ $(document)
 
 							$('#test').on('status.field.bv', function(e, data) {
 						        formIsValid = true;
-						        $('.input-group.form-group',$(this)).each( function() {
+						        $('.form-group.md-form',$(this)).each( function() {
 						            formIsValid = formIsValid && $(this).hasClass('has-success');
 						            console.log("@@"+formIsValid);
 						        });
@@ -79,7 +79,7 @@ $(document)
 											function() {
 
 												var data1 = {}
-												data1["userID"] = $("#userName")
+												data1["userID"] = $("#username")
 														.val();
 												data1["password"] = $(
 														"#password").val();
@@ -195,7 +195,71 @@ $(document)
 																sessionStorage
 																.setItem(
 																		"ID",
-																		data.userDetails.customerID);
+																		data.userDetails.CRNNumber);
+																
+																sessionStorage
+																.setItem(
+																		"userName",
+																		data.userDetails.userName);
+																
+																var Role = data.userDetails.roleID;
+																		window.location = "LoginAction.jsp?RoleID="
+																				+ Role;
+
+																	} else if (data.userDetails.roleID == 4 ) {
+
+																		sessionStorage
+																				.setItem(
+																						"type",
+																						"SuperSupervisor");
+																		
+																		sessionStorage
+																				.setItem(
+																						"createdByID",
+																						data.userDetails.ID);
+																		
+																		sessionStorage
+																		.setItem(
+																				"ID",
+																				0);
+																		
+																		sessionStorage
+																		.setItem(
+																				"userName",
+																				data.userDetails.userName);
+																		
+																		sessionStorage
+																		.setItem(
+																				"roleID",
+																				data.userDetails.roleID);
+																		
+																		var Role = data.userDetails.roleID;
+
+																		window.location = "LoginAction.jsp?RoleID="
+																				+ Role;
+																	}else if (data.userDetails.roleID == 5) {
+																		sessionStorage
+																		.setItem(
+																		"communityID",
+																		data.userDetails.communityID);
+																		sessionStorage
+																		.setItem(
+																				"type",
+																				"AdminSuperviour");
+																sessionStorage
+																		.setItem(
+																				"createdByID",
+																				data.userDetails.ID);
+																
+																sessionStorage
+																.setItem(
+																		"roleID",
+																		data.userDetails.roleID);
+																
+																sessionStorage
+																.setItem(
+																		"ID",
+																		data.userDetails.blockID);
 																
 																sessionStorage
 																.setItem(
@@ -211,7 +275,8 @@ $(document)
 																} else if(data.result == "Failure"){
 
 																	document.querySelector(".errorMessage").innerText="";
-																	var error = document.createElement("h1");
+																	var error = document.createElement("h6");
+																	error.class = "error";
 																	error.innerText = data.Message;
 																	document.querySelector(".errorMessage").appendChild(error);
 																	

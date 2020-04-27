@@ -2,13 +2,13 @@
  * 
  */
 
-
 $(document)
 		.ready(
 				function() {
-					$('#configurationDetails').bootstrapValidator(
-{
-feedbackIcons : {
+					$('#configurationDetails')
+							.bootstrapValidator(
+									{
+										feedbackIcons : {
 											valid : 'glyphicon glyphicon-ok',
 											invalid : 'glyphicon glyphicon-remove',
 											validating : 'glyphicon glyphicon-refresh'
@@ -46,10 +46,33 @@ feedbackIcons : {
 													}
 												}
 											},
-											selectcommandType : {
+											/*selectcommandType : {
 												validators : {
 													notEmpty : {
 														message : 'Please select your native language.'
+													}
+												}
+											},*/
+											/*selectTariffName : {
+												validators : {
+													notEmpty : {
+														message : 'Please select your Tariff language.'
+													}
+												}
+											},*/
+											defaultReading : {
+												message : 'The Default Reading is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The Default Reading is required and cannot be empty'
+													},stringLength : {
+														min : 2,
+														max : 30,
+														message : 'The Default Reading must be more than 2 and less than 30 characters long'
+													},
+													regexp : {
+														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+														message : 'The Default Reading can only consist of number'
 													}
 												}
 											}
@@ -83,7 +106,17 @@ feedbackIcons : {
 					$("#configuration")
 							.click(
 									function() {
-
+alert ($(
+"#selectcommandType").val());
+										if($(
+										"#selectcommunityName").val() == "Select Tariff"){
+											
+										}else {
+											
+										}
+										
+										
+										
 										var data1 = {}
 
 										data1["communityID"] = $(
@@ -96,16 +129,16 @@ feedbackIcons : {
 												.val();
 										data1["meterID"] = $("#AMR_topup")
 												.val();
-										data1["commandType"] = $("#selectcommandType").val();
+										data1["commandType"] = $(
+												"#selectcommandType").val();
 										data1["source"] = "web"
 
-alert("===>"
-+ JSON.stringify(data1));
-$
-.ajax({
+										alert("===>" + JSON.stringify(data1));
+										$
+												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/configuration/add",
+													url : "/PAYGTL_LORA_BLE/configuration/add1",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -153,110 +186,133 @@ $
 																			function(
 																					result) {
 
-																				//alert();
+																				// alert();
 																				window.location = "configuration.jsp";
 																				return false
 																			});
 														}
 													}
 												});
-return false;
-});
-});
+										return false;
+									});
+				});
 
+$(document)
+		.ready(
+				function() {
+					table = $('#configurationstatusTable')
+							.DataTable(
+									{
+										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>"
+												+ "<'row'<'col-sm-12'tr>>"
+												+ "<'row'<'col-sm-12'p<br/>i>>",
+										"responsive" : true,
+										"processing" : true,
+										"serverSide" : true,
+										"bDestroy" : true,
+										"bPaginate" : true,
+										"pagging" : true,
+										"bProcessing" : true,
+										"ordering" : true,
+										"order" : [ 0, "desc" ],
+										"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+										"pageLength" : 5,
+										"scrollY" : 324,
+										"scrollX" : true,
+										"ajax" : {
+											"url" : "/PAYGTL_LORA_BLE/configuration/"
+													+ sessionStorage
+															.getItem("roleID")
+													+ "/"
+													+ sessionStorage
+															.getItem("ID"),
+											"type" : "GET",
+											"data" : function(search) {
+											},
+											"complete" : function(json) {
+												console.log(json);
+												return json.data;
+											},
+										},
+										"columns" : [
+												/*
+												 * { "data" : "communityName"
+												 * },{ "data" : "blockName" },{
+												 * "data" : "houseNumber" },
+												 */{
+													"data" : "meterID"
+												},
+												{
+													"data" : "commandType"
+												},
+												{
+													"data" : "modifiedDate"
+												},
+												{
+													"data" : "status"
+												},
+												{
+													"mData" : "action",
+													"render" : function(data,
+															type, row) {
 
+														/*
+														 * <button type="button"
+														 * class="btn btn-raised
+														 * btn-primary
+														 * float-right"
+														 * data-toggle="modal"
+														 * data-target="#exampleModal">
+														 * <i class="fa
+														 * fa-user"></i>
+														 * </button>
+														 */
+														// return "<a
+														// href='#communityEditModal'
+														// class='teal
+														// modal-trigger'
+														// data-toggle='modal'
+														// data-target='#communityEditModal'
+														// id='communityEditModal'
+														// onclick='getSocietyFormEdit("+row.communityID+")'><i
+														// class='material-icons'
+														// style='color:#17e9e9'>edit</i></a>"
+														return "<a onclick='getDeleteTransactionID("
+																+ row.transactionID
+																+ ")'>"
+																+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																+ "</a>"
+													}
+												} ],
+										"columnDefs" : [ {
+											orderable : false,
+											targets : [ 0 ]
+										}, {
+											orderable : false,
+											targets : [ 1 ]
+										} ],
+										"buttons" : [
+										/*
+										 * 'csvHtml5', 'excelHtml5', 'pdfHtml5'
+										 */
 
+										{
+											extend : 'excel',
+											footer : 'true',
+											text : 'Excel',
+											title : 'Configuration Status'
+										},
 
+										{
+											extend : 'pdf',
+											footer : 'true',
+											exportOptions : {
+												columns : [ 1, 2, 3 ]
+											},
+											text : 'pdf',
+											orientation : 'landscape',
+											title : 'Configuration Status'
+										} ]
 
-$(document).ready(function() {
-table = $('#configurationstatusTable')
-.DataTable(
-{
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
-	"responsive" : true,
-	"processing" : true,
-	"serverSide" : true,
-	"bDestroy" : true,
-	"bPaginate": true,
-	"pagging" : true,
-	"bProcessing" : true,
-	"ordering" : true,
-	"order" : [ 0, "desc" ],
-	"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-	"pageLength" : 5,
-	"scrollY" : 324,
-	"scrollX" : true,
-						"ajax" : {
-							"url" : "/PAYGTL_LORA_BLE/configuration/"
-									+ sessionStorage.getItem("roleID") + "/"
-									+ sessionStorage.getItem("ID"),
-							"type" : "GET",
-							"data" : function(search) {
-							},
-							"complete" : function(json) {
-								console.log(json);
-								return json.data;
-							},
-						},
-						"columns" : [
-						/*{
-						 "data" : "communityName"
-						 },{
-						 "data" : "blockName"
-						 },{
-						 "data" : "houseNumber"
-						 },*/{
-							"data" : "meterID"
-						}, {
-							"data" : "commandType"
-						}, {
-							"data" : "modifiedDate"
-						}, {
-							"data" : "status"
-						},{
-							"mData" : "action",
-							"render" : function(data, type, row) {
-								
-								/*<button type="button"
-									class="btn btn-raised btn-primary float-right"
-									data-toggle="modal" data-target="#exampleModal">
-									<i class="fa fa-user"></i>
-								</button>*/
-							//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-								
-								return "<a onclick='getDeleteTransactionID("
-																							+ row.transactionID
-																							+ ")'>"
-																							+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
-																							+ "</a>"
-							}
-							} ],
-							"columnDefs" : [ {
-								orderable : false,
-								targets : [ 0 ]
-							},
-							{
-								orderable : false,
-								targets : [ 1 ]
-							}], "buttons": [
-							   /* 'csvHtml5',
-							'excelHtml5',
-						'pdfHtml5'*/
-							
-							{extend: 'excel',
-						        footer: 'true',
-						        text: 'Excel',
-						        title:'Configuration Status'  },
-						         
-						        {extend: 'pdf',
-						        footer: 'true',
-						        exportOptions: {
-						            columns: [1,2,3]
-						        },
-						        text: 'pdf',
-						        orientation: 'landscape',
-						        title:'Configuration Status'  }
-						]
-					
-					});
-		});
+									});
+				});
