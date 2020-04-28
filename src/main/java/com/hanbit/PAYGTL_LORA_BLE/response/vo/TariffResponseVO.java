@@ -17,7 +17,7 @@ public class TariffResponseVO {
 	private String emergencyCredit;
 	private String alarmCredit;
 	private String fixedCharges;
-	private String RegisteredDate;
+	private String modifiedDate;
 	private List<TariffResponseVO> data;
 	
 	public int getTariffID() {
@@ -50,11 +50,12 @@ public class TariffResponseVO {
 	public void setFixedCharges(String fixedCharges) {
 		this.fixedCharges = fixedCharges;
 	}
-	public String getRegisteredDate() {
-		return RegisteredDate;
+
+	public String getModifiedDate() {
+		return modifiedDate;
 	}
-	public void setRegisteredDate(String RegisteredDate) {
-		this.RegisteredDate = RegisteredDate;
+	public void setModifiedDate(String modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 	public List<TariffResponseVO> getData() {
 		return data;

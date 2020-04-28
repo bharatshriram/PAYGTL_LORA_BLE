@@ -50,7 +50,7 @@ public class LoginDAO {
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(
-					"SELECT ID, UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CRNNumber FROM user where UserID = ? AND UserPassword = ?");
+					"SELECT u.ID, u.UserID, u.UserName, u.UserPassword, u.RoleID, u.ActiveStatus, u.CommunityID, u.BlockID, u.CustomerID, u.CRNNumber, b.BlockName, b.Email AS bemail, b.MobileNumber AS bmobile, cmd.MobileNumber AS cmobile, cmd.Email AS cemail FROM USER AS u LEFT JOIN block AS b ON b.BlockID = u.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = u.CRNNumber WHERE u.UserID = ? AND u.UserPassword = ?");
 			pstmt.setString(1, loginvo.getUserID());
 			pstmt.setString(2, loginvo.getPassword());
 			resultSet = pstmt.executeQuery();
@@ -60,8 +60,14 @@ public class LoginDAO {
 
 					if (loginvo.getPassword().equals(resultSet.getString("UserPassword"))) {
 
-							userDetails.setroleID(resultSet.getInt("RoleID"));
+							userDetails.setRoleID(resultSet.getInt("RoleID"));
 							userDetails.setBlockID(resultSet.getInt("BlockID"));
+							
+							userDetails.setEmail((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5) ? resultSet.getString("bemail") : (userDetails.getRoleID() == 3) ? resultSet.getString("cemail") : "");
+							userDetails.setMobileNumber((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5) ? resultSet.getString("bmobile") : (userDetails.getRoleID() == 3) ? resultSet.getString("cmobile") : "");
+							
+							if(userDetails.getRoleID() == 3) 
+							
 							userDetails.setCustomerID(resultSet.getInt("CustomerID"));
 							userDetails.setCRNNumber(resultSet.getString("CRNNumber"));
 							userDetails.setuserName(resultSet.getString("UserName"));
@@ -72,7 +78,7 @@ public class LoginDAO {
 								pstmt1.setInt(1, userDetails.getCustomerID());
 								resultSet1 = pstmt1.executeQuery();
 								if(resultSet1.next()) {
-									userDetails.setPendingCommandID(resultSet1.getInt("CommandType"));
+									userDetails.setPendingCommandType(resultSet1.getInt("CommandType"));
 									userDetails.setPendingTransactionID(resultSet1.getInt("TransactionID"));
 								}
 							}

@@ -4,9 +4,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,17 +35,12 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/community/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CommunityResponseVO communityResponsevo = new CommunityResponseVO();
 		
-		communityResponsevo.setData(communitysetupdao.getCommunitydetails(roleid, id, req));
-		
-		communityResponsevo.setRecordsFiltered(0);
-		communityResponsevo.setDraw(0);
-		communityResponsevo.setiTotalDisplayRecords(communityResponsevo.getData().get((communityResponsevo.getData().size() == 0) ? 0 : communityResponsevo.getData().size()-1).getiTotalDisplayRecords());
-		communityResponsevo.setiTotalRecords(communityResponsevo.getData().get((communityResponsevo.getData().size() == 0) ? 0 : communityResponsevo.getData().size()-1).getiTotalRecords());
+		communityResponsevo.setData(communitysetupdao.getCommunitydetails(roleid, id));
 
 		return communityResponsevo;
 	}
@@ -104,17 +96,12 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/block/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		BlockResponseVO blockresponsevo = new BlockResponseVO();
 
-		blockresponsevo.setData(communitysetupdao.getBlockdetails(roleid, id, req));
-		
-		blockresponsevo.setRecordsFiltered(0);
-		blockresponsevo.setDraw(0);
-		blockresponsevo.setiTotalDisplayRecords(blockresponsevo.getData().get((blockresponsevo.getData().size() == 0) ? 0 : blockresponsevo.getData().size()-1).getiTotalDisplayRecords());
-		blockresponsevo.setiTotalRecords(blockresponsevo.getData().get((blockresponsevo.getData().size() == 0) ? 0 : blockresponsevo.getData().size()-1).getiTotalRecords());
+		blockresponsevo.setData(communitysetupdao.getBlockdetails(roleid, id));
 
 		return blockresponsevo;
 	}
@@ -192,18 +179,12 @@ public class CommunitySetUpController {
 
 	@RequestMapping(value = "/customer/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, HttpServletRequest req) throws SQLException {
+	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
 		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
 
-		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id, req));
-		
-		customerresponsevo.setRecordsFiltered(0);
-		customerresponsevo.setDraw(0);
-		customerresponsevo.setiTotalDisplayRecords(customerresponsevo.getData().get((customerresponsevo.getData().size() == 0) ? 0 : customerresponsevo.getData().size()-1).getiTotalDisplayRecords());
-		customerresponsevo.setiTotalRecords(customerresponsevo.getData().get((customerresponsevo.getData().size() == 0) ? 0 : customerresponsevo.getData().size()-1).getiTotalRecords());
-
+		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id));
 
 		return customerresponsevo;
 	}
@@ -384,21 +365,5 @@ public class CommunitySetUpController {
 
 		return responsevo;
 	}
-	
-	/*@RequestMapping(value="/dowhile/{meterid}/{id}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody ResponseEntity<TataResponseVO> dowhile(@PathVariable("meterid") String meterid, @PathVariable("id") String id) throws SQLException, IOException {
-		
-		ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
-		RestCallVO restcallvo = new RestCallVO();
-		
-		restcallvo.setMeterID(meterid.toLowerCase());
-		restcallvo.setDataFrame("ChgASBECDAAjQ8gAAEEgAABBoAAAQkgAABc=");
-		restcallvo.setUrlExtension("/payloads/dl/");
-		restcallvo.setTataTransactionID(id);
-		
-		ResponseEntity<TataResponseVO> restcallresponse = extramethodsdao.restcallget(restcallvo);
-		
-		return restcallresponse;
-	}*/
 	
 }
