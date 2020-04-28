@@ -32,7 +32,6 @@
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 
-		System.out.println("======>" + user_id);
 	%>
 
 	<%

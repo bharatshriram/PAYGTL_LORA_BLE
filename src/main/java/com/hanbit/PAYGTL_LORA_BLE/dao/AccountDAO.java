@@ -145,7 +145,7 @@ public class AccountDAO {
 			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 			ps = con.prepareStatement(sql);
 			
-			ps.setLong(1, topUpRequestVO.getTransactionIDForTata());					
+			ps.setLong(1, topUpRequestVO.getTransactionIDForTata());
 			ps.setInt(2, rs.getInt("CommunityID")); 
 			ps.setInt(3, rs.getInt("BlockID"));
 			ps.setInt(4, rs.getInt("CustomerID"));
@@ -193,7 +193,7 @@ public class AccountDAO {
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CRNNumber = "+id:""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CRNNumber = '"+id+"'" :""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -616,13 +616,14 @@ public class AccountDAO {
 						configurationvo.setCustomerID(rs1.getInt("CustomerID"));
 					}
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, Source, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
 					ps.setLong(1, tataResponseVO.getId());
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
 					ps.setInt(5, tataResponseVO.getTransmissionStatus());
 					ps.setString(6, configurationvo.getCRNNumber());
+					ps.setString(7, configurationvo.getSource());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";

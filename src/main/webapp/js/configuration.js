@@ -163,24 +163,24 @@ $(document)
 											}
 										
 										data1["communityID"] = $(
-												"#selectcommunityName").val();
+										"#selectcommunityName").val();
 										data1["blockID"] = $(
-												"#selectBlockBasedonCommunity")
-												.val();
-										data1["customerID"] = $(
-												"#selectHouseBasedonBlock")
-												.val();
-									//	data1["meterID"] = $("#selectcommandType").val()
+										"#selectBlockBasedonCommunity")
+										.val();
+										data1["CRNNumber"] = $(
+										"#selectHouseBasedonBlock")
+										.val();
+										data1["meterID"] = $("#AMR_topup").val()
 										data1["commandType"] = $(
-												"#selectcommandType").val();
-										data1["source"] = "web"
+										"#selectcommandType").val();
+										data1["source"] = "web";
 
 										
 										$
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/configuration/add1",
+													url : "/PAYGTL_LORA_BLE/configuration/add",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
