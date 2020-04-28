@@ -133,16 +133,16 @@ function showFieldsBasedONCommand(id){
 	
 	if(id=="6"){
 		$("#confdefaultReading").show();
-		$("#conftariff").hide();
-		$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		/*$("#conftariff").hide();
+		$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");*/
 		//$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
 		
 		}else if(id =="10")
 		{
 		$("#conftariff").show();
 		$("#confdefaultReading").hide();		
-		$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
-		$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		/*$("#formtariff").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+		$("#formdefaultReading").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");*/
 		}	else {
 			$("#conftariff").hide();
 			$("#confdefaultReading").hide();

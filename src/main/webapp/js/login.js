@@ -101,7 +101,7 @@ $(document)
 																				.stringify(data));*/
 																if (data.result == "Success") {
 
-																	sessionStorage.setItem("userID",$("#userName").val());
+																	sessionStorage.setItem("userID",$("#username").val());
 																	
 																	if (data.userDetails.roleID == 1) {
 
@@ -285,4 +285,58 @@ $(document)
 														});
 												return false;
 											});
+							
+							
+							
+							
+							
+							$("#forgotButton")
+							.click(
+									function() {
+
+										if($("#forgetusername")
+												.val() == null || $("#forgetusername")
+												.val() == ""){
+											bootbox
+											.alert("Enter User ID");
+											return false;
+										}
+										
+										
+										/*var data1 = {}
+										data1["userID"] = $("#forgetusername")
+												.val();
+										data1["password"] = $(
+												"#password").val();*/
+										$.ajax({
+											type : "POST",
+											contentType : "application/json",
+											url : "/PAYGTL_LORA_BLE/forgotpassword/" + $("#forgetusername")
+											.val(),
+											dataType : "JSON",
+											success : function(data) {
+												alert("===>" + JSON.stringify(data));
+												if (data.result == "Success") {
+													bootbox.alert("Successfully Sent to Your Register Mail ID",
+															function(
+																	result) {
+																	
+														//alert();
+														window.location = "login.jsp";
+														return false
+														
+																});
+
+												} else {
+													bootbox
+													.alert(data.Message);
+													return false;
+												}
+											}
+										});
+										return false;
+									});
+							
+							
+							
 						});

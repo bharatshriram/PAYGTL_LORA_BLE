@@ -53,7 +53,7 @@
             <div class="card">
                 <div class="card-header bg-primary cardHeading">Configuration</div>
                 <div class="card-body scroll right-block">
-                <form id="configurationDetails">
+                <form id="configurationDetails1">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
@@ -86,7 +86,7 @@
                           
                           <div class="col-md-4">
                             <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-                              <label class="bmd-label-floating">Command Type</label>
+                              <label class="bmd-label-floating">Command Type<sup class="imp">*</sup></label>
                                <select class="form-control" id="selectcommandType" name="selectcommandType" onchange="showFieldsBasedONCommand(this.value);">
                                <option style = "color: Red" value="-1" selected>Select Command Type</option>
                                 <option value="-1">Select</option>
@@ -108,7 +108,7 @@
                           
                            <div class="col-md-4" id="conftariff" style = "display  : none">
                             <div id="formtariff" class="input-group form-group">
-                              <label class="bmd-label-floating">Tariff</label>
+                              <label class="bmd-label-floating">Tariff<sup class="imp">*</sup></label>
                                <select class="form-control" id="selectTariffName" name="selectTariffName">
                               </select>
                             </div>
@@ -116,7 +116,7 @@
                           
                           <div class="col-md-4" id="confdefaultReading" style = "display:none">
                             <div id="formdefaultReading" class="input-group form-group">
-                              <label class="bmd-label-floating">Default Reading</label>
+                              <label class="bmd-label-floating">Default Reading<sup class="imp">*</sup></label>
                               <input type="text" class="form-control" id="defaultReading" name="defaultReading">
                             </div>
                           </div>
@@ -124,7 +124,8 @@
                     
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="button" id="configuration" class="btn btn-primary submit-button btn-raised float-right mr-4" disabled>Submit<div class="ripple-container"></div></button>
+                            <button type="button" id="configuration" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit
+                            <div class="ripple-container"></div></button>
                         </div>
                     </div>
                     </form>

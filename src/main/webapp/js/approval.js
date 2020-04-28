@@ -94,7 +94,6 @@ function getApprovalORRejected (requestId,Id){
 		url : "/PAYGTL_LORA_BLE/approverequest/" + requestId +"/"+Id,
 		dataType : "JSON",
 		success : function(data) {
-			alert("Success====" + data);
 			if (data.result == "Success") {
 				bootbox.alert("Successfully Approved",
 						function(

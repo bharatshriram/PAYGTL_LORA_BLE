@@ -13,7 +13,7 @@ $(document)
 												"#selectcommunityName")
 												.val();
 
-										alert($("#selectBlockBasedonCommunity").val());
+										//alert($("#selectBlockBasedonCommunity").val());
 										
 										if ($("#selectcommunityName").val() == "-1") {
 											
