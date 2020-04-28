@@ -67,7 +67,7 @@ $(document)
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										alert("===>" + JSON.stringify(data1));
+										/*alert("===>" + JSON.stringify(data1));*/
 										$
 												.ajax({
 													type : "POST",
@@ -78,9 +78,9 @@ $(document)
 													dataType : "JSON",
 
 													success : function(d) {
-														alert("data"
+														/*alert("data"
 																+ JSON
-																		.stringify(d));
+																		.stringify(d));*/
 														//if (data.result == "Success") {
 														
 														$("#form").hide();
@@ -90,8 +90,8 @@ $(document)
 																	{
 																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 																		"responsive" : true,
-																		"processing" : true,
-																		"serverSide" : true,
+																		/*"processing" : true,*/
+																		"serverSide" : false,
 																		"bDestroy" : true,
 																		"bPaginate": true,
 																		"pagging" : true,

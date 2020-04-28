@@ -16,8 +16,8 @@ $(document)
 												    },
 												 
 												 "responsive" : true,
-													"processing" : true,
-													"serverSide" : true,
+													/*"processing" : true,*/
+													"serverSide" : false,
 													"bDestroy" : true,
 													"bPaginate": true,
 													"pagging" : true,
@@ -86,8 +86,6 @@ $(document)
 
 
 function getApprovalORRejected (requestId,Id){
-	alert(requestId+"@"+Id);
-	
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
@@ -116,7 +114,4 @@ function getApprovalORRejected (requestId,Id){
 			}
 		}
 	});
-	
-	
-	
 } 

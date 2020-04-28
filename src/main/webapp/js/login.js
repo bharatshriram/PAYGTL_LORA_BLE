@@ -83,8 +83,6 @@ $(document)
 														.val();
 												data1["password"] = $(
 														"#password").val();
-												alert("===>"
-														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
@@ -163,6 +161,16 @@ $(document)
 																		"userName",
 																		data.userDetails.userName);
 																
+																sessionStorage
+																.setItem(
+																		"mobileNumber",
+																		data.userDetails.mobileNumber);
+																
+																sessionStorage
+																.setItem(
+																		"email",
+																		data.userDetails.email);
+																
 																var Role = data.userDetails.roleID;
 																		window.location = "LoginAction.jsp?RoleID="
 																				+ Role;
@@ -201,6 +209,16 @@ $(document)
 																.setItem(
 																		"userName",
 																		data.userDetails.userName);
+																
+																sessionStorage
+																.setItem(
+																		"mobileNumber",
+																		data.userDetails.mobileNumber);
+																
+																sessionStorage
+																.setItem(
+																		"email",
+																		data.userDetails.email);
 																
 																var Role = data.userDetails.roleID;
 																		window.location = "LoginAction.jsp?RoleID="

@@ -4,12 +4,20 @@
 
 
 $(document).ready(function() {
+	
+	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
+		$("#blockAddButton").show();
+	}else{
+		$("#customerAddd").remove();
+		
+	}
+	
 table = $('#customerTable')
 .DataTable(
 {//'Pfrtip'
 	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
-	"processing" : true,
+	/*"processing" : true,*/
 	"serverSide" : false,
 	"bDestroy" : true,
 	"bPaginate": true,
@@ -83,7 +91,7 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets : [ 0 ]
+	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 },
 {
 	orderable : false,
@@ -502,8 +510,8 @@ $(document)
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
 												data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
 												
-												alert("===>"
-														+ JSON.stringify(data1));
+												/*alert("===>"
+														+ JSON.stringify(data1));*/
 												$
 														.ajax({
 															type : "POST",
@@ -515,9 +523,9 @@ $(document)
 
 															success : function(
 																	data) {
-																alert("data"
+																/*alert("data"
 																		+ JSON
-																				.stringify(data));
+																				.stringify(data));*/
 																if (data.result == "Success") {
 
 																	/*alert( "data"
@@ -587,8 +595,8 @@ $(document)
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
 										data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
 								
-										alert("===>"
-												+ JSON.stringify(data1));
+										/*alert("===>"
+												+ JSON.stringify(data1));*/
 										$
 												.ajax({
 													type : "POST",

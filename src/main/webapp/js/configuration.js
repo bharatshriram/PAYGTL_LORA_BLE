@@ -175,7 +175,7 @@ $(document)
 												"#selectcommandType").val();
 										data1["source"] = "web"
 
-										alert("===>" + JSON.stringify(data1));
+										
 										$
 												.ajax({
 													type : "POST",
@@ -186,9 +186,7 @@ $(document)
 													dataType : "JSON",
 
 													success : function(data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
+														
 														if (data.result == "Success") {
 
 															/*
@@ -249,8 +247,8 @@ $(document)
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-12'p<br/>i>>",
 										"responsive" : true,
-										"processing" : true,
-										"serverSide" : true,
+										/*"processing" : true,*/
+										"serverSide" : false,
 										"bDestroy" : true,
 										"bPaginate" : true,
 										"pagging" : true,
@@ -328,7 +326,7 @@ $(document)
 												} ],
 										"columnDefs" : [ {
 											orderable : false,
-											targets : [ 0 ]
+											targets : 5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 										}, {
 											orderable : false,
 											targets : [ 1 ]

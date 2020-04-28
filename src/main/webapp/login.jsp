@@ -76,7 +76,7 @@
                
                </form>
                 <!-- Login Form -->
-
+	<div class="errorMessage" style = "color : Red"></div>
               </div>
             </div>
             <!-- Front Side -->

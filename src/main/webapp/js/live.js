@@ -69,7 +69,7 @@ $(document)
 												    
 /*												    destroy: true,
 */												    processing: true,
-												    serverSide: true,
+												    serverSide: false,
 												    fixedColumns    : true
 												    ,autoWidth  : true
 												    ,responsive : true
@@ -166,7 +166,7 @@ $(document)
 													"data" : "valveStatus"
 												},
 												{
-													"data" : "tariffName",
+													"data" : "tariff",
 													"defaultContent": "",
 													orderable: false 
 												},

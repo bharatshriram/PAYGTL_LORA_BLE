@@ -7,7 +7,7 @@ $(document).ready(function() {
 table = $('#alertTable')
 .DataTable(
 {
-"processing" : false,
+/*"processing" : false,*/
 "serverSide" : false,
 "bDestroy" : true,
 "pagging" : true,
@@ -41,17 +41,31 @@ return json.data;
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		return "<a href=# id=alertEdit data-toggle=modal data-target=#myAlertEdit onclick='getAlertFormEdit("
+		/*return "<a href=# id=alertEdit data-toggle=modal data-target=#myAlertEdit onclick='getAlertFormEdit("
 																	+ row.alertID
 																	+ ")'>"
-																	+ "EDIT"
+																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																	+ "</a>"*/
+																	
+																	return "<a href=# id=alertEdit data-toggle=modal data-target=#myAlertEdit onclick='getAlertFormEdit("
+																	+ row.alertID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a>"
 	}
 	}
 
 
 
-]
+],
+"columnDefs" : [ {
+	orderable : false,
+	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+},
+{
+	orderable : false,
+	targets : [ 1 ]
+}]
 });
 });
 

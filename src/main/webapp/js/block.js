@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -8,17 +9,16 @@ $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 1){
 		$("#blockAddButton").show();
 	}else{
-		$("#blockAddButton").hide();
+		$("#blockAddButton").remove();
 		
 	}
-	
 table = $('#blockTable')
 .DataTable(
 {
 "dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 "responsive" : true,
-"processing" : true,
-"serverSide" : true,
+/*"processing" : true,*/
+"serverSide" : false,
 "bDestroy" : true,
 "bPaginate": true,
 "pagging" : true,
@@ -81,7 +81,7 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets : [ 0 ]
+	targets: 5, visible:  ((sessionStorage.getItem("roleID") == 1) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))  
 },
 {
 	orderable : false,
@@ -422,8 +422,8 @@ $(document)
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
 										data1["roleID"] = sessionStorage.getItem("roleID");
 								
-										alert("===>"
-												+ JSON.stringify(data1));
+										/*alert("===>"
+												+ JSON.stringify(data1));*/
 										$
 												.ajax({
 													type : "POST",
@@ -477,7 +477,7 @@ $(document)
 
 function getBlockFormEdit(id) {
 
-  alert(id);
+ // alert(id);
 
 	$.getJSON("/PAYGTL_LORA_BLE/block/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
 		$.each(data.data, function(i, item) {

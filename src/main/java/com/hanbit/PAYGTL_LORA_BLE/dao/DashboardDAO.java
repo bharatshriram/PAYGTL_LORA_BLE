@@ -61,7 +61,7 @@ public class DashboardDAO {
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
 			
-			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
@@ -78,6 +78,7 @@ public class DashboardDAO {
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
+				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
