@@ -30,6 +30,10 @@ public class DashboardResponseVO {
 	private String timeStamp;
 	private String dateColor;
 	private String batteryColor;
+	private int nonCommunicating;
+	private int communicating;
+	private int total;
+	private String communicationStatus;
 	
 	private List<DashboardResponseVO> data;
 
@@ -202,6 +206,38 @@ public class DashboardResponseVO {
 
 	public void setData(List<DashboardResponseVO> data) {
 		this.data = data;
+	}
+
+	public int getNonCommunicating() {
+		return nonCommunicating;
+	}
+
+	public void setNonCommunicating(int nonCommunicating) {
+		this.nonCommunicating = nonCommunicating;
+	}
+
+	public int getCommunicating() {
+		return communicating;
+	}
+
+	public void setCommunicating(int communicating) {
+		this.communicating = communicating;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
+	}
+
+	public String getCommunicationStatus() {
+		return communicationStatus;
+	}
+
+	public void setCommunicationStatus(String communicationStatus) {
+		this.communicationStatus = communicationStatus;
 	}
 
 }
