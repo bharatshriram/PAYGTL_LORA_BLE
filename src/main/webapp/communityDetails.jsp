@@ -136,13 +136,13 @@
 							</div>
 
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="communityAdd"
-									type="button" disabled></input>
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="communityAdd"
+									type="button" disabled>Save</button>
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
@@ -200,13 +200,13 @@
 							</div>
 
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="communityEditsave"
-									type="button" disabled />
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="communityEditsave"
+									type="button" disabled>Save</button>
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>

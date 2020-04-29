@@ -16,7 +16,7 @@ html,body{
 .submit-button
 {
 color: #fff !important;
-    background-color: #6c757d !important;
+    background-color: #69c17f !important;
     border-color: #6c757d !important;
     float : right !important;
 }
@@ -307,7 +307,7 @@ option:first-child
   font-size: 14px;
 }
 body {
-	font-size : 12px;
+	font-size : 14px;
 }
 .icon:before	{
  font-family: FontAwesome;

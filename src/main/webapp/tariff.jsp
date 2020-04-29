@@ -27,7 +27,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 
 	<%
 		String user_id = (String) session.getAttribute("roleID");
@@ -146,13 +146,16 @@
 							<div class="col-md-6"></div>
 
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
+								<!-- <input class="btn btn-lg btn-success submit-button"
 									style="width: 100%;" value="Save!" id="tariffAdd" type="button"
-									disabled></input>
+									disabled></input> -->
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="tariffAdd"
+									type="button" disabled>Save</button>
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
@@ -219,15 +222,17 @@
 										id="fixedChargeEdit">
 								</div>
 							</div>
-
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="tariffEditsave"
-									type="button" disabled />
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button class="btn btn-secondary submit-button"
+									 value="Save!" id="tariffEditsave"
+									type="button" disabled>Save</button>
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>

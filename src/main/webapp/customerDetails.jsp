@@ -211,13 +211,13 @@
 							
 							</div>
 							<div class="col-md-6">
-								<input class="btn btn-success submit-button"
+									<button class="btn btn-secondary submit-button"
 									 value="Save!" id="customerAdd"
-									type="button" disabled></input>
+									type="button" disabled>Save</button>
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
