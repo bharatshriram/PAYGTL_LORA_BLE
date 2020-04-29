@@ -50,7 +50,7 @@
                   <i class="fas fa-lock prefix icon_colors d-flex"></i>
                   <input type="password" name="password" id="password" class="form-control">
                   <label for="password" class="bmd-label-floating">Your password</label>
-                  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                  <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                 </div>
 
                 
@@ -76,7 +76,7 @@
                
                </form>
                 <!-- Login Form -->
-
+	<div class="errorMessage" style = "color : Red"></div>
               </div>
             </div>
             <!-- Front Side -->
@@ -92,15 +92,15 @@
 								<!-- forgot  password-->
                   <div class="md-form">
                     <i class="fas fa-envelope prefix icon_colors d-flex"></i>
-                    <input type="email" name="email" class="form-control">
-                    <label for="email" class="bmd-label-floating">Your email</label>
+                    <input type="text" name="forgetusername" id = "forgetusername" class="form-control">
+                    <label for="email" class="bmd-label-floating">User ID</label>
                   </div>
                   <div class="d-flex justify-content-end">
                     <!-- Triggering button -->
                     <a class="rotate-btn text-white" data-card="my-card" tabindex="-3">back to login</a>
                   </div>
                   <div class="text-center">
-                    <button type="sumbit" class="btn login_btn newpwd_btn">Submit</button>
+                    <button type="button" class="btn login_btn newpwd_btn" id="forgotButton">Submit</button>
                   </div>
                 </div>
                   <!--forgot  password-->
@@ -202,13 +202,17 @@
 <script type="text/javascript"
 	src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 	
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+	
+	
 	<script src="js/login.js"></script>
 <script>
-  $(".newpwd_btn").click(function(){
+ /*  $(".newpwd_btn").click(function(){
     $(".newpwd").show();
     $(".forgot").hide();
-});
-$(".toggle-password").click(function() {
+}); */
+/* $(".toggle-password").click(function() {
 
 var x = document.getElementById("password");
 if (x.type === "password") {
@@ -216,7 +220,19 @@ if (x.type === "password") {
 } else {
   x.type = "password";
 }
-});
+}); */
+
+$('.toggle-password').on('click', function() {
+	  $(this).toggleClass('fa-eye fa-eye-slash');
+	  let input = $($(this).attr('toggle'));
+	  if (input.attr('type') == 'password') {
+	    input.attr('type', 'text');
+	  }
+	  else {
+	    input.attr('type', 'password');
+	  }
+	});
+	
 </script>  
 
 </body>

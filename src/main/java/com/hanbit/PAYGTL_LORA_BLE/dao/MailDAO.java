@@ -1,6 +1,5 @@
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
-import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.mail.Message;

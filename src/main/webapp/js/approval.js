@@ -16,8 +16,8 @@ $(document)
 												    },
 												 
 												 "responsive" : true,
-													"processing" : true,
-													"serverSide" : true,
+													/*"processing" : true,*/
+													"serverSide" : false,
 													"bDestroy" : true,
 													"bPaginate": true,
 													"pagging" : true,
@@ -86,15 +86,12 @@ $(document)
 
 
 function getApprovalORRejected (requestId,Id){
-	alert(requestId+"@"+Id);
-	
 	$.ajax({
 		type : "POST",
 		contentType : "application/json",
 		url : "/PAYGTL_LORA_BLE/approverequest/" + requestId +"/"+Id,
 		dataType : "JSON",
 		success : function(data) {
-			alert("Success====" + data);
 			if (data.result == "Success") {
 				bootbox.alert("Successfully Approved",
 						function(
@@ -117,7 +114,4 @@ function getApprovalORRejected (requestId,Id){
 			}
 		}
 	});
-	
-	
-	
 } 

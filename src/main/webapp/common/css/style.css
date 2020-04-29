@@ -212,6 +212,11 @@ option:first-child
     padding-right: 10px;
     vertical-align: middle;
 }
+
+.sidebar ul li span{
+	margin-left:10px;
+}
+
 .sidebar ul li .sub-menu li a:hover:after {
     content: "";
     position: absolute;
@@ -228,7 +233,7 @@ option:first-child
 
 	.sidebar.fliph li a .nav-label,.sidebar.fliph li a .nav-label+span{ display:none;transition: all 0.5s  ease-in-out}
 	.sidebar.fliph {
-    width: 42px;transition: all 0.5s  ease-in-out;
+    width: 60px;transition: all 0.5s  ease-in-out;
    
 }
 	

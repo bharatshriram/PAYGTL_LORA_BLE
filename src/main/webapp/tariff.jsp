@@ -6,6 +6,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link href="common/css/materialize.fontawsome.css"
+	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -30,7 +32,6 @@
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 
-		System.out.println("======>" + user_id);
 	%>
 
 	<%
@@ -54,7 +55,7 @@
 						<h3>Tariff Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button"
+						<button type="button" id="tariffAddd"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>

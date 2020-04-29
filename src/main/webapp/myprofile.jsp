@@ -21,7 +21,7 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Top Up</title>
+<title>Profile</title>
 </head>
 
 
@@ -55,49 +55,51 @@
                 <div class="card-body scroll right-block">
                    <div class="row border-bottom p-2">
                        <div class="col-md-3">Name:</div>
-                        <div class="col-md-9">Profile Name</div>
+                        <div class="col-md-9" id="profileName"></div>
                         
                      </div>
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Email:</div>
-                        <div class="col-md-9">Email@gmail.com</div>
+                        <div class="col-md-9" id="email"></div>
                         
                       </div>
                       <div class="row border-bottom p-2">
-                        <div class="col-md-3">Email:</div>
-                        <div class="col-md-9">Email@gmail.com</div>
+                        <div class="col-md-3">Mobile:</div>
+                        <div class="col-md-9" id="mobile"></div>
                         
                       </div>
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-5">xxxxxxx</div>
-                        <div class="col-md-4 change_pwd text-primary"><b>Change Password</b></div>
+                        <div class="col-md-2 change_pwd text-primary"><b style="cursor: pointer;">Change Password</b></div>
                        
                       </div>
                       <div class="row p-2 pwd_block">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-9">
+                        <form id="profile">
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="bmd-label-floating">Old Password</label>
-                              <input type="password" class="form-control">
+                              <label class="bmd-label-floating">Old Password<sup class="imp">*</sup></label>
+                              <input type="password" class="form-control" id="oldpassword" name="oldpassword">
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="bmd-label-floating">New Password</label>
-                              <input type="password" class="form-control">
+                              <label class="bmd-label-floating">New Password<sup class="imp">*</sup></label>
+                              <input type="password" class="form-control" id="newpassword" name="newpassword">
                             </div>
                           </div>
                           <div class="col-md-12">
                             <div class="form-group">
-                              <label class="bmd-label-floating">Conform  Password</label>
-                              <input type="password" class="form-control">
+                              <label class="bmd-label-floating">Confirm  Password<sup class="imp">*</sup></label>
+                              <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
                             </div>
                           </div>
                           <div class="col-md-12 text-right">
-                            <button type="button" class="btn btn-primary btn-raised">Save</button>
+                            <button type="button" class="btn btn-primary btn-raised submit-button" id="profilebutton" disabled>Save</button>
                           </div>
+                          </form>
                         </div>
                        </div>
                  
@@ -128,8 +130,7 @@
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
-	<script src="js/dropdown.js"></script>
-	<script src="js/topup.js"></script>
+	<script src="js/profile.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -162,6 +163,10 @@
 				$('.left ').toggleClass('fliph');
 
 			});
+			
+			document.querySelector("#profileName").innerText = "  "+sessionStorage.getItem("userName");
+			document.querySelector("#mobile").innerText = "  "+sessionStorage.getItem("mobileNumber");
+			document.querySelector("#email").innerText = "  "+sessionStorage.getItem("email");
 
 		});
 	</script>

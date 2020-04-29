@@ -13,7 +13,7 @@ $(document)
 												"#selectcommunityName")
 												.val();
 
-										alert($("#selectBlockBasedonCommunity").val());
+										//alert($("#selectBlockBasedonCommunity").val());
 										
 										if ($("#selectcommunityName").val() == "-1") {
 											
@@ -67,7 +67,7 @@ $(document)
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										alert("===>" + JSON.stringify(data1));
+										
 										$
 												.ajax({
 													type : "POST",
@@ -78,9 +78,7 @@ $(document)
 													dataType : "JSON",
 
 													success : function(d) {
-														alert("data"
-																+ JSON
-																		.stringify(d.data));
+														
 														//if (data.result == "Success") {
 														
 														$("#form").hide();
@@ -90,7 +88,7 @@ $(document)
 																	{
 																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 																		"responsive" : true,
-																		"processing" : true,
+																		/*"processing" : true,*/
 																		"serverSide" : false,
 																		"bDestroy" : true,
 																		"bPaginate": true,

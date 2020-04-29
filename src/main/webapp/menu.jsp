@@ -16,8 +16,9 @@
 
 	<%
 		if (user_id == null) {
+			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
-		}
+		}else {
 	%>
 
 
@@ -38,54 +39,62 @@
                 <%
 			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	
-				<li> <a href="approval.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">List Of Approval</span></a> </li>
-                <li> <a href="tariff.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Tariff</span></a> </li>
-                <li> <a href="communityDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Community</span></a> </li>
-				<li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
-				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
-                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
-                <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
-                <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
-                <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
-                <li> <a href="alert.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Alerts</span></a> </li>
-               <!--  <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
-                      class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
-                      class="fa fa-chevron-left float-right"></span> </a>
-                  <ul class="sub-menu collapse" id="dashboard">
-                    
-                  </ul>
-                </li> -->
-                
-                <li><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
-                    <li><a href="topupSummary.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Top Up Summary</span></a></li>
-                    <li><a href="financialreports.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Financial Reports</span></a></li>
-                    <li><a href="alarms.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Alarms</span></a></li>
-<li><a href="Mgmt.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Management</span></a></li>                
+                <li> <a href="tariff.jsp"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>
+                <li> <a href="communityDetails.jsp"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
+				<li> <a href="blockDetails.jsp"><img src=common/images/icons/block.png /> <span class="nav-label">Block</span></a> </li>
+				<li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
+                  <%if(user_id.equalsIgnoreCase("1")){ %>
+                <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
+                <%}%>
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                <%if(user_id.equalsIgnoreCase("1")){ %>
+                <li> <a href="configuration.jsp"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
+                <%}%>
+                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails.png /> <span class="nav-label">Configuration Status</span></a> </li>
+                <li> <a href="alert.jsp"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts</span></a> </li>
+                <li><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
+                    <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="financialreports.jsp"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
+                    <li><a href="alarms.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
+				
+				<%if(user_id.equalsIgnoreCase("1")){ %>
+                <li><a href="Mgmt.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">User Management</span></a></li>
+                <%}%>	
+					                
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
- 				<li> <a href="approval.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">List Of Approval</span></a> </li>
-                <li> <a href="blockDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Block</span></a> </li>
-				<li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
-                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
-                <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
-                <li> <a href="configuration.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration</span></a> </li>
-                <li> <a href="configurationStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Configuration Status</span></a> </li>
+ 				<li> <a href="approval.jsp"><img src=common/images/icons/listofapproval.png /></i> <span class="nav-label">List Of Approval</span></a> </li>
+                <li> <a href="blockDetails.jsp"><img src=common/images/icons/block.png /> <span class="nav-label">Block</span></a> </li>
+				<li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
+                
+                <%if(user_id.equalsIgnoreCase("1")){ %>
+                <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
+                <%}%>
+                
+                
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                
+                <%if(user_id.equalsIgnoreCase("1")){ %>
+                <li> <a href="configuration.jsp"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
+                <%}%>
+                
+                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails.png /> <span class="nav-label">Configuration Status</span></a> </li>
                 <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>
                   <ul class="sub-menu collapse" id="dashboard">
-                  <li class=""><a href="userConsumptions.jsp"><i class="fa fa-th-large"></i><span class="nav-label">User Consumptions</span></a></li>
-                    <li><a href="topupSummary.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Top Up Summary</span></a></li>
-                    <li><a href="financialreports.jsp"><i class="fa fa-th-large"></i><span class="nav-label">Financial Reports</span></a></li>
-                    <li><a href="alarms.jsp">Alarms</a></li>
+                  <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
+                    <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="financialreports.jsp"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
+                    <li><a href="alarms.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
                 <% } else if (user_id.equalsIgnoreCase("3")) {%>
                 
-                <li> <a href="customerDetails.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">DashBoard</span></a> </li>
-                <li> <a href="topup.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup</span></a> </li>
-                <li> <a href="topupStatus.jsp"><i class="fa fa-th-large"></i> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
+                <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
                 
                 <% } %>
                 
@@ -136,7 +145,7 @@
           </aside>
         </div>
         <!--sidebar end-->
-
+<%} %>
 <script>
 
 document.querySelector("#userID").innerText = "  "+sessionStorage.getItem("userID");

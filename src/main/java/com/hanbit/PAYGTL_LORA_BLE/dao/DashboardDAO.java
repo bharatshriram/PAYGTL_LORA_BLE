@@ -12,25 +12,15 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.codehaus.jettison.json.JSONObject;
-import org.springframework.util.StringUtils;
-
-import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -49,7 +39,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public Map<String, Object> getDashboarddetails(int roleid, String id, HttpServletRequest req)
+	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -58,7 +48,7 @@ public class DashboardDAO {
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
-		final Map<String, Object> finalMap = new HashMap<>();
+		
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
@@ -70,87 +60,16 @@ public class DashboardDAO {
 				noAMRInterval = rs1.getInt("NoAMRInterval");
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
 			}
-
-			String query = "SELECT DISTINCT dbl.IoTTimeStamp,c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.CRNNumber, dbl.ReadingID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect \r\n" + 
-					"FROM balancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
-
-			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
-
-			String columnNames[] = { "dbl.IoTTimeStamp", "c.CommunityName", "b.BlockName", "cmd.HouseNumber", "cmd.MeterSerialNumber", "dbl.CRNNumber",
-					"dbl.ReadingID", "dbl.EmergencyCredit", "dbl.MeterID", "dbl.Reading", "dbl.Balance", "dbl.BatteryVoltage", "dbl.TariffAmount",
-					"dbl.SolonideStatus", "dbl.TamperDetect" };
-			String columnName = "";
-			String direction = "";
-			String globalSearchUnit = "";
-			String searchSQL = "";
-			String pageNo = req.getParameter("start");
-			String pageSize = req.getParameter("length");
-			Integer initial = null;
-			Integer recordSize = null;
-			String orderByColumnIndex = req.getParameter("order[0][column]");
-
-			columnName = columnNames[Integer.parseInt(orderByColumnIndex)];
-			direction = req.getParameter("order[0][dir]");
-
-			globalSearchUnit = req.getParameter("search[value]");
-
-			if (!StringUtils.isEmpty(pageNo)) {
-				initial = Integer.parseInt(pageNo);
-			}
-			if (!StringUtils.isEmpty(pageNo)) {
-				recordSize = Integer.parseInt(pageSize);
-			}
-			StringBuilder sql = new StringBuilder();
-			sql.append(query);
 			
-			PreparedStatement pstmt3 = con.prepareStatement(query);
-
-			ResultSet rs3 = pstmt3.executeQuery();
-			rs3.beforeFirst();  
-			rs3.last();  
-			Integer totalRowCount =rs3.getRow();
-			
-			String globeSearch = "c.CommunityName like '%" + globalSearchUnit + "%'" + " or b.BlockName like '%"
-					+ globalSearchUnit + "%'" + " or cmd.HouseNumber like '%" + globalSearchUnit
-					+ "%'" + " or cmd.MeterSerialNumber like '%" + globalSearchUnit + "%'" + " or dbl.CRNNumber like '%"
-					+ globalSearchUnit + "%'" + " or dbl.MeterID like '%" + globalSearchUnit + "%'"
-					+ " or dbl.Reading like '%" + globalSearchUnit + "%'" + " or dbl.Balance like '%" + globalSearchUnit
-					+ "%'" + " or dbl.BatteryVoltage like '%" + globalSearchUnit + "%'" + " or dbl.TariffAmount like '%" + globalSearchUnit
-					+ "%'" + " or dbl.IoTTimeStamp like '%" + globalSearchUnit + "%'" + "or dbl.ReadingID like '%" + globalSearchUnit + "%'";
-
-			if (!StringUtils.isEmpty(globalSearchUnit)) {
-				searchSQL = globeSearch;
-			}
-
-			if (!StringUtils.isEmpty(searchSQL)) {
-				sql.append((roleid == 1 || roleid == 4) ? " WHERE " : (roleid == 2 || roleid == 3 || roleid == 5) ? " AND " : "");
-				sql.append(searchSQL);
-				
-			}
-			
-			if (columnName.equalsIgnoreCase("dbl.IoTTimeStamp")) {
-				sql.append(" order by " + columnName + " " + direction);
-			}
-			
-			PreparedStatement pstmt2 = con.prepareStatement(sql.toString());
-
-			ResultSet rs2 = pstmt2.executeQuery();
-			rs2.beforeFirst();  
-			rs2.last();  
-			  //size = rs2.getRow(); 
-			Integer searchRowCount =rs2.getRow();
-			
-			sql.append(" limit " + recordSize + " offset " + initial);
-			
-			pstmt = con.prepareStatement(sql.toString());
-
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
+					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
+		
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CustomerID = '"+id+"'":""));
 			rs = pstmt.executeQuery();
-			//Integer totalRowCount = rs.getFetchSize();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
-
 				dashboardvo.setCommunityName(rs.getString("CommunityName"));
 				dashboardvo.setBlockName(rs.getString("BlockName"));
 				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
@@ -158,12 +77,12 @@ public class DashboardDAO {
 				dashboardvo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
+				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
-				dashboardvo.setTariffName(String.valueOf(rs.getFloat("TariffAmount")));
 				// send tariff id/TariffName after fetching from db
-				dashboardvo.setReading(String.valueOf(rs.getFloat("Reading")));
-				dashboardvo.setBalance(String.valueOf(rs.getFloat("Balance")));
-				dashboardvo.setEmergencyCredit(String.valueOf(rs.getFloat("EmergencyCredit")));
+				dashboardvo.setReading(rs.getFloat("Reading"));
+				dashboardvo.setBalance(rs.getFloat("Balance"));
+				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				
 				if(rs.getInt("SolonideStatus") == 0) {
 					dashboardvo.setValveStatus("OPEN");	
@@ -195,22 +114,9 @@ public class DashboardDAO {
 				}else {
 					dashboardvo.setDateColor("GREEN");
 				}
-
-				dashboardvo.setiTotalDisplayRecords(searchRowCount);
-				dashboardvo.setiTotalRecords(totalRowCount);
+				
 				dashboard_list.add(dashboardvo);
 			}
-
-			/*if(dashboard_list.size() == 0) {
-				dashboardvo = new DashboardResponseVO();
-				dashboardvo.setiTotalDisplayRecords(0);
-				dashboardvo.setiTotalRecords(0);
-				dashboard_list.add(dashboardvo);
-				}*/
-			finalMap.put("data", dashboard_list);
-			finalMap.put("iTotalDisplayRecords", searchRowCount);
-			finalMap.put("iTotalRecords", totalRowCount);
-			
 		}
 
 		catch (Exception ex) {
@@ -220,128 +126,9 @@ public class DashboardDAO {
 			rs.close();
 			con.close();
 		}
-		return finalMap;
+		return dashboard_list;
 	}
 
-/*	public ResponseVO postDashboarddetails(String json) throws SQLException {
-		// TODO Auto-generated method stub
-
-		ResponseVO responsevo = new ResponseVO();
-		TataResponseVO requestvo = new TataResponseVO();
-		DashboardRequestVO dashboardRequestVO = new DashboardRequestVO();
-		String iot_Timestamp = "";
-		PreparedStatement pstmt = null;
-		Connection con = null;
-		ResultSet rsch = null;
-
-		try {
-			
-			con = getConnection();
-
-			Gson gson = new Gson();
-			
-			JSONObject jsonObj = new JSONObject(json);
-			
-			requestvo = gson.fromJson(jsonObj.getJSONObject("m2m:cin").getString("con"), TataResponseVO.class);
-
-				// String guid="CgAAAED/AQAAAAAAAAAAARc=";
-			
-				byte[] decoded = Base64.getDecoder().decode(requestvo.getPayloads_ul().getDataFrame());
-
-				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-						.substring(0, 2);
-
-				if (StartByte.equalsIgnoreCase("0A")) {
-
-					// 0A 00 00 00 00 42 29 01 00 00 00 00 00 00 00 00 00 00 00 00 00 17
-
-					dashboardRequestVO.setMeterID(requestvo.getPayloads_ul().getDeveui());
-
-					String meterReadingbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(2, 10);
-
-					String meterStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(10, 12);
-
-					String batteryStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(12, 14);
-
-					String meterTypebyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(14, 16);
-
-					String creditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(16,
-							24);
-
-					String tariffbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(24,
-							32);
-
-					String emergencyCreditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(32, 40);
-
-					String valveStatusbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(40, 42);
-
-					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
-
-					if (meterStatusbyte.equalsIgnoreCase("40") || meterStatusbyte.equalsIgnoreCase("00")) {
-						dashboardRequestVO.setTamperStatus(0);
-						dashboardRequestVO.setLowBattery(0);
-					} else if (meterStatusbyte.equalsIgnoreCase("42")) {
-						dashboardRequestVO.setTamperStatus(0);
-						dashboardRequestVO.setLowBattery(1);
-					} else if (meterStatusbyte.equalsIgnoreCase("44")) {
-						dashboardRequestVO.setTamperStatus(1);
-						dashboardRequestVO.setLowBattery(0);
-					}
-
-					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(batteryStatusbyte)) * 3.6) / 256));
-
-					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(meterTypebyte));
-
-					Long i = Long.parseLong(creditbyte, 16);
-					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
-
-					Long j = Long.parseLong(tariffbyte, 16);
-					dashboardRequestVO.setTariffAmount(Float.intBitsToFloat(j.intValue()));
-
-					Long k = Long.parseLong(emergencyCreditbyte, 16);
-					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
-
-					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(valveStatusbyte));
-					dashboardRequestVO.setTimeStamp(requestvo.getPayloads_ul().getTimestamp());
-				
-					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balanceLog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
-					pstmt.setString(1, dashboardRequestVO.getMeterID());
-					rsch = pstmt.executeQuery();
-
-					if (rsch.next()) {
-
-						iot_Timestamp =  rsch.getString("IoTTimeStamp");
-
-					}
-
-					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
-			        ZoneId.of("Asia/Kolkata");
-			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
-			        
-					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
-						
-						responsevo.setResult(insertdashboard(dashboardRequestVO));
-				
-				} else {
-
-					responsevo.setResult("No Data to update");
-				}
-					
-				}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		return responsevo;
-	}*/
 	
 	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
 		
@@ -464,7 +251,7 @@ public class DashboardDAO {
 		return val;
 	}
 	
-	public ResponseVO newPostDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
+	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
 		ResponseVO responsevo = new ResponseVO();
@@ -567,6 +354,8 @@ public class DashboardDAO {
 					responsevo.setResult("No Data to update");
 				}
 					
+				} else {
+					responsevo.setResult("Invalid Frame");
 				}
 
 		} catch (Exception ex) {

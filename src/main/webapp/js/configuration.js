@@ -5,7 +5,7 @@
 $(document)
 		.ready(
 				function() {
-					$('#configurationDetails')
+				/*	$('#configurationDetails')
 							.bootstrapValidator(
 									{
 										feedbackIcons : {
@@ -46,20 +46,20 @@ $(document)
 													}
 												}
 											},
-											/*selectcommandType : {
+											selectcommandType : {
 												validators : {
 													notEmpty : {
 														message : 'Please select your native language.'
 													}
 												}
-											},*/
-											/*selectTariffName : {
+											},
+											selectTariffName : {
 												validators : {
 													notEmpty : {
 														message : 'Please select your Tariff language.'
 													}
 												}
-											},*/
+											},
 											defaultReading : {
 												message : 'The Default Reading is not valid',
 												validators : {
@@ -77,9 +77,9 @@ $(document)
 												}
 											}
 										}
-									});
+									});*/
 
-					$('#configurationDetails').on(
+					/*$('#configurationDetails').on(
 							'status.field.bv',
 							function(e, data) {
 								formIsValid = true;
@@ -101,52 +101,92 @@ $(document)
 									$('.submit-button', $(this)).attr(
 											'disabled', true);
 								}
-							});
+							});*/
 
 					$("#configuration")
 							.click(
 									function() {
-alert ($(
-"#selectcommandType").val());
-										if($(
-										"#selectcommunityName").val() == "Select Tariff"){
+									    
+										var data1 = {}										
+										if ($("#selectcommunityName").val() == "-1") {
 											
-										}else {
-											
+											bootbox
+											.alert("Select Community Id");
+											return false;
+										}
+
+										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
+
+											bootbox
+											.alert("Select Block Name");
+											return false;
 										}
 										
-										
-										
-										var data1 = {}
+										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
 
+											bootbox
+											.alert("Select House Name");
+											return false;
+										}
+
+
+										if ($("#selectcommandType").val() == "null" || $("#selectcommandType").val() == -1 || $("#selectcommandType").val() == "Select Command Type") {
+
+											bootbox
+											.alert("Select Command Type");
+											return false;
+										}
+										
+										if($("#selectcommandType").val() == "6"){
+											var reg =/[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/;
+											if($("#defaultReading").val() == ""){
+											
+												bootbox
+												.alert("Enter Default Reading");
+												return false;
+											}	
+											
+												else if(!reg.test($("#defaultReading").val())){
+													bootbox
+													.alert("The Default Reading can only consist of number");
+													return false;
+												}	
+											data1["defaultReading"] = $("#defaultReading").val();
+											} else if($("#selectcommandType").val() == "10"){
+												if($("#selectTariffName").val() == "Select Tariff" || $("#selectTariffName").val() == -1){
+												
+													bootbox
+													.alert("Select Tariff");
+													return false;
+												}	
+												data1["tariffID"] = $("#selectTariffName").val();
+											}
+										
 										data1["communityID"] = $(
-												"#selectcommunityName").val();
+										"#selectcommunityName").val();
 										data1["blockID"] = $(
-												"#selectBlockBasedonCommunity")
-												.val();
-										data1["customerID"] = $(
-												"#selectHouseBasedonBlock")
-												.val();
-										data1["meterID"] = $("#AMR_topup")
-												.val();
+										"#selectBlockBasedonCommunity")
+										.val();
+										data1["CRNNumber"] = $(
+										"#selectHouseBasedonBlock")
+										.val();
+										data1["meterID"] = $("#AMR_topup").val()
 										data1["commandType"] = $(
-												"#selectcommandType").val();
-										data1["source"] = "web"
+										"#selectcommandType").val();
+										data1["source"] = "web";
 
-										alert("===>" + JSON.stringify(data1));
+										
 										$
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/configuration/add1",
+													url : "/PAYGTL_LORA_BLE/configuration/add",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
 
 													success : function(data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
+														
 														if (data.result == "Success") {
 
 															/*
@@ -207,8 +247,8 @@ $(document)
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-12'p<br/>i>>",
 										"responsive" : true,
-										"processing" : true,
-										"serverSide" : true,
+										/*"processing" : true,*/
+										"serverSide" : false,
 										"bDestroy" : true,
 										"bPaginate" : true,
 										"pagging" : true,
@@ -286,7 +326,7 @@ $(document)
 												} ],
 										"columnDefs" : [ {
 											orderable : false,
-											targets : [ 0 ]
+											targets : 5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 										}, {
 											orderable : false,
 											targets : [ 1 ]

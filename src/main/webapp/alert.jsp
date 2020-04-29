@@ -6,6 +6,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link href="common/css/materialize.fontawsome.css"
+	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"

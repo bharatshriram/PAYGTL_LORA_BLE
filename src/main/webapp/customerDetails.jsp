@@ -43,7 +43,7 @@
 						<h3>Customer Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button"
+						<button type="button" id="customerAddd"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>

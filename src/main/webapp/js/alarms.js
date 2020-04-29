@@ -7,7 +7,7 @@
 										.DataTable(
 										{
 											"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
-											"processing" : false,
+											/*"processing" : false,*/
 											"serverSide" : false,
 											"bDestroy" : true,
 											"pagging" : true,

@@ -240,10 +240,6 @@ public class CommunitySetUpBO {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		
-		if(communitysetupdao.checktariffamount(tariffvo.getTariff())) {
-			throw new BusinessException("TARIFF AMOUNT ALREADY EXISTS");
-		}
-
 		return communitysetupdao.edittariff(tariffvo);
 	}
 	

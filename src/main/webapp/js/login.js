@@ -83,8 +83,6 @@ $(document)
 														.val();
 												data1["password"] = $(
 														"#password").val();
-												alert("===>"
-														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
@@ -101,7 +99,7 @@ $(document)
 																				.stringify(data));*/
 																if (data.result == "Success") {
 
-																	sessionStorage.setItem("userID",$("#userName").val());
+																	sessionStorage.setItem("userID",$("#username").val());
 																	
 																	if (data.userDetails.roleID == 1) {
 
@@ -163,6 +161,16 @@ $(document)
 																		"userName",
 																		data.userDetails.userName);
 																
+																sessionStorage
+																.setItem(
+																		"mobileNumber",
+																		data.userDetails.mobileNumber);
+																
+																sessionStorage
+																.setItem(
+																		"email",
+																		data.userDetails.email);
+																
 																var Role = data.userDetails.roleID;
 																		window.location = "LoginAction.jsp?RoleID="
 																				+ Role;
@@ -201,6 +209,16 @@ $(document)
 																.setItem(
 																		"userName",
 																		data.userDetails.userName);
+																
+																sessionStorage
+																.setItem(
+																		"mobileNumber",
+																		data.userDetails.mobileNumber);
+																
+																sessionStorage
+																.setItem(
+																		"email",
+																		data.userDetails.email);
 																
 																var Role = data.userDetails.roleID;
 																		window.location = "LoginAction.jsp?RoleID="
@@ -285,4 +303,58 @@ $(document)
 														});
 												return false;
 											});
+							
+							
+							
+							
+							
+							$("#forgotButton")
+							.click(
+									function() {
+
+										if($("#forgetusername")
+												.val() == null || $("#forgetusername")
+												.val() == ""){
+											bootbox
+											.alert("Enter User ID");
+											return false;
+										}
+										
+										
+										/*var data1 = {}
+										data1["userID"] = $("#forgetusername")
+												.val();
+										data1["password"] = $(
+												"#password").val();*/
+										$.ajax({
+											type : "POST",
+											contentType : "application/json",
+											url : "/PAYGTL_LORA_BLE/forgotpassword/" + $("#forgetusername")
+											.val(),
+											dataType : "JSON",
+											success : function(data) {
+												alert("===>" + JSON.stringify(data));
+												if (data.result == "Success") {
+													bootbox.alert("Successfully Sent to Your Register Mail ID",
+															function(
+																	result) {
+																	
+														//alert();
+														window.location = "login.jsp";
+														return false
+														
+																});
+
+												} else {
+													bootbox
+													.alert(data.Message);
+													return false;
+												}
+											}
+										});
+										return false;
+									});
+							
+							
+							
 						});

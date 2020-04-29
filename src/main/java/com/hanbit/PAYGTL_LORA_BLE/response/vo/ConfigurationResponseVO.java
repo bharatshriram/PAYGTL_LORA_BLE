@@ -18,7 +18,6 @@ public class ConfigurationResponseVO {
 	private List<ConfigurationResponseVO> data;
 	private int transactionID;
 	
-	
 	public int getTransactionID() {
 		return transactionID;
 	}

@@ -4,13 +4,23 @@
 
 
 $(document).ready(function() {
+	
+	if(sessionStorage.getItem("roleID") == 1){
+		$("#tariffAddd").show();
+	}else{
+		$("#tariffAddd").remove();
+		
+	}
+	
+	//alert(!(sessionStorage.getItem("roleID") == 4))
+	
 table = $('#tariffTable')
 .DataTable(
 {
 	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
-	"processing" : true,
-	"serverSide" : true,
+	/*"processing" : true,*/
+	"serverSide" : false,
 	"bDestroy" : true,
 	"bPaginate": true,
 	"pagging" : true,
@@ -43,7 +53,7 @@ return json.data;
 },{
 "data" : "fixedCharges"
 },{
-"data" : "RegisteredDate"
+"data" : "modifiedDate"
 },{
 	"mData" : "action",
 	"render" : function(data, type, row) {
@@ -58,7 +68,7 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets : [ 0 ]
+	targets: 6, visible: !(sessionStorage.getItem("roleID") == 4)
 },
 {
 	orderable : false,

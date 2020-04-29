@@ -21,8 +21,8 @@ table = $('#communityTable')
 
 	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
-	"processing" : true,
-	"serverSide" : true,
+	/*"processing" : true,*/
+	"serverSide" : false,
 	"bDestroy" : true,
 	"bPaginate": true,
 	"pagging" : true,
@@ -75,7 +75,7 @@ return json.data;
 "columnDefs" : [ {
 	orderable : false,
 	//targets : [ 0 ],
-	targets: 4, visible: (!(sessionStorage.getItem("roleID") == 4) || !(sessionStorage.getItem("roleID") == 5))
+	targets: 4, visible: !(sessionStorage.getItem("roleID") == 4) 
 	
 },
 {
