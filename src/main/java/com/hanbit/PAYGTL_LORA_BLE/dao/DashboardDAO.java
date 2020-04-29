@@ -49,9 +49,11 @@ public class DashboardDAO {
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
 		
+		
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
+			int nonCommunicating = 0;
 			
 			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
@@ -106,15 +108,17 @@ public class DashboardDAO {
 				
 				Date currentDateTime = new Date();
 				
-				long difference = currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime(); 
-				long minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
 
 				if(minutes > noAMRInterval) {
+					nonCommunicating++;
 					dashboardvo.setDateColor("RED");
+					dashboardvo.setCommunicationStatus("NO");
 				}else {
 					dashboardvo.setDateColor("GREEN");
+					dashboardvo.setCommunicationStatus("YES");
 				}
-				
+				dashboardvo.setNonCommunicating(nonCommunicating);
 				dashboard_list.add(dashboardvo);
 			}
 		}
