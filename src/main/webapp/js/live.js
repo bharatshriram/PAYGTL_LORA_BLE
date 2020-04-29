@@ -143,8 +143,8 @@ $(document)
 													"data" : "emergencyCredit"
 												},
 												{
-													    "data":"battery"
-													/*"mData" : "action",
+													  //  "data":"battery"
+													"mData" : "action",
 													"render" : function(data,
 															type, row) {
 														if(!row.battery == undefined){
@@ -157,10 +157,10 @@ $(document)
 															+ row.battery
 															+ "</span>"
 													    }
-														//}
+														
 													},
 													"defaultContent": "",
-													orderable: false */
+													orderable: false 
 												},
 												{
 													"data" : "valveStatus"
@@ -192,7 +192,7 @@ $(document)
 												"columnDefs" : [ {
 													"orderable" : true,
 													"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
-													"className": "text-center"
+													"className": "dt-center", "targets": "_all"
 												},
 												{
 													orderable : false,
@@ -215,9 +215,9 @@ $(document)
 													extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
-														columns : [ 1, 2, 3, 4,
+														columns : [ 0,1, 2, 3, 4,
 																5, 6, 7, 8, 9,
-																10, 11, 12 ]
+																10, 11, 12,13 ]
 													},
 													text : 'pdf',
 													orientation : 'landscape',

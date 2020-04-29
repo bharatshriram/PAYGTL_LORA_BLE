@@ -54,7 +54,16 @@
 										},{
 										"data" : "difference"
 										}
-										], "buttons": [
+										],
+										"columnDefs" : [ {
+											orderable : false
+											//targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+											,"className": "dt-center", "targets": "_all"
+										},
+										{
+											orderable : false,
+											targets : [ 1 ]
+										}], "buttons": [
 											   /* 'csvHtml5',
 											'excelHtml5',
 										'pdfHtml5'*/

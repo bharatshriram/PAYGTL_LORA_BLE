@@ -25,17 +25,18 @@
  <!--sidebar start-->
         <div class="main">
           <aside>
-            <div class="sidebar left ">
-              <div class="user-panel">
-                <!-- <div class="float-left image">
+            <div class="sidebar left">
+              <!-- <div class="user-panel">
+                <div class="float-left image">
                   <img src="http://via.placeholder.com/160x160" class="rounded-circle" alt="User Image">
-                </div> -->
-                <div class="float-left mt-2">
-                  <!-- <p class="userNameDisplay"></p> -->
-                  <a><i class="fa fa-circle text-success"></i><span class = "text-white" id="userID"></span> </a>
                 </div>
-              </div>
-              <ul class="list-sidebar bg-defoult">
+                <div class="float-left">
+                  <p class="userNameDisplay"></p>
+                  <a><i class="fa fa-circle text-success"></i><span class = "text-dark" id="userID"></span> </a>
+                </div>
+              </div> -->
+              <ul class="float-left list-sidebar mt-4">
+              <!--  bg-defoult -->
                 <%
 			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	
@@ -146,11 +147,5 @@
         </div>
         <!--sidebar end-->
 <%} %>
-<script>
-
-document.querySelector("#userID").innerText = "  "+sessionStorage.getItem("userID");
-
-</script>
-
 </body>
 </html>

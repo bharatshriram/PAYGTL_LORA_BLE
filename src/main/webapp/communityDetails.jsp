@@ -27,7 +27,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 
 <%
 		String user_id = (String) session.getAttribute("roleID");
@@ -70,7 +70,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
+									<th>Name</th>
 									<th>Address</th>
 									<th>Mail Id</th>
 									<th>Mobile</th>
@@ -95,7 +95,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Community Add
+					<h5 class="modal-title" id="exampleModalLabel"> Add Community
 						Form</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
@@ -107,14 +107,14 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <input
+									<label class="bmd-label-floating">Name</label> <input
 										type="text" class="form-control" name="communityNameAdd"
 										id="communityNameAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Community Address</label> <input
+									<label class="bmd-label-floating">Address</label> <input
 										type="text" class="form-control" name="communityAddressAdd"
 										id="communityAddressAdd">
 								</div>
@@ -122,14 +122,14 @@
 
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Community Mobile</label> <input
+									<label class="bmd-label-floating">Mobile</label> <input
 										type="text" class="form-control" name="communityMobileAdd"
 										id="communityMobileAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Community Email</label> <input
+									<label class="bmd-label-floating">Email</label> <input
 										type="email" class="form-control" name="communityEmailAdd"
 										id="communityEmailAdd">
 								</div>
@@ -170,14 +170,14 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formcomunityName" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <input
+									<label class="bmd-label-floating">Name</label> <input
 										type="text" class="form-control" name="communityNameEdit"
 										id="communityNameEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div id="formcomunityAddress" class="input-group form-group">
-									<label class="bmd-label-floating">Community Address</label> <input
+									<label class="bmd-label-floating">Address</label> <input
 										type="text" class="form-control" name="communityAddressEdit"
 										id="communityAddressEdit">
 								</div>
@@ -185,14 +185,14 @@
 
 							<div class="col-md-6">
 								<div id="formcomunityMobile" class="input-group form-group">
-									<label class="bmd-label-floating">Community Mobile</label> <input
+									<label class="bmd-label-floating">Mobile</label> <input
 										type="text" class="form-control" name="communityMobileEdit"
 										id="communityMobileEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div id="formcomunityEmail" class="input-group form-group">
-									<label class="bmd-label-floating">Community Email</label> <input
+									<label class="bmd-label-floating">Email</label> <input
 										type="email" class="form-control" name="communityEmailEdit"
 										id="communityEmailEdit">
 										<input type = "hidden" id="communityIdhidden">

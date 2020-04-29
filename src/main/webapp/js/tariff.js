@@ -69,6 +69,7 @@ return json.data;
 "columnDefs" : [ {
 	orderable : false,
 	targets: 6, visible: !(sessionStorage.getItem("roleID") == 4)
+	,"className": "dt-center", "targets": "_all"
 },
 {
 	orderable : false,

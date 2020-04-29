@@ -19,7 +19,7 @@ table = $('#communityTable')
 	    }
 	},*/
 
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,
@@ -61,10 +61,6 @@ return json.data;
 																	+ row.communityID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																	+ "</a> <a href=# id=CommunityEdit data-toggle=modal data-target=#myCommunityEdit onclick='getCommunityFormEdit("
-																	+ row.communityID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>pageview</i>"
 																	+ "</a></div>"
 	}
 	}
@@ -76,6 +72,7 @@ return json.data;
 	orderable : false,
 	//targets : [ 0 ],
 	targets: 4, visible: !(sessionStorage.getItem("roleID") == 4) 
+	,"className": "dt-center", "targets": "_all"
 	
 },
 {
@@ -113,52 +110,52 @@ $(document)
 												},
 												fields : {
 													communityNameAdd : {
-														message : 'The Community Name is not valid',
+														message : 'Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Name is required and cannot be empty'
+																message : 'Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 6,
 																max : 30,
-																message : 'The Community Name must be more than 6 and less than 30 characters long'
+																message : 'Name must be more than 6 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z ]*$/,
-																message : 'The Tariff Name can only consist of alphabet'
+																message : 'Name can only consist of alphabet'
 															}
 														}
 													},
 													communityAddressAdd : {
-														message : 'The Community Address is not valid',
+														message : 'Address is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Address is required and cannot be empty'
+																message : 'Community Address is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Community Address must be more than 6 and less than 30 characters long'
+																message : 'Address must be more than 6 and less than 30 characters long'
 															}
 														}
 													},
 													communityMobileAdd : {
-														message : 'The Community Mobile is not valid',
+														message : 'Mobile is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Mobile is required and cannot be empty'
+																message : 'Mobile is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]{10}$/,
-																message : 'The Community Mobile can only consist of number'
+																message : 'Mobile can only consist of number'
 															}
 														}
 													},
 													communityEmailAdd : {
-														message : 'The Community Email is not valid',
+														message : 'Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Community Email is required and cannot be empty'
+																message : 'Email is required and cannot be empty'
 															}/*,
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
@@ -182,52 +179,52 @@ $(document)
 										},
 										fields : {
 											communityNameEdit : {
-												message : 'The Community Name is not valid',
+												message : 'Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Name is required and cannot be empty'
+														message : 'Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 6,
 														max : 30,
-														message : 'The Community Name must be more than 6 and less than 30 characters long'
+														message : 'Name must be more than 6 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z ]*$/,
-														message : 'The Community Name can only consist of alphabet'
+														message : 'Name can only consist of alphabet'
 													}
 												}
 											},
 											communityAddressEdit : {
-												message : 'The Community Address is not valid',
+												message : 'Address is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Address is required and cannot be empty'
+														message : 'Address is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Community Address must be more than 6 and less than 30 characters long'
+														message : 'Address must be more than 6 and less than 30 characters long'
 													}
 												}
 											},
 											communityMobileEdit : {
-												message : 'The Community Mobile is not valid',
+												message : 'Mobile is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Mobile is required and cannot be empty'
+														message : 'Mobile is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /^[0-9]{10}$/,
-														message : 'The Community Mobile can only consist of number'
+														message : 'Mobile can only consist of number'
 													}
 												}
 											},
 											communityEmailEdit : {
-												message : 'The Community Email is not valid',
+												message : 'Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Community Email is required and cannot be empty'
+														message : 'Email is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
@@ -316,8 +313,7 @@ $(document)
 												.val();
 												data1["address"] = $("#communityAddressAdd").val();
 										
-												alert("===>"
-														+ JSON.stringify(data1));
+												
 												$
 														.ajax({
 															type : "POST",
@@ -329,9 +325,7 @@ $(document)
 
 															success : function(
 																	data) {
-																alert("data"
-																		+ JSON
-																				.stringify(data));
+																
 																if (data.result == "Success") {
 
 																	/*alert( "data"
@@ -380,8 +374,7 @@ $(document)
 										.val();
 										data1["address"] = $("#communityAddressEdit").val();
 								
-										alert("===>"
-												+ JSON.stringify(data1));
+										
 										$
 												.ajax({
 													type : "POST",
@@ -393,9 +386,7 @@ $(document)
 
 													success : function(
 															data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
+														
 														if (data.result == "Success") {
 
 															/*alert( "data"

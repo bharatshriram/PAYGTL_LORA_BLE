@@ -27,7 +27,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -57,8 +57,8 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
-									<th>Block Name</th>
+									<th>Community</th>
+									<th>Block</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>House No</th>
@@ -173,7 +173,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Meter Serial</label> <input
+									<label class="bmd-label-floating">Meter Serial No.</label> <input
 										type="text" class="form-control" name="meterSerialAdd"
 										id="meterSerialAdd">
 								</div>
@@ -184,7 +184,7 @@
 							
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">AMR</label> <input
+									<label class="bmd-label-floating">AMR ID</label> <input
 										type="text" class="form-control" name="amrAdd"
 										id="amrAdd">
 								</div>
@@ -201,7 +201,7 @@
 							
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">CRN</label> <input
+									<label class="bmd-label-floating">CRN Number</label> <input
 										type="text" class="form-control" name="CRNAdd"
 										id="CRNAdd">
 								</div>
@@ -245,7 +245,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formcommunityNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> 
+									<label class="bmd-label-floating">Community</label> 
 									 <input
 										type="text" class="form-control" name="communityNameEdit"
 										id="communityNameEdit" disabled>
@@ -253,7 +253,7 @@
 							</div>
 							<div class="col-md-6">
 								<div id="formblockNameEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Block Name</label> <input
+									<label class="bmd-label-floating">Block</label> <input
 										type="text" class="form-control" name="blockNameEdit"
 										id="blockNameEdit" disabled>
 								</div>
@@ -303,7 +303,7 @@
 							</div>
 							<div class="col-md-6">
 								<div id="formmeterSerialEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Meter Serial</label> <input
+									<label class="bmd-label-floating">Meter Serial No.</label> <input
 										type="text" class="form-control" name="meterSerialEdit"
 										id="meterSerialEdit" disabled>
 								</div>
@@ -314,7 +314,7 @@
 							
 							<div class="col-md-6">
 								<div id="formamrEdit" class="input-group form-group">
-									<label class="bmd-label-floating">AMR</label> <input
+									<label class="bmd-label-floating">AMR ID</label> <input
 										type="text" class="form-control" name="amrEdit"
 										id="amrEdit">
 								</div>
@@ -331,7 +331,7 @@
 							
 							<div class="col-md-6">
 								<div id="formCRNEdit" class="input-group form-group">
-									<label class="bmd-label-floating">CRN</label> <input
+									<label class="bmd-label-floating">CRN Number</label> <input
 										type="email" class="form-control" name="CRNEdit"
 										id="CRNEdit" disabled>
 										<input type = "hidden" id="customerIdhidden" />

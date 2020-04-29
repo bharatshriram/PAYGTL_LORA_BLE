@@ -33,7 +33,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 
@@ -106,10 +106,15 @@
        
 			<div id="tablereport"  style = "display:none">
 			<div class="row mb-4">
-					<div class="col-md-6">
-						<h3>Financial Details</h3>
+					<div class="col-md-2">
+						<h3>Financial Report</h3>
 					</div>
-					<div class="col-md-6">
+					
+					<div class="col-md-8" style = "text-align:center;">
+						<h6 id="totalcount"></h6>
+					</div>
+					
+					<div class="col-md-2">
 						<button 
 							class="btn btn-raised btn-primary float-right"
 							>
@@ -129,9 +134,7 @@
 									<th>House Number</th>
 									<th>Meter ID</th>
 									<th>Total Amount</th>
-									<th>Total Amount Selected Period</th>
 									<th>Total Units</th>
-									<th>Total Units Selected Period</th>
 								</tr>
 							</thead>
 							<tbody>

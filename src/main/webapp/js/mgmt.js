@@ -81,6 +81,7 @@ return json.data;
 "columnDefs" : [ {
 	orderable : false,
 	targets : [ 0 ]
+,"className": "dt-center", "targets": "_all"
 },
 {
 	orderable : false,
@@ -242,7 +243,7 @@ $(document)
 												var data1 = {}
 												data1["type"] = $("#selecttypeofuser").val();
 												
-											alert($("#selectBlockBasedonCommunity").val() +"@@"+$("#selectcommunityName").val())
+//											alert($("#selectBlockBasedonCommunity").val() +"@@"+$("#selectcommunityName").val())
 												
 											
 												
@@ -289,8 +290,6 @@ $(document)
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
 												data1["roleID"] = sessionStorage.getItem("roleID");
 												
-												alert("===>"
-														+ JSON.stringify(data1));
 												$
 														.ajax({
 															type : "POST",
@@ -302,13 +301,8 @@ $(document)
 
 															success : function(
 																	data) {
-																alert("data"
-																		+ JSON
-																				.stringify(data));
 																if (data.result == "Success") {
 
-																	alert( "data"
-																			+ data.result);
 																	
 																	bootbox.alert("Added Succesfully!",
 																			function(

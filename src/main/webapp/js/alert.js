@@ -61,6 +61,7 @@ return json.data;
 "columnDefs" : [ {
 	orderable : false,
 	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+	,"className": "dt-center", "targets": "_all"
 },
 {
 	orderable : false,
@@ -259,8 +260,7 @@ $(document)
 												data1["timeOut"] = $("#rechargetimeoutAdd")
 												.val();
 
-												alert("===>"
-														+ JSON.stringify(data1));
+												
 												$
 														.ajax({
 															type : "POST",
@@ -272,9 +272,7 @@ $(document)
 
 															success : function(
 																	data) {
-																alert("data"
-																		+ JSON
-																				.stringify(data));
+																
 																if (data.result == "Success") {
 
 																	/*alert( "data"
@@ -321,8 +319,7 @@ $(document)
 										data1["timeOut"] = $("#rechargetimeoutEdit")
 										.val();
 								
-										alert("===>"
-												+ JSON.stringify(data1));
+										
 										$
 												.ajax({
 													type : "POST",
@@ -334,9 +331,7 @@ $(document)
 
 													success : function(
 															data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
+														
 														if (data.result == "Success") {
 
 															/*alert( "data"
@@ -382,7 +377,7 @@ function getAlertFormEdit(id) {
 	$.getJSON("/PAYGTL_LORA_BLE/alert", function(data) {
 		$.each(data.data, function(i, item) {
 			if (id == item.alertID) {
-				alert(item.lowBatteryVoltage);
+			//	alert(item.lowBatteryVoltage);
 				$('#noamrintervalEdit').val(item.noAMRInterval).trigger("change");
 				$("#formnoamrintervalEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 				$('#lowbatteryvoltageEdit').val(item.lowBatteryVoltage).trigger("change");

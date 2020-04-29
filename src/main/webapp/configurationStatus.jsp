@@ -20,14 +20,18 @@
 <link rel="stylesheet" href="common/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+	
+	<link rel="stylesheet"
+	href=https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+
 
 <title>Configuration Details</title>
 </head>
 
 
-<body>
+<body  class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -54,7 +58,7 @@
 									<th>Command Type</th>
 									<th>Date</th>
 									<th>Status</th>
-									<th>Action</th>
+									<th>Action</th> 
 								</tr>
 							</thead>
 							<tbody>
@@ -68,15 +72,13 @@
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" />
-
-	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
     crossorigin="anonymous"></script> -->
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
 	<script src="common/js/bootstrap.min.js"></script>
-
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
@@ -91,12 +93,14 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
-	<script>
+	<!-- <script>
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
-	</script>
-<script
+	</script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+	
+	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		
 	<script
@@ -124,8 +128,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 		
 		<script
-		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
-		
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+	
 		<script
 		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 		
@@ -148,18 +152,12 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 	
-	<script>
-		$(document).ready(function() {
-			$('#liveTable').DataTable();
-		});
-		</script>
-	
-<script>
+<!-- <script>
 $(document).ready(function(){
 	  $('[data-toggle="tooltip"]').tooltip();   
 	});
 </script>	
-
+ -->
 </body>
 
 </html>

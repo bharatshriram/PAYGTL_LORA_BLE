@@ -27,7 +27,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -50,12 +50,12 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
-									<th>Block Name</th>
+									<th>Community</th>
+									<th>Block</th>
 									<th>House No</th>
 									<th>AMR ID</th>
 									<th>Amount</th>
-									<th>Emergency Credit</th>
+									<th>EC</th>
 									<th>Alarm Credit</th>
 									<th>Date</th>
 									<th>By UserName</th>

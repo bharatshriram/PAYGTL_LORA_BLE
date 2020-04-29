@@ -13,6 +13,8 @@ $(document).ready(function () {
 		}else if(flag == false){
 			document.querySelector('.left_nav').className="left_nav col-md-1 pl-0 pr-0";	
 			document.querySelector('.right_data').className="right_data col-md-10 mt-4 mb-4";
+			var oTable = $("#liveTable").dataTable();
+			
 		}
       });
     });

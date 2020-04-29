@@ -21,6 +21,7 @@ color: #fff !important;
     float : right !important;
 }
 
+th.dt-center, td.dt-center { text-align: center; }
 
 .imp{
   color:red;
@@ -79,6 +80,14 @@ option:first-child
   height: 100%;
   
   }
+  
+  .innerbody{
+      background-image: url(../../common/images/icons/pic.jpg);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    height: 100%;
+  }
+  
   .login_bg{
     background-color: rgba(2, 8, 14, 0.5) !important;
     border-radius: .25rem;
@@ -195,13 +204,21 @@ option:first-child
     }
 
   /*sidenav start */
-.sidebar{ width:220px;  background-color:#000;transition: all 0.5s  ease-in-out; position: fixed;height: 83vh;}
+
+.sidebar{ /* width:220px;  background-color:#000;transition: all 0.5s  ease-in-out; position: fixed;height: 83vh; */
+    width: 220px;
+    background-color: transparent;
+    transition: all 0.5s ease-in-out;
+    position: fixed;
+    height: 90vh;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    }
 .sidebar:hover{overflow-y:auto}
 .bg-defoult{background-color:#222;}
-.sidebar ul{ list-style:none; margin:0px; padding:0px; }
-.sidebar li a,.sidebar li a.collapsed.active{ display:block; padding:8px 12px; color:#fff;border-left:0px solid #dedede;  text-decoration:none}
+.sidebar ul{ list-style:none; margin:0px; padding:0px; width: 100%; }
+.sidebar li a,.sidebar li a.collapsed.active{ display:block; padding:8px 12px; color:black;border-left:0px solid #dedede;  text-decoration:none}
 .sidebar li a.active{background-color:#000;border-left:5px solid #dedede; transition: all 0.5s  ease-in-out}
-.sidebar li a:hover{background-color:#000 !important;}
+.sidebar li a:hover{background-color:#fff !important;}
 .sidebar li a i{ padding-right:5px;}
 .sidebar ul li .sub-menu li a{ position:relative}
 .sidebar ul li .sub-menu li a:before{
@@ -265,6 +282,8 @@ option:first-child
     font-weight: 600;
     margin-bottom: 9px;
 }
+
+
 .user-panel {
     clear: left;
     display: block;
@@ -272,7 +291,7 @@ option:first-child
     width: 100%;
     margin-bottom: 15px;
     padding: 25px 15px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid rgba(0,0,0,.12);
 }
 .user-panel>.info {
     padding: 5px 5px 5px 15px;
@@ -287,4 +306,32 @@ option:first-child
 .footer a{
   font-size: 14px;
 }
+body {
+	font-size : 12px;
+}
+.icon:before	{
+ font-family: FontAwesome;
+    content: "\f2be";
+    display: inline-block;
+    padding-right: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    font-size: 22px;
+
+}
+
+
+input:-internal-autofill-selected {
+    -webkit-appearance: menulist-button;
+    background-color: transparent !important;
+    background-image: none !important;
+    color: black !important;
+}
+
+
+.footer{
+	background-color: transparent !important;
+	box-shadow :none ! important;
+}
+
 /*footer end*/

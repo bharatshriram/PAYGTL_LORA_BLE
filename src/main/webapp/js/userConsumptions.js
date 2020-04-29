@@ -122,7 +122,8 @@ $(document)
 																		}],
 																		"columnDefs" : [ {
 																			orderable : false,
-																			targets : [ 0 ]
+																			targets : [ 0 ],
+																			"className": "dt-center", "targets": "_all"
 																		},
 																		{
 																			orderable : false,

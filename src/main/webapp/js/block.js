@@ -81,7 +81,8 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets: 5, visible:  ((sessionStorage.getItem("roleID") == 1) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))  
+	targets: 5, visible:  ((sessionStorage.getItem("roleID") == 1) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+	,"className": "dt-center", "targets": "_all"
 },
 {
 	orderable : false,
@@ -142,19 +143,19 @@ $(document)
 														}
 													},
 													blockLocationAdd : {
-														message : 'The Block Location is not valid',
+														message : 'The Location is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Location is required and cannot be empty'
+																message : 'The Location is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Block Locaton must be more than 4 and less than 30 characters long'
+																message : 'The Locaton must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z ]+$/,
-																message : 'The Block Location can only consist of alphabetical'
+																message : 'The Location can only consist of alphabetical'
 															}
 														}
 													},
@@ -171,10 +172,10 @@ $(document)
 														}
 													},
 													blockEmailAdd : {
-														message : 'The Block Email is not valid',
+														message : 'The Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Email is required and cannot be empty'
+																message : 'The Email is required and cannot be empty'
 															}/*,
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
@@ -215,39 +216,39 @@ $(document)
 												}
 											},
 											blockLocationEdit : {
-												message : 'The Block Location is not valid',
+												message : 'The Location is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Location is required and cannot be empty'
+														message : 'The Location is required and cannot be empty'
 													},
 													stringLength : {
 														min : 6,
 														max : 30,
-														message : 'The Block Location must be more than 6 and less than 30 characters long'
+														message : 'The Location must be more than 6 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z ]+$/,
-														message : 'The Community Location can only consist of alphabetical'
+														message : 'The Location can only consist of alphabetical'
 													}
 												}
 											},
 											blockMobileEdit : {
-												message : 'The Block Mobile is not valid',
+												message : 'The Mobile is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Mobile is required and cannot be empty'
+														message : 'The Mobile is required and cannot be empty'
 													},
 													regexp : {
-														regexp : /^[0-9]{10}$/,
-														message : 'The Block Address can only consist of number'
+														regexp : /^\d{10}$/,
+														message : 'The Mobile can only consist of number'
 													}
 												}
 											},
 											blockEmailEdit : {
-												message : 'The Block Email is not valid',
+												message : 'The Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Email is required and cannot be empty'
+														message : 'The Email is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,

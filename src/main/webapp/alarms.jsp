@@ -25,7 +25,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">

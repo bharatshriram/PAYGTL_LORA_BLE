@@ -74,6 +74,15 @@ $(document)
 																													
 													}
 													}],
+													"columnDefs" : [ {
+														orderable : false,
+														//targets: 5, visible: !(sessionStorage.getItem("roleID") == 4)
+														"className": "dt-center", "targets": "_all"
+													},
+													{
+														orderable : false,
+														targets : [ 1 ]
+													}],
 
 										"buttons" : [
 												]

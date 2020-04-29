@@ -28,7 +28,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -41,7 +41,7 @@
 				<!--Right start-->
 				<div class="row mb-4">
 					<div class="col-md-6">
-						<h3>Live DashBoard</h3>
+						<h3>DashBoard</h3>
 					</div>
 				</div>
 				<div class="row">
@@ -51,8 +51,8 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
-									<th>Block Name</th>
+									<th>Community</th>
+									<th>Block</th>
 									<th>House No</th>
 									<th>CRN</th>
 									<th>Meter Sr. No.</th>
@@ -135,10 +135,12 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 		
 		<script
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+	
+		<script
 		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 		
-		<script
-		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
+		
 		
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
@@ -156,12 +158,6 @@
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
-	
-	<script>
-		$(document).ready(function() {
-			$('#liveTable').DataTable();
-		});
-		</script>
 	
 <script>
 $(document).ready(function(){

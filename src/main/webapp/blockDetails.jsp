@@ -27,7 +27,7 @@
 </head>
 
 
-<body>
+<body class="innerbody">
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -57,7 +57,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Community Name</th>
+									<th>Community</th>
 									<th>Block Name</th>
 									<th>Location</th>
 									<th>email</th>
@@ -83,7 +83,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Block Add Form</h5>
+					<h5 class="modal-title" id="exampleModalLabel">Add Block</h5>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -94,7 +94,7 @@
 						<div class="row">
 							<div class="col-md-12">
 								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Community Name</label> <select
+									<label class="bmd-label-floating">Community</label> <select
 										class="form-control" id="selectcommunityName" name="selectcommunityName">
 										<!-- <option style = "color: Red" value="" disabled>Select Community</option> <option>Select Community</option> --> 
 									</select>
@@ -167,7 +167,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formcomunityName" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> <input
+									<label class="bmd-label-floating">Community</label> <input
 										type="text" class="form-control" name="communityNameEdit"
 										id="communityNameEdit" disabled>
 								</div>
@@ -190,7 +190,7 @@
 							<div class="col-md-6">
 								<div id="formblockMobile" class="input-group form-group">
 									<label class="bmd-label-floating">Mobile Number</label> <input
-										type="email" class="form-control" name="blockMobileEdit"
+										type="text" class="form-control" name="blockMobileEdit"
 										id="blockMobileEdit">
 								</div>
 							</div>

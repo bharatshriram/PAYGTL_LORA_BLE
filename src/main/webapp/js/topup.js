@@ -234,7 +234,7 @@ $(document).ready(function() {
 	table = $('#topstatusTable')
 	.DataTable(
 	{
-		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 		"responsive" : true,
 		/*"processing" : true,*/
 		"serverSide" : false,
@@ -303,6 +303,7 @@ $(document).ready(function() {
 	"columnDefs" : [ {
 		orderable : false,
 		targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+		,"className": "dt-center", "targets": "_all"
 	},
 	{
 		orderable : false,

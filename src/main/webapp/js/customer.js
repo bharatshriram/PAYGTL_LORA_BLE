@@ -15,7 +15,7 @@ $(document).ready(function() {
 table = $('#customerTable')
 .DataTable(
 {//'Pfrtip'
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,
@@ -91,7 +91,8 @@ return json.data;
 ],
 "columnDefs" : [ {
 	orderable : false,
-	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
+	"className": "dt-center", "targets": "_all"
 },
 {
 	orderable : false,
@@ -190,7 +191,7 @@ $(document)
 															},
 															regexp : {
 																regexp : /^[0-9]{10}$/,
-																message : 'The Customer Mobile can only consist of number'
+																message : 'The Mobile No. can only consist of number'
 															}
 														}
 													},
@@ -211,19 +212,19 @@ $(document)
 															stringLength : {
 																min : 4,
 																max : 15,
-																message : 'The Meter Serial Number must be more than 4 and less than 15 characters long'
+																message : 'The Meter Serial No. must be more than 4 and less than 15 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-																message : 'The Meter Serial Number can only consist of Alphanumaric and Could not start with zero'
+																message : 'The Meter Serial No. can only consist of Alphanumaric and Could not start with zero'
 															}
 														}
 													},
 													amrAdd : {
-														message : 'The AMR No. is not valid',
+														message : 'The AMR ID. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The AMR No. is required and cannot be empty'
+																message : 'The AMR ID is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
@@ -245,19 +246,19 @@ $(document)
 									                    }
 									                },
 									                CRNAdd : {
-														message : 'The CRN is not valid',
+														message : 'The CRN No. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The CRN is required and cannot be empty'
+																message : 'The CRN No. is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The CRN must be more than 4 and less than 30 characters long'
+																message : 'The CRN No. must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-																message : 'The CRN can only consist of Alphanumaric'
+																message : 'The CRN No. can only consist of Alphanumaric'
 															}
 														}
 													}
@@ -320,7 +321,7 @@ $(document)
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The House Number must be more than 4 and less than 30 characters long'
+														message : 'The House No. must be more than 4 and less than 30 characters long'
 													}
 												}
 											},
@@ -332,7 +333,7 @@ $(document)
 													},
 													regexp : {
 														regexp : /^[0-9]{10}$/,
-														message : 'The Customer Mobile can only consist of number'
+														message : 'The Mobile No. can only consist of number'
 													}
 												}
 											},
@@ -361,15 +362,15 @@ $(document)
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-														message : 'The Meter Serial Number can only consist of Alphanumaric and Could not start with zero'
+														message : 'The Meter Serial No. can only consist of Alphanumaric and Could not start with zero'
 													}
 												}
 											},
 											amrEdit : {
-												message : 'The AMR No. is not valid',
+												message : 'The AMR ID is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The AMR No. is required and cannot be empty'
+														message : 'The AMR ID is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
@@ -391,19 +392,19 @@ $(document)
 							                    }
 							                },*/
 							                CRNEdit : {
-												message : 'The CRN is not valid',
+												message : 'The CRN No. is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The CRN is required and cannot be empty'
+														message : 'The CRN No. is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The CRN must be more than 4 and less than 30 characters long'
+														message : 'The CRN No. must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-														message : 'The CRN can only consist of Alphanumaric'
+														message : 'The CRN No. can only consist of Alphanumaric'
 													}
 												}
 											}
@@ -733,7 +734,7 @@ function getCustomerFormDelete(cust_id){
 		url : "/BGLWalkByAMR_Gas/approverequest/" + id,
 		dataType : "JSON",
 		success : function(data) {
-			alert("Success====" + data);
+//			alert("Success====" + data);
 			if (data.result == "Success") {
 				bootbox
 					.confirm(

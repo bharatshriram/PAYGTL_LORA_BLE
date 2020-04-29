@@ -13,7 +13,7 @@ $(document)
 												"#selectcommunityName")
 												.val();
 
-										alert($("#selectBlockBasedonCommunity").val());
+//										alert($("#selectBlockBasedonCommunity").val());
 										
 										if ($("#selectcommunityName").val() == "-1") {
 											
@@ -130,6 +130,7 @@ $(document)
 																		"columnDefs" : [ {
 																			orderable : false,
 																			targets : [ 0 ]
+																		,"className": "dt-center", "targets": "_all"
 																		},
 																		{
 																			orderable : false,

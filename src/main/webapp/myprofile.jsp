@@ -25,7 +25,7 @@
 </head>
 
 
-<body>
+<body  class="innerbody">
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 

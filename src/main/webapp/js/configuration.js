@@ -161,26 +161,14 @@ $(document)
 												}	
 												data1["tariffID"] = $("#selectTariffName").val();
 											}
-										
-										data1["communityID"] = $(
-												"#selectcommunityName").val();
-										data1["blockID"] = $(
-												"#selectBlockBasedonCommunity")
-												.val();
-										data1["customerID"] = $(
-												"#selectHouseBasedonBlock")
-												.val();
-									//	data1["meterID"] = $("#selectcommandType").val()
-										data1["commandType"] = $(
-												"#selectcommandType").val();
-										data1["source"] = "web"
+										 
 
 										
 										$
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/configuration/add1",
+													url : "/PAYGTL_LORA_BLE/configuration/add",
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -243,43 +231,34 @@ $(document)
 					table = $('#configurationstatusTable')
 							.DataTable(
 									{
-										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>"
+										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-12'p<br/>i>>",
-										"responsive" : true,
-										/*"processing" : true,*/
-										"serverSide" : false,
-										"bDestroy" : true,
-										"bPaginate" : true,
-										"pagging" : true,
-										"bProcessing" : true,
-										"ordering" : true,
-										"order" : [ 0, "desc" ],
-										"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-										"pageLength" : 5,
-										"scrollY" : 324,
-										"scrollX" : true,
-										"ajax" : {
-											"url" : "/PAYGTL_LORA_BLE/configuration/"
-													+ sessionStorage
-															.getItem("roleID")
-													+ "/"
-													+ sessionStorage
-															.getItem("ID"),
+												"responsive" : true,
+												/*"processing" : true,*/
+												"serverSide" : false,
+												"bDestroy" : true,
+												"bPaginate": true,
+												"pagging" : true,
+												"bProcessing" : true,
+												"ordering" : true,
+												"order" : [ 0, "desc" ],
+												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+												"pageLength" : 5,
+												"scrollY" : 324,
+												"scrollX" : true,
+												"ajax" : {
+											"url" : "/PAYGTL_LORA_BLE/configuration/"+ sessionStorage.getItem("roleID")+ "/"+ sessionStorage.getItem("ID"),
 											"type" : "GET",
 											"data" : function(search) {
 											},
 											"complete" : function(json) {
-												console.log(json);
+												console.log(JSON.stringify(json));
 												return json.data;
 											},
 										},
 										"columns" : [
-												/*
-												 * { "data" : "communityName"
-												 * },{ "data" : "blockName" },{
-												 * "data" : "houseNumber" },
-												 */{
+												{
 													"data" : "meterID"
 												},
 												{
@@ -296,27 +275,6 @@ $(document)
 													"render" : function(data,
 															type, row) {
 
-														/*
-														 * <button type="button"
-														 * class="btn btn-raised
-														 * btn-primary
-														 * float-right"
-														 * data-toggle="modal"
-														 * data-target="#exampleModal">
-														 * <i class="fa
-														 * fa-user"></i>
-														 * </button>
-														 */
-														// return "<a
-														// href='#communityEditModal'
-														// class='teal
-														// modal-trigger'
-														// data-toggle='modal'
-														// data-target='#communityEditModal'
-														// id='communityEditModal'
-														// onclick='getSocietyFormEdit("+row.communityID+")'><i
-														// class='material-icons'
-														// style='color:#17e9e9'>edit</i></a>"
 														return "<a onclick='getDeleteTransactionID("
 																+ row.transactionID
 																+ ")'>"
@@ -326,16 +284,10 @@ $(document)
 												} ],
 										"columnDefs" : [ {
 											orderable : false,
-											targets : 5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
-										}, {
-											orderable : false,
-											targets : [ 1 ]
-										} ],
+											targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+											,"className": "dt-center", "targets": "_all"
+										}],
 										"buttons" : [
-										/*
-										 * 'csvHtml5', 'excelHtml5', 'pdfHtml5'
-										 */
-
 										{
 											extend : 'excel',
 											footer : 'true',
