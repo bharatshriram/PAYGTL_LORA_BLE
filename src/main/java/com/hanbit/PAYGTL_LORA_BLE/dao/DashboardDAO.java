@@ -354,6 +354,8 @@ public class DashboardDAO {
 					responsevo.setResult("No Data to update");
 				}
 					
+				} else {
+					responsevo.setResult("Invalid Frame");
 				}
 
 		} catch (Exception ex) {
