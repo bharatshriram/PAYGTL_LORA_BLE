@@ -19,15 +19,16 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
  * 
  */
 public class CommunitySetUpBO {
+	
+	CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 
 	/* Community */
 
 	public String addcommunity(CommunityRequestVO communityvo)
 			throws SQLException, BusinessException {
+		
 		// TODO Auto-generated method stub
-
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-
+		
 		String result = communitysetupdao.addcommunity(communityvo);
 
 		return result;
@@ -36,8 +37,6 @@ public class CommunitySetUpBO {
 	public String editcommunity(CommunityRequestVO communityvo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 
 		String result = communitysetupdao.editcommunity(communityvo);
 
@@ -50,8 +49,6 @@ public class CommunitySetUpBO {
 			BusinessException {
 		// TODO Auto-generated method stub
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-		
 		if (blockvo.getCommunityID()==0
 				|| blockvo.getBlockName().isEmpty()) {
 			throw new BusinessException("ALL fields are Mandatory");
@@ -87,8 +84,6 @@ public class CommunitySetUpBO {
 
 		}
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-
 		String result = communitysetupdao.editblock(blockvo);
 
 		return result;
@@ -98,8 +93,6 @@ public class CommunitySetUpBO {
 		// TODO Auto-generated method stub
 
 		String result = "";
-
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 
 		try {
 			boolean flag = false;
@@ -126,8 +119,6 @@ public class CommunitySetUpBO {
 	public String addcustomer(CustomerRequestVO customervo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 
 		if (customervo.getCommunityID()==0
 				|| customervo.getBlockID()==0
@@ -164,8 +155,6 @@ public class CommunitySetUpBO {
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-		
 		if(communitysetupdao.checkpendingrequest(customervo.getCRNNumber())) {
 			throw new BusinessException("PREVIOUS REQUEST IS PENDING FOR APPROVAL");
 		}
@@ -200,8 +189,6 @@ public class CommunitySetUpBO {
 
 		String result = "";
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-
 		try {
 
 			result = communitysetupdao.deletecustomer(customervo);
@@ -219,8 +206,6 @@ public class CommunitySetUpBO {
 	public String addtariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-		
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
@@ -234,7 +219,6 @@ public class CommunitySetUpBO {
 	
 	public String edittariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
@@ -245,7 +229,6 @@ public class CommunitySetUpBO {
 	
 	public String deletetariff(int tariffID) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		
 		if(communitysetupdao.checktariffIsSetToCustomers(tariffID)) {
 			throw new BusinessException("TARIFF CANNOT BE DELETED AS IT IS ASSIGNED TO CUSTOMERS");

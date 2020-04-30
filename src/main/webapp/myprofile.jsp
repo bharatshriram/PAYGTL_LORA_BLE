@@ -165,8 +165,9 @@
 			});
 			
 			document.querySelector("#profileName").innerText = "  "+sessionStorage.getItem("userName");
-			document.querySelector("#mobile").innerText = "  "+(sessionStorage.getItem("mobileNumber")==null) ? "--":sessionStorage.getItem("mobileNumber");
-			document.querySelector("#email").innerText = "  "+(sessionStorage.getItem("email")==null) ? "--":sessionStorage.getItem("email");
+			document.querySelector("#mobile").innerText = "  "+sessionStorage.getItem("mobileNumber");
+			document.querySelector("#email").innerText = "  "+sessionStorage.getItem("email");
+
 
 		});
 	</script>

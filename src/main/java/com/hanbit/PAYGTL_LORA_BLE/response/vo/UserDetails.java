@@ -22,6 +22,8 @@ public class UserDetails {
 	private String communityName;
 	private int pendingCommandType;
 	private int pendingTransactionID;
+	private String blockName;
+	private String meterID;
 	
 	public String getCommunityName() {
 		return communityName;
@@ -110,5 +112,17 @@ public class UserDetails {
 	}
 	public void setMobileNumber(String mobileNumber) {
 		this.mobileNumber = mobileNumber;
+	}
+	public String getBlockName() {
+		return blockName;
+	}
+	public void setBlockName(String blockName) {
+		this.blockName = blockName;
+	}
+	public String getMeterID() {
+		return meterID;
+	}
+	public void setMeterID(String meterID) {
+		this.meterID = meterID;
 	}
 }

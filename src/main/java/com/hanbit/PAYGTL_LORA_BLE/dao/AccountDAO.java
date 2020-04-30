@@ -609,21 +609,21 @@ public class AccountDAO {
 
 					TataResponseVO tataResponseVO = gson.fromJson(extramethodsdao.restcallpost(restcallvo), TataResponseVO.class);
 						
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID FROM customermeterdetails WHERE CRNNumber = ?");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");
 					pstmt1.setString(1, configurationvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if(rs1.next()) {
 						configurationvo.setCustomerID(rs1.getInt("CustomerID"));
+						configurationvo.setMeterID(rs1.getString("MeterID"));
 					}
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, Source, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, NOW())");
 					ps.setLong(1, tataResponseVO.getId());
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
 					ps.setInt(5, tataResponseVO.getTransmissionStatus());
 					ps.setString(6, configurationvo.getCRNNumber());
-					ps.setString(7, configurationvo.getSource());
 
 					if (ps.executeUpdate() > 0) {
 						result = "Success";

@@ -31,11 +31,12 @@ public class LoginBO {
 			
 			throw new BusinessException("ENTER USER ID");
 		}	
-			else if (loginvo.getPassword().isEmpty()) {
+		
+		if (loginvo.getPassword().isEmpty()) {
 		
 			throw new BusinessException("ENTER PASSWORD");
 		}
-
+		
 		responsevo = logindao.validateUser(loginvo);
 
 		return responsevo;

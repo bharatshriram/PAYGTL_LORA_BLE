@@ -116,9 +116,9 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-				String query = " INSERT INTO user (UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CreatedByID, CreatedByRoleID, ModifiedDate) values(?, ?, ?, ?, 1, <change>, ?, ?, NOW()) ";
+				String query = " INSERT INTO user (UserID, UserName, UserPassword, RoleID, ActiveStatus, CommunityID, BlockID, CustomerID, CreatedByID, CreatedByRoleID, CRNNumber, ModifiedDate) values(?, ?, ?, ?, 1, <change>, ?, ?, NOW()) ";
 			
-			    pstmt = con.prepareStatement(query.replaceAll("<change>", (usermanagementvo.getRoleID() == 4) ? "0, 0, 0" : "?, ?, ?"));
+			    pstmt = con.prepareStatement(query.replaceAll("<change>", (usermanagementvo.getRoleID() == 4) ? "0, 0, 0, 0" : "?, ?, ?, ?"));
 			
 				pstmt.setString(1, usermanagementvo.getUserID());
 				pstmt.setString(2, usermanagementvo.getUserName());

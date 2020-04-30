@@ -4,6 +4,7 @@ public class LoginVO {
 	
 	private String userID;
 	private String password;
+	private String source;
 	
 	public String getUserID() {
 		return userID;
@@ -17,7 +18,11 @@ public class LoginVO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
+	}
 	
-	
-
 }
