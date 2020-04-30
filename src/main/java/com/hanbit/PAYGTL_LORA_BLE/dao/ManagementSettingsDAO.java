@@ -139,6 +139,7 @@ public class ManagementSettingsDAO {
 						pstmt.setInt(7, usermanagementvo.getCustomerID());
 						pstmt.setInt(8, rs.getInt("ID"));
 						pstmt.setInt(9, usermanagementvo.getLoggedInRoleID());
+						pstmt.setString(10, usermanagementvo.getCRNNumber());
 						
 					}else {
 						pstmt.setInt(5, usermanagementvo.getCommunityID());
@@ -146,6 +147,7 @@ public class ManagementSettingsDAO {
 						pstmt.setInt(7, 0);
 						pstmt.setInt(8, rs.getInt("ID"));
 						pstmt.setInt(9, usermanagementvo.getLoggedInRoleID());
+						pstmt.setString(10, usermanagementvo.getCRNNumber());
 					}
 					
 				} else {

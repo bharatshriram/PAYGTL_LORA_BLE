@@ -142,6 +142,34 @@ public class CommunitySetUpDAO {
 
 		return result;
 	}
+	
+	public boolean checkIfCommunityNameExists(CommunityRequestVO communityvo, String mode) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		String query = "SELECT * from community WHERE <change> CommunityName = '"+communityvo.getCommunityName().trim()+"'";
+		pstmt = con.prepareStatement(query.replaceAll("<change>", (mode.equalsIgnoreCase("add")) ? "" : "CommunityID != "+communityvo.getCommunityID() + " AND "));
+		
+		rs = pstmt.executeQuery();
+        if (rs.next()) {
+        	result = true;
+        	}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		
+		return result;
+	}
 
 	/* Block */
 
@@ -350,6 +378,35 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
+	public boolean checkIfBlockNameExists(BlockRequestVO blockvo, String mode) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		String query = "SELECT * FROM block WHERE CommunityID = ? AND <change> BlockName = '"+blockvo.getBlockName().trim()+"'";
+		pstmt = con.prepareStatement(query.replaceAll("<change>", (mode.equalsIgnoreCase("add")) ? "" : "BlockID != "+blockvo.getBlockID() + " AND "));
+		pstmt.setInt(1, blockvo.getCommunityID());
+		
+		rs = pstmt.executeQuery();
+        if (rs.next()) {
+        	result = true;
+        	}
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		
+		return result;
+	}
+	
 	public boolean checkifhousesexist(int blockID) throws SQLException {
 		// TODO Auto-generated method stub
 		
@@ -455,9 +512,6 @@ public class CommunitySetUpDAO {
 		try {
 			con = getConnection();
 
-			boolean flag;
-			int i = 0;
-			
 			pstmt = con.prepareStatement(
 					"INSERT INTO customermeterdetails (CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, TariffID, ActiveStatus, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, Now(), Now() )");
 			pstmt.setInt(1, customervo.getCommunityID());
@@ -479,66 +533,50 @@ public class CommunitySetUpDAO {
 				ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 				UserManagementRequestVO usermanagementvo = new UserManagementRequestVO();
 				
-				pstmt1 = con.prepareStatement("SELECT CustomerID, CRNNumber from customermeterdetails WHERE MeterID = ?");
+				pstmt1 = con.prepareStatement("SELECT CustomerID from customermeterdetails WHERE MeterID = ?");
 				pstmt1.setString(1, customervo.getMeterID());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {
+					
 					usermanagementvo.setBlockID(customervo.getBlockID());
-					LoginDAO logindao = new LoginDAO();
+					usermanagementvo.setUserID(customervo.getCRNNumber());
+					usermanagementvo.setUserName(customervo.getFirstName() + " " + customervo.getLastName());
+					usermanagementvo.setUserPassword(Encryptor.encrypt(ExtraConstants.key1, ExtraConstants.key2, customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7)));
+					usermanagementvo.setRoleID(3);
+					usermanagementvo.setCommunityID(customervo.getCommunityID());
+					usermanagementvo.setCustomerID(rs.getInt("CustomerID"));
+					usermanagementvo.setBlockID(customervo.getBlockID());
+					usermanagementvo.setCRNNumber(customervo.getCRNNumber());
+					usermanagementvo.setLoggedInRoleID(customervo.getLoggedInRoleID());
+					usermanagementvo.setLoggedInUserID(customervo.getLoggedInUserID());
 					
-					String userID = customervo.getFirstName().substring(0, 2)+ customervo.getFirstName().substring(customervo.getFirstName().length()-2) + customervo.getLastName().substring(0,2) +customervo.getLastName().substring(customervo.getLastName().length()-2)+customervo.getEmail().substring(0, customervo.getEmail().indexOf("@"));
-					
-					do {
-						 flag = logindao.checkuserid(userID);
-						 i++;
-						 if(flag) {
-							 userID = userID+i;	
-							}
-						 
-					} while (flag == true);
-					
-					if(i<=1) {
-						usermanagementvo.setUserID(customervo.getFirstName().substring(0, 2)+ customervo.getFirstName().substring(customervo.getFirstName().length()-2) + customervo.getLastName().substring(0,2) +customervo.getLastName().substring(customervo.getLastName().length()-2)+customervo.getEmail().substring(0, customervo.getEmail().indexOf("@")));	
-					}else {
-						usermanagementvo.setUserID(userID);
+					if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
+						
+						ExtraMethodsDAO maildao = new ExtraMethodsDAO();
+						MailRequestVO mailrequestvo = new MailRequestVO();
+						
+						mailrequestvo.setToEmail(customervo.getEmail());
+						mailrequestvo.setUserID(usermanagementvo.getUserID());
+						mailrequestvo.setUserPassword(customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7));
+						
+						result = maildao.sendmail(mailrequestvo);
+						
+						if(result.equalsIgnoreCase("Success")) {
+							result = "Success";
+						}else {
+							result = "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
+						}
+						
+						result = "Success";					
+					} else {
+						PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CustomerID = (SELECT CustomerID FROM customermeterdetails WHERE MeterID = ?)");
+						pstmt2.setString(1, customervo.getMeterID());
+						
+						if(pstmt2.executeUpdate() > 0) {
+							result = "Failure";
+						}
 					}
 					
-				}
-				usermanagementvo.setUserName(customervo.getFirstName() + " " + customervo.getLastName());
-				usermanagementvo.setUserPassword(Encryptor.encrypt(ExtraConstants.key1, ExtraConstants.key2, customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7)));
-				usermanagementvo.setRoleID(3);
-				usermanagementvo.setCommunityID(customervo.getCommunityID());
-				usermanagementvo.setCustomerID(rs.getInt("CustomerID"));
-				usermanagementvo.setBlockID(customervo.getBlockID());
-				usermanagementvo.setCRNNumber(rs.getString("CRNNumber"));
-				usermanagementvo.setLoggedInRoleID(customervo.getLoggedInRoleID());
-				usermanagementvo.setLoggedInUserID(customervo.getLoggedInUserID());
-				
-				if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
-					
-					ExtraMethodsDAO maildao = new ExtraMethodsDAO();
-					MailRequestVO mailrequestvo = new MailRequestVO();
-					
-					mailrequestvo.setToEmail(customervo.getEmail());
-					mailrequestvo.setUserID(usermanagementvo.getUserID());
-					mailrequestvo.setUserPassword(customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7));
-					
-					result = maildao.sendmail(mailrequestvo);
-					
-					if(result.equalsIgnoreCase("Success")) {
-						result = "Success";
-					}else {
-						result = "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
-					}
-					
-					result = "Success";					
-				} else {
-					PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CustomerID = (SELECT CustomerID FROM customermeterdetails WHERE MeterID = ?)");
-					pstmt2.setString(1, customervo.getMeterID());
-					
-					if(pstmt2.executeUpdate() > 0) {
-						result = "Failure";
-					}
 				}
 				
 			}
@@ -787,7 +825,7 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
-	public boolean checkcustomer(String firstName, String lastName, String CRNNumber) throws SQLException {
+	public boolean checkcustomer(CustomerRequestVO customervo) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -797,8 +835,8 @@ public class CommunitySetUpDAO {
 		try{
 		con = getConnection();
 		//change accordingly based on crn number
-		pstmt = con.prepareStatement("SELECT * from customermeterdetails where CRNNumber = ?");
-		pstmt.setString(1, CRNNumber.trim());
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where CRNNumber = ? OR MeterID = ? OR MeterSerialNumber = ?");
+		pstmt.setString(1, customervo.getCRNNumber().trim());
 		rs = pstmt.executeQuery();
         
 		if (rs.next()) {
@@ -806,15 +844,23 @@ public class CommunitySetUpDAO {
         	}  
 		
 		PreparedStatement pstmt1 = con.prepareStatement("SELECT * from customermeterdetails where LastName = ? AND FirstName = ?");
-		pstmt1.setString(1, lastName.trim());
-		pstmt1.setString(2, firstName.trim());
+		pstmt1.setString(1, customervo.getLastName().trim());
+		pstmt1.setString(2, customervo.getFirstName().trim());
 		ResultSet rs1 = pstmt1.executeQuery();
 		
 		if(rs1.next()) {
 				result = true;
 			}
-		}
-		catch (Exception ex) {
+		
+		PreparedStatement pstmt2 = con.prepareStatement("SELECT * from customermeterdetails where HouseNumber = ? AND BlockID = " + customervo.getBlockID());
+		pstmt2.setString(1, customervo.getHouseNumber().trim());
+		ResultSet rs2 = pstmt2.executeQuery();
+		
+		if(rs2.next()) {
+				result = true;
+			}
+		
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
 			pstmt.close();
