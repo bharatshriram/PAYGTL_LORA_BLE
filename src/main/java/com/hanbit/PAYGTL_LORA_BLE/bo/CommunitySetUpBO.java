@@ -29,18 +29,45 @@ public class CommunitySetUpBO {
 		
 		// TODO Auto-generated method stub
 		
-		String result = communitysetupdao.addcommunity(communityvo);
+		if (communityvo.getCommunityName().isEmpty() || communityvo.getmobileNumber().isEmpty() || communityvo.getEmail().isEmpty() || communityvo.getAddress().isEmpty()) {
+			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		communityvo.setCommunityID(0);
+		
+		if(communitysetupdao.checkIfCommunityNameExists(communityvo, "add")) {
+			throw new BusinessException("COMMUNITY NAME ALREADY EXISTS");
+		}
+		
+		if (!checkEmailID(communityvo.getEmail())) {
+			throw new BusinessException("INVALID EMAIL ID");
+		}
 
-		return result;
+		if (!checkMobileNo(communityvo.getmobileNumber())) {
+			throw new BusinessException(
+					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
+		}
+		
+		return communitysetupdao.addcommunity(communityvo);
 	}
 
 	public String editcommunity(CommunityRequestVO communityvo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
+		
+		if(communitysetupdao.checkIfCommunityNameExists(communityvo, "edit")) {
+			throw new BusinessException("COMMUNITY NAME ALREADY EXISTS");
+		}
+		
+		if (!checkEmailID(communityvo.getEmail())) {
+			throw new BusinessException("INVALID EMAIL ID");
+		}
 
-		String result = communitysetupdao.editcommunity(communityvo);
+		if (!checkMobileNo(communityvo.getmobileNumber())) {
+			throw new BusinessException(
+					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
+		}
 
-		return result;
+		return communitysetupdao.editcommunity(communityvo);
 	}
 
 	/* Block */
@@ -49,59 +76,64 @@ public class CommunitySetUpBO {
 			BusinessException {
 		// TODO Auto-generated method stub
 
-		if (blockvo.getCommunityID()==0
-				|| blockvo.getBlockName().isEmpty()) {
-			throw new BusinessException("ALL fields are Mandatory");
+		if (blockvo.getCommunityID()==0 || blockvo.getBlockName().isEmpty() || blockvo.getEmail().isEmpty() || blockvo.getLocation().isEmpty() || blockvo.getMobileNumber().isEmpty()) {
+			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 
-		Pattern pattern = Pattern.compile("[A-Za-z0-9]");
-		Matcher matcher = pattern.matcher(blockvo.getBlockName());
-
-		if (!matcher.find()) {
-			throw new BusinessException("Block Name Must be AlphaNumeric Only");
+		if (checkName(blockvo.getBlockName())) {
+			throw new BusinessException("BLOCK NAME MUST BE ALPHANUMERIC ONLY");
+		}
+		
+		if(communitysetupdao.checkIfBlockNameExists(blockvo, "add")) {
+			throw new BusinessException("BLOCK NAME ALREADY EXISTS IN THE SELECTED COMMUNITY");
+		}
+		
+		if (!checkEmailID(blockvo.getEmail())) {
+			throw new BusinessException("INVALID EMAIL ID");
 		}
 
-				String result = communitysetupdao.addblock(blockvo);
+		if (!checkMobileNo(blockvo.getMobileNumber())) {
+			throw new BusinessException(
+					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
+		}
 
-		return result;
+		return communitysetupdao.addblock(blockvo);
 	}
 
 	public String editblock(BlockRequestVO blockvo) throws SQLException,
 			BusinessException {
 		// TODO Auto-generated method stub
 
-		boolean blockname = false;
-
-		Pattern pattern = Pattern.compile("[A-Za-z0-9]");
-		Matcher matcher = pattern.matcher(blockvo.getBlockName());
-		if (!matcher.find()) {
-			blockname = true;
+		if (checkName(blockvo.getBlockName())) {
+			throw new BusinessException("BLOCK NAME MUST BE ALPHANUMERIC ONLY");
+		}
+		
+		if(communitysetupdao.checkIfBlockNameExists(blockvo, "edit")) {
+			throw new BusinessException("BLOCK NAME ALREADY EXISTS IN THE SELECTED COMMUNITY");
+		}
+		
+		if (!checkEmailID(blockvo.getEmail())) {
+			throw new BusinessException("INVALID EMAIL ID");
 		}
 
-		if (blockname == true) {
-
-			throw new BusinessException("Block Name Must be AlphaNumeric Only");
-
+		if (!checkMobileNo(blockvo.getMobileNumber())) {
+			throw new BusinessException(
+					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 
-		String result = communitysetupdao.editblock(blockvo);
-
-		return result;
+		return communitysetupdao.editblock(blockvo);
 	}
 
 	public String deleteblock(int blockID) throws BusinessException {
 		// TODO Auto-generated method stub
 
-		String result = "";
+		String result = "Failure";
 
 		try {
-			boolean flag = false;
 
-			flag = communitysetupdao.checkifhousesexist(blockID);
-
-			if (flag) {
+			if (communitysetupdao.checkifhousesexist(blockID)) {
 				throw new BusinessException(
-						"DELETE ALL HOUSES/CUSTOMERS IN THE BLOCK BEFORE DELETING THE BLOCK");
+						"DELETE ALL CUSTOMERS IN THE BLOCK BEFORE DELETING THE BLOCK");
 			}
 
 			result = communitysetupdao.deleteblock(blockID);
@@ -132,7 +164,7 @@ public class CommunitySetUpBO {
 		}
 
 		if (checkName(customervo.getFirstName()) == true || checkName(customervo.getLastName()) == true) {
-			throw new BusinessException("NAME CAN CONTAIN ONLY ALPHABETS");
+			throw new BusinessException("NAME MUST BE ALPHANUMERIC ONLY");
 		}
 
 		if (!checkEmailID(customervo.getEmail())) {
@@ -144,8 +176,8 @@ public class CommunitySetUpBO {
 					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 		
-		if(communitysetupdao.checkcustomer(customervo.getFirstName(), customervo.getLastName(), customervo.getCRNNumber())) {
-			throw new BusinessException("CUSTOMER/CRNNumber ALREADY REGISTERED");
+		if(communitysetupdao.checkcustomer(customervo)) {
+			throw new BusinessException("CUSTOMER/CRNNUMBER ALREADY REGISTERED");
 		}
 
 		return communitysetupdao.addcustomer(customervo);
@@ -243,7 +275,7 @@ public class CommunitySetUpBO {
 		// TODO Auto-generated method stub
 		boolean result = false;
 
-		Pattern pattern = Pattern.compile("[A-Za-z]");
+		Pattern pattern = Pattern.compile("[A-Za-z0-9]");
 		Matcher matcher = pattern.matcher(customerName);
 		if (!matcher.find()) {
 			result = true;
