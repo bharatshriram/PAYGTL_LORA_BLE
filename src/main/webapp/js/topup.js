@@ -191,7 +191,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "topupStatus.jsp";
 																return false
 															});
 															
@@ -204,7 +204,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "topup.jsp";
 																return false
 																		});
 															
@@ -216,7 +216,7 @@ $(document)
 																			result) {
 																			
 																//alert();
-																window.location = "customerDetails.jsp";
+																window.location = "topup.jsp";
 																return false
 																		});
 														}
@@ -234,7 +234,7 @@ $(document).ready(function() {
 	table = $('#topstatusTable')
 	.DataTable(
 	{
-		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 		"responsive" : true,
 		/*"processing" : true,*/
 		"serverSide" : false,
@@ -301,14 +301,14 @@ $(document).ready(function() {
 		}
 	],
 	"columnDefs" : [ {
-		orderable : false,
+		//orderable : false,
 		targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 		,"className": "dt-center", "targets": "_all"
-	},
+	}/*,
 	{
 		orderable : false,
 		targets : [ 1 ]
-	}], "buttons": [
+	}*/], "buttons": [
 		   /* 'csvHtml5',
 		'excelHtml5',
 	'pdfHtml5'*/

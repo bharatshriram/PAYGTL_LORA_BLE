@@ -15,7 +15,7 @@ $(document).ready(function() {
 table = $('#blockTable')
 .DataTable(
 {
-"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 "responsive" : true,
 /*"processing" : true,*/
 "serverSide" : false,
@@ -80,14 +80,14 @@ return json.data;
 
 ],
 "columnDefs" : [ {
-	orderable : false,
+//	orderable : false,
 	targets: 5, visible:  ((sessionStorage.getItem("roleID") == 1) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 	,"className": "dt-center", "targets": "_all"
-},
+}/*,
 {
 	orderable : false,
 	targets : [ 1 ]
-}], "buttons": [
+}*/], "buttons": [
 	   
 	]
 });

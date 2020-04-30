@@ -7,7 +7,7 @@ $(document).ready(function() {
 table = $('#mgmtTable')
 .DataTable(
 {//'Pfrtip'
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/>i>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12'p<br/>i>>",
+	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,
@@ -79,13 +79,7 @@ return json.data;
 
 ],
 "columnDefs" : [ {
-	orderable : false,
-	targets : [ 0 ]
-,"className": "dt-center", "targets": "_all"
-},
-{
-	orderable : false,
-	targets : [ 1 ]
+"className": "dt-center", "targets": "_all"
 }], "buttons": [
    /* 'csvHtml5',
 	'excelHtml5',

@@ -159,26 +159,22 @@ $(document)
 													    }
 														
 													},
-													"defaultContent": "",
-													orderable: false 
+													"defaultContent": ""
 												},
 												{
 													"data" : "valveStatus"
 												},
 												{
 													"data" : "tariff",
-													"defaultContent": "",
-													orderable: false 
+													"defaultContent": ""
 												},
 												{
 													"data" : "tamperStatus",
-														"defaultContent": "",
-														orderable: false 
+														"defaultContent": ""
 												},
 												{
 													"data": "timeStamp",
-													"defaultContent": "",
-													orderable: false 
+													"defaultContent": ""
 													/*"mData" : "action",
 													"render" : function(data,
 															type, row) {

@@ -59,13 +59,9 @@ return json.data;
 
 ],
 "columnDefs" : [ {
-	orderable : false,
+	//orderable : false,
 	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 	,"className": "dt-center", "targets": "_all"
-},
-{
-	orderable : false,
-	targets : [ 1 ]
 }]
 });
 });
