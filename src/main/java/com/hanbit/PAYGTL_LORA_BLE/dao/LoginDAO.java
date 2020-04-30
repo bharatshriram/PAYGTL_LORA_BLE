@@ -50,57 +50,85 @@ public class LoginDAO {
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(
-					"SELECT u.ID, u.UserID, u.UserName, u.UserPassword, u.RoleID, u.ActiveStatus, u.CommunityID, u.BlockID, u.CustomerID, u.CRNNumber, b.BlockName, b.Email AS bemail, b.MobileNumber AS bmobile, cmd.MobileNumber AS cmobile, cmd.Email AS cemail FROM USER AS u LEFT JOIN block AS b ON b.BlockID = u.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = u.CRNNumber WHERE u.UserID = ? AND u.UserPassword = ?");
+					"SELECT u.ID, u.UserID, u.UserName, u.UserPassword, u.RoleID, cmd.MeterID, u.CommunityID, c.CommunityName, u.BlockID, u.CustomerID, u.CRNNumber, b.BlockName, b.Email AS bemail, b.MobileNumber AS bmobile, cmd.MobileNumber AS cmobile, cmd.Email AS cemail FROM USER AS u LEFT JOIN community AS c ON c.CommunityID = u.CommunityID LEFT JOIN block AS b ON b.BlockID = u.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = u.CRNNumber WHERE u.UserID = ? AND u.UserPassword = ?");
 			pstmt.setString(1, loginvo.getUserID());
 			pstmt.setString(2, loginvo.getPassword());
 			resultSet = pstmt.executeQuery();
 			if (resultSet.next()) {
-				
+
 				if (loginvo.getUserID().equals(resultSet.getString("UserID"))) {
 
 					if (loginvo.getPassword().equals(resultSet.getString("UserPassword"))) {
 
+						if (loginvo.getSource().equalsIgnoreCase("web")) {
+
 							userDetails.setRoleID(resultSet.getInt("RoleID"));
 							userDetails.setBlockID(resultSet.getInt("BlockID"));
-							
 							userDetails.setEmail((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5) ? resultSet.getString("bemail") : (userDetails.getRoleID() == 3) ? resultSet.getString("cemail") : "");
 							userDetails.setMobileNumber((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5) ? resultSet.getString("bmobile") : (userDetails.getRoleID() == 3) ? resultSet.getString("cmobile") : "");
-							
-							if(userDetails.getRoleID() == 3) 
-							
 							userDetails.setCustomerID(resultSet.getInt("CustomerID"));
 							userDetails.setCRNNumber(resultSet.getString("CRNNumber"));
 							userDetails.setuserName(resultSet.getString("UserName"));
 							userDetails.setCommunity(resultSet.getInt("CommunityID"));
 							userDetails.setID(resultSet.getInt("ID"));
-							if(userDetails.getCustomerID()!=0) {
-								pstmt1 = con.prepareStatement("SELECT TransactionID, CommandType from command WHERE CustomerID = ? and Status = 0");
-								pstmt1.setInt(1, userDetails.getCustomerID());
-								resultSet1 = pstmt1.executeQuery();
-								if(resultSet1.next()) {
-									userDetails.setPendingCommandType(resultSet1.getInt("CommandType"));
-									userDetails.setPendingTransactionID(resultSet1.getInt("TransactionID"));
-								}
-							}
-							
+
 							responsevo.setUserDetails(userDetails);
 							responsevo.setResult("Success");
 							responsevo.setMessage("Successfully Logged In");
 
+						} else {
+
+							if (resultSet.getInt("RoleID") != 3 && loginvo.getSource().equalsIgnoreCase("mobile")) {
+								throw new BusinessException("USER NOT AUTHORIZED TO LOGIN");
+							} else {
+								userDetails.setRoleID(resultSet.getInt("RoleID"));
+								userDetails.setBlockID(resultSet.getInt("BlockID"));
+								userDetails.setEmail((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5)
+										? resultSet.getString("bemail")
+										: (userDetails.getRoleID() == 3) ? resultSet.getString("cemail") : "");
+								userDetails
+										.setMobileNumber((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5)
+												? resultSet.getString("bmobile")
+												: (userDetails.getRoleID() == 3) ? resultSet.getString("cmobile") : "");
+								userDetails.setCustomerID(resultSet.getInt("CustomerID"));
+								userDetails.setCRNNumber(resultSet.getString("CRNNumber"));
+								userDetails.setuserName(resultSet.getString("UserName"));
+								userDetails.setCommunity(resultSet.getInt("CommunityID"));
+								userDetails.setCommunityName(resultSet.getString("CommunityName"));
+								userDetails.setBlockName(resultSet.getString("BlockName"));
+								userDetails.setMeterID(resultSet.getString("MeterID"));
+								userDetails.setID(resultSet.getInt("ID"));
+								if (userDetails.getCRNNumber() != null) {
+									pstmt1 = con.prepareStatement(
+											"SELECT TransactionID, CommandType from command WHERE CRNNumber = ? and Status = 0");
+									pstmt1.setInt(1, userDetails.getCustomerID());
+									resultSet1 = pstmt1.executeQuery();
+									if (resultSet1.next()) {
+										userDetails.setPendingCommandType(resultSet1.getInt("CommandType"));
+										userDetails.setPendingTransactionID(resultSet1.getInt("TransactionID"));
+									}
+								}
+
+								responsevo.setUserDetails(userDetails);
+								responsevo.setResult("Success");
+								responsevo.setMessage("Successfully Logged In");
+							}
+
 						}
-					else {
-						responsevo.setResult("Failure");
-						responsevo.setMessage("Invalid Password");
-					}
 
 					} else {
 						responsevo.setResult("Failure");
-						responsevo.setMessage("Invalid UserID");
+						responsevo.setMessage("Incorrect Password");
 					}
+
 				} else {
 					responsevo.setResult("Failure");
-					responsevo.setMessage("Invalid Credentials");
+					responsevo.setMessage("Invalid UserID");
 				}
+			} else {
+				responsevo.setResult("Failure");
+				responsevo.setMessage("Invalid Credentials");
+			}
 
 		} catch (SQLException e) {
 			// TODO: handle exception
@@ -112,7 +140,7 @@ public class LoginDAO {
 			con.close();
 
 		}
-		
+
 		return responsevo;
 	}
 
@@ -131,38 +159,40 @@ public class LoginDAO {
 			con = getConnection();
 			ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 			MailRequestVO mailrequestvo = new MailRequestVO();
-			pstmt = con.prepareStatement("SELECT CustomerID, CRNNumber, UserPassword, CommunityID, BlockID FROM user WHERE UserID = ?");
+			pstmt = con.prepareStatement(
+					"SELECT CustomerID, CRNNumber, UserPassword, CommunityID, BlockID FROM user WHERE UserID = ?");
 			pstmt.setString(1, userid);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 
-					if(rs.getInt("CommunityID")!=0 && rs.getInt("BlockID")!=0) {
-						
-						if(rs.getInt("CustomerID")!=0) {
-							
-							pstmt1 = con.prepareStatement("SELECT Email FROM customer WHERE CustomerID=?");
-							pstmt1.setString(1, rs.getString("CustomerID"));
-						
-					}else {
+				if (rs.getInt("CommunityID") != 0 && rs.getInt("BlockID") != 0) {
+
+					if (rs.getInt("CustomerID") != 0) {
+
+						pstmt1 = con.prepareStatement("SELECT Email FROM customer WHERE CustomerID=?");
+						pstmt1.setString(1, rs.getString("CustomerID"));
+
+					} else {
 						pstmt1 = con.prepareStatement("SELECT Email FROM block WHERE BlockID=?");
 						pstmt1.setString(1, rs.getString("BlockID"));
-						
-					}
-						rs1 = pstmt1.executeQuery();
 
-						if (rs1.next()) {
-							mailrequestvo.setToEmail(rs1.getString("Email"));
-						}
-					} else {
-						mailrequestvo.setToEmail(ExtraConstants.fromEmail);
 					}
-						
-					mailrequestvo.setUserID(userid);
-					mailrequestvo.setUserPassword(Encryptor.decrypt(ExtraConstants.key1, ExtraConstants.key2,rs.getString("UserPassword")));
-					responsevo.setResult(maildao.sendmail(mailrequestvo));
-			
+					rs1 = pstmt1.executeQuery();
+
+					if (rs1.next()) {
+						mailrequestvo.setToEmail(rs1.getString("Email"));
+					}
+				} else {
+					mailrequestvo.setToEmail(ExtraConstants.fromEmail);
+				}
+
+				mailrequestvo.setUserID(userid);
+				mailrequestvo.setUserPassword(
+						Encryptor.decrypt(ExtraConstants.key1, ExtraConstants.key2, rs.getString("UserPassword")));
+				responsevo.setResult(maildao.sendmail(mailrequestvo));
+
 			} else {
 				responsevo.setMessage("UserID is not Registered");
 			}
@@ -178,9 +208,8 @@ public class LoginDAO {
 		return responsevo;
 
 	}
-	
-	public String changepassword(UserManagementRequestVO usermanagementvo)
-			throws SQLException {
+
+	public String changepassword(UserManagementRequestVO usermanagementvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -190,8 +219,7 @@ public class LoginDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con
-					.prepareStatement("UPDATE user SET UserPassword = ?, ModifiedDate = NOW() where UserID = ?");
+			pstmt = con.prepareStatement("UPDATE user SET UserPassword = ?, ModifiedDate = NOW() where UserID = ?");
 			pstmt.setString(1, usermanagementvo.getNewPassword());
 			pstmt.setString(2, usermanagementvo.getUserID().trim());
 
@@ -237,7 +265,7 @@ public class LoginDAO {
 
 		return result;
 	}
-	
+
 	public boolean checkoldpassword(UserManagementRequestVO usermanagementvo) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
@@ -252,7 +280,7 @@ public class LoginDAO {
 			pstmt.setString(1, usermanagementvo.getUserID());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				
+
 				result = usermanagementvo.getOldPassword().contentEquals(rs.getString("UserPassword"));
 			}
 
@@ -267,5 +295,5 @@ public class LoginDAO {
 		return result;
 
 	}
-	
+
 }

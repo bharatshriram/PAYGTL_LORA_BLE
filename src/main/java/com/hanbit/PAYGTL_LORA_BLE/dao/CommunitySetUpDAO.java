@@ -246,6 +246,7 @@ public class CommunitySetUpDAO {
 				usermanagementvo.setBlockID(rs.getInt("BlockID"));
 				usermanagementvo.setLoggedInRoleID(1);
 				usermanagementvo.setLoggedInUserID(blockvo.getLoggedInUserID());
+				usermanagementvo.setCRNNumber("NULL");
 				}
 				
 				if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
@@ -568,7 +569,7 @@ public class CommunitySetUpDAO {
 			
 			if(customervo.getLoggedInRoleID() == 3) {
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, LastName FROM customermeterdetails WHERE CRNNumber = ?");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, BlockID, LastName FROM customermeterdetails WHERE CRNNumber = ?");
 				pstmt1.setString(1, customervo.getCRNNumber());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {

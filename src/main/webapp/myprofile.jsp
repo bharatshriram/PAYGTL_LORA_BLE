@@ -168,6 +168,7 @@
 			document.querySelector("#mobile").innerText = "  "+sessionStorage.getItem("mobileNumber");
 			document.querySelector("#email").innerText = "  "+sessionStorage.getItem("email");
 
+
 		});
 	</script>
 	<script>
@@ -180,5 +181,4 @@
   </script>
 
 </body>
-
 </html>
