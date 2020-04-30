@@ -67,8 +67,10 @@ public class DashboardDAO {
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
-		
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CustomerID = '"+id+"'":""));
+				query =query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
+			
+			pstmt = con.prepareStatement(query);
+			System.out.println("query==>"+query);
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
@@ -109,7 +111,7 @@ public class DashboardDAO {
 				Date currentDateTime = new Date();
 				
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
-
+/*
 				if(minutes > noAMRInterval) {
 					nonCommunicating++;
 					dashboardvo.setDateColor("RED");
@@ -118,7 +120,7 @@ public class DashboardDAO {
 					dashboardvo.setDateColor("GREEN");
 					dashboardvo.setCommunicationStatus("YES");
 				}
-				dashboardvo.setNonCommunicating(nonCommunicating);
+				dashboardvo.setNonCommunicating(nonCommunicating);*/
 				dashboard_list.add(dashboardvo);
 			}
 		}

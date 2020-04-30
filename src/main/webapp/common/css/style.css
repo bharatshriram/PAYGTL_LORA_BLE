@@ -30,7 +30,7 @@ th.dt-center, td.dt-center { text-align: center; }
   overflow-y: auto;
 }
 .right-block{
-  height: 400px;
+ /*  height: 400px; */
 }
 .cardHeading{
   font-weight: bold;
@@ -210,7 +210,10 @@ option:first-child
     background-color: transparent;
     transition: all 0.5s ease-in-out;
     position: fixed;
-    height: 90vh;
+    height: calc(100% - 60px);
+    overflow: hidden;
+    z-index : 99;
+    
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
     }
 .sidebar:hover{overflow-y:auto}
@@ -283,7 +286,16 @@ option:first-child
     margin-bottom: 9px;
 }
 
+.imgheader img{
+	width: 80px;
+	height: 48px;
+}
 
+.imgheader
+{
+	    margin-top: 6px;
+	font-size: 16px !important;
+}
 .user-panel {
     clear: left;
     display: block;

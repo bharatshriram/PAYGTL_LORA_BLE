@@ -82,14 +82,17 @@
                 <%}%>
                 
                 <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails.png /> <span class="nav-label">Configuration Status</span></a> </li>
-                <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
-                      class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
-                      class="fa fa-chevron-left float-right"></span> </a>
-                  <ul class="sub-menu collapse" id="dashboard">
-                  <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
+    
+                   <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
                     <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
                     <li><a href="financialreports.jsp"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
+    
+                <!-- <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
+                      class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
+                      class="fa fa-chevron-left float-right"></span> </a>
+                  <ul class="sub-menu collapse" id="dashboard">
+ -->                  
                 <% } else if (user_id.equalsIgnoreCase("3")) {%>
                 
                 <li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>

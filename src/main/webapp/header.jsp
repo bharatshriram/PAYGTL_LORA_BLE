@@ -26,10 +26,15 @@
 		</div>
 
 		<!-- Brand -->
-		<a class="navbar-brand text-white col-md-2 mr-minus15  mr-auto"
+		<a class="navbar-brand text-white col-md-2 mr-minus15"
 			href="#"><img class="img-responsive logo"
 			src="common/images/hanbit1.png" alt="logo"></a>
 		<!-- Links -->
+
+
+					<div class="m-auto text-center text-white">
+					<h4 class="imgheader">   SMART PREPAID SYSTEM - GAS  <img src="common/images/gas.png">  PAYGTL</h4>
+					</div>
 
 		<ul class="navbar-nav">
 			<!-- Dropdown -->

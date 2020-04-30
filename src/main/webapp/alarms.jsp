@@ -54,7 +54,7 @@
 									<th>AMR ID</th>
 									<th>Battery</th>
 									<th>Tamper</th>
-									<th>Date</th>
+									<th>Last Communication Date</th>
 									<th>Difference</th>
 								</tr>
 							</thead>

@@ -14,7 +14,7 @@ $(document)
 									{
 										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
-												+ "<'row'<'col-sm-12'p<br/>i>>",
+												+ "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 												
 												responsive: {
 											        details: {
@@ -83,7 +83,7 @@ $(document)
 													"order" : [ 0, "desc" ],
 													"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ]
 												    ,bPaginate  : false,
-												    "scrollY" : 324,
+												    "scrollY" : 300,
 													"scrollX" : true,
 												/*"processing" : true,
 												"serverSide" : true,
