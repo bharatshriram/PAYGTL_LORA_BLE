@@ -825,7 +825,7 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
-	public boolean checkcustomer(CustomerRequestVO customervo) throws SQLException {
+	public boolean checkcustomerName(CustomerRequestVO customervo) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -834,29 +834,94 @@ public class CommunitySetUpDAO {
 		
 		try{
 		con = getConnection();
-		//change accordingly based on crn number
-		pstmt = con.prepareStatement("SELECT * from customermeterdetails where CRNNumber = ? OR MeterID = ? OR MeterSerialNumber = ?");
-		pstmt.setString(1, customervo.getCRNNumber().trim());
+		
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where LastName = ? AND FirstName = ?");
+		pstmt.setString(1, customervo.getLastName().trim());
+		pstmt.setString(2, customervo.getFirstName().trim());
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+				result = true;
+			}
+		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		
+		return result;
+	}
+	
+	public boolean checkAMRID(CustomerRequestVO customervo) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where MeterID = '"+customervo.getMeterID().trim()+"'");
 		rs = pstmt.executeQuery();
         
 		if (rs.next()) {
         	result = true;
         	}  
 		
-		PreparedStatement pstmt1 = con.prepareStatement("SELECT * from customermeterdetails where LastName = ? AND FirstName = ?");
-		pstmt1.setString(1, customervo.getLastName().trim());
-		pstmt1.setString(2, customervo.getFirstName().trim());
-		ResultSet rs1 = pstmt1.executeQuery();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
 		
-		if(rs1.next()) {
+		return result;
+	}
+
+	public boolean checkMeterSerialNumber(CustomerRequestVO customervo) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where MeterSerialNumber = '"+customervo.getMeterSerialNumber().trim()+"'");
+		pstmt.setString(1, customervo.getMeterSerialNumber().trim());
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
 				result = true;
 			}
 		
-		PreparedStatement pstmt2 = con.prepareStatement("SELECT * from customermeterdetails where HouseNumber = ? AND BlockID = " + customervo.getBlockID());
-		pstmt2.setString(1, customervo.getHouseNumber().trim());
-		ResultSet rs2 = pstmt2.executeQuery();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
 		
-		if(rs2.next()) {
+		return result;
+	}
+
+	public boolean checkHouseNumber(CustomerRequestVO customervo) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where HouseNumber = ? AND BlockID = " + customervo.getBlockID());
+		pstmt.setString(1, customervo.getHouseNumber().trim());
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
 				result = true;
 			}
 		

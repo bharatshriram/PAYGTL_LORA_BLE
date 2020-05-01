@@ -8,8 +8,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 //import org.myorg.SystemUnavailableException;
-import sun.misc.BASE64Encoder;
-//import org.apache.commons.codec.binary.Base64;
+//import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  *
@@ -43,8 +43,8 @@ public class PasswordService {
     }
  
     byte raw[] = md.digest(); //step 4
-//    String hash = (new Base64().encodeToString(raw)); //step 5
-    String hash = (new BASE64Encoder()).encode(raw); //step 5
+    String hash = (new Base64().encodeToString(raw)); //step 5
+//    String hash = (new BASE64Encoder()).encode(raw); //step 5
     return hash; //step 6
   }
  

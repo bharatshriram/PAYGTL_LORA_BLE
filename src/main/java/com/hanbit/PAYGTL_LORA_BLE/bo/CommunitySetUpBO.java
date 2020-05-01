@@ -176,8 +176,20 @@ public class CommunitySetUpBO {
 					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 		
-		if(communitysetupdao.checkcustomer(customervo)) {
+		if(communitysetupdao.checkcustomerName(customervo)) {
 			throw new BusinessException("CUSTOMER/CRNNUMBER ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkAMRID(customervo)) {
+			throw new BusinessException("AMR ID IS ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkMeterSerialNumber(customervo)) {
+			throw new BusinessException("METER SERIAL NUMBER IS ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkHouseNumber(customervo)) {
+			throw new BusinessException("HOUSE NUMBER IS ALREADY REGISTERED");
 		}
 
 		return communitysetupdao.addcustomer(customervo);
