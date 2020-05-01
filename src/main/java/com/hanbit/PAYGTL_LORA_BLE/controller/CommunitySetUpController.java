@@ -30,14 +30,17 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.TariffResponseVO;
  */
 @Controller
 public class CommunitySetUpController {
-
+	
+	CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
+	CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
+	ResponseVO responsevo = new ResponseVO();
+	
 	/* Community */
 
 	@RequestMapping(value = "/community/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
 	CommunityResponseVO communitydetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CommunityResponseVO communityResponsevo = new CommunityResponseVO();
 		
 		communityResponsevo.setData(communitysetupdao.getCommunitydetails(roleid, id));
@@ -50,20 +53,13 @@ public class CommunitySetUpController {
 	ResponseVO addcommunity(@RequestBody CommunityRequestVO communityvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
 
-		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
-
 		try {
-			result = communitysetupbo.addcommunity(communityvo);
+			responsevo = communitysetupbo.addcommunity(communityvo);
 
 		} catch (BusinessException e) {
-			result = "Failure";
 			String message = e.getMessage();
 			responsevo.setMessage(message);
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -74,20 +70,14 @@ public class CommunitySetUpController {
 			@RequestBody CommunityRequestVO communityvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
-
 		communityvo.setCommunityID(communityid);
 
 		try {
-			result = communitysetupbo.editcommunity(communityvo);
+			responsevo = communitysetupbo.editcommunity(communityvo);
 		} catch (BusinessException e) {
 			String message = e.getMessage();
 			responsevo.setMessage(message);
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -98,7 +88,6 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	BlockResponseVO blockdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		BlockResponseVO blockresponsevo = new BlockResponseVO();
 
 		blockresponsevo.setData(communitysetupdao.getBlockdetails(roleid, id));
@@ -112,12 +101,10 @@ public class CommunitySetUpController {
 			BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			
-			result = communitysetupbo.addblock(blockvo);
+			responsevo = communitysetupbo.addblock(blockvo);
 		
 		} catch (BusinessException e) {
 			String message = e.getMessage();
@@ -136,12 +123,10 @@ public class CommunitySetUpController {
 			BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 
 		blockvo.setBlockID(blockid);
 		try {
-			result = communitysetupbo.editblock(blockvo);
+			responsevo = communitysetupbo.editblock(blockvo);
 		} catch (BusinessException e) {
 			String message = e.getMessage();
 			responsevo.setMessage(message);
@@ -158,12 +143,10 @@ public class CommunitySetUpController {
 			throws BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 
 		try{
 
-		result = communitysetupbo.deleteblock(blockid);
+			responsevo = communitysetupbo.deleteblock(blockid);
 		
 		} catch (BusinessException e) {
 			String message = e.getMessage();
@@ -181,7 +164,6 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
 
 		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id));
@@ -195,8 +177,6 @@ public class CommunitySetUpController {
 			BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			result = communitysetupbo.addcustomer(customervo);
@@ -217,8 +197,6 @@ public class CommunitySetUpController {
 			BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 
 		customervo.setCRNNumber(CRNNumber);
 
@@ -240,9 +218,7 @@ public class CommunitySetUpController {
 			throws ClassNotFoundException, BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
 		CustomerRequestVO customervo = new CustomerRequestVO();
-		ResponseVO responsevo = new ResponseVO();
 
 		customervo.setCRNNumber(CRNNumber);
 		
@@ -264,7 +240,6 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	CustomerResponseVO customerupdatesrequest(@PathVariable("blockid") int blockid) throws SQLException {
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
 
 		customerresponsevo.setData(communitysetupdao.getCustomerUpdateRequestdetails(blockid));
@@ -278,8 +253,6 @@ public class CommunitySetUpController {
 			BusinessException, SQLException {
 
 		String result = "Failure";
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			result = communitysetupdao.approverequest(requestid, action);
@@ -300,7 +273,6 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	TariffResponseVO tariffdetails() throws SQLException {
 
-		CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 		TariffResponseVO tariffresponsevo = new TariffResponseVO();
 
 		tariffresponsevo.setData(communitysetupdao.getTariffdetails());
@@ -313,9 +285,6 @@ public class CommunitySetUpController {
 	ResponseVO addtariff(@RequestBody TariffRequestVO tariffvo) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		try {
 			 responsevo.setResult(communitysetupbo.addtariff(tariffvo));
 			
@@ -332,8 +301,6 @@ public class CommunitySetUpController {
 	ResponseVO edittariff(@RequestBody TariffRequestVO tariffvo, @PathVariable("tariffID") int tariffID) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
 		tariffvo.setTariffID(tariffID);
 		
 		try {
@@ -352,9 +319,6 @@ public class CommunitySetUpController {
 	ResponseVO deletetariff(@PathVariable("tariffID") int tariffID) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		try {
 			 responsevo.setResult(communitysetupbo.deletetariff(tariffID));
 			

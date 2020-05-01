@@ -23,6 +23,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CommunityResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CustomerResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TariffResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
 
@@ -78,16 +79,15 @@ public class CommunitySetUpDAO {
 		return communitydetailslist;
 	}
 
-	public String addcommunity(CommunityRequestVO communityvo) throws SQLException{
+	public ResponseVO addcommunity(CommunityRequestVO communityvo) throws SQLException{
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
-			
 			pstmt = con.prepareStatement("INSERT INTO community (CommunityName, Email, MobileNumber, Address, CreatedDate) VALUES (?, ?, ?, ?, NOW())");
 			pstmt.setString(1, communityvo.getCommunityName());
 			pstmt.setString(2, communityvo.getEmail());
@@ -95,29 +95,34 @@ public class CommunitySetUpDAO {
 			pstmt.setString(4, communityvo.getAddress());
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Community Added Successfully");
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 			e.printStackTrace();
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("SERVER ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
-		return result;
+		return responsevo;
 	}
 	
-	public String editcommunity(CommunityRequestVO communityvo) throws SQLException {
+	public ResponseVO editcommunity(CommunityRequestVO communityvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -129,18 +134,20 @@ public class CommunitySetUpDAO {
 			pstmt.setInt(5, communityvo.getCommunityID());
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Community Details Updated Successfully");
 			}
 
 		} catch (Exception ex) {
-
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
 	public boolean checkIfCommunityNameExists(CommunityRequestVO communityvo, String mode) throws SQLException {
@@ -214,13 +221,12 @@ public class CommunitySetUpDAO {
 		return block_list;
 	}
 
-	public String addblock(BlockRequestVO blockvo) throws SQLException {
+	public ResponseVO addblock(BlockRequestVO blockvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
-		
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -286,12 +292,12 @@ public class CommunitySetUpDAO {
 					mailrequestvo.setUserID(usermanagementvo.getUserID());
 					mailrequestvo.setUserPassword(blockvo.getBlockName() + "@" + blockvo.getMobileNumber().substring(3, 7));
 					
-					result = maildao.sendmail(mailrequestvo);
-					
-					if(result.equalsIgnoreCase("Success")) {
-						result = "Success";
+					if(maildao.sendmail(mailrequestvo).equalsIgnoreCase("Success")) {
+						responsevo.setResult("Success");
+						responsevo.setMessage("Block Added Successfully and Block Admin Credentials have been sent to registered mail");
 					}else {
-						result = "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
+						responsevo.setResult("Success");
+						responsevo.setMessage("Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator");
 					}
 					
 				} else {
@@ -300,7 +306,8 @@ public class CommunitySetUpDAO {
 					pstmt2.setInt(2, blockvo.getCommunityID());
 					
 					if(pstmt2.executeUpdate() > 0) {
-						result = "Failure";
+						responsevo.setResult("Failure");
+						responsevo.setMessage("Block Addition Failed");
 					}
 				}
 				
@@ -309,23 +316,27 @@ public class CommunitySetUpDAO {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("SERVER ERROR");
+			responsevo.setResult("Failure");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
-	public String editblock(BlockRequestVO blockvo) throws SQLException {
+	public ResponseVO editblock(BlockRequestVO blockvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -337,26 +348,29 @@ public class CommunitySetUpDAO {
 			pstmt.setInt(5, blockvo.getBlockID());
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Block Details Updated Successfully");
 			}
 
 		} catch (Exception ex) {
 
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
-	public String deleteblock(int blockID) throws SQLException {
+	public ResponseVO deleteblock(int blockID) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 		
 		try{
 		con = getConnection();
@@ -365,7 +379,8 @@ public class CommunitySetUpDAO {
 		pstmt.setInt(1, blockID);
 		
         if (pstmt.executeUpdate() > 0) {
-        	result = "Success";
+        	responsevo.setResult("Success");
+			responsevo.setMessage("Block Deleted Successfully");
         	}
 		}
 		catch (Exception ex) {
@@ -375,7 +390,7 @@ public class CommunitySetUpDAO {
 			con.close();
 		}
 		
-		return result;
+		return responsevo;
 	}
 	
 	public boolean checkIfBlockNameExists(BlockRequestVO blockvo, String mode) throws SQLException {
