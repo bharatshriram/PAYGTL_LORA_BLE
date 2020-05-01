@@ -13,6 +13,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
 /**
  * @author K VimaL Kumar
@@ -24,7 +25,7 @@ public class CommunitySetUpBO {
 
 	/* Community */
 
-	public String addcommunity(CommunityRequestVO communityvo)
+	public ResponseVO addcommunity(CommunityRequestVO communityvo)
 			throws SQLException, BusinessException {
 		
 		// TODO Auto-generated method stub
@@ -50,7 +51,7 @@ public class CommunitySetUpBO {
 		return communitysetupdao.addcommunity(communityvo);
 	}
 
-	public String editcommunity(CommunityRequestVO communityvo)
+	public ResponseVO editcommunity(CommunityRequestVO communityvo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 		
@@ -72,7 +73,7 @@ public class CommunitySetUpBO {
 
 	/* Block */
 
-	public String addblock(BlockRequestVO blockvo) throws SQLException,
+	public ResponseVO addblock(BlockRequestVO blockvo) throws SQLException,
 			BusinessException {
 		// TODO Auto-generated method stub
 
@@ -100,7 +101,7 @@ public class CommunitySetUpBO {
 		return communitysetupdao.addblock(blockvo);
 	}
 
-	public String editblock(BlockRequestVO blockvo) throws SQLException,
+	public ResponseVO editblock(BlockRequestVO blockvo) throws SQLException,
 			BusinessException {
 		// TODO Auto-generated method stub
 
@@ -124,10 +125,10 @@ public class CommunitySetUpBO {
 		return communitysetupdao.editblock(blockvo);
 	}
 
-	public String deleteblock(int blockID) throws BusinessException {
+	public ResponseVO deleteblock(int blockID) throws BusinessException {
 		// TODO Auto-generated method stub
-
-		String result = "Failure";
+		
+		ResponseVO responsevo = null;
 
 		try {
 
@@ -136,14 +137,14 @@ public class CommunitySetUpBO {
 						"DELETE ALL CUSTOMERS IN THE BLOCK BEFORE DELETING THE BLOCK");
 			}
 
-			result = communitysetupdao.deleteblock(blockID);
+			responsevo = communitysetupdao.deleteblock(blockID);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	/* Customer */
@@ -176,8 +177,20 @@ public class CommunitySetUpBO {
 					"MOBILE NUMBER CAN CONTAIN ONLY NUMERIC VALUES OF EXACTLY 10 DIGITS");
 		}
 		
-		if(communitysetupdao.checkcustomer(customervo)) {
+		if(communitysetupdao.checkcustomerName(customervo)) {
 			throw new BusinessException("CUSTOMER/CRNNUMBER ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkAMRID(customervo)) {
+			throw new BusinessException("AMR ID IS ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkMeterSerialNumber(customervo)) {
+			throw new BusinessException("METER SERIAL NUMBER IS ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkHouseNumber(customervo)) {
+			throw new BusinessException("HOUSE NUMBER IS ALREADY REGISTERED");
 		}
 
 		return communitysetupdao.addcustomer(customervo);
