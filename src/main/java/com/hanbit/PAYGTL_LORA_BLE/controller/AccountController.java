@@ -32,6 +32,8 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
 public class AccountController {
 
 	Gson gson = new Gson();
+	AccountBO accountbo = new AccountBO();
+	ResponseVO responsevo = new ResponseVO();
 
 	/* TopUp */
 
@@ -40,18 +42,12 @@ public class AccountController {
 	ResponseVO addtopup(@RequestBody TopUpRequestVO topupRequestVO) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-		AccountBO accountbo = new AccountBO();
-		ResponseVO responsevo = new ResponseVO();
-
 		try {
-			result = accountbo.addtopup(topupRequestVO);
+			responsevo = accountbo.addtopup(topupRequestVO);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -118,17 +114,15 @@ public class AccountController {
 	ResponseVO addconfiguration(@RequestBody ConfigurationRequestVO configurationvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
 
-		String result = "Failure";
 		AccountBO accountbo = new AccountBO();
 		ResponseVO responsevo = new ResponseVO();
 		
 		try{
-		result = accountbo.addconfiguration(configurationvo);
+			responsevo = accountbo.addconfiguration(configurationvo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-		responsevo.setResult(result);
 
 		return responsevo;
 	}

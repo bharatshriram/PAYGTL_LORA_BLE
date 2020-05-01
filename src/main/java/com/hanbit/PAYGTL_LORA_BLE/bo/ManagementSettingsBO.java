@@ -10,6 +10,7 @@ import com.hanbit.PAYGTL_LORA_BLE.dao.ManagementSettingsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 
 /**
@@ -17,10 +18,13 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
  * 
  */
 public class ManagementSettingsBO {
+	
+	ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
+	ResponseVO responsevo = new ResponseVO();
 
 	/* UserManagement */
 
-	public String adduser(UserManagementRequestVO usermanagementvo) throws SQLException, BusinessException {
+	public ResponseVO adduser(UserManagementRequestVO usermanagementvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
 		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
@@ -52,12 +56,8 @@ public class ManagementSettingsBO {
 
 	/* Alert */
 
-	public String addalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
+	public ResponseVO addalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-		
-		String result = "";
-
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
 		if(alertvo.getCommunityID()==0 || alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
@@ -69,20 +69,18 @@ public class ManagementSettingsBO {
 				throw new BusinessException("SETTINGS ARE ALREADY ADDED");
 			}
 			
-			result = managementsettingsdao.addalert(alertvo);
+			responsevo = managementsettingsdao.addalert(alertvo);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return result;
+		return responsevo;
 	}
 
-	public String editalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
+	public ResponseVO editalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-		
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
 		if(alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
@@ -94,13 +92,9 @@ public class ManagementSettingsBO {
 
 	/* Vacation */
 
-	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException, BusinessException {
+	public ResponseVO addvacation(VacationRequestVO vacationRequestVO) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
-		String result = "";
-
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
-		
 		if(vacationRequestVO.getCommunityID() < 0 || vacationRequestVO.getBlockID() < 0 || vacationRequestVO.getVacationName().isEmpty() 
 				|| vacationRequestVO.getCRNNumber().isEmpty() || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
@@ -110,16 +104,12 @@ public class ManagementSettingsBO {
 			throw new BusinessException("PREVIOUS VACATION REQUEST IS PENDING");
 		}
 
-		result = managementsettingsdao.addvacation(vacationRequestVO);
-
-		return result;
+		return managementsettingsdao.addvacation(vacationRequestVO);
 		
 	}
 
-	public String editvacation(VacationRequestVO vacationRequestVO) throws BusinessException, SQLException {
+	public ResponseVO editvacation(VacationRequestVO vacationRequestVO) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
-		
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		
 		if(vacationRequestVO.getVacationID() < 0 || vacationRequestVO.getCommunityID() < 0 || vacationRequestVO.getBlockID() < 0 || vacationRequestVO.getVacationName().isEmpty() 
 				|| vacationRequestVO.getCRNNumber().isEmpty() || vacationRequestVO.getStartDateTime().isEmpty() || vacationRequestVO.getEndDateTime().isEmpty()){

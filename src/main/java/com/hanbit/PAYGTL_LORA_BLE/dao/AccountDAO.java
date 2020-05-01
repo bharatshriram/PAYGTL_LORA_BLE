@@ -23,6 +23,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
@@ -42,6 +43,8 @@ import com.lowagie.text.pdf.PdfWriter;
  * 
  */
 public class AccountDAO {
+	
+	Gson gson = new Gson();
 
 	public static Connection getConnection() throws ClassNotFoundException,
 			SQLException {
@@ -54,17 +57,17 @@ public class AccountDAO {
 
 	/* TopUp */
 
-	public String addtopup(TopUpRequestVO topupvo) throws SQLException {
+	public ResponseVO addtopup(TopUpRequestVO topupvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
-		String result = "Failure";
 		Random randomNumber = new Random();
 		Gson gson = new Gson();
 		String hexaAmount = "";
 		String hexaEmergencyCredit = "";
 		String hexaAlarmCredit = "";
 		String hexaTariff = "";
+		ResponseVO responsevo = new ResponseVO();
 		
 		try {
 				con = getConnection();
@@ -107,23 +110,27 @@ public class AccountDAO {
 					topupvo.setTransactionIDForTata(tataResponseVO.getId());
 					topupvo.setStatus(tataResponseVO.getTransmissionStatus());
 					
-					result = inserttopup(topupvo);
+					responsevo.setResult(inserttopup(topupvo));
+					responsevo.setMessage("Topup Request Submitted Successfully");
 					
 				} else {
 					topupvo.setTransactionIDForTata(0);
-					result = inserttopup(topupvo);
+					responsevo.setResult(inserttopup(topupvo));
+					responsevo.setMessage("Topup Request Inserted Successfully");
 				}
 					
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			// pstmt.close();
 			// ps.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
 	public String inserttopup(TopUpRequestVO topUpRequestVO) {
@@ -508,16 +515,15 @@ public class AccountDAO {
 		return configurationdetailslist;
 	}
 
-	public String addconfiguration(ConfigurationRequestVO configurationvo)
+	public ResponseVO addconfiguration(ConfigurationRequestVO configurationvo)
 			throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement ps = null;
-		String result = "Failure";
 		Random randomNumber = new Random();
-		Gson gson = new Gson();
 		String dataframe = "";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 				con = getConnection();
@@ -626,17 +632,20 @@ public class AccountDAO {
 					ps.setString(6, configurationvo.getCRNNumber());
 
 					if (ps.executeUpdate() > 0) {
-						result = "Success";
+						responsevo.setResult("Success");
+						responsevo.setMessage("Command Request Submitted SUccessfully");
 						}
 						
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 
 	}
 

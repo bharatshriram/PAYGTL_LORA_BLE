@@ -22,6 +22,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.LoginVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
@@ -34,6 +35,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserManagementResponseVO;
 public class ManagementSettingsDAO {
 
 	LoginVO loginvo = new LoginVO();
+	Gson gson = new Gson();
 
 	public static Connection getConnection() throws ClassNotFoundException,
 			SQLException {
@@ -103,7 +105,7 @@ public class ManagementSettingsDAO {
 		return user_list;
 	}
 
-	public String adduser(UserManagementRequestVO usermanagementvo)
+	public ResponseVO adduser(UserManagementRequestVO usermanagementvo)
 			throws SQLException {
 		// TODO Auto-generated method stub
 
@@ -111,7 +113,7 @@ public class ManagementSettingsDAO {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 			con = getConnection();
@@ -156,17 +158,20 @@ public class ManagementSettingsDAO {
 				}
 			}	
 				if (pstmt.executeUpdate() > 0) {
-					result = "Success";
+					responsevo.setResult("Success");
+					responsevo.setMessage("User Created Successfully");
 				}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	/* Alert */
@@ -204,12 +209,12 @@ public class ManagementSettingsDAO {
 
 	}
 
-	public String addalert(AlertRequestVO alertvo) throws SQLException {
+	public ResponseVO addalert(AlertRequestVO alertvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement ps = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 			con = getConnection();
@@ -220,25 +225,28 @@ public class ManagementSettingsDAO {
 			ps.setInt(3, alertvo.getTimeOut());
 
 			if (ps.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Alert Settings Added Successfully");
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
-	public String editalert(AlertRequestVO alertvo) throws SQLException {
+	public ResponseVO editalert(AlertRequestVO alertvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement ps = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 			con = getConnection();
@@ -250,17 +258,20 @@ public class ManagementSettingsDAO {
 			ps.setInt(4, alertvo.getAlertID());
 
 			if (ps.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Alert Settings Added Successfully");
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	public boolean checkalertsettings() throws SQLException {
@@ -342,12 +353,11 @@ public class ManagementSettingsDAO {
 
 	}
 
-	public String addvacation(VacationRequestVO vacationRequestVO) throws SQLException {
+	public ResponseVO addvacation(VacationRequestVO vacationRequestVO) throws SQLException {
 		// TODO Auto-generated method stub
 
-		String result = "Failure";
 		Random randomNumber = new Random();
-		Gson gson = new Gson();
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
@@ -376,16 +386,20 @@ public class ManagementSettingsDAO {
 						
 						vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 						vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
-						result = insertvacation(vacationRequestVO);
+						responsevo.setResult(insertvacation(vacationRequestVO));
+						responsevo.setMessage("Vacation Request Submitted Successfully");
 
 					} else {
 						vacationRequestVO.setTransactionIDForTata(0);
-						result = insertvacation(vacationRequestVO);
+						responsevo.setResult(insertvacation(vacationRequestVO));
+						responsevo.setMessage("Vacation Request Inserted Successfully");
 					}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		}
-		return result;
+		return responsevo;
 	}
 	
 	public String insertvacation(VacationRequestVO vacationRequestVO) {
@@ -432,14 +446,13 @@ public class ManagementSettingsDAO {
 		return result;
 	}
 	
-	public String editvacation(VacationRequestVO vacationRequestVO) {
+	public ResponseVO editvacation(VacationRequestVO vacationRequestVO) {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
 		Random randomNumber = new Random();
-		Gson gson = new Gson();
+		ResponseVO responsevo = new ResponseVO(); 
 		
 		try {
 			con = getConnection();
@@ -468,30 +481,32 @@ public class ManagementSettingsDAO {
 			vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 			vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
 			
-			result = insertvacation(vacationRequestVO);
+			String result = insertvacation(vacationRequestVO);
 			
 			if(result.equalsIgnoreCase("Success")) {
 				pstmt = con.prepareStatement("DELETE FROM vacation WHERE VacationID = "+vacationRequestVO.getVacationID());
 				if(pstmt.executeUpdate() > 0) {
-					result = "Success";
+					responsevo.setResult("Success");
+					responsevo.setMessage("Vacation Update request Submitted Successfully");
 				}
 			}
 			
 		} catch(Exception e){
 			e.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		}
-		return result;
+		return responsevo;
 	}
 	
-	public String deletevacation(int vacationID) throws SQLException {
+	public ResponseVO deletevacation(int vacationID) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
 		Random randomNumber = new Random();
-		Gson gson = new Gson();
-		VacationRequestVO vacationRequestVO = new VacationRequestVO(); 
+		VacationRequestVO vacationRequestVO = new VacationRequestVO();
+		ResponseVO responsevo = new ResponseVO();
 		vacationRequestVO.setVacationID(vacationID);
 		
 		try{
@@ -525,17 +540,20 @@ public class ManagementSettingsDAO {
 		pstmt.setInt(1, vacationID);
 		
         if (pstmt.executeUpdate() > 0) {
-        	result = "Success";
+        	responsevo.setResult("Success");
+        	responsevo.setMessage("Vacation Delete Request Submitted Successfully");
         	}
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 		
-		return result;
+		return responsevo;
 	}
 
 	public boolean checkvacationsettings(VacationRequestVO vacationRequestVO) throws SQLException {

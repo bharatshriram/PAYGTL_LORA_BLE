@@ -9,6 +9,7 @@ import com.hanbit.PAYGTL_LORA_BLE.dao.AccountDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
 /**
  * @author K VimaL Kumar
@@ -16,12 +17,13 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
  */
 public class AccountBO {
 
+	AccountDAO accountdao = new AccountDAO();
+	ResponseVO responsevo = new ResponseVO();
+	
 	/* TopUp */
 	
-	public String addtopup(TopUpRequestVO topupvo) throws SQLException, BusinessException {
+	public ResponseVO addtopup(TopUpRequestVO topupvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-		
-		AccountDAO accountdao = new AccountDAO();
 		
 		if(accountdao.validateamount(topupvo)){
 			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND ALARM CREDIT");
@@ -36,26 +38,16 @@ public class AccountBO {
 	
 	/* Configuration */
 	
-	public String addconfiguration(ConfigurationRequestVO configurationvo) throws BusinessException {
+	public ResponseVO addconfiguration(ConfigurationRequestVO configurationvo) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
 		
-		String result = "";
-
-		AccountDAO accountdao = new AccountDAO();
-		
-		try {
-			
 			if (accountdao.checkstatus(configurationvo.getMeterID())) {
 				throw new BusinessException("PREVIOUS COMMAND REQUEST IS PENDING");
 			}
 			
-			result = accountdao.addconfiguration(configurationvo);
+			responsevo = accountdao.addconfiguration(configurationvo);
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
+		return responsevo;
 	}
 
 }
