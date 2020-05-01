@@ -274,7 +274,7 @@ $(document)
 																	/*alert( "data"
 																			+ data.result);*/
 																	
-																	bootbox.alert("Added Succesfully!",
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -284,7 +284,7 @@ $(document)
 																	return false
 																	
 
-																} else if(data.Message == "SETTINGS ARE ALREADY ADDED"){
+																} else if(data.result == "Failure"){
 																	
 																	bootbox.alert(data.Message,
 																			function(
@@ -333,7 +333,7 @@ $(document)
 															/*alert( "data"
 																	+ data.result);*/
 															
-															bootbox.alert("Updated Succesfully!",
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -345,7 +345,7 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.result,
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			

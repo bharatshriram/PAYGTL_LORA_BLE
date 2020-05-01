@@ -77,6 +77,94 @@
 			</div>
 		</div>
 	</div>
+	
+	 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Advanced Search</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <hr>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Date From</label>
+                 <input type="text" id="start_date" name="start_date" class="form-control" >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Date To</label>
+                 <input type="text" id="end_date" name="end_date" class="form-control" >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Reading from</label>
+                <input type="text" id="reading_from" name="reading_from" class="form-control" >
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Reading To</label>
+                <input type="text" id="reading_to" name="reading_to" class="form-control" >
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Battery Voltage From</label>
+                <input type="text" class="form-control input_height" id="battery_from" name="battery_from">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Battery Voltage To</label>
+                <input type="text" class="form-control input_height" id="to" name="battery_to">
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Tamper</label>
+                <select class="form-control">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="bmd-label-floating">Communication</label>
+                <select class="form-control">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div class="modal-footer m-auto">
+          <button type="button" class="btn btn-primary btn-raised mr-4">Search</button>
+          <button type="button" class="btn btn-secondary btn-raised" data-dismiss="modal">Close<div class="ripple-container"></div></button>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
 	<jsp:include page="footer.jsp" />
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

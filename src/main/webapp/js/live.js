@@ -12,7 +12,7 @@ $(document)
 					$('#liveTable')
 							.DataTable(
 									{
-										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
+										"dom" : "<'row'<'col-sm-4 custombutton'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
 												+ "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 												
@@ -218,7 +218,26 @@ $(document)
 													text : 'pdf',
 													orientation : 'landscape',
 													title : 'Dashboard'
-												} ]
+												},
+												{
+									                text: 'Adv Serach',
+									                action: function ( e, dt, node, config ) {
+									                    alert( 'Button activated' );
+									                },
+									                className: 'customButton',
+									               
+									                action: function ( e, dt, button, config ) {
+									                    $('.custombutton').attr(
+									                        {
+									                            "data-toggle": "modal",
+									                            "data-target": "#exampleModal"
+									                        }
+									                    );
+									                //    var selected = dt.row( { selected: true } ).data(); 
+									                	$('#exampleModal').modal('show');
+									                }
+									            }
+												]
 
 									}).columns.adjust();
 				});

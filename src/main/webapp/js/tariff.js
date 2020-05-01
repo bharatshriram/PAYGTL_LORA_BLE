@@ -378,7 +378,7 @@ $(document)
 																	/*alert( "data"
 																			+ data.result);*/
 																	
-																	bootbox.alert("Added Succesfully!",
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -388,15 +388,7 @@ $(document)
 																	});
 																	
 
-																} else if(data.Message == "TARIFF AMOUNT ALREADY EXISTS"){
-																	
-																	bootbox.alert(data.Message,
-																			function(
-																					result) {
-																					
-																				});
-																	
-																}else {
+																} else {
 																	bootbox.alert(data.Message);
 																	return false;
 
@@ -454,7 +446,7 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.result,
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			

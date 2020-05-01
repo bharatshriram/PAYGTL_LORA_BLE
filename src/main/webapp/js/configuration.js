@@ -187,7 +187,7 @@ $(document)
 
 															bootbox
 																	.alert(
-																			"Added Succesfully!",
+																			data.Message,
 																			function(
 																					result) {
 
@@ -196,24 +196,11 @@ $(document)
 																				return false
 																			});
 
-														} else if (data.result == "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator") {
-
-															bootbox
-																	.alert(
-																			data.result,
-																			function(
-																					result) {
-
-																				// alert();
-																				window.location = "configuration.jsp";
-																				return false
-																			});
-
 														} else if (data.result == "Failure") {
 
 															bootbox
 																	.alert(
-																			data.result,
+																			data.Message,
 																			function(
 																					result) {
 

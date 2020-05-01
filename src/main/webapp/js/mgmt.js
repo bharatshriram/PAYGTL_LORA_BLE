@@ -298,7 +298,7 @@ $(document)
 																if (data.result == "Success") {
 
 																	
-																	bootbox.alert("Added Succesfully!",
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -309,21 +309,9 @@ $(document)
 																	
 																	
 
-																} else if(data.result == "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
-									
-																	bootbox.alert(data.result,
-																			function(
-																					result) {
-																					
-																		//alert();
-																		window.location = "Mgmt.jsp";
-																		return false
-																				});
+																} else if(data.result == "Failure"){
 																	
-																	
-																}else if(data.result == "Failure"){
-																	
-																	bootbox.alert(data.result,
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					

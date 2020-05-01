@@ -15,56 +15,6 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
  
-  <script>
-  /**
-   * 
-   */
-   
-  
-
-  $(document)
-  		.ready(
-  				function() {
-  					// called when key is pressed in textbox
-  					$(
-  							"#society_add_mobile , #society_edit_mobile ,#customer_add_CRN , customer_edit_CRN , #customer_add_mobile, #customer_edit_mobile, #customer_add_meterNo , #customer_add_AMR")
-  							.keypress(
-  									function(e) {
-  										// if the letter is not digit then
-  										// display error and don't type anything
-  										if (e.which != 8
-  												&& e.which != 0
-  												&& (e.which < 48 || e.which > 57)) {
-  											// display error message
-  											Materialize.toast('Select Digit!',
-  													40);
-  											return false;
-  										}
-  									});
-
-  					$(
-  							"#society_add_name , #society_edit_name, #customer_add_firstName, #customer_add_lastName ,#customer_edit_firstName, #customer_edit_lastName")
-  							.keypress(
-  									function(e) {
-  										// if the letter is not digit then
-  										// display error and don't type anything
-  										var regex = new RegExp("^[a-zA-Z ]*$");
-  										var str = String
-  												.fromCharCode(!e.charCode ? e.which
-  														: e.charCode);
-  										if (regex.test(str)) {
-  											return true;
-  										} else {
-  											e.preventDefault();
-  											Materialize.toast(
-  													'Select Alphabet!', 40);
-  											return false;
-  										}
-  									});
-
-  				});
-  </script>
-  
   <title>Home</title>
 </head>
 
@@ -75,31 +25,143 @@
       <div class="col-md-2 pl-0 pr-0">
        <jsp:include page="menu.jsp" />
       </div>
+      <!-- <div id="container" style="height: 400px; width: 500"></div> -->
       
+      <div class="right_data col-md-10 mt-4 mb-4">
+				 <!--Right start-->
+            <div class="row">
+              <div class="col-md-4 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                <div class="card border-left-yellow shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                  <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                      <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Earnings (Annual)</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                      </div>
+                      <div class="col-auto">
+                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card shadow mb-4 bg-transparent">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-dark">Chart 1</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div id="container" class="container" style="height: 400px; width: 500"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card shadow mb-4 bg-transparent">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-dark">Chart 2</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div id="container2" class="container" style="height: 400px; width: 500"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="card shadow mb-4 bg-transparent">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-dark">Chart 3</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div id="container3" class="container" style="height: 400px; width: 500"></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="card shadow mb-4 bg-transparent">
+                  <!-- Card Header - Dropdown -->
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-dark">Chart 4</h6>
+                  </div>
+                  <!-- Card Body -->
+                  <div class="card-body">
+                    <div id="container4" class="container" style="height: 400px; width: 500"></div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+        <!--Right end-->
+
+			</div>
     </div>
   </div>
 
   <jsp:include page="footer.jsp" />
   <!-- Modal -->
-  
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
-  <script src="common/js/bootstrap.min.js"></script>
-  <script src="js/validations.js"></script>
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
-    integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
-    integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
-    crossorigin="anonymous"></script>
-  <script>$(document).ready(function () { $('body').bootstrapMaterialDesign(); });</script>
-  <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
-  
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+	<script src="common/js/bootstrap.min.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+
+	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
+		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
+		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+		crossorigin="anonymous"></script>
+	<script>
+		$(document).ready(function() {
+			$('body').bootstrapMaterialDesign();
+		});
+	</script>
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+
+		
+		
+		
+		<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
   <script>
     $(document).ready(function () {
     	var flag =true;
@@ -111,7 +173,116 @@
   </script>
   <script>
     $(document).ready(function () {
-      $('#example').DataTable();
+    	Highcharts.chart('container', {
+    	    chart: {
+    	        type: 'pie'
+    	    },
+
+    	    title: {
+    	        text: 'Pie with startAngle = 190'
+    	    },
+
+    	    plotOptions: {
+    	        pie: {
+    	            startAngle: 190
+    	        }
+    	    },
+
+    	    series: [{
+    	        data: [
+    	            ['Firefox', 44.2 ],
+    	            ['IE7',     26.6],
+    	            ['IE6',     20],
+    	            ['Chrome',  3.1],
+    	            ['Other',   5.4]
+    	        ]
+    	    }]
+    	});
+    	
+    	Highcharts.chart('container2', {
+    	    chart: {
+    	        type: 'pie'
+    	    },
+
+    	    title: {
+    	        text: 'Pie with startAngle = 190'
+    	    },
+
+    	    plotOptions: {
+    	        pie: {
+    	            startAngle: 190
+    	        }
+    	    },
+
+    	    series: [{
+    	        data: [
+    	            ['Firefox', 44.2 ],
+    	            ['IE7',     26.6],
+    	            ['IE6',     20],
+    	            ['Chrome',  3.1],
+    	            ['Other',   5.4]
+    	        ]
+    	    }]
+    	});
+    	
+    	
+    	
+    	
+    	Highcharts.chart('container3', {
+    	    chart: {
+    	        type: 'pie'
+    	    },
+
+    	    title: {
+    	        text: 'Pie with startAngle = 190'
+    	    },
+
+    	    plotOptions: {
+    	        pie: {
+    	            startAngle: 190
+    	        }
+    	    },
+
+    	    series: [{
+    	        data: [
+    	            ['Firefox', 44.2 ],
+    	            ['IE7',     26.6],
+    	            ['IE6',     20],
+    	            ['Chrome',  3.1],
+    	            ['Other',   5.4]
+    	        ]
+    	    }]
+    	});
+    	
+    	
+    	
+    	Highcharts.chart('container4', {
+    	    chart: {
+    	        type: 'pie'
+    	    },
+
+    	    title: {
+    	        text: 'Pie with startAngle = 190'
+    	    },
+
+    	    plotOptions: {
+    	        pie: {
+    	            startAngle: 190
+    	        }
+    	    },
+
+    	    series: [{
+    	        data: [
+    	            ['Firefox', 44.2 ],
+    	            ['IE7',     26.6],
+    	            ['IE6',     20],
+    	            ['Chrome',  3.1],
+    	            ['Other',   5.4]
+    	        ]
+    	    }]
+    	});
+    	
+    	
     });
   </script>
   
