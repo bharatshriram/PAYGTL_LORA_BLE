@@ -18,11 +18,16 @@
 <link rel="stylesheet" href="common/css/style.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
-	
-	<link rel="stylesheet"
-	href=https://cdn.datatables.net/buttons/1.2.2/css/buttons.bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+	
+	<link rel="stylesheet" href="common/css/bootstrap-material-datetimepicker.css" />
+	
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
+	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 
 <title>DashBoard Details</title>
 </head>
@@ -133,11 +138,9 @@
               <div class="form-group">
                 <label class="bmd-label-floating">Tamper</label>
                 <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option value="-1">Tamper Type</option>
+                  <option value="0">Door Tamper</option>
+                  <option value="1">Magnetic Tamper</option>
                 </select>
               </div>
             </div>
@@ -145,11 +148,9 @@
               <div class="form-group">
                 <label class="bmd-label-floating">Communication</label>
                 <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  	<option value="-1">Mode</option>
+                     <option value="0">Communication</option>
+                     <option value="0">Non-Communication</option>
                 </select>
               </div>
             </div>
@@ -157,7 +158,7 @@
           </div>
         </div>
         <div class="modal-footer m-auto">
-          <button type="button" class="btn btn-primary btn-raised mr-4">Search</button>
+          <button type="button" class="btn btn-primary btn-raised mr-4" id="dashboardFilter">Filter</button>
           <button type="button" class="btn btn-secondary btn-raised" data-dismiss="modal">Close<div class="ripple-container"></div></button>
           
         </div>
@@ -167,19 +168,24 @@
   
 	<jsp:include page="footer.jsp" />
 
-	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script> -->
-
-	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	
+	        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+		
+		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="common/js/bootstrap-material-datetimepicker.js"></script>
+	
 
 	<script src="common/js/bootstrap.min.js"></script>
+
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
+
+
 	<script src="js/live.js"></script>
-	<script src="js/common.js"></script>
+	<script src="js/userConsumptions.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -188,12 +194,16 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
+		
+
+	
+		
 	<script>
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
 	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
 	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -223,8 +233,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 		
 		<script
-		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-	
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
+		
 		<script
 		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 		
@@ -253,6 +263,68 @@ $(document).ready(function(){
 	});
 </script>	
 
+
+<script type="text/javascript">
+		$(document).ready(function()
+		{
+			var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+			$('#start_date').bootstrapMaterialDatePicker
+			({
+				time: false,
+				clearButton: true,
+				 maxDate: new Date(currentYear, currentMonth, currentDate)
+			});
+
+			$('#end_date').bootstrapMaterialDatePicker
+			({
+				time: false,
+				clearButton: true,
+				 maxDate: new Date(currentYear, currentMonth, currentDate)
+			});
+			
+			/* $('#time').bootstrapMaterialDatePicker
+			({
+				date: false,
+				shortTime: false,
+				format: 'HH:mm'
+			});
+
+			$('#date-format').bootstrapMaterialDatePicker
+			({
+				format: 'dddd DD MMMM YYYY - HH:mm'
+			});
+			$('#date-fr').bootstrapMaterialDatePicker
+			({
+				format: 'DD/MM/YYYY HH:mm',
+				lang: 'en',
+				weekStart: 1, 
+				cancelText : 'ANNULER',
+				nowButton : true,
+				switchOnClick : true
+			});
+
+			$('#date-end').bootstrapMaterialDatePicker
+			({
+				weekStart: 0, format: 'DD/MM/YYYY HH:mm'
+			});
+			$('#date-start').bootstrapMaterialDatePicker
+			({
+				weekStart: 0, format: 'DD/MM/YYYY HH:mm', shortTime : true
+			}).on('change', function(e, date)
+			{
+				$('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
+			});
+
+			$('#min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() }); */
+
+			$.material.init()
+		});
+		</script>
+		
+		
 </body>
 
 </html>
