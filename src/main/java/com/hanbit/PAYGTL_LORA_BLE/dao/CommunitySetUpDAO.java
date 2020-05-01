@@ -283,7 +283,7 @@ public class CommunitySetUpDAO {
 				usermanagementvo.setCRNNumber("NULL");
 				}
 				
-				if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
+				if(managementsettingsdao.adduser(usermanagementvo).getResult().equalsIgnoreCase("Success")){
 					
 					ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 					MailRequestVO mailrequestvo = new MailRequestVO();
@@ -385,6 +385,8 @@ public class CommunitySetUpDAO {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
@@ -515,14 +517,13 @@ public class CommunitySetUpDAO {
 		return customer_list;
 	}
 	
-	public String addcustomer(CustomerRequestVO customervo) throws SQLException {
+	public ResponseVO addcustomer(CustomerRequestVO customervo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
-		String result = "Failure";
-		
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -565,7 +566,7 @@ public class CommunitySetUpDAO {
 					usermanagementvo.setLoggedInRoleID(customervo.getLoggedInRoleID());
 					usermanagementvo.setLoggedInUserID(customervo.getLoggedInUserID());
 					
-					if(managementsettingsdao.adduser(usermanagementvo).equalsIgnoreCase("Success")){
+					if(managementsettingsdao.adduser(usermanagementvo).getResult().equalsIgnoreCase("Success")){
 						
 						ExtraMethodsDAO maildao = new ExtraMethodsDAO();
 						MailRequestVO mailrequestvo = new MailRequestVO();
@@ -574,21 +575,23 @@ public class CommunitySetUpDAO {
 						mailrequestvo.setUserID(usermanagementvo.getUserID());
 						mailrequestvo.setUserPassword(customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7));
 						
-						result = maildao.sendmail(mailrequestvo);
+						String result = maildao.sendmail(mailrequestvo);
 						
 						if(result.equalsIgnoreCase("Success")) {
-							result = "Success";
+							responsevo.setResult("Success");
+							responsevo.setMessage("Customer Added Successfully");
 						}else {
-							result = "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator";
+							responsevo.setResult("Success");
+							responsevo.setMessage("Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator");
 						}
 						
-						result = "Success";					
 					} else {
 						PreparedStatement pstmt2 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CustomerID = (SELECT CustomerID FROM customermeterdetails WHERE MeterID = ?)");
 						pstmt2.setString(1, customervo.getMeterID());
 						
 						if(pstmt2.executeUpdate() > 0) {
-							result = "Failure";
+							responsevo.setResult("Failure");
+							responsevo.setMessage("Customer Addition Failed");
 						}
 					}
 					
@@ -599,23 +602,27 @@ public class CommunitySetUpDAO {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("SERVER ERROR");
+			responsevo.setResult("Failure");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
-	public String editcustomer(CustomerRequestVO customervo) throws SQLException {
+	public ResponseVO editcustomer(CustomerRequestVO customervo) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -640,7 +647,8 @@ public class CommunitySetUpDAO {
 				pstmt.setString(8, customervo.getCRNNumber());
 				
 				if (pstmt.executeUpdate() > 0) {
-	            	result = "Request Submitted successfully and is pending for approval by Administrator";
+					responsevo.setResult("Success");
+					responsevo.setMessage("Request Submitted successfully and is pending for approval by Administrator");
 	            	}
 				
 				}
@@ -661,7 +669,8 @@ public class CommunitySetUpDAO {
 	            	pstmt1.setString(2, customervo.getCRNNumber());
 	            	pstmt1.setString(3, customervo.getCRNNumber());
 	            	if(pstmt1.executeUpdate() > 0) {
-	            		result = "Success";	
+	            		responsevo.setResult("Success");
+	            		responsevo.setMessage("Customer Details Updated Successfully");
 	            	}
 	            	
 	            }
@@ -669,16 +678,18 @@ public class CommunitySetUpDAO {
 			
             
 		} catch (Exception e) {
-
 	        e.printStackTrace();
+	        responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
+			
 	    } finally {
 			pstmt.close();
 			con.close();
 	    }
-		return result;
+		return responsevo;
 	}
 	
-	public String deletecustomer(CustomerRequestVO customervo) throws SQLException {
+	public ResponseVO deletecustomer(CustomerRequestVO customervo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -686,8 +697,8 @@ public class CommunitySetUpDAO {
 		PreparedStatement pstmt1 = null;
 		PreparedStatement pstmt2 = null;
 		PreparedStatement pstmt3 = null;
-		String result = "Failure";
-
+		ResponseVO responsevo = new ResponseVO();
+		
 		try {
 			con = getConnection();
 
@@ -710,12 +721,15 @@ public class CommunitySetUpDAO {
 								pstmt3 = con.prepareStatement("DELETE FROM customermeterdetails WHERE CRNNumber = ?");
 								pstmt3.setString(1, customervo.getCRNNumber());
 								if(pstmt3.executeUpdate() > 0) {
-									result = "Success";	
+									responsevo.setResult("Success");
+									responsevo.setMessage("Customer Deleted Successfully");
 								} else {
 									PreparedStatement pstmt4 = con.prepareStatement("DELETE FROM customerdeletemeter where CRNNumber = ?");
 									pstmt4.setString(1, customervo.getCRNNumber());
 									if(pstmt4.executeUpdate() > 0) {
-										result = "Failure";
+										responsevo.setResult("Failure");
+										responsevo.setMessage("CUSTOMER DELETION FAILED");
+										
 								}
 								
 							}
@@ -728,13 +742,15 @@ public class CommunitySetUpDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			pstmt1.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
 	public List<CustomerResponseVO> getCustomerUpdateRequestdetails(int blockid) throws SQLException {
@@ -784,12 +800,12 @@ public class CommunitySetUpDAO {
 		return updaterequestlist;
 	}
 	
-	public String approverequest(int requestid, int action) throws SQLException {
+	public ResponseVO approverequest(int requestid, int action) throws SQLException {
 		// TODO Auto-generated method stub
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -813,7 +829,8 @@ public class CommunitySetUpDAO {
 		            		PreparedStatement pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails WHERE RequestID = ?");
 			            	pstmt1.setInt(1, requestid);
 			            	if(pstmt1.executeUpdate() > 0) {
-			            		result = "Success";			            		
+			            		responsevo.setResult("Success");
+			            		responsevo.setMessage("Approved");
 			            	}
 		            	}
 	            	}
@@ -825,19 +842,22 @@ public class CommunitySetUpDAO {
 				PreparedStatement pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails WHERE RequestID = ?");
             	pstmt1.setInt(1, requestid);
             	if(pstmt1.executeUpdate() > 0) {
-            		result = "Rejected";	
+            		responsevo.setResult("Success");
+            		responsevo.setMessage("Rejected");
             	}
 				
 			}
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 		
-		return result;
+		return responsevo;
 	}
 	
 	public boolean checkcustomerName(CustomerRequestVO customervo) throws SQLException {
@@ -1015,13 +1035,12 @@ public class CommunitySetUpDAO {
 		return tariff_list;
 	}
 
-	public String addtariff(TariffRequestVO tariffvo) throws SQLException {
+	public ResponseVO addtariff(TariffRequestVO tariffvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement("INSERT INTO tariff (Tariff, TariffName, EmergencyCredit, AlarmCredit, FixedCharges, RegisteredDate) VALUES(?, ?, ?, ?, ?, NOW())");
@@ -1032,26 +1051,27 @@ public class CommunitySetUpDAO {
 			pstmt.setFloat(5, tariffvo.getFixedCharges());
 
 			if (pstmt.executeUpdate() > 0) {
-
-				result = "Success";
-
+				responsevo.setResult("Success");
+				responsevo.setMessage("Tariff Added Successfully");
 			} 
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
-	public String edittariff(TariffRequestVO tariffvo) throws SQLException {
+	public ResponseVO edittariff(TariffRequestVO tariffvo) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 			con = getConnection();
@@ -1064,45 +1084,47 @@ public class CommunitySetUpDAO {
 			pstmt.setInt(6, tariffvo.getTariffID());
 
 			if (pstmt.executeUpdate() > 0) {
-
-				result = "Success";
-
+				responsevo.setResult("Success");
+				responsevo.setMessage("Tariff Updated Successfully");
 			} 
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
-	public String deletetariff(int tariffID) throws SQLException {
+	public ResponseVO deletetariff(int tariffID) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO(); 
 
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement("DELETE FROM tariff WHERE TariffID = ?"+tariffID);
 
 			if (pstmt.executeUpdate() > 0) {
-
-				result = "Success";
-
+				responsevo.setResult("Success");
+				responsevo.setMessage("Tariff Deleted Successfully");
 			} 
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
 	public boolean checktariffamount(float tariff) throws SQLException {

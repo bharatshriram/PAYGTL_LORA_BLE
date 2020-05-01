@@ -57,8 +57,8 @@ public class CommunitySetUpController {
 			responsevo = communitysetupbo.addcommunity(communityvo);
 
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 
 		return responsevo;
@@ -75,8 +75,8 @@ public class CommunitySetUpController {
 		try {
 			responsevo = communitysetupbo.editcommunity(communityvo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 
 		return responsevo;
@@ -100,18 +100,14 @@ public class CommunitySetUpController {
 	ResponseVO addblock(@RequestBody BlockRequestVO blockvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-
 		try {
 			
 			responsevo = communitysetupbo.addblock(blockvo);
 		
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -122,17 +118,13 @@ public class CommunitySetUpController {
 			@RequestBody BlockRequestVO blockvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-
 		blockvo.setBlockID(blockid);
 		try {
 			responsevo = communitysetupbo.editblock(blockvo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -142,19 +134,15 @@ public class CommunitySetUpController {
 	ResponseVO deleteblock(@PathVariable("blockID") int blockid)
 			throws BusinessException, SQLException {
 
-		String result = "Failure";
-
 		try{
 
 			responsevo = communitysetupbo.deleteblock(blockid);
 		
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 		
-		responsevo.setResult(result);
-
 		return responsevo;
 	}
 
@@ -176,16 +164,12 @@ public class CommunitySetUpController {
 	ResponseVO addcustomer(@RequestBody CustomerRequestVO customervo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-
 		try {
-			result = communitysetupbo.addcustomer(customervo);
+			responsevo = communitysetupbo.addcustomer(customervo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -196,18 +180,14 @@ public class CommunitySetUpController {
 			@RequestBody CustomerRequestVO customervo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-
 		customervo.setCRNNumber(CRNNumber);
 
 		try {
-			result = communitysetupbo.editcustomer(customervo);
+			responsevo = communitysetupbo.editcustomer(customervo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -217,22 +197,19 @@ public class CommunitySetUpController {
 	ResponseVO deletecustomer(@PathVariable("CRNNumber") String CRNNumber)
 			throws ClassNotFoundException, BusinessException, SQLException {
 
-		String result = "Failure";
 		CustomerRequestVO customervo = new CustomerRequestVO();
 
 		customervo.setCRNNumber(CRNNumber);
 		
 		try{
 		
-			result = communitysetupbo.deletecustomer(customervo);
+			responsevo = communitysetupbo.deletecustomer(customervo);
 
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 		
-		responsevo.setResult(result);
-
 		return responsevo;
 	}
 	
@@ -252,16 +229,12 @@ public class CommunitySetUpController {
 	ResponseVO approverequest(@PathVariable("requestID") int requestid, @PathVariable("action") int action) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-
 		try {
-			result = communitysetupdao.approverequest(requestid, action);
+			responsevo = communitysetupdao.approverequest(requestid, action);
 		} catch (Exception e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -286,11 +259,11 @@ public class CommunitySetUpController {
 			SQLException, BusinessException {
 
 		try {
-			 responsevo.setResult(communitysetupbo.addtariff(tariffvo));
+			 responsevo = communitysetupbo.addtariff(tariffvo);
 			
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 
 		return responsevo;
@@ -304,11 +277,11 @@ public class CommunitySetUpController {
 		tariffvo.setTariffID(tariffID);
 		
 		try {
-			 responsevo.setResult(communitysetupbo.edittariff(tariffvo));
+			 responsevo = communitysetupbo.edittariff(tariffvo);
 			
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 
 		return responsevo;
@@ -320,11 +293,11 @@ public class CommunitySetUpController {
 			SQLException, BusinessException {
 
 		try {
-			 responsevo.setResult(communitysetupbo.deletetariff(tariffID));
+			 responsevo = communitysetupbo.deletetariff(tariffID);
 			
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
 		}
 
 		return responsevo;

@@ -22,6 +22,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class CommunitySetUpBO {
 	
 	CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
+	ResponseVO responsevo = new ResponseVO();
 
 	/* Community */
 
@@ -128,8 +129,6 @@ public class CommunitySetUpBO {
 	public ResponseVO deleteblock(int blockID) throws BusinessException {
 		// TODO Auto-generated method stub
 		
-		ResponseVO responsevo = null;
-
 		try {
 
 			if (communitysetupdao.checkifhousesexist(blockID)) {
@@ -142,6 +141,8 @@ public class CommunitySetUpBO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		}
 
 		return responsevo;
@@ -149,7 +150,7 @@ public class CommunitySetUpBO {
 
 	/* Customer */
 
-	public String addcustomer(CustomerRequestVO customervo)
+	public ResponseVO addcustomer(CustomerRequestVO customervo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
@@ -196,7 +197,7 @@ public class CommunitySetUpBO {
 		return communitysetupdao.addcustomer(customervo);
 	}
 
-	public String editcustomer(CustomerRequestVO customervo)
+	public ResponseVO editcustomer(CustomerRequestVO customervo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
@@ -228,27 +229,25 @@ public class CommunitySetUpBO {
 		return communitysetupdao.editcustomer(customervo);
 	}
 
-	public String deletecustomer(CustomerRequestVO customervo)
+	public ResponseVO deletecustomer(CustomerRequestVO customervo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
-
-		String result = "";
-
+		
 		try {
 
-			result = communitysetupdao.deletecustomer(customervo);
+			responsevo = communitysetupdao.deletecustomer(customervo);
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		return result;
+		return responsevo;
 	}
 	
 	/* Tariff */
 
-	public String addtariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
+	public ResponseVO addtariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
@@ -262,7 +261,7 @@ public class CommunitySetUpBO {
 		return communitysetupdao.addtariff(tariffvo);
 	}
 	
-	public String edittariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
+	public ResponseVO edittariff(TariffRequestVO tariffvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 		
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
@@ -272,7 +271,7 @@ public class CommunitySetUpBO {
 		return communitysetupdao.edittariff(tariffvo);
 	}
 	
-	public String deletetariff(int tariffID) throws BusinessException, SQLException {
+	public ResponseVO deletetariff(int tariffID) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
 		
 		if(communitysetupdao.checktariffIsSetToCustomers(tariffID)) {

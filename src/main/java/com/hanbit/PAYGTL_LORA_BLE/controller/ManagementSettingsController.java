@@ -32,7 +32,9 @@ import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
  */
 @Controller
 public class ManagementSettingsController {
-
+	
+	ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
+	ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 	Gson gson = new Gson();
 
 	/* User */
@@ -41,7 +43,6 @@ public class ManagementSettingsController {
 	public @ResponseBody
 	UserManagementResponseVO userdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
 
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		UserManagementResponseVO usermanagementresponsevo = new UserManagementResponseVO();
 
 		usermanagementresponsevo.setData(managementsettingsdao.getuserdetails(roleid,id));
@@ -54,8 +55,6 @@ public class ManagementSettingsController {
 	ResponseVO adduser(@RequestBody UserManagementRequestVO usermanagementvo) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		String result = "Failure";
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
 		ResponseVO responsevo = new ResponseVO();
 
 		usermanagementvo.setUserPassword(Encryptor.encrypt(ExtraConstants.key1,
@@ -65,13 +64,11 @@ public class ManagementSettingsController {
 				usermanagementvo.getConfirmPassword()));
 		
 		try{
-		result = managementsettingsbo.adduser(usermanagementvo);
+		responsevo = managementsettingsbo.adduser(usermanagementvo);
 			} catch (BusinessException e) {
-				String message = e.getMessage();
-				responsevo.setMessage(message);
+				responsevo.setMessage(e.getMessage());
+				responsevo.setResult("Failure");
 			}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -82,7 +79,6 @@ public class ManagementSettingsController {
 	public @ResponseBody
 	AlertResponseVO alertdetails() throws SQLException {
 
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		AlertResponseVO alertresponsevo = new AlertResponseVO();
 
 		alertresponsevo.setData(managementsettingsdao.getalertdetails());
@@ -95,15 +91,14 @@ public class ManagementSettingsController {
 	ResponseVO addalert(@RequestBody AlertRequestVO alertvo) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
 		ResponseVO responsevo = new ResponseVO();
 
 		try {
-			 responsevo.setResult(managementsettingsbo.addalert(alertvo));
+			 responsevo = managementsettingsbo.addalert(alertvo);
 			
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
 		}
 		
 		return responsevo;
@@ -115,19 +110,15 @@ public class ManagementSettingsController {
 			@RequestBody AlertRequestVO alertvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
 		ResponseVO responsevo = new ResponseVO();
 
 		alertvo.setAlertID(alertID);
 		try {
-			result = managementsettingsbo.editalert(alertvo);
+			responsevo = managementsettingsbo.editalert(alertvo);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
 		}
-
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -138,7 +129,6 @@ public class ManagementSettingsController {
 	public @ResponseBody
 	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		VacationResponseVO vacationResponseVO = new VacationResponseVO();
 
 		vacationResponseVO.setData(managementsettingsdao.getvacationdetails(roleid, id));
@@ -151,17 +141,14 @@ public class ManagementSettingsController {
 	ResponseVO addvacation(@RequestBody VacationRequestVO vacationRequestVO) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		String result = "Failure";
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
 		ResponseVO responsevo = new ResponseVO();
 		
 		try{
-		result = managementsettingsbo.addvacation(vacationRequestVO);
+			responsevo = managementsettingsbo.addvacation(vacationRequestVO);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
 		}
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -171,18 +158,15 @@ public class ManagementSettingsController {
 	ResponseVO editvacation(@RequestBody VacationRequestVO vacationRequestVO, @PathVariable("vacationID") int vacationID) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		String result = "Failure";
-		ManagementSettingsBO managementsettingsbo = new ManagementSettingsBO();
 		ResponseVO responsevo = new ResponseVO();
 		vacationRequestVO.setVacationID(vacationID);
 		
 		try{
-		result = managementsettingsbo.editvacation(vacationRequestVO);
+			responsevo = managementsettingsbo.editvacation(vacationRequestVO);
 		} catch (BusinessException e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
 		}
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
@@ -192,17 +176,15 @@ public class ManagementSettingsController {
 	ResponseVO deletevacation(@PathVariable("vacationID") int vacationID) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
-		String result = "Failure";
-		ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
 		ResponseVO responsevo = new ResponseVO();
 		
 		try{
-		result = managementsettingsdao.deletevacation(vacationID);
+			responsevo = managementsettingsdao.deletevacation(vacationID);
 		} catch (Exception e) {
-			String message = e.getMessage();
-			responsevo.setMessage(message);
+			e.printStackTrace();
+			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setResult("Failure");
 		}
-		responsevo.setResult(result);
 
 		return responsevo;
 	}
