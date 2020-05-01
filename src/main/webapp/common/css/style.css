@@ -347,3 +347,26 @@ input:-internal-autofill-selected {
 }
 
 /*footer end*/
+
+
+
+
+.text-warning{
+  color:#ffc107 !important;
+}
+.border-left-success {
+  border-left: .25rem solid #1cc88a!important;
+}
+.border-left-yellow {
+  border-left: .25rem solid #ffc107!important;
+}
+.border-left-red {
+  border-left: .25rem solid #f44336!important;
+}
+.input_height{
+  height: calc(2.4375rem + 2px);
+}
+
+.container .highcharts-background{
+	fill: transparent !important;
+}

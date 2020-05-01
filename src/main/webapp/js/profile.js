@@ -136,7 +136,7 @@ $(document)
 															/*alert( "data"
 																	+ data.result);*/
 															
-															bootbox.alert("Updated Succesfully!",
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -149,7 +149,7 @@ $(document)
 
 														}else if(data.result == "Failure"){
 															
-															bootbox.alert(data.result,
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			

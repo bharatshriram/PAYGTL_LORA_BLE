@@ -366,7 +366,7 @@ $(document)
 																	/*alert( "data"
 																			+ data.result);*/
 																	
-																	bootbox.alert("Added Succesfully!",
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -377,9 +377,9 @@ $(document)
 																
 																	
 
-																} else if(data.result == "Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
+																} else if(data.result == "Failure"){
 									
-																	bootbox.alert(data.result,
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -389,9 +389,9 @@ $(document)
 																				});
 																	
 																	
-																}else if(data.result == "Failure"){
+																}else {
 																	
-																	bootbox.alert(data.result,
+																	bootbox.alert("SomeThing went Wrong",
 																			function(
 																					result) {
 																					
@@ -444,7 +444,7 @@ $(document)
 															/*alert( "data"
 																	+ data.result);*/
 															
-															bootbox.alert("Updated Succesfully!",
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -456,7 +456,7 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.result,
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -523,15 +523,20 @@ function getBlockFormDelete(blockId){
 			if (data.result == "Success") {
 				bootbox
 					.confirm(
-						"Deleted successfully!",
+							data.Message,
 						function(
 							result) {
 							window.location = "blockDetails.jsp";
 						});
 
 			} else {
-				//				//alert("fail");
-				window.location = "Customer_home.jsp";
+				bootbox
+				.confirm(
+						data.Message,
+					function(
+						result) {
+						window.location = "blockDetails.jsp";
+					});
 			}
 		}
 	});

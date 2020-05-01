@@ -339,7 +339,7 @@ $(document)
 											success : function(data) {
 //												alert("===>" + JSON.stringify(data));
 												if (data.result == "Success") {
-													bootbox.alert("Successfully Sent to Your Register Mail ID",
+													bootbox.alert(data.Message,
 															function(
 																	result) {
 																	

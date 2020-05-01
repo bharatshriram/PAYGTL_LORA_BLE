@@ -102,7 +102,7 @@ function getApprovalORRejected (requestId,Id){
 		dataType : "JSON",
 		success : function(data) {
 			if (data.result == "Success") {
-				bootbox.alert("Successfully Approved",
+				bootbox.alert(data.Message,
 						function(
 								result) {
 								
@@ -113,7 +113,7 @@ function getApprovalORRejected (requestId,Id){
 							});
 
 			} else {
-				bootbox.alert("Rejected",
+				bootbox.alert(data.Message,
 						function(
 								result) {
 					window.location = "approval.jsp";
