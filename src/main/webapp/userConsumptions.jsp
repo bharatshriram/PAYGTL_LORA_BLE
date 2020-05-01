@@ -93,14 +93,14 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
-                            <label class="bmd-label-floating">Start Date</label> 
+                            <label class="bmd-label-floating">Start Date Time</label> 
                              <!--  <input type="text" class="form-control datepicker" id="start_date" name="start_date"> -->
                              <input type="text" id="start_date" name="start_date" class="form-control" >
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Date & Time</label>
+                              <label class="bmd-label-floating">End Date</label>
                               <input type="text" class="form-control" id="end_date" name="end_date">
                             </div>
                           </div>
@@ -263,20 +263,22 @@
             var currentMonth = date.getMonth();
             var currentDate = date.getDate();
             var currentYear = date.getFullYear();
-			$('#start_date').bootstrapMaterialDatePicker
+			/* $('#start_date').bootstrapMaterialDatePicker
 			({
-				time: false,
+				time: true,
 				clearButton: true,
+				format: 'YYYY-MM-DD HH:mm',
 				 maxDate: new Date(currentYear, currentMonth, currentDate)
-			});
+			}); */
 
-			$('#end_date').bootstrapMaterialDatePicker
-			({
-				time: false,
+			$('#end_date').bootstrapMaterialDatePicker({ format: 'YYYY-MM-DD HH:mm',
 				clearButton: true,
 				 maxDate: new Date(currentYear, currentMonth, currentDate)
-			});
-			
+				  });
+			$('#start_date').bootstrapMaterialDatePicker({ format: 'YYYY-MM-DD HH:mm',
+				clearButton: true,
+				 maxDate: new Date(currentYear, currentMonth, currentDate)
+				  });
 			/* $('#time').bootstrapMaterialDatePicker
 			({
 				date: false,
