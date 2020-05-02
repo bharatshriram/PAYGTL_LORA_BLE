@@ -171,15 +171,15 @@ public class ManagementSettingsController {
 		return responsevo;
 	}
 	
-	@RequestMapping(value = "/vacation/delete/{vacationID}", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/vacation/delete/{source}/{vacationID}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody
-	ResponseVO deletevacation(@PathVariable("vacationID") int vacationID) throws ClassNotFoundException,
+	ResponseVO deletevacation(@PathVariable("vacationID") int vacationID, @PathVariable("source") String source) throws ClassNotFoundException,
 			SQLException, BusinessException {
 
 		ResponseVO responsevo = new ResponseVO();
 		
 		try{
-			responsevo = managementsettingsdao.deletevacation(vacationID);
+			responsevo = managementsettingsbo.deletevacation(vacationID, source);
 		} catch (Exception e) {
 			e.printStackTrace();
 			responsevo.setMessage("DATABASE ERROR");

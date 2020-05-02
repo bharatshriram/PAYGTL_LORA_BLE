@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
@@ -66,7 +67,7 @@ public class DashboardDAO {
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = dbl.CustomerID <change>";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 		
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
 			rs = pstmt.executeQuery();
@@ -109,7 +110,7 @@ public class DashboardDAO {
 				Date currentDateTime = new Date();
 				
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
-/*
+
 				if(minutes > noAMRInterval) {
 					nonCommunicating++;
 					dashboardvo.setDateColor("RED");
@@ -118,7 +119,7 @@ public class DashboardDAO {
 					dashboardvo.setDateColor("GREEN");
 					dashboardvo.setCommunicationStatus("YES");
 				}
-				dashboardvo.setNonCommunicating(nonCommunicating);*/
+				dashboardvo.setNonCommunicating(nonCommunicating);
 				dashboard_list.add(dashboardvo);
 			}
 		}
@@ -367,6 +368,119 @@ public class DashboardDAO {
 		}
 
 		return responsevo;
+	}
+
+	public List<DashboardResponseVO> getFilterDashboarddetails(int roleid, String id, FilterVO filtervo) throws SQLException {
+		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<DashboardResponseVO> dashboard_list = null;
+		DashboardResponseVO dashboardvo = null;
+		int noAMRInterval = 0;
+		double lowBatteryVoltage = 0.0;
+		
+		try {
+			con = getConnection();
+			dashboard_list = new LinkedList<DashboardResponseVO>();
+			
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
+			ResultSet rs1 = pstmt1.executeQuery();
+			if(rs1.next()) {
+				
+				noAMRInterval = rs1.getInt("NoAMRInterval");
+				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+			}
+			
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
+					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change> ";
+			
+			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
+			
+			if(roleid !=3) {
+				
+				StringBuilder stringBuilder = new StringBuilder(query);
+				
+				if(!filtervo.getDateFrom().isEmpty() && !filtervo.getDateTo().isEmpty() && filtervo.getReadingFrom() != 0 && filtervo.getReadingTo() != 0 && filtervo.getBatteryVoltageFrom() != 0 && filtervo.getBatteryVoltageTo() !=0 && filtervo.getTamperType() > 0) {
+					
+					if(roleid == 1 || roleid == 4) {
+						stringBuilder.append(" WHERE dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + filtervo.getDateTo() + "'");
+					} else {
+						stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + filtervo.getDateTo() + "'");
+					}
+					
+					stringBuilder.append(" AND dbl.Reading BETWEEN " + filtervo.getReadingFrom() + " AND " + filtervo.getReadingTo());
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + filtervo.getBatteryVoltageFrom() + " AND " + filtervo.getBatteryVoltageTo());
+					stringBuilder.append(" AND dbl.TamperDetect BETWEEN " + filtervo.getTamperType() + " AND " + filtervo.getTamperType());
+					
+				}
+				
+				stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
+			}
+			
+			pstmt = con.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				dashboardvo = new DashboardResponseVO();
+				dashboardvo.setCommunityName(rs.getString("CommunityName"));
+				dashboardvo.setBlockName(rs.getString("BlockName"));
+				dashboardvo.setHouseNumber(rs.getString("HouseNumber"));
+				dashboardvo.setFirstName(rs.getString("FirstName"));
+				dashboardvo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
+				dashboardvo.setLastName(rs.getString("LastName"));
+				dashboardvo.setMeterID(rs.getString("MeterID"));
+				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
+				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
+				dashboardvo.setReading(rs.getFloat("Reading"));
+				dashboardvo.setBalance(rs.getFloat("Balance"));
+				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
+				
+				if(rs.getInt("SolonideStatus") == 0) {
+					dashboardvo.setValveStatus("OPEN");	
+				}else {
+					dashboardvo.setValveStatus("CLOSED");
+				}
+				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
+				
+				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
+					dashboardvo.setBatteryColor("RED");
+				}else {
+					dashboardvo.setBatteryColor("GREEN");
+				}
+				if(rs.getInt("TamperDetect") == 1) {
+					dashboardvo.setTamperStatus("YES");	
+				}else {
+					dashboardvo.setTamperStatus("NO");
+				}
+				
+				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
+				
+				Date currentDateTime = new Date();
+				
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
+
+				if(minutes > noAMRInterval) {
+					dashboardvo.setDateColor("RED");
+					dashboardvo.setCommunicationStatus("NO");
+				}else {
+					dashboardvo.setDateColor("GREEN");
+					dashboardvo.setCommunicationStatus("YES");
+				}
+				dashboard_list.add(dashboardvo);
+			}
+		}
+
+		catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		return dashboard_list;
 	}
 	
 }

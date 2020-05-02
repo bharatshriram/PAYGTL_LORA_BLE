@@ -164,8 +164,8 @@ public class ReportsDAO {
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? ";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, userconsumptionreportsrequestvo.getCRNNumber());
-				pstmt.setString(2, userconsumptionreportsrequestvo.getFromDate()+" 00:00:00");
-				pstmt.setString(3,userconsumptionreportsrequestvo.getToDate()+" 23:59:59");
+				pstmt.setString(2, userconsumptionreportsrequestvo.getFromDate());
+				pstmt.setString(3,userconsumptionreportsrequestvo.getToDate());
 
 				rs = pstmt.executeQuery();
 				while (rs.next()) {
@@ -922,8 +922,8 @@ public class ReportsDAO {
 						"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.CRNNumber = ? AND t.TransactionDate BETWEEN ? AND ? ");
 				
 				pstmt.setString(1, topupsummaryrequestvo.getCRNNumber());
-				pstmt.setString(2, topupsummaryrequestvo.getFromDate()+" 00:00:00");
-				pstmt.setString(3,topupsummaryrequestvo.getToDate()+" 23:59:59");
+				pstmt.setString(2, topupsummaryrequestvo.getFromDate());
+				pstmt.setString(3,topupsummaryrequestvo.getToDate());
 
 				rs = pstmt.executeQuery();
 				while (rs.next()) {

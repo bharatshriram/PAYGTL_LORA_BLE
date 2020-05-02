@@ -116,11 +116,25 @@ public class ManagementSettingsBO {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		
-		/*if (managementsettingsdao.checkvacationsettingsdoneby(vacationRequestVO)) {
-			throw new BusinessException("PLEASE DO THE UPDATE FROM MOBILE APP AS THE VACATION HAS BEEN RAISED FROM MOBILE APP ONLY");
-		}*/
+		if (managementsettingsdao.checkvacationsettings(vacationRequestVO)) {
+			throw new BusinessException("PREVIOUS VACATION REQUEST IS PENDING");
+		}
 		
 		return managementsettingsdao.editvacation(vacationRequestVO);
+	}
+	
+	public ResponseVO deletevacation(int vacationID, String source) throws BusinessException, SQLException {
+		// TODO Auto-generated method stub
+		
+		if(vacationID == 0 || source.isEmpty()){
+			throw new BusinessException("DELETE REQUEST FAILED");
+		}
+		
+		if (managementsettingsdao.checkvacationpending(vacationID, source)) {
+			throw new BusinessException("VACATION CANNOT BE DELETED");
+		}
+		
+		return managementsettingsdao.deletevacation(vacationID, source);
 	}
 
 }
