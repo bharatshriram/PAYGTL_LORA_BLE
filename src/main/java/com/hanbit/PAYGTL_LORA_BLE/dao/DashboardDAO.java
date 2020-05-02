@@ -87,25 +87,10 @@ public class DashboardDAO {
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				
-				if(rs.getInt("SolonideStatus") == 0) {
-					dashboardvo.setValveStatus("OPEN");	
-				}else {
-					dashboardvo.setValveStatus("CLOSED");
-				}
+				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
-				
-				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
-					dashboardvo.setBatteryColor("RED");
-				}else {
-					dashboardvo.setBatteryColor("GREEN");
-				}
-				if(rs.getInt("TamperDetect") == 1) {
-					dashboardvo.setTamperStatus("YES");	
-				}else {
-					dashboardvo.setTamperStatus("NO");
-				}
-				
+				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();
@@ -403,11 +388,11 @@ public class DashboardDAO {
 			StringBuilder stringBuilder = new StringBuilder(query);
 			if(roleid !=3) {
 				
-				LocalDateTime datetime1 = LocalDateTime.now();  
-			    DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+				LocalDateTime dateTime = LocalDateTime.now();  
+			    DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 				
 				if(!filtervo.getDateFrom().isEmpty() || !filtervo.getDateTo().isEmpty()) {
-					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+datetime1.format(format)+"'"));
+					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+dateTime.format(dateTimeFormat)+"'"));
 				}
 				if(filtervo.getReadingFrom() != 0 || filtervo.getReadingTo() != 0) {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
@@ -437,25 +422,10 @@ public class DashboardDAO {
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				
-				if(rs.getInt("SolonideStatus") == 0) {
-					dashboardvo.setValveStatus("OPEN");	
-				}else {
-					dashboardvo.setValveStatus("CLOSED");
-				}
+				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
-				
-				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
-					dashboardvo.setBatteryColor("RED");
-				}else {
-					dashboardvo.setBatteryColor("GREEN");
-				}
-				if(rs.getInt("TamperDetect") == 1) {
-					dashboardvo.setTamperStatus("YES");	
-				}else {
-					dashboardvo.setTamperStatus("NO");
-				}
-				
+				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();

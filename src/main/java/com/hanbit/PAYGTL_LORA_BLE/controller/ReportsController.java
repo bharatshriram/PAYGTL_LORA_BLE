@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ReportsDAO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlarmRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FinancialReportsRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpSummaryRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserConsumptionRequestVO;
@@ -42,8 +43,8 @@ public class ReportsController {
 		FinancialReportsResponseVO financialReportsResponseVO = new FinancialReportsResponseVO();
 		
 		financialReportsResponseVO.setData(reportsdao.getFinancialReportsdetails(financialreportsrequestvo, roleid, id));
-		financialReportsResponseVO.setTotalAmountForSelectedPeriod(financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalAmountForSelectedPeriod());
-		financialReportsResponseVO.setTotalUnitsForSelectedPeriod(financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalUnitsForSelectedPeriod());
+		financialReportsResponseVO.setTotalAmountForSelectedPeriod(financialReportsResponseVO.getData().size() == 0 ? 0 : financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalAmountForSelectedPeriod());
+		financialReportsResponseVO.setTotalUnitsForSelectedPeriod(financialReportsResponseVO.getData().size() == 0 ? 0 : financialReportsResponseVO.getData().get(financialReportsResponseVO.getData().size()-1).getTotalUnitsForSelectedPeriod());
 
 		return financialReportsResponseVO;
 	}
@@ -107,6 +108,18 @@ public class ReportsController {
 			alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id));
 
 			return alarmsResponseVO;
+		}
+		
+		@RequestMapping(value = "/alarmreports", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+		public @ResponseBody
+		AlarmsResponseVO alarmreports(@RequestBody AlarmRequestVO alarmRequestVO) throws SQLException {
+
+			AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
+
+			alarmsResponseVO.setData(reportsdao.getAlarmreportsdetails(alarmRequestVO));
+
+			return alarmsResponseVO;
+
 		}
 
 }

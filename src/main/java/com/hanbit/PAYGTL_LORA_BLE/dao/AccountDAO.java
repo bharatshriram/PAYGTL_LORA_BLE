@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -74,11 +75,27 @@ public class AccountDAO {
 				
 				if(topupvo.getSource().equalsIgnoreCase("web")) {
 					
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
 					pstmt1.setString(1, topupvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if (rs1.next()) {
-
+						
+					LocalDateTime dateTime = LocalDateTime.now();  
+						
+					PreparedStatement pstmt = con.prepareStatement("SELECT MONTH(TransactionDate) AS previoustopupmonth from topup WHERE Status = 2 and CRNNumber = '"+topupvo.getCRNNumber()+"'" + "ORDER BY TransactionDate DESC LIMIT 0,1");
+					ResultSet rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						
+						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
+							
+							topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));								
+						}
+						
+					} else {
+						topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));
+					}
+						
 					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
 
 					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
@@ -122,7 +139,7 @@ public class AccountDAO {
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			// pstmt.close();
@@ -593,7 +610,7 @@ public class AccountDAO {
 						
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
