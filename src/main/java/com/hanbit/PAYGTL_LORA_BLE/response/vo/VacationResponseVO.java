@@ -21,6 +21,7 @@ public class VacationResponseVO {
 	private String startDate;
 	private String endDate;
 	private String registeredDate;
+	private int vacationID;
 	
 	private List<VacationResponseVO> data;
 
@@ -111,5 +112,14 @@ public class VacationResponseVO {
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
 	}
+
+	public int getVacationID() {
+		return vacationID;
+	}
+
+	public void setVacationID(int vacationID) {
+		this.vacationID = vacationID;
+	}
+	
 	
 }
