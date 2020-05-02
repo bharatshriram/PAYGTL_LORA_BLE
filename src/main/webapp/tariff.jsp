@@ -75,7 +75,7 @@
 									<th>Alarm Credit</th>
 									<th>Fixed Charge</th>
 									<th>Date</th>
-									<th>Edit</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>

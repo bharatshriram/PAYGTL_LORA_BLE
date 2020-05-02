@@ -63,6 +63,11 @@ return json.data;
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a> "
+																	+"<a onclick='getDeleteTraiff("
+																	+ row.tariffID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9; cursor:pointer;'>delete</i>"
+																	+ "</a></div>"
 	}
 	}
 ],
@@ -503,3 +508,45 @@ function getTariffFormEdit(id) {
 }
 
 
+function  getDeleteTraiff(id){
+	
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DELEE TARIFF",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/tariff/delete/" + id,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "tariff.jsp";
+								});
+
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
+			}
+		});
+	/*
+	
+*/	
+	
+}

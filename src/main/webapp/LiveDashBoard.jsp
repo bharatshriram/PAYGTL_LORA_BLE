@@ -130,14 +130,14 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="bmd-label-floating">Battery Voltage To</label>
-                <input type="text" class="form-control input_height" id="to" name="battery_to">
+                <input type="text" class="form-control input_height" id="battery_to" name="battery_to">
               </div>
             </div>
             
             <div class="col-md-6">
               <div class="form-group">
                 <label class="bmd-label-floating">Tamper</label>
-                <select class="form-control">
+                <select class="form-control" id="tamper" name="tamper">
                   <option value="-1">Tamper Type</option>
                   <option value="0">Door Tamper</option>
                   <option value="1">Magnetic Tamper</option>
@@ -147,7 +147,7 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="bmd-label-floating">Communication</label>
-                <select class="form-control">
+                <select class="form-control" id="mode" name="mode">
                   	<option value="-1">Mode</option>
                      <option value="0">Communication</option>
                      <option value="0">Non-Communication</option>
