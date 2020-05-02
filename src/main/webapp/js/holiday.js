@@ -177,7 +177,7 @@ $(document)
 														.ajax({
 															type : "POST",
 															contentType : "application/json",
-															url : "/PAYGTL_LORA_BLE/vacation/add1",
+															url : "/PAYGTL_LORA_BLE/vacation/add",
 															data : JSON
 																	.stringify(data1),
 															dataType : "JSON",

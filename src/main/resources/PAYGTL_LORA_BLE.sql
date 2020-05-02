@@ -62,7 +62,7 @@ CREATE TABLE `balancelog` (
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 
 /*Data for the table `balancelog` */
 
@@ -108,7 +108,11 @@ insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID
 (39,'70b3d5f830000a68',93.00,1710.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:21:19','2020-04-30 12:23:09'),
 (40,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:28:35','2020-04-30 12:30:04'),
 (41,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:46:49','2020-04-30 12:47:41'),
-(42,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:48:15','2020-04-30 12:49:54');
+(42,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:48:15','2020-04-30 12:49:54'),
+(43,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 14:22:15','2020-05-02 22:09:25'),
+(44,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.24,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-05-02 22:12:36','2020-05-02 22:13:23'),
+(45,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.22,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-05-02 22:19:42','2020-05-02 22:20:54'),
+(46,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.22,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-05-02 22:21:46','2020-05-02 22:22:56');
 
 /*Table structure for table `block` */
 
@@ -167,7 +171,7 @@ insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`Meter
 (6,6,6,'70b3d5f830000a68',6,2,'HAN0006','2020-04-20 15:23:07','2020-04-20 15:25:00'),
 (7,7,6,'70b3d5f830000a68',40,2,'HAN0006','2020-04-20 15:28:53','2020-04-20 15:30:01'),
 (8,1587655984186,6,'70b3d5f83000157a',40,3,'HAN0006','2020-04-23 21:03:05','2020-04-23 21:05:02'),
-(9,1587656297103,6,'70b3d5f83000157a',40,0,'HAN0006','2020-04-23 21:08:18','2020-05-02 15:55:01'),
+(9,1587656297103,6,'70b3d5f83000157a',40,0,'HAN0006','2020-04-23 21:08:18','2020-05-03 01:25:02'),
 (10,1588231239857,0,'70b3d5f830000a68',0,5,'40','2020-04-30 12:50:41','2020-04-30 12:55:00');
 
 /*Table structure for table `community` */
@@ -291,7 +295,7 @@ CREATE TABLE `displaybalancelog` (
 insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Reading`,`Balance`,`CommunityID`,`BlockID`,`CustomerID`,`BatteryVoltage`,`TariffAmount`,`EmergencyCredit`,`MeterType`,`SolonideStatus`,`CreditStatus`,`TamperDetect`,`LowBattery`,`MeterSerialNumber`,`CRNNumber`,`IoTTimeStamp`,`LogDate`) values 
 (1,23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,'1234','HAN0001','2020-04-20 13:34:40','2020-04-22 02:46:18'),
 (2,17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,'3456','HAN0002','2020-04-16 10:36:55','2020-04-22 02:46:03'),
-(3,42,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.19,10.00,'0.0',3,1,0,0,0,'4567','HAN0006','2020-04-30 12:48:15','2020-04-30 12:49:54');
+(3,46,'70b3d5f830000a68',93.00,1910.00,1,1,6,2.22,10.00,'0.0',3,0,0,0,0,'4567','HAN0006','2020-05-02 22:21:46','2020-05-02 22:22:56');
 
 /*Table structure for table `mailsettings` */
 
@@ -551,13 +555,15 @@ CREATE TABLE `vacation` (
   `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime NOT NULL,
   PRIMARY KEY (`VacationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `vacation` */
 
 insert  into `vacation`(`VacationID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`VacationName`,`StartDate`,`EndDate`,`Status`,`Source`,`CRNNumber`,`mode`,`RegisteredDate`,`ModifiedDate`) values 
 (1,0,1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 12:00:00','2020-04-21 12:15:00',2,'mobile','HAN0006','add','2020-04-20 23:51:12','2020-04-20 23:51:12'),
-(2,0,1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 13:00:00','2020-04-21 13:15:00',2,'mobile','HAN0006','add','2020-04-21 00:30:21','2020-04-21 00:30:21');
+(2,0,1,1,6,'70b3d5f830000a68','out of Station','2020-04-21 13:00:00','2020-04-21 13:15:00',2,'mobile','HAN0006','add','2020-04-21 00:30:21','2020-04-21 00:30:21'),
+(3,1588438077819,1,1,6,'70b3d5f830000a68','testing','2020-05-02 22:20:00','2020-05-02 22:25:00',2,'web','HAN0006','add','2020-05-02 22:17:53','2020-05-02 22:20:00'),
+(4,1588441392073,1,1,6,'70b3d5f830000a68','testing1','2020-05-03 11:00:00','2020-05-03 11:15:00',0,'web','HAN0006','add','2020-05-02 23:13:06','2020-05-03 01:25:03');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

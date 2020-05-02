@@ -218,6 +218,7 @@ public class AccountDAO {
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				statusvo.setTransactionDate(rs.getString("TransactionDate"));
+				statusvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
@@ -226,15 +227,6 @@ public class AccountDAO {
 					statusvo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
 				}
 
-				if (rs.getInt("Status") == 2) {
-					statusvo.setStatus("Passed");
-				} else if (rs.getInt("Status") == 1) {
-					statusvo.setStatus("Pending");
-				} else if (rs.getInt("Status") == 0) {
-					statusvo.setStatus("Pending...waiting for acknowledge");
-				}else {
-					statusvo.setStatus("Failed");
-				}
 				statuslist.add(statusvo);
 			}
 		} catch (Exception ex) {
@@ -461,48 +453,11 @@ public class AccountDAO {
 			while (rs.next()) {
 				configurationvo = new ConfigurationResponseVO();
 				configurationvo.setMeterID(rs.getString("MeterID"));
-				
-				// 5, 3, 1, 40, 0 , 6, 10
-				
-				if (Integer.parseInt(rs.getString("CommandType")) == 40) {
-					configurationvo.setCommandType("Solenoid Open");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 0) {
-					configurationvo.setCommandType("Solenoid Close");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 3) {
-					configurationvo.setCommandType("Clear Meter");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 1) {
-					configurationvo.setCommandType("Clear Tamper");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 5) {
-					configurationvo.setCommandType("RTC");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 6) {
-					configurationvo.setCommandType("Set Default Read");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 10) {
-					configurationvo.setCommandType("Set Tariff");
-				}
-				
+				configurationvo.setCommandType((rs.getInt("CommandType") == 40) ? "Solenoid Open" : (rs.getInt("CommandType") == 0) ? "Solenoid Close" : (rs.getInt("CommandType") == 3) ? "Clear Meter" : (rs.getInt("CommandType") == 1) ? "Clear Tamper" : (rs.getInt("CommandType") == 5) ? "RTC" : (rs.getInt("CommandType") == 6) ? "Set Default Read" : (rs.getInt("CommandType") == 10) ? "Set Tariff" : "");
 				configurationvo.setModifiedDate(rs.getString("ModifiedDate"));
-
-				if (Integer.parseInt(rs.getString("Status")) == 0) {
-					configurationvo.setStatus("Pending...waiting for ack");
-				}
-				else if (Integer.parseInt(rs.getString("Status")) == 1) {
-					configurationvo.setStatus("Pending");
-				}
-				else if (Integer.parseInt(rs.getString("Status")) == 2) {
-					configurationvo.setStatus("Passed");
-				}
-				else {
-					configurationvo.setStatus("Failed");
-				}
+				configurationvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
-
 			}
 
 		} catch (Exception ex) {
