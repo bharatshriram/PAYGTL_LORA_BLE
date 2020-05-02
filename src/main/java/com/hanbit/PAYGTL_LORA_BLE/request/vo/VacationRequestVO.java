@@ -9,20 +9,22 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class VacationRequestVO {
 	
-	private int communityID;
-	private int blockID;
-	private int customerID;
 	private String CRNNumber;
-	private String meterID;
 	private String vacationName;
 	private String startDateTime;
 	private String endDateTime;
 	private int startDay;
 	private int endDay;
 	private String source;
+	
+	private int communityID;
+	private int blockID;
+	private int customerID;
+	private String meterID;
 	private int status;
 	private long transactionIDForTata;
 	private int vacationID;
+	private String mode;
 	
 	public int getCommunityID() {
 		return communityID;
@@ -108,6 +110,12 @@ public class VacationRequestVO {
 	}
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
+	}
+	public String getMode() {
+		return mode;
+	}
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 
 }

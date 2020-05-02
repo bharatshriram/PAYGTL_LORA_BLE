@@ -22,6 +22,9 @@ public class VacationResponseVO {
 	private String endDate;
 	private String registeredDate;
 	private int vacationID;
+	private String vacationName;
+	private String source;
+	private String mode;
 	
 	private List<VacationResponseVO> data;
 
@@ -120,6 +123,28 @@ public class VacationResponseVO {
 	public void setVacationID(int vacationID) {
 		this.vacationID = vacationID;
 	}
-	
-	
+
+	public String getVacationName() {
+		return vacationName;
+	}
+
+	public void setVacationName(String vacationName) {
+		this.vacationName = vacationName;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
+	public String getMode() {
+		return mode;
+	}
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
 }

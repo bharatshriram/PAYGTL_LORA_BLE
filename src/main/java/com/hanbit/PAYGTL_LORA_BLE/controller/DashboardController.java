@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
@@ -34,6 +35,20 @@ public class DashboardController {
 		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();
 
 		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id));
+		dasboardresponsevo.setTotal(dasboardresponsevo.getData().size());
+		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
+		dasboardresponsevo.setCommunicating(dasboardresponsevo.getData().size()-dasboardresponsevo.getNonCommunicating());
+		
+		return dasboardresponsevo;
+	}
+	
+	@RequestMapping(value = "/filterdashboard/{roleid}/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody DashboardResponseVO filterdashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @RequestBody FilterVO filtervo) throws SQLException {
+
+		DashboardDAO dashboarddao = new DashboardDAO();
+		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();
+
+		dasboardresponsevo.setData(dashboarddao.getFilterDashboarddetails(roleid, id, filtervo));
 		dasboardresponsevo.setTotal(dasboardresponsevo.getData().size());
 		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
 		dasboardresponsevo.setCommunicating(dasboardresponsevo.getData().size()-dasboardresponsevo.getNonCommunicating());
