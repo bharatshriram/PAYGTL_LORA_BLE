@@ -320,15 +320,16 @@ public class ManagementSettingsDAO {
 			vacationlist = new LinkedList<VacationResponseVO>();
 
 			String query =
-					"SELECT v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
+					"SELECT v.VacationID,v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CRNNumber = "+id+ " ORDER BY v.VacationID DESC" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
 
 			while (rs.next()) {
 				vacationResponseVO = new VacationResponseVO();
+				vacationResponseVO.setVacationID(rs.getInt("VacationID"));
 				vacationResponseVO.setCommunityName(rs.getString("CommunityName"));
 				vacationResponseVO.setBlockName((rs.getString("BlockName")));
 				vacationResponseVO.setHouseNumber(rs.getString("HouseNumber"));
@@ -364,7 +365,7 @@ public class ManagementSettingsDAO {
 
 						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 
-						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yy-MM-dd-HH-mm-ss");
+						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 						LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime()+":00", dtf);
 						LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime()+":00", dtf);
 
