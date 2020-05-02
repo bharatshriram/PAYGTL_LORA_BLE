@@ -283,7 +283,7 @@ $(document).ready(function() {
 			return "<a onclick='getDeleteTransactionID("
 																		+ row.transactionID
 																		+ ")'>"
-																		+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																		+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
 																		+ "</a>"
 		}
 		}
@@ -322,6 +322,40 @@ $(document).ready(function() {
 
 function getDeleteTransactionID(transID){
 	
-	
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DELEE RECORD",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/status/delete/" + transID,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "topupStatus.jsp";
+								});
+
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
+			}
+		});
 }
 

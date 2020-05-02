@@ -71,7 +71,7 @@ return json.data;
 																	+"<a onclick='getBlockFormDelete("
 																	+ row.blockID
 																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
 																	+ "</a></div>"
 	}
 	}
@@ -513,32 +513,40 @@ function getBlockFormDelete(blockId){
 	
 	//alert(""+blockId);
 	
-	$.ajax({
-		type : "POST",
-		contentType : "application/json",
-		url : "/PAYGTL_LORA_BLE/block/delete/" + blockId,
-		dataType : "JSON",
-		success : function(data) {
-			//alert("Success====" + data.result);
-			if (data.result == "Success") {
-				bootbox
-					.confirm(
-							data.Message,
-						function(
-							result) {
-							window.location = "blockDetails.jsp";
-						});
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DELEE BLOCK",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/block/delete/" + blockId,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "blockDetails.jsp";
+								});
 
-			} else {
-				bootbox
-				.confirm(
-						data.Message,
-					function(
-						result) {
-						window.location = "blockDetails.jsp";
-					});
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
 			}
-		}
-	});
+		});
 	
 }

@@ -299,3 +299,46 @@ $(document)
 									});
 				});
 
+
+
+
+
+function getDeleteTransactionID(transID){
+	
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DELEE RECORD",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/configuration/delete/" + transID,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "configurationStatus.jsp";
+								});
+
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
+			}
+		});
+}
+

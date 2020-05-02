@@ -71,15 +71,15 @@ return json.data;
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
-																	+ row.customerID
-																	+ ")'>"
+		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit((\""
+																	+ row.CRNNumber
+																	+ "\")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a>"
-																	+"<a onclick='getCustomerFormDelete("
-																	+ row.customerID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																	+"<a onclick='getCustomerFormDelete(\""
+																	+ row.CRNNumber
+																	+ "\")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
 																	+ "</a>"
 																	
 																	
@@ -257,7 +257,7 @@ $(document)
 																message : 'The CRN No. must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
-																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+																regexp : /^[a-zA-Z][a-zA-Z0-9.,$;]+$/,
 																message : 'The CRN No. can only consist of Alphanumaric'
 															}
 														}
@@ -403,7 +403,7 @@ $(document)
 														message : 'The CRN No. must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
-														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
+														regexp : /^[a-zA-Z][a-zA-Z0-9.,$;]+$/,
 														message : 'The CRN No. can only consist of Alphanumaric'
 													}
 												}
@@ -532,7 +532,7 @@ $(document)
 																	/*alert( "data"
 																			+ data.result);*/
 																	
-																	bootbox.alert("Added Succesfully!",
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -543,21 +543,9 @@ $(document)
 																	
 																	
 
-																} else if(data.result == "Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator"){
-									
-																	bootbox.alert(data.result,
-																			function(
-																					result) {
-																					
-																		//alert();
-																		window.location = "customerDetails.jsp";
-																		return false
-																				});
+																} else if(data.result == "Failure"){
 																	
-																	
-																}else if(data.result == "Failure"){
-																	
-																	bootbox.alert(data.result,
+																	bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
@@ -617,7 +605,7 @@ $(document)
 															/*alert( "data"
 																	+ data.result);*/
 															
-															bootbox.alert("Updated Succesfully!",
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -627,7 +615,7 @@ $(document)
 															});
 														} else if(data.result == "Failure" && data.Message == undefined){
 															
-															bootbox.alert(data.result,
+															bootbox.alert(data.Message,
 																	function(
 																			result) {
 																			
@@ -726,29 +714,42 @@ function getCustomerFormEdit(id) {
 }
 
 
-function getCustomerFormDelete(cust_id){
+function getCustomerFormDelete(CRNNumber){
 	
-	$.ajax({
-		type : "POST",
-		contentType : "application/json",
-		url : "/BGLWalkByAMR_Gas/approverequest/" + id,
-		dataType : "JSON",
-		success : function(data) {
-//			alert("Success====" + data);
-			if (data.result == "Success") {
-				bootbox
-					.confirm(
-						"Deleted successfully!",
-						function(
-							result) {
-							window.location = "Customer_home.jsp";
-						});
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DELEE CUSTOMER",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "POST",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/customer/delete/" + CRNNumber,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "customerDetails.jsp";
+								});
 
-			} else {
-				//				//alert("fail");
-				window.location = "Customer_home.jsp";
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
 			}
-		}
-	});
+		});
 	
 }

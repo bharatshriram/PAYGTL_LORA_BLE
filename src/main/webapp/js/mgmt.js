@@ -65,13 +65,6 @@ return json.data;
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a>"
-																	+"<a onclick='getCustomerFormDelete("
-																	+ row.customerID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
-																	+ "</a>"
-																	
-																	
 	}
 	}
 

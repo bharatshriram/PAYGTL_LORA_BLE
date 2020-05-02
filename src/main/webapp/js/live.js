@@ -200,30 +200,33 @@ $(document)
 										 */
 										"buttons" : [
 												{
-													extend : 'excel',
+													//extend : 'excel',
 													footer : 'true',
-													text : 'Excel',
-													title : 'Dashboard'
+													//text : 'Excel',
+													title : 'Dashboard',
+													className: 'custom-btn fa fa-file-excel-o'
+														
 												},
 
 												{
-													extend : 'pdf',
+													//extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
 																5, 6, 7, 8, 9,
 																10, 11, 12,13 ]
 													},
-													text : 'pdf',
+													//text : 'pdf',
+													className: 'custom-btn fa fa-file-pdf-o',
 													orientation : 'landscape',
 													title : 'Dashboard'
 												},
 												{
-									                text: 'Adv Serach',
+									                //text: 'AdvSerach',
 									                action: function ( e, dt, node, config ) {
 									                    alert( 'Button activated' );
 									                },
-									                className: 'customButton',
+									                className: 'customButton fa fa-search-plus ',
 									               
 									                action: function ( e, dt, button, config ) {
 									                    $('.custombutton').attr(
@@ -248,18 +251,23 @@ $(document)
 								var data1 = {}
 								
 								data1["communityID"] = $(
-										"#selectcommunityName").val();
+										"#start_date").val();
 								data1["blockID"] = $(
-										"#selectBlockBasedonCommunity")
+										"#end_date")
 										.val();
 								data1["CRNNumber"] = $(
-										"#selectHouseBasedonBlock")
+										"#reading_from")
 										.val();
-								data1["meterID"] = $("#AMR_topup")
+								data1["meterID"] = $("#reading_to")
 										.val();
-								data1["fromDate"] = $("#start_date")
+								data1["fromDate"] = $("#battery_from")
 										.val();
-								data1["toDate"] = $("#end_date").val();
+								data1["toDate"] = $("#battery_to").val();
+								
+								
+								data1["fromDate"] = $("#tamper")
+								.val();
+						data1["toDate"] = $("#mode").val();
 
 								
 								$
