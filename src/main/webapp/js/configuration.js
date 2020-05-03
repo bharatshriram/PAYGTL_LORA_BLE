@@ -162,7 +162,7 @@ $(document)
 												data1["tariffID"] = $("#selectTariffName").val();
 											}
 										 
-										data1["CRNNumber"] = $("#selectcommandType").val();
+										data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();
 										data1["meterID"] = $("#AMR_topup").val();
 										data1["source"] = "web";
 

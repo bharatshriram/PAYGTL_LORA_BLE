@@ -31,7 +31,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
 	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 	
-<title>Holidays Details</title>
+<title>Vacation Details</title>
 </head>
 
 
@@ -76,6 +76,7 @@
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Registration Date</th>
+									<th>Status</th>
 									<th>Action</th>
 								</tr>
 							</thead>

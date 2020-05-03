@@ -11,7 +11,6 @@
 <%
 		String user_id = (String) session.getAttribute("roleID");
 
-		System.out.println("======>" + user_id);
 	%>
 
 	<%
@@ -61,24 +60,24 @@
 				
 				<%if(user_id.equalsIgnoreCase("1")){ %>
                 <li><a href="Mgmt.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">User Management</span></a></li>
-                      <li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
+                <li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
                 <%}%>	
 					                
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
- 				<li> <a href="approval.jsp"><img src=common/images/icons/listofapproval.png /></i> <span class="nav-label">List Of Approval</span></a> </li>
+ 				<li> <a href="approval.jsp"><img src=common/images/icons/listofapproval.png /> <span class="nav-label">List Of Approval</span></a> </li>
                 <li> <a href="blockDetails.jsp"><img src=common/images/icons/block.png /> <span class="nav-label">Block</span></a> </li>
 				<li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
                 
-                <%if(user_id.equalsIgnoreCase("1")){ %>
+                <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
                 <%}%>
                 
                 
                 <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
                 
-                <%if(user_id.equalsIgnoreCase("1")){ %>
+                <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="configuration.jsp"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
                 <%}%>
                 
@@ -145,7 +144,6 @@
                   </ul>
                 </li>
                 <li> <a href="#"><i class="fa fa-laptop"></i> <span class="nav-label">Grid options</span></a> </li> -->
-              </ul>
             </div>
           </aside>
         </div>
