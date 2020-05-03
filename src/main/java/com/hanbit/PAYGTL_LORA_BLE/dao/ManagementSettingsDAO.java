@@ -322,8 +322,8 @@ public class ManagementSettingsDAO {
 			String query =
 
 					"SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID WHERE v.Mode = 'add' or 'edit' <change>";
-							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "WHERE v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "WHERE v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
+			
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
