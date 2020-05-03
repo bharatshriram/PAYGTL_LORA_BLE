@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -74,11 +75,27 @@ public class AccountDAO {
 				
 				if(topupvo.getSource().equalsIgnoreCase("web")) {
 					
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
 					pstmt1.setString(1, topupvo.getCRNNumber());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if (rs1.next()) {
-
+						
+					LocalDateTime dateTime = LocalDateTime.now();  
+						
+					PreparedStatement pstmt = con.prepareStatement("SELECT MONTH(TransactionDate) AS previoustopupmonth from topup WHERE Status = 2 and CRNNumber = '"+topupvo.getCRNNumber()+"'" + "ORDER BY TransactionDate DESC LIMIT 0,1");
+					ResultSet rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						
+						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
+							
+							topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));								
+						}
+						
+					} else {
+						topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));
+					}
+						
 					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
 
 					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
@@ -122,7 +139,7 @@ public class AccountDAO {
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			// pstmt.close();
@@ -218,6 +235,7 @@ public class AccountDAO {
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				statusvo.setTransactionDate(rs.getString("TransactionDate"));
+				statusvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
@@ -226,15 +244,6 @@ public class AccountDAO {
 					statusvo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
 				}
 
-				if (rs.getInt("Status") == 2) {
-					statusvo.setStatus("Passed");
-				} else if (rs.getInt("Status") == 1) {
-					statusvo.setStatus("Pending");
-				} else if (rs.getInt("Status") == 0) {
-					statusvo.setStatus("Pending...waiting for acknowledge");
-				}else {
-					statusvo.setStatus("Failed");
-				}
 				statuslist.add(statusvo);
 			}
 		} catch (Exception ex) {
@@ -461,48 +470,11 @@ public class AccountDAO {
 			while (rs.next()) {
 				configurationvo = new ConfigurationResponseVO();
 				configurationvo.setMeterID(rs.getString("MeterID"));
-				
-				// 5, 3, 1, 40, 0 , 6, 10
-				
-				if (Integer.parseInt(rs.getString("CommandType")) == 40) {
-					configurationvo.setCommandType("Solenoid Open");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 0) {
-					configurationvo.setCommandType("Solenoid Close");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 3) {
-					configurationvo.setCommandType("Clear Meter");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 1) {
-					configurationvo.setCommandType("Clear Tamper");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 5) {
-					configurationvo.setCommandType("RTC");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 6) {
-					configurationvo.setCommandType("Set Default Read");
-				}
-				else if (Integer.parseInt(rs.getString("CommandType")) == 10) {
-					configurationvo.setCommandType("Set Tariff");
-				}
-				
+				configurationvo.setCommandType((rs.getInt("CommandType") == 40) ? "Solenoid Open" : (rs.getInt("CommandType") == 0) ? "Solenoid Close" : (rs.getInt("CommandType") == 3) ? "Clear Meter" : (rs.getInt("CommandType") == 1) ? "Clear Tamper" : (rs.getInt("CommandType") == 5) ? "RTC" : (rs.getInt("CommandType") == 6) ? "Set Default Read" : (rs.getInt("CommandType") == 10) ? "Set Tariff" : "");
 				configurationvo.setModifiedDate(rs.getString("ModifiedDate"));
-
-				if (Integer.parseInt(rs.getString("Status")) == 0) {
-					configurationvo.setStatus("Pending...waiting for ack");
-				}
-				else if (Integer.parseInt(rs.getString("Status")) == 1) {
-					configurationvo.setStatus("Pending");
-				}
-				else if (Integer.parseInt(rs.getString("Status")) == 2) {
-					configurationvo.setStatus("Passed");
-				}
-				else {
-					configurationvo.setStatus("Failed");
-				}
+				configurationvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
-
 			}
 
 		} catch (Exception ex) {
@@ -638,7 +610,7 @@ public class AccountDAO {
 						
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			ps.close();

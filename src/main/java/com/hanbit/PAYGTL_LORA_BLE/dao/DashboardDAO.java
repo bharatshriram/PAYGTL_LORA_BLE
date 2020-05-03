@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.Date;
 import java.util.LinkedList;
@@ -86,25 +87,10 @@ public class DashboardDAO {
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				
-				if(rs.getInt("SolonideStatus") == 0) {
-					dashboardvo.setValveStatus("OPEN");	
-				}else {
-					dashboardvo.setValveStatus("CLOSED");
-				}
+				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
-				
-				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
-					dashboardvo.setBatteryColor("RED");
-				}else {
-					dashboardvo.setBatteryColor("GREEN");
-				}
-				if(rs.getInt("TamperDetect") == 1) {
-					dashboardvo.setTamperStatus("YES");	
-				}else {
-					dashboardvo.setTamperStatus("NO");
-				}
-				
+				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();
@@ -396,32 +382,31 @@ public class DashboardDAO {
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change> ";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber Where 1=1 <change> ";
 			
-			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":"");
-			
+			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? " AND dbl.BlockID = "+id : (roleid == 3) ? "AND dbl.CRNNumber = '"+id+"'":"");
+			StringBuilder stringBuilder = new StringBuilder(query);
 			if(roleid !=3) {
 				
-				StringBuilder stringBuilder = new StringBuilder(query);
+				LocalDateTime dateTime = LocalDateTime.now();  
+			    DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 				
-				if(!filtervo.getDateFrom().isEmpty() && !filtervo.getDateTo().isEmpty() && filtervo.getReadingFrom() != 0 && filtervo.getReadingTo() != 0 && filtervo.getBatteryVoltageFrom() != 0 && filtervo.getBatteryVoltageTo() !=0 && filtervo.getTamperType() > 0) {
-					
-					if(roleid == 1 || roleid == 4) {
-						stringBuilder.append(" WHERE dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + filtervo.getDateTo() + "'");
-					} else {
-						stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + filtervo.getDateTo() + "'");
-					}
-					
-					stringBuilder.append(" AND dbl.Reading BETWEEN " + filtervo.getReadingFrom() + " AND " + filtervo.getReadingTo());
-					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + filtervo.getBatteryVoltageFrom() + " AND " + filtervo.getBatteryVoltageTo());
-					stringBuilder.append(" AND dbl.TamperDetect BETWEEN " + filtervo.getTamperType() + " AND " + filtervo.getTamperType());
-					
+				if(!filtervo.getDateFrom().isEmpty() || !filtervo.getDateTo().isEmpty()) {
+					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+dateTime.format(dateTimeFormat)+"'"));
 				}
-				
-				stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
+				if(filtervo.getReadingFrom() != 0 || filtervo.getReadingTo() != 0) {
+					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
+				}
+				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? filtervo.getBatteryVoltageFrom() : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? filtervo.getBatteryVoltageTo() : 10));
+				}
+				if(filtervo.getTamperType() > 0) {
+					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
+				}
+					stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
 			}
 			
-			pstmt = con.prepareStatement(query);
+			pstmt = con.prepareStatement(stringBuilder.toString());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
@@ -437,25 +422,10 @@ public class DashboardDAO {
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				
-				if(rs.getInt("SolonideStatus") == 0) {
-					dashboardvo.setValveStatus("OPEN");	
-				}else {
-					dashboardvo.setValveStatus("CLOSED");
-				}
+				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
 				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
-				
-				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) {
-					dashboardvo.setBatteryColor("RED");
-				}else {
-					dashboardvo.setBatteryColor("GREEN");
-				}
-				if(rs.getInt("TamperDetect") == 1) {
-					dashboardvo.setTamperStatus("YES");	
-				}else {
-					dashboardvo.setTamperStatus("NO");
-				}
-				
+				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();

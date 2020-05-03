@@ -26,6 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlarmRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FinancialReportsRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpSummaryRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserConsumptionRequestVO;
@@ -938,17 +939,7 @@ public class ReportsDAO {
 					topupsummaryresponsevo.setMeterID(rs.getString("MeterID"));
 					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
 					topupsummaryresponsevo.setModeOfPayment(rs.getString("ModeOfPayment"));
-					
-					if (rs.getInt("Status") == 2) {
-						topupsummaryresponsevo.setStatus("Passed");
-					} else if (rs.getInt("Status") == 1) {
-						topupsummaryresponsevo.setStatus("Pending");
-					} else if (rs.getInt("Status") == 0) {
-						topupsummaryresponsevo.setStatus("Pending...waiting for acknowledge");
-					}else {
-						topupsummaryresponsevo.setStatus("Failed");
-					}
-					
+					topupsummaryresponsevo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 					topupsummaryresponsevo.setDateTime(rs.getString("TransactionDate"));
 					
 					pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
@@ -1042,6 +1033,58 @@ public class ReportsDAO {
 				
 			}
 			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		return alarmsResponseList;
+	}
+
+	public List<AlarmsResponseVO> getAlarmreportsdetails(AlarmRequestVO alarmRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<AlarmsResponseVO> alarmsResponseList = null;
+		
+		try {
+
+			con = getConnection();
+			alarmsResponseList = new LinkedList<AlarmsResponseVO>();
+			AlarmsResponseVO alarmsResponseVO = null;
+			
+			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, cmd.CRNNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
+					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.IoTTimeStamp, bl.LogDate\r\n" + 
+					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? OR bl.SolonideStatus = 1 OR bl.TamperDetect = 1 OR bl.BatteryVoltage < (SELECT LowBAtteryVoltage FROM alertsettings))";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, alarmRequestVO.getCRNNumber());
+				pstmt.setString(2, alarmRequestVO.getFromDate());
+				pstmt.setString(3,alarmRequestVO.getToDate());
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				
+						alarmsResponseVO = new AlarmsResponseVO();
+						
+						alarmsResponseVO.setCommunityName(rs.getString("CommunityName"));
+						alarmsResponseVO.setBlockName(rs.getString("BlockName"));
+						alarmsResponseVO.setHouseNumber(rs.getString("HouseNumber"));
+						alarmsResponseVO.setCRNNumber(rs.getString("CRNNumber"));
+						alarmsResponseVO.setMeterID(rs.getString("MeterID"));
+						alarmsResponseVO.setBatteryVoltage(rs.getString("BatteryVoltage"));
+						alarmsResponseVO.setTamper(rs.getInt("TamperDetect") == 1 ? "YES" : "NO");
+						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
+						alarmsResponseVO.setDateTime(rs.getString("IotTimeStamp"));
+							
+						alarmsResponseList.add(alarmsResponseVO);
+					}
+					
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {

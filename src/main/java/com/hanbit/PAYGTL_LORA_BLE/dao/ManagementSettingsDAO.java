@@ -321,9 +321,9 @@ public class ManagementSettingsDAO {
 
 			String query =
 
-					"SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID WHERE v.Mode = 'add' or 'edit' <change>";
-			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? "AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? "AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
+					"SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Status, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID WHERE v.Mode = 'add' or 'edit' <change>";
+							
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? " AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? " AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
@@ -342,6 +342,7 @@ public class ManagementSettingsDAO {
 				vacationResponseVO.setStartDate(rs.getString("StartDate"));
 				vacationResponseVO.setEndDate(rs.getString("EndDate"));
 				vacationResponseVO.setRegisteredDate(rs.getString("RegisteredDate"));
+				vacationResponseVO.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				vacationlist.add(vacationResponseVO);
 			}
 
@@ -384,11 +385,12 @@ public class ManagementSettingsDAO {
 						LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime()+":00", dtf);
 
 						String dataframe = "0A1600" + serialNumber + "020C0141" + String.format("%02x", startDateTime.getDayOfMonth()) + String.format("%02x", startDateTime.getMonthValue()) + 
-								String.format("%02x", startDateTime.getYear()) + String.format("%02x", startDateTime.getHour()) + String.format("%02x", startDateTime.getMinute()) + 
+								String.format("%02x", (startDateTime.getYear()-2000)) + String.format("%02x", startDateTime.getHour()) + String.format("%02x", startDateTime.getMinute()) + 
 								String.format("%02x", 0) + String.format("%02x", vacationRequestVO.getStartDay()) + 
-								String.format("%02x", endDateTime.getDayOfMonth()) + String.format("%02x", endDateTime.getMonthValue()) + String.format("%02x", endDateTime.getYear()) + 
+								String.format("%02x", endDateTime.getDayOfMonth()) + String.format("%02x", endDateTime.getMonthValue()) + String.format("%02x", (endDateTime.getYear()-2000)) + 
 								String.format("%02x", endDateTime.getHour()) + String.format("%02x", endDateTime.getMinute()) +	String.format("%02x", 59) + String.format("%02x", vacationRequestVO.getEndDay()) + "17";
-
+						
+						System.out.println("dataframe in vacation:--"+dataframe);
 						ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 						RestCallVO restcallvo = new RestCallVO();
 						
@@ -482,13 +484,13 @@ public class ManagementSettingsDAO {
 					String dataframe = "0A1600" + serialNumber + "020C0141"
 							+ String.format("%02x", startDateTime.getDayOfMonth())
 							+ String.format("%02x", startDateTime.getMonthValue())
-							+ String.format("%02x", startDateTime.getYear())
+							+ String.format("%02x", (startDateTime.getYear()-2000))
 							+ String.format("%02x", startDateTime.getHour())
 							+ String.format("%02x", startDateTime.getMinute()) + String.format("%02x", 0)
 							+ String.format("%02x", vacationRequestVO.getStartDay())
 							+ String.format("%02x", endDateTime.getDayOfMonth())
 							+ String.format("%02x", endDateTime.getMonthValue())
-							+ String.format("%02x", endDateTime.getYear())
+							+ String.format("%02x", (endDateTime.getYear()-2000))
 							+ String.format("%02x", endDateTime.getHour())
 							+ String.format("%02x", endDateTime.getMinute()) + String.format("%02x", 59)
 							+ String.format("%02x", vacationRequestVO.getEndDay()) + "17";

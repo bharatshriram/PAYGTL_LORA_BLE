@@ -9,76 +9,41 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class AlarmRequestVO {
 	
-	private String amrID;
-	private String dateTime;
-	private long difference;
-	private double batteryVoltageConstant;
-	private long noAmrIntervalTime;
-	private String batteryVoltage;
-	private String tamper;
-	private String communityName;	
-	private String blockName;
-	private String houseNo;
+	private String CRNNumber;
+	private int blockID;
+	private String customerID;
+	private String fromDate;
+	private String toDate;
 	
-	public String getAmrID() {
-		return amrID;
+	public String getCRNNumber() {
+		return CRNNumber;
 	}
-	public void setAmrID(String amrID) {
-		this.amrID = amrID;
+	public void setCRNNumber(String cRNNumber) {
+		CRNNumber = cRNNumber;
 	}
-	public String getDateTime() {
-		return dateTime;
+	public int getBlockID() {
+		return blockID;
 	}
-	public void setDateTime(String dateTime) {
-		this.dateTime = dateTime;
+	public void setBlockID(int blockID) {
+		this.blockID = blockID;
 	}
-	public long getDifference() {
-		return difference;
+	public String getCustomerID() {
+		return customerID;
 	}
-	public void setDifference(long difference) {
-		this.difference = difference;
+	public void setCustomerID(String customerID) {
+		this.customerID = customerID;
 	}
-	public double getBatteryVoltageConstant() {
-		return batteryVoltageConstant;
+	public String getFromDate() {
+		return fromDate;
 	}
-	public void setBatteryVoltageConstant(double batteryVoltageConstant) {
-		this.batteryVoltageConstant = batteryVoltageConstant;
+	public void setFromDate(String fromDate) {
+		this.fromDate = fromDate;
 	}
-	public long getNoAmrIntervalTime() {
-		return noAmrIntervalTime;
+	public String getToDate() {
+		return toDate;
 	}
-	public void setNoAmrIntervalTime(long noAmrIntervalTime) {
-		this.noAmrIntervalTime = noAmrIntervalTime;
+	public void setToDate(String toDate) {
+		this.toDate = toDate;
 	}
-	public String getBatteryVoltage() {
-		return batteryVoltage;
-	}
-	public void setBatteryVoltage(String batteryVoltage) {
-		this.batteryVoltage = batteryVoltage;
-	}
-	public String getTamper() {
-		return tamper;
-	}
-	public void setTamper(String tamper) {
-		this.tamper = tamper;
-	}
-	public String getCommunityName() {
-		return communityName;
-	}
-	public void setCommunityName(String communityName) {
-		this.communityName = communityName;
-	}
-	public String getBlockName() {
-		return blockName;
-	}
-	public void setBlockName(String blockName) {
-		this.blockName = blockName;
-	}
-	public String getHouseNo() {
-		return houseNo;
-	}
-	public void setHouseNo(String houseNo) {
-		this.houseNo = houseNo;
-	}
-		
+	
 }

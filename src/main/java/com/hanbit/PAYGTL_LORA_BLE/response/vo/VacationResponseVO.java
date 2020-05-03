@@ -25,6 +25,7 @@ public class VacationResponseVO {
 	private String vacationName;
 	private String source;
 	private String mode;
+	private String status;
 	
 	private List<VacationResponseVO> data;
 
@@ -147,4 +148,13 @@ public class VacationResponseVO {
 	public void setMode(String mode) {
 		this.mode = mode;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }

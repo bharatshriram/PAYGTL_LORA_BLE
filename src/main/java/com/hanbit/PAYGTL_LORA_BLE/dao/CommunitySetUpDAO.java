@@ -101,7 +101,7 @@ public class CommunitySetUpDAO {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 			e.printStackTrace();
 			
@@ -140,7 +140,7 @@ public class CommunitySetUpDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -321,7 +321,7 @@ public class CommunitySetUpDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -355,7 +355,7 @@ public class CommunitySetUpDAO {
 		} catch (Exception ex) {
 
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -385,7 +385,7 @@ public class CommunitySetUpDAO {
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -607,7 +607,7 @@ public class CommunitySetUpDAO {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -679,7 +679,7 @@ public class CommunitySetUpDAO {
             
 		} catch (Exception e) {
 	        e.printStackTrace();
-	        responsevo.setMessage("DATABASE ERROR");
+	        responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 			
 	    } finally {
@@ -742,7 +742,7 @@ public class CommunitySetUpDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -850,7 +850,7 @@ public class CommunitySetUpDAO {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -1057,7 +1057,7 @@ public class CommunitySetUpDAO {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -1090,7 +1090,7 @@ public class CommunitySetUpDAO {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -1117,7 +1117,7 @@ public class CommunitySetUpDAO {
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();

@@ -36,7 +36,7 @@ public class DashboardController {
 
 		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id));
 		dasboardresponsevo.setTotal(dasboardresponsevo.getData().size());
-		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
+		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().size() == 0 ? 0 : dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
 		dasboardresponsevo.setCommunicating(dasboardresponsevo.getData().size()-dasboardresponsevo.getNonCommunicating());
 		
 		return dasboardresponsevo;
@@ -50,7 +50,7 @@ public class DashboardController {
 
 		dasboardresponsevo.setData(dashboarddao.getFilterDashboarddetails(roleid, id, filtervo));
 		dasboardresponsevo.setTotal(dasboardresponsevo.getData().size());
-		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
+		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().size() == 0 ? 0 : dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
 		dasboardresponsevo.setCommunicating(dasboardresponsevo.getData().size()-dasboardresponsevo.getNonCommunicating());
 		
 		return dasboardresponsevo;

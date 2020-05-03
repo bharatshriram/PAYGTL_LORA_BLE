@@ -20,6 +20,7 @@ public class AlarmsResponseVO {
 	private String tamper;
 	private String batteryVoltage;
 	private long difference;
+	private String solonideStatus;
 	
 	private List<AlarmsResponseVO> data;
 	
@@ -82,6 +83,12 @@ public class AlarmsResponseVO {
 	}
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
+	}
+	public String getSolonideStatus() {
+		return solonideStatus;
+	}
+	public void setSolonideStatus(String solonideStatus) {
+		this.solonideStatus = solonideStatus;
 	}
 	
 }
