@@ -159,13 +159,13 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	
-	        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+	        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script> -->
 		
 		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="common/js/bootstrap-material-datetimepicker.js"></script>
 	
 
-	<script src="common/js/bootstrap.min.js"></script>
+	<!-- <script src="common/js/bootstrap.min.js"></script> -->
 
 
 	<script type="text/javascript"

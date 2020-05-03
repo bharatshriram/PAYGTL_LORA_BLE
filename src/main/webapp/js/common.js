@@ -18,3 +18,9 @@ $(document).ready(function () {
 		}
       });
     });
+
+$(window).on('load', function() { 
+  $('#status').fadeOut(); 
+  $('#preloader').delay(0).fadeOut('slow'); 
+  $('body').delay(0).css({'overflow':'visible'});
+})
