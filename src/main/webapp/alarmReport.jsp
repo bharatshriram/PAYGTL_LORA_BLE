@@ -118,11 +118,11 @@
 			<div id="tablereport"  style = "display:none">
 			<div class="row mb-4">
 					<div class="col-md-6">
-						<h3>User Consumption Details</h3>
+						<h3>Alarm Report Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button 
-							class="btn btn-raised btn-primary float-right"
+						<button
+							class="btn btn-raised btn-primary float-right" 
 							>
 							<span>Back</span>
 						</button>
@@ -141,7 +141,7 @@
 									<th>AMR ID</th>
 									<th>Battery</th>
 									<th>Tamper</th>
-									<th>Last Communication Date</th>
+									<th>Date</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -166,13 +166,13 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	
-	        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
+	<!--         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script> -->
 		
 		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="common/js/bootstrap-material-datetimepicker.js"></script>
 	
 
-	<script src="common/js/bootstrap.min.js"></script>
+	<!-- <script src="common/js/bootstrap.min.js"></script> -->
 
 
 	<script type="text/javascript"

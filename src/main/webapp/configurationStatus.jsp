@@ -78,7 +78,7 @@
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
-	<script src="common/js/bootstrap.min.js"></script>
+	<!-- <script src="common/js/bootstrap.min.js"></script> -->
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>

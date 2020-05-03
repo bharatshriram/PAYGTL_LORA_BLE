@@ -6,6 +6,8 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link href="common/css/materialize.fontawsome.css"
+	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
@@ -28,12 +30,23 @@
 	
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
 	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
+	
+	
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,500' rel='stylesheet' type='text/css'>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
+	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 
 <title>DashBoard Details</title>
 </head>
 
 
 <body class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
+
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -69,6 +82,7 @@
 									<th>Valve</th>
 									<th>Tariff</th>
 									<th>Tamper</th>
+									<th>Communication</th>
 									<th>Date</th>
 								</tr>
 							</thead>
@@ -95,6 +109,7 @@
 									<th>Valve</th>
 									<th>Tariff</th>
 									<th>Tamper</th>
+									<th>Communication</th>
 									<th>Date</th>
 								</tr>
 							</thead>
@@ -189,24 +204,22 @@
   
 	<jsp:include page="footer.jsp" />
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-	
-	        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
-		
-		<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script> -->
+
+	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+	<!-- <script src="common/js/bootstrap.min.js"></script> -->
+
+<script type="text/javascript" src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
 		<script type="text/javascript" src="common/js/bootstrap-material-datetimepicker.js"></script>
-	
-
-	<script src="common/js/bootstrap.min.js"></script>
-
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
-
-
 	<script src="js/live.js"></script>
-	<script src="js/userConsumptions.js"></script>
+	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -215,17 +228,12 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
-		
-
-	
-		
 	<script>
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
 	</script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
-	
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		
@@ -344,7 +352,6 @@ $(document).ready(function(){
 			$.material.init()
 		});
 		</script>
-		
 		
 </body>
 
