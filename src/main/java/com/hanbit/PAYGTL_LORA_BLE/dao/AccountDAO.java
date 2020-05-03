@@ -69,7 +69,6 @@ public class AccountDAO {
 		String hexaAlarmCredit = "";
 		String hexaTariff = "";
 		ResponseVO responsevo = new ResponseVO();
-		int amount = topupvo.getAmount(); 
 		
 		try {
 				con = getConnection();
@@ -89,15 +88,16 @@ public class AccountDAO {
 					if(rs.next()) {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
-							
-							amount = topupvo.getAmount() - rs1.getInt("FixedCharges");
+							topupvo.setAmount(topupvo.getAmount() - (rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
 						}
 						
 					} else {
-						amount = topupvo.getAmount() - rs1.getInt("FixedCharges");
+						topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));
 					}
+					
+					System.out.println("topup amount:--"+topupvo.getAmount());
 						
-					hexaAmount = Integer.toHexString(Float.floatToIntBits(amount)).toUpperCase();
+					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
 
 					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
 
@@ -140,7 +140,7 @@ public class AccountDAO {
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("INTERNAL ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			// pstmt.close();
@@ -257,31 +257,34 @@ public class AccountDAO {
 		return statuslist;
 	}
 
-	public String deletestatus(StatusRequestVO statusvo) throws SQLException {
+	public ResponseVO deletestatus(int transactionID) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("DELETE FROM topup where TransactionID = ?");
-			pstmt.setInt(1, statusvo.getTransID());
+			pstmt = con.prepareStatement("DELETE FROM topup where TransactionID = "+transactionID);
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Deleted Successfully");
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("INTERNAL SERVER ERROR");
+			responsevo.setResult("Failure");
+			
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	public String printreceipt(int transactionID) throws SQLException {
@@ -611,7 +614,7 @@ public class AccountDAO {
 						
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("INTERNAL ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
@@ -622,13 +625,13 @@ public class AccountDAO {
 
 	}
 
-	public String deleteconfiguration(int transactionID)
+	public ResponseVO deleteconfiguration(int transactionID)
 			throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
@@ -637,16 +640,19 @@ public class AccountDAO {
 			pstmt.setInt(1, transactionID);
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Deleted Successfully");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setMessage("INTERNAL SERVER ERROR");
+			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	public boolean checkstatus(String meterID) throws SQLException {

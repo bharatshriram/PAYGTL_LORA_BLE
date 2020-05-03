@@ -34,6 +34,7 @@ public class AccountController {
 	Gson gson = new Gson();
 	AccountBO accountbo = new AccountBO();
 	ResponseVO responsevo = new ResponseVO();
+	AccountDAO accountdao = new AccountDAO();
 
 	/* TopUp */
 
@@ -58,7 +59,6 @@ public class AccountController {
 	public @ResponseBody
 	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		AccountDAO accountdao = new AccountDAO();
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
 
 		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id));
@@ -71,26 +71,7 @@ public class AccountController {
 	ResponseVO deletestatus(@PathVariable("transactionID") int transactionID)
 			throws SQLException {
 
-		AccountDAO accountdao = new AccountDAO();
-		StatusRequestVO statusvo = new StatusRequestVO();
-		ResponseVO responsevo = new ResponseVO();
-
-		statusvo.setTransID(transactionID);
-
-		responsevo.setResult(accountdao.deletestatus(statusvo));
-
-		return responsevo;
-	}
-
-	@RequestMapping(value = "/status/print/{transactionID}", method = RequestMethod.POST, produces = "application/json")
-	public @ResponseBody
-	ResponseVO printreceipt(@PathVariable("transactionID") int transactionID)
-			throws SQLException {
-
-		AccountDAO accountdao = new AccountDAO();
-		ResponseVO responsevo = new ResponseVO();
-
-		responsevo.setResult(accountdao.printreceipt(transactionID));
+		responsevo = accountdao.deletestatus(transactionID);
 
 		return responsevo;
 	}
@@ -101,7 +82,6 @@ public class AccountController {
 	public @ResponseBody
 	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
-		AccountDAO accountdao = new AccountDAO();
 		ConfigurationResponseVO configurationresponsevo = new ConfigurationResponseVO();
 
 		configurationresponsevo.setData(accountdao.getConfigurationdetails(roleid, id));
@@ -114,9 +94,6 @@ public class AccountController {
 	ResponseVO addconfiguration(@RequestBody ConfigurationRequestVO configurationvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
 
-		AccountBO accountbo = new AccountBO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		try{
 			responsevo = accountbo.addconfiguration(configurationvo);
 		} catch (BusinessException e) {
@@ -132,10 +109,7 @@ public class AccountController {
 	ResponseVO editcommunity(@PathVariable("transactionID") int transactionID)
 			throws ClassNotFoundException, SQLException {
 
-		AccountDAO accountdao = new AccountDAO();
-		ResponseVO responsevo = new ResponseVO();
-
-		responsevo.setResult(accountdao.deleteconfiguration(transactionID));
+		responsevo = accountdao.deleteconfiguration(transactionID);
 
 		return responsevo;
 	}
