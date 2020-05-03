@@ -3,10 +3,9 @@
 $(document)
 		.ready(
 				function() {
-					// Only needed for the filename of export files.
-					// Normally set in the title tag of your page.document.title
-					// = 'Simple DataTable';
-					// Define hidden columns
+					
+					$("#liveTable1").hide();
+					
 					var hCols = [ 3, 4 ];
 					// DataTable initialisation
 					$('#liveTable')
@@ -148,7 +147,7 @@ $(document)
 															type, row) {
 														if(!row.battery == undefined){
 														}	
-														console.log(data+"!!"+type+"@@"+JSON.stringify(row));
+						//								console.log(data+"!!"+type+"@@"+JSON.stringify(row));
 														if ( type === 'display' ) {
 															return "<span id=color style = color:"
 															+ row.batteryColor
@@ -257,21 +256,25 @@ $(document)
 								
 								var data1 = {}
 								
-								data1["startDate"] = $("#start_date").val() == "" ? "null":$("#start_date").val();
-								data1["endDate"] = $("#end_date").val() == "" ? "null":$("#end_date").val();
+								data1["dateFrom"] = $("#start_date").val() == "" ? "null":$("#start_date").val();
+								data1["dateTo"] = $("#end_date").val() == "" ? "null":$("#end_date").val();
 								data1["readingFrom"] = $("#reading_from").val() == "" ? "0":$("#reading_from").val();
 								data1["readingTo"] = $("#reading_to").val() == "" ? "0":$("#reading_to").val()
-								data1["batteryFrom"] = $("#battery_from").val() == "" ? "0":$("#battery_from").val()
-								data1["batteryTo"] = $("#battery_to").val() == "" ? "0":$("#battery_to").val()
-								data1["tamper"] = $("#tamper").val();
+								data1["batteryVoltageFrom"] = $("#battery_from").val() == "" ? "0":$("#battery_from").val()
+								data1["batteryVoltageTo"] = $("#battery_to").val() == "" ? "0":$("#battery_to").val()
+								data1["tamperType"] = $("#tamper").val();
 
-								alert(JSON.stringify(data1));
+								//alert(JSON.stringify(data1));
 								
 								$
 										.ajax({
 											type : "POST",
 											contentType : "application/json",
-											url : "/PAYGTL_LORA_BLE/userconsumptionreports1",
+											url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
+											.getItem("roleID")
+											+ "/"
+											+ sessionStorage
+													.getItem("ID"),
 											data : JSON
 													.stringify(data1),
 											dataType : "JSON",
@@ -279,84 +282,79 @@ $(document)
 											success : function(d) {
 												
 												//if (data.result == "Success") {
-												
-												$("#form").hide();
-												$("#tablereport").show();
-
-												 table = $('#liveTable')
+												$('#liveTable').dataTable()._fnAjaxUpdate();
+												//$("#form").hide();
+												//$("#tablereport").show();
+													console.log(JSON.stringify(d));
+													$("#liveTable_wrapper").hide();
+													$("#exampleModal").modal("hide");
+													$("#liveTable1").show();
+													
+													var hCols = [ 3, 4 ];
+												table = $('#liveTable1')
 													.DataTable(
 															{
+																
 																"dom" : "<'row'<'col-sm-4 custombutton'B><'col-sm-2'l><'col-sm-6'f>>"
 																		+ "<'row'<'col-sm-12'tr>>"
 																		+ "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
 																		
-																		responsive: {
-																	        details: {
-																	            renderer: function ( api, rowIdx ) {
-																	            var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
-																	                var header = $( api.column( cell.column ).header() );
-																	                return  '<p style="color:#00A">'+header.text()+' : '+api.cell( cell ).data()+'</p>';  // changing details mark up.
-																	            } ).toArray().join('');
-																	 
-																	            return data ?    $('<table/>').append( data ) :    false;
-																	            }
-																	        }
-																	        },
-																	
 																		"language": {
 																		      "emptyTable": "No data available in table"
 																		    },
 																		 
-																		
-																		    
-						/*												    destroy: true,
-						*/												    processing: true,
-																		    serverSide: false,
-																		    fixedColumns    : true
-																		    ,autoWidth  : true
-																		    ,responsive : true
-																		    ,deferRender    : true
-																		    ,processing : true
-																		    ,paging     : true
-																		    ,pageLength : 5
-																		    ,searching  : true
-																		    ,info       : true,
-																		    "ordering" : true,
+																		    "responsive" : true,
+																			/*"processing" : true,*/
+																			"serverSide" : false,
+																			"bDestroy" : true,
+																			"bPaginate": true,
+																			"pagging" : true,
+																			"bProcessing" : true,
+																			"ordering" : true,
 																			"order" : [ 0, "desc" ],
-																			"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ]
-																		    ,bPaginate  : false,
-																		    "scrollY" : 300,
-																			"scrollX" : true,
+																			"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+																			"pageLength" : 5,
+																			"scrollY" : 324,
+																			"scrollX" : false,
 																			"data" : d.data,
-																"columns" : [
+																			"columns" : [
 																	
 																		{
-																			"data" : "communityName"
+																			"data" : "communityName",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "blockName"
+																			"data" : "blockName",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "HouseNumber"
+																			"data" : "HouseNumber",
+																			"defaultContent": ""
 																			
 																		},
 																		 {
-																				"data" : "CRNNumber"
+																				"data" : "CRNNumber",
+																				"defaultContent": ""
 																		},
 																		 {
-																			"data" : "meterSerialNumber"
+																			"data" : "meterSerialNumber",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "meterID"
+																			"data" : "meterID",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "reading"
+																			"data" : "reading",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "balance"
+																			"data" : "balance",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "emergencyCredit"
+																			"data" : "emergencyCredit",
+																			"defaultContent": ""
 																		},
 																		{
 																			  //  "data":"battery"
@@ -365,7 +363,7 @@ $(document)
 																					type, row) {
 																				if(!row.battery == undefined){
 																				}	
-																				console.log(data+"!!"+type+"@@"+JSON.stringify(row));
+																				//console.log(data+"!!"+type+"@@"+JSON.stringify(row));
 																				if ( type === 'display' ) {
 																					return "<span id=color style = color:"
 																					+ row.batteryColor
@@ -378,7 +376,8 @@ $(document)
 																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "valveStatus"
+																			"data" : "valveStatus",
+																			"defaultContent": ""
 																		},
 																		{
 																			"data" : "tariff",
@@ -390,8 +389,8 @@ $(document)
 																		},
 																		{
 																			"data": "timeStamp",
-																			"defaultContent": ""
-																			/*"mData" : "action",
+																			"defaultContent": "",
+																			"mData" : "action",
 																			"render" : function(data,
 																					type, row) {
 																				return "<span id=color style = color:"
@@ -399,7 +398,7 @@ $(document)
 																						+ ">"
 																						+ row.timeStamp
 																						+ "</span>"
-																			}*/
+																			}
 																		} ],
 																		"columnDefs" : [ {
 																			"orderable" : true,
@@ -411,59 +410,77 @@ $(document)
 																			targets : [ 12 ]
 																		}],
 
-																/*
-																 * "columnDefs": [{ "visible": false,
-																 * "targets": hCols }],
-																 */
+																
+																  "columnDefs": [{ "visible": false }],
+																 
 																"buttons" : [
-																		{
-																			extend : 'excel',
-																			footer : 'true',
-																			text : 'Excel',
-																			title : 'Dashboard'
-																		},
+																	{
+																		//extend : 'excel',
+																		footer : 'true',
+																		//text : 'Excel',
+																		title : 'Dashboard',
+																		className: 'custom-btn fa fa-file-excel-o'
+																			
+																	},
 
-																		{
-																			extend : 'pdf',
-																			footer : 'true',
-																			exportOptions : {
-																				columns : [ 0,1, 2, 3, 4,
-																						5, 6, 7, 8, 9,
-																						10, 11, 12,13 ]
-																			},
-																			text : 'pdf',
-																			orientation : 'landscape',
-																			title : 'Dashboard'
+																	{
+																		//extend : 'pdf',
+																		footer : 'true',
+																		exportOptions : {
+																			columns : [ 0,1, 2, 3, 4,
+																					5, 6, 7, 8, 9,
+																					10, 11, 12,13 ]
 																		},
+																		//text : 'pdf',
+																		className: 'custom-btn fa fa-file-pdf-o',
+																		orientation : 'landscape',
+																		title : 'Dashboard'
+																	},
+																	{
+														                //text: 'AdvSerach',
+														                action: function ( e, dt, node, config ) {
+														                    alert( 'Button activated' );
+														                },
+														                className: 'customButton fa fa-search-plus ',
+														               
+														                action: function ( e, dt, button, config ) {
+														                    $('.custombutton').attr(
+														                        {
+														                            "data-toggle": "modal",
+														                            "data-target": "#exampleModal"
+														                        }
+														                    );
+														                //    var selected = dt.row( { selected: true } ).data(); 
+														                	$('#exampleModal').modal('show');
+														                }
+														            },
 																		{
-															                text: 'Adv Serach',
+															                text: 'Reset',
 															                action: function ( e, dt, node, config ) {
 															                    alert( 'Button activated' );
 															                },
 															                className: 'customButton',
 															               
 															                action: function ( e, dt, button, config ) {
-															                    $('.custombutton').attr(
-															                        {
-															                            "data-toggle": "modal",
-															                            "data-target": "#exampleModal"
-															                        }
-															                    );
-															                //    var selected = dt.row( { selected: true } ).data(); 
-															                	$('#exampleModal').modal('show');
+															                   
+															                	window.location = "LiveDashBoard.jsp"
 															                }
 															            }
 																		]
 
-															}).columns.adjust();
-													//table.ajax.reload()
-											//	}
+															})
 											}
 										});
 								return false;
 							});
+
+					$("#resetFilter")
+					.click(
+							function() {
+								
+								 $("input:text").val("");
 					
-					
+							});	
 				});
 
 

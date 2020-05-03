@@ -15,7 +15,6 @@ $(document).ready(function() {
 	}
 	
 	
-	
 table = $('#holidayTable')
 .DataTable(
 {//'Pfrtip'
@@ -66,6 +65,8 @@ return json.data;
 "data" : "endDate"
 },{
 "data" : "registeredDate"
+},{
+"data" : "status"
 }
 ,{
 	"mData" : "action",
@@ -91,13 +92,13 @@ return json.data;
 ],
 "columnDefs" : [ {
 	//orderable : false,
-	targets : 10, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
-	"className": "dt-center", "targets": "_all"
-}/*,
+	targets : 12, visible:  (sessionStorage.getItem("roleID") == 3)
+},
 {
-	orderable : false,
-	targets : [ 1 ]
-}*/], "buttons" : [
+	
+	"className": "dt-center", "targets": "_all"}
+],
+	"buttons" : [
 	{
 		//extend : 'excel',
 		footer : 'true',

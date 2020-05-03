@@ -57,6 +57,7 @@
                     <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
                     <li><a href="financialreports.jsp"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
+				<li><a href="alarmReport.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms Report</span></a></li>
 				
 				<%if(user_id.equalsIgnoreCase("1")){ %>
                 <li><a href="Mgmt.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">User Management</span></a></li>
@@ -87,7 +88,8 @@
                     <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
                     <li><a href="financialreports.jsp"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
-    <li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
+    				<li><a href="alarmReport.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms Report</span></a></li>
+    				<li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
                 <!-- <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>
@@ -99,7 +101,9 @@
                 <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
                 <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
                 <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
                 <li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
+                <li><a href="alarmReport.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms Report</span></a></li>
                 <% } %>
                 
                 </ul>
