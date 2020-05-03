@@ -69,6 +69,7 @@ public class AccountDAO {
 		String hexaAlarmCredit = "";
 		String hexaTariff = "";
 		ResponseVO responsevo = new ResponseVO();
+		int amount = topupvo.getAmount(); 
 		
 		try {
 				con = getConnection();
@@ -89,14 +90,14 @@ public class AccountDAO {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
 							
-							topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));								
+							amount = topupvo.getAmount() - rs1.getInt("FixedCharges");
 						}
 						
 					} else {
-						topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));
+						amount = topupvo.getAmount() - rs1.getInt("FixedCharges");
 					}
 						
-					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
+					hexaAmount = Integer.toHexString(Float.floatToIntBits(amount)).toUpperCase();
 
 					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
 
@@ -462,7 +463,7 @@ public class AccountDAO {
 					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
 					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = "+id+ " ORDER BY cmd.ModifiedDate DESC":""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = '"+id+ "' ORDER BY cmd.ModifiedDate DESC":""));
 			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;

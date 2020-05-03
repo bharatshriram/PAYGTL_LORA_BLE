@@ -164,7 +164,7 @@ public class ManagementSettingsDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -231,7 +231,7 @@ public class ManagementSettingsDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
@@ -264,7 +264,7 @@ public class ManagementSettingsDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			ps.close();
@@ -415,7 +415,7 @@ public class ManagementSettingsDAO {
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		}
 		return responsevo;
@@ -527,7 +527,7 @@ public class ManagementSettingsDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		}
 		return responsevo;
@@ -552,7 +552,6 @@ public class ManagementSettingsDAO {
 			pstmt.setString(4, vacationRequestVO.getEndDateTime());
 			pstmt.setInt(5, vacationRequestVO.getStatus());
 			pstmt.setString(6, vacationRequestVO.getSource());
-			pstmt.setString(7, vacationRequestVO.getMode());
 			
 			if(pstmt.executeUpdate() > 0) {
 				result = "Success";
@@ -632,7 +631,7 @@ public class ManagementSettingsDAO {
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
@@ -659,13 +658,13 @@ public class ManagementSettingsDAO {
 				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1")) {
 					result = true;
 				} else {
-					PreparedStatement pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE ? BETWEEN StartDate AND EndDate");
+					PreparedStatement pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE Status BETWEEN 0 AND 1 AND ? BETWEEN StartDate AND EndDate ");
 					pstmt1.setString(1, vacationRequestVO.getStartDateTime());
 					ResultSet rs1 = pstmt1.executeQuery();
 					if(rs1.next()) {
 						result = true;
 					}else {
-						pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE ? BETWEEN StartDate AND EndDate");
+						pstmt1 = con.prepareStatement("SELECT VacationID FROM vacation WHERE Status BETWEEN 0 AND 1 AND ? BETWEEN StartDate AND EndDate");
 						pstmt1.setString(1, vacationRequestVO.getEndDateTime());
 						rs1 = pstmt1.executeQuery();
 						if(rs1.next()) {

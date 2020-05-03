@@ -9,11 +9,11 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpRequestVO {
 	
-	// add parameters based on payment gateway adn add colums in db also
+	// add parameters based on payment gateway and add columns in db also
 	private String source;
 	private String CRNNumber;
 	private String meterID;
-	private float amount;
+	private int amount;
 	private String cardNumber;
 	private String cardType;
 	private String modeOfPayment;
@@ -22,10 +22,10 @@ public class TopUpRequestVO {
 	private int transactedByRoleID;
 	private long transactionIDForTata;
 	
-	public float getAmount() {
+	public int getAmount() {
 		return amount;
 	}
-	public void setAmount(float amount) {
+	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 	public String getCardNumber() {
