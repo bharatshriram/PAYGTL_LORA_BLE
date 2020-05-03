@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
@@ -20,7 +17,6 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpSummaryRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserConsumptionRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlarmsResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.FinancialReportsResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TopUpSummaryResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserConsumptionReportsResponseVO;
 
@@ -36,6 +32,7 @@ public class ReportsController {
 	ReportsDAO reportsdao = new ReportsDAO();
 	
 	/* Financial Reports */
+	
 	@RequestMapping(value = "/financialreports/{roleid}/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
 	FinancialReportsResponseVO getfinancialreports(@PathVariable("roleid") int roleid, @PathVariable("id") int id, @RequestBody FinancialReportsRequestVO financialreportsrequestvo) throws SQLException {
@@ -62,28 +59,6 @@ public class ReportsController {
 		return userConsumptionReportsResponseVO;
 	}
 	
-	@RequestMapping(value = "/userconsumptionreports/pdf", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public @ResponseBody
-	ResponseVO pdfreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
-		
-		ResponseVO responsevo = new ResponseVO();
-		
-//		responsevo.setResult(reportsdao.getpdf(userconsumptionreportsrequestvo));
-		
-		return responsevo;
-	}
-	
-	@RequestMapping(value = "/userconsumptionreports/excel", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-	public @ResponseBody
-	ResponseVO excelreports(@RequestBody UserConsumptionRequestVO userConsumptionRequestVO) throws SQLException {
-
-		ResponseVO responsevo = new ResponseVO();
-		
-//		responsevo.setResult(reportsdao.getexcel(userconsumptionreportsrequestvo));
-		
-		return responsevo;
-	}
-	
 	/* TopUp Summary */
 	
 	@RequestMapping(value = "/topupsummary", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
@@ -99,27 +74,27 @@ public class ReportsController {
 	
 	/* Alarms */
 
-		@RequestMapping(value = "/alarm/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
-		public @ResponseBody
-		AlarmsResponseVO alarmdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	@RequestMapping(value = "/alarm/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	AlarmsResponseVO alarmdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
 
-			AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
+		AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
 
-			alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id));
+		alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id));
 
-			return alarmsResponseVO;
-		}
-		
-		@RequestMapping(value = "/alarmreports", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
-		public @ResponseBody
-		AlarmsResponseVO alarmreports(@RequestBody AlarmRequestVO alarmRequestVO) throws SQLException {
+		return alarmsResponseVO;
+	}
+	
+	@RequestMapping(value = "/alarmreports", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	AlarmsResponseVO alarmreports(@RequestBody AlarmRequestVO alarmRequestVO) throws SQLException {
 
-			AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
+		AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
 
-			alarmsResponseVO.setData(reportsdao.getAlarmreportsdetails(alarmRequestVO));
+		alarmsResponseVO.setData(reportsdao.getAlarmreportsdetails(alarmRequestVO));
 
-			return alarmsResponseVO;
+		return alarmsResponseVO;
 
-		}
+	}
 
 }
