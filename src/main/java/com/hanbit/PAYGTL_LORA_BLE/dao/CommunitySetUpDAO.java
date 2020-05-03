@@ -703,8 +703,8 @@ public class CommunitySetUpDAO {
 			con = getConnection();
 
 				pstmt = con.prepareStatement(
-						"INSERT INTO customerdeletemeter (CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber,DefaultReading, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate)\n" + 
-						"SELECT CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber,DefaultReading, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate FROM customermeterdetails WHERE CRNNumber = ?");
+						"INSERT INTO customerdeletemeter (CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate)\n" + 
+						"SELECT CustomerID, CommunityID, BlockID, HouseNumber, FirstName, LastName, Email, MobileNumber, MeterID, MeterSerialNumber, TariffID, CRNNumber, CreatedByID, CreatedByRoleID, RegistrationDate FROM customermeterdetails WHERE CRNNumber = ?");
 				pstmt.setString(1, customervo.getCRNNumber());
 
 				if (pstmt.executeUpdate() > 0) {
@@ -1108,7 +1108,7 @@ public class CommunitySetUpDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("DELETE FROM tariff WHERE TariffID = ?"+tariffID);
+			pstmt = con.prepareStatement("DELETE FROM tariff WHERE TariffID ="+tariffID);
 
 			if (pstmt.executeUpdate() > 0) {
 				responsevo.setResult("Success");
@@ -1162,7 +1162,7 @@ public class CommunitySetUpDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT * FROM customermeterdetails WHERE TariffID = ?"+tariffID);
+			pstmt = con.prepareStatement("SELECT * FROM customermeterdetails WHERE TariffID = "+tariffID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 

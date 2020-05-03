@@ -248,33 +248,30 @@ $(document)
 					.click(
 							function() {
 
+								if($("#end_date").val() != ""){
+									if($("#start_date").val() == ""){
+										bootbox.alert("Enter Start Date")
+										return false;
+										}
+									}
+								
 								var data1 = {}
 								
-								data1["communityID"] = $(
-										"#start_date").val();
-								data1["blockID"] = $(
-										"#end_date")
-										.val();
-								data1["CRNNumber"] = $(
-										"#reading_from")
-										.val();
-								data1["meterID"] = $("#reading_to")
-										.val();
-								data1["fromDate"] = $("#battery_from")
-										.val();
-								data1["toDate"] = $("#battery_to").val();
-								
-								
-								data1["fromDate"] = $("#tamper")
-								.val();
-						data1["toDate"] = $("#mode").val();
+								data1["startDate"] = $("#start_date").val() == "" ? "null":$("#start_date").val();
+								data1["endDate"] = $("#end_date").val() == "" ? "null":$("#end_date").val();
+								data1["readingFrom"] = $("#reading_from").val() == "" ? "0":$("#reading_from").val();
+								data1["readingTo"] = $("#reading_to").val() == "" ? "0":$("#reading_to").val()
+								data1["batteryFrom"] = $("#battery_from").val() == "" ? "0":$("#battery_from").val()
+								data1["batteryTo"] = $("#battery_to").val() == "" ? "0":$("#battery_to").val()
+								data1["tamper"] = $("#tamper").val();
 
+								alert(JSON.stringify(data1));
 								
 								$
 										.ajax({
 											type : "POST",
 											contentType : "application/json",
-											url : "/PAYGTL_LORA_BLE/userconsumptionreports",
+											url : "/PAYGTL_LORA_BLE/userconsumptionreports1",
 											data : JSON
 													.stringify(data1),
 											dataType : "JSON",
