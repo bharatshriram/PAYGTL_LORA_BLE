@@ -391,7 +391,7 @@ public class DashboardDAO {
 				LocalDateTime dateTime = LocalDateTime.now();  
 			    DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 				
-				if(!filtervo.getDateFrom().isEmpty() || !filtervo.getDateTo().isEmpty()) {
+				if(!filtervo.getDateFrom().equalsIgnoreCase("null") || !filtervo.getDateTo().equalsIgnoreCase("null")) {
 					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+dateTime.format(dateTimeFormat)+"'"));
 				}
 				if(filtervo.getReadingFrom() != 0 || filtervo.getReadingTo() != 0) {
