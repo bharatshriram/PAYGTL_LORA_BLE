@@ -4,7 +4,7 @@ public class ExtraConstants {
 	
 	public static final String key1 = "Bar12345Bar12345"; // 128 bit key
 	public static final String key2 = "ThisIsASecretKet";
-	public static final String IMAGEURL="http://localhost:8080/Gas/images/logo.jpg";
+	public static final String IMAGEURL="http://localhost:8080/PAYGTL_LORA_BLE/src/main/webapp/common/images/hanbit1.png";
 	public static final String fromEmail = "alert@hanbitsolutions.com";
 	public static final String fromEmailPassword = "hanbit@123"; 
 //	public static final String TataGatewayURL =  "https://platform.iot.tatacommunications.com:12080/davc/m2m/HPE_IoT/";

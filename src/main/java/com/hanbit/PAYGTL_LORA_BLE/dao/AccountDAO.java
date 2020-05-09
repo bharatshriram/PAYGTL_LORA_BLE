@@ -3,7 +3,9 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,6 +17,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
@@ -216,9 +221,9 @@ public class AccountDAO {
 			
 			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
-							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber <change>";
+							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionDate BETWEEN (CURDATE() - INTERVAL 30 DAY) AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate ASC" : (roleid == 2 || roleid == 5) ? "WHERE t.BlockID = "+id+ " ORDER BY t.TransactionDate ASC" : (roleid == 3) ? "WHERE t.CRNNumber = '"+id+"'" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate DESC" : (roleid == 2 || roleid == 5) ? "AND t.BlockID = "+id+ " ORDER BY t.TransactionDate DESC" : (roleid == 3) ? "AND t.CRNNumber = '"+id+"'" :""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -287,57 +292,68 @@ public class AccountDAO {
 		return responsevo;
 	}
 
-	public String printreceipt(int transactionID) throws SQLException {
+	public ResponseVO printreceipt(int transactionID) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		PreparedStatement ps = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
-		String result = "Failure";
+		ResultSet rs1 = null;
+		ResponseVO responsevo = new ResponseVO();
 
 		try {
 			con = getConnection();
-
-			pstmt = con
-					.prepareStatement("select tb.name as bname,tcu.house_no as hno,tcu.first_name as fname,tcu.last_name as lname,tcu.email as email,tcu.mobile as mobile,trt.Meter_id as MID,trt.Transid as TID,trt.CoOrdinatorIP as cop,trt.RechargeAmt as rmt,trt.AlaramCredit as ac,trt.EmergencyCredit as ec,trt.Send_DateTime as dt,trt.RecordInsertTime as ri,trt.Send_Status as ss,acks =CASE trt.ack_status WHEN 0 THEN 0 WHEN 1 THEN 1 ELSE 2 END from community tc,block tb,customer tcu,customer_meter tcm,meter_master tmm,Recharge_Transaction trt where tc.com_id=tb.com_id and tb.block_id=tcu.block_id and tcu.cust_id=tcm.cust_id and tcm.meter_id=trt.Meter_id and trt.Meter_id=tmm.meter_id and trt.setTariff_Flag=1 and trt.Transid=?");
-			pstmt.setInt(1, transactionID);
+			
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+					"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
+					"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionID = "+transactionID;
+	
+			pstmt = con.prepareStatement(query);
 			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				String house_no = rs.getString("hno");
-				String meter_id = rs.getString("MID");
 
-				String bill_no = "";
-				String Recharge_amnt = "";
-				String e_credit = "";
-				String a_credit = "";
-				String date_time = "";
-				String head = "";
+			if (rs.next()) {
+				/*statusvo.setTransactionID(rs.getInt("TransactionID"));
+				statusvo.setCommunityName(rs.getString("CommunityName"));
+				statusvo.setBlockName(rs.getString("BlockName"));
+				statusvo.setFirstName(rs.getString("FirstName"));
+				statusvo.setLastName(rs.getString("LastName"));
+				statusvo.setCRNNumber(rs.getString("CRNNumber"));
+				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
+				statusvo.setTransactionDate(rs.getString("TransactionDate"));
+				statusvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
+		
+				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
+				rs1 = pstmt1.executeQuery();
+				if(rs1.next()) {
+					statusvo.setTransactedByUserName(rs1.getString("UserName"));
+					statusvo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
+				}*/
 
 				Document document = new Document(PageSize.A4);
-				head = "Topup Receipt for the house no. : " + house_no;
+				String head = "Topup Receipt for the house no. : " + rs.getString("HouseNumber");
 
-				String drivename = "E:/ConsumptionReports/";
+				String drivename = "C:/TopupReceipts/";
+//				String drivename = "TopupReceipts/";
 				File directory = new File(drivename);
 				if (!directory.exists()) {
 					directory.mkdir();
 				}
 				
-				String logo = ExtraConstants.IMAGEURL;
+//				String logo = ExtraConstants.IMAGEURL;
 		//		String logo = "../../images/logo.jpg";
 				String copyrtext = "All  rights reserved by HANBIT ® Hyderabad";
 
-				PdfWriter.getInstance(document, new FileOutputStream(drivename
-						+ transactionID + ".pdf"));
+				PdfWriter.getInstance(document, new FileOutputStream(drivename	+ transactionID + ".pdf"));
 
 				document.open();
 				
-	//			BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/src/main/webapp/images/logo.jpg"));
-				Image image = Image.getInstance(logo);
+	//			BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/src/main/webapp/common/images/hanbit1.png"));
+				/*Image image = Image.getInstance(logo);
 				image.scaleAbsolute(100, 100);
 				image.setWidthPercentage(50);
 
-				document.add((Element) image);
+				document.add((Element) image);*/
 
 				String myPhrase = "\n";
 				Paragraph p = new Paragraph(new Phrase(myPhrase));
@@ -354,7 +370,7 @@ public class AccountDAO {
 				paragraph.setAlignment(Element.ALIGN_CENTER);
 				document.add(paragraph);
 
-				Chunk chunk1 = new Chunk("AMR ID:" + meter_id);
+				Chunk chunk1 = new Chunk("AMR ID:" + rs.getString("MeterID"));
 				Font font1 = new Font(Font.TIMES_ROMAN);
 				font1.setSize(10);
 				chunk1.setFont(font1);
@@ -387,32 +403,14 @@ public class AccountDAO {
 				tablenew.addCell("Date Time");
 				// tablenew.addCell("Status");
 
-				String sql = "select rt.Transid,rt.Meter_id,c.house_no,rt.RechargeAmt,rt.EmergencyCredit,rt.AlaramCredit,rt.Send_DateTime from Recharge_Transaction rt join customer c on c.cust_id=rt.CUST_ID where rt.Transid=?";
-				ps = con.prepareStatement(sql);
-				ps.setInt(1, transactionID);
-				ResultSet rs1 = ps.executeQuery();
-
-				while (rs1.next()) {
-
-					bill_no = rs1.getString("Transid");
-					meter_id = rs1.getString("Meter_id");
-					house_no = rs1.getString("house_no");
-					Recharge_amnt = rs1.getString("RechargeAmt");
-					e_credit = rs1.getString("EmergencyCredit");
-					a_credit = rs1.getString("AlaramCredit");
-					date_time = rs1.getString("Send_DateTime");
-					// status=rs1.getString("Send_Status");
-					// System.out.println("status"+status);
-
-					tablenew.addCell(bill_no);
-					tablenew.addCell(meter_id);
-					tablenew.addCell(house_no);
-					tablenew.addCell(Recharge_amnt);
-					tablenew.addCell(e_credit);
-					tablenew.addCell(a_credit);
-					tablenew.addCell(date_time);
-					// tablenew.addCell(status);
-				}
+				tablenew.addCell(rs.getString("TransactionID"));
+				tablenew.addCell(rs.getString("MeterID"));
+				tablenew.addCell(rs.getString("HouseNumber"));
+				tablenew.addCell(rs.getString("Amount"));
+				tablenew.addCell(rs.getString("EmergencyCredit"));
+				tablenew.addCell(rs.getString("AlarmCredit"));
+				tablenew.addCell(rs.getString("TransactionDate"));
+				// tablenew.addCell(status);
 				table.addCell(tablenew1);
 				document.add(tablenew);
 				String myPhrase3 = "\n";
@@ -433,18 +431,22 @@ public class AccountDAO {
 				// document.setFooter(footer);
 				document.add(p7);
 				document.close();
-				result = "Success";
-				// out.println("PDF Created Sucessfully...");
-			}
-		} catch (Exception ex) {
+				responsevo.setResult("Success");
+				responsevo.setLocation(drivename);
+				responsevo.setFileName(transactionID + ".pdf");
+				
+		} 
+		}catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setResult("Failure");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 		} finally {
 			pstmt.close();
 			// ps.close();
 			rs.close();
 			con.close();
 		}
-		return result;
+		return responsevo;
 
 	}
 
