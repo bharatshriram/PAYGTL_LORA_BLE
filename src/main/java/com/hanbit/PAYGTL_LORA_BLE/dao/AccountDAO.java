@@ -334,26 +334,22 @@ public class AccountDAO {
 				String head = "TOPUP RECEIPT";
 
 				String drivename = "C:/TopupReceipts/";
-//				String drivename = "TopupReceipts/";
 				File directory = new File(drivename);
 				if (!directory.exists()) {
 					directory.mkdir();
 				}
 				
-//				String logo = ExtraConstants.IMAGEURL;
-		//		String logo = "../../images/logo.jpg";
 				String copyrtext = "All  rights reserved by HANBIT ® Hyderabad";
 
 				PdfWriter.getInstance(document, new FileOutputStream(drivename	+ transactionID + ".pdf"));
 
 				document.open();
 				
-	//			BufferedImage image = ImageIO.read(getClass().getResourceAsStream("hanbit1.png"));
-				/*Image image = Image.getInstance(logo);
+				Image image = Image.getInstance("Images/hanbit1.png");
 				image.scaleAbsolute(100, 100);
 				image.setWidthPercentage(50);
 
-				document.add((Element) image);*/
+				document.add((Element) image);
 
 				Paragraph newLine = new Paragraph(new Phrase("\n"));
 				document.add(newLine);
