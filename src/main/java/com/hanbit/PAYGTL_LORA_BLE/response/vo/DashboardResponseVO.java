@@ -22,7 +22,7 @@ public class DashboardResponseVO {
 	private float reading;
 	private float balance;
 	private float emergencyCredit;
-	private String battery;
+	private int battery;
 	private String valveStatus;
 	private float tariff;
 	private String tariffName;
@@ -131,11 +131,11 @@ public class DashboardResponseVO {
 		this.emergencyCredit = emergencyCredit;
 	}
 
-	public String getBattery() {
+	public int getBattery() {
 		return battery;
 	}
 
-	public void setBattery(String battery) {
+	public void setBattery(int battery) {
 		this.battery = battery;
 	}
 

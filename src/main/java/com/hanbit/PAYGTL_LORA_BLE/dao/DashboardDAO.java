@@ -87,8 +87,9 @@ public class DashboardDAO {
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
-				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
-				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
+				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
+				// change the full battery voltage value accordingly
+				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
@@ -398,7 +399,7 @@ public class DashboardDAO {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
 				}
 				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
-					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? filtervo.getBatteryVoltageFrom() : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? filtervo.getBatteryVoltageTo() : 10));
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 10));
 				}
 				if(filtervo.getTamperType() > 0) {
 					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
@@ -423,7 +424,7 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
-				dashboardvo.setBattery(rs.getString("BatteryVoltage"));
+				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));

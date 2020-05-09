@@ -13,8 +13,8 @@ public class FilterVO {
 	private String dateTo;
 	private int readingFrom;
 	private int readingTo;
-	private float batteryVoltageFrom;
-	private float batteryVoltageTo;
+	private int batteryVoltageFrom;
+	private int batteryVoltageTo;
 	private int tamperType;
 
 	public String getDateFrom() {
@@ -41,16 +41,16 @@ public class FilterVO {
 	public void setReadingTo(int readingTo) {
 		this.readingTo = readingTo;
 	}
-	public float getBatteryVoltageFrom() {
+	public int getBatteryVoltageFrom() {
 		return batteryVoltageFrom;
 	}
-	public void setBatteryVoltageFrom(float batteryVoltageFrom) {
+	public void setBatteryVoltageFrom(int batteryVoltageFrom) {
 		this.batteryVoltageFrom = batteryVoltageFrom;
 	}
-	public float getBatteryVoltageTo() {
+	public int getBatteryVoltageTo() {
 		return batteryVoltageTo;
 	}
-	public void setBatteryVoltageTo(float batteryVoltageTo) {
+	public void setBatteryVoltageTo(int batteryVoltageTo) {
 		this.batteryVoltageTo = batteryVoltageTo;
 	}
 	public int getTamperType() {
