@@ -67,7 +67,7 @@
 									<th>Community</th>
 									<th>Block</th>
 									<th>House No</th>
-									<th>AMR ID</th>
+									<th>MIU ID</th>
 									<th>Amount</th>
 									<th>EC</th>
 									<th>Alarm Credit</th>

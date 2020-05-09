@@ -71,7 +71,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>No AMR Interval</th>
+									<th>No MIU ID Interval</th>
 									<th>Low Battery Voltage</th>
 									<th>Timeout</th>
 									<th>Date</th>
@@ -108,7 +108,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">No AMR Interval</label> <input
+									<label class="bmd-label-floating">No MIU ID Interval</label> <input
 										type="text" class="form-control" name="noamrintervalAdd"
 										id="noamrintervalAdd">
 								</div>
@@ -174,7 +174,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formnoamrintervalEdit" class="input-group form-group">
-									<label class="bmd-label-floating">No AMR Interval</label> <input
+									<label class="bmd-label-floating">No MIU ID Interval</label> <input
 										type="text" class="form-control" name="noamrintervalEdit"
 										id="noamrintervalEdit">
 								</div>

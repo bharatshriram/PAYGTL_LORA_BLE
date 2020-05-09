@@ -92,7 +92,7 @@ $(document)
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The No AMR Interval be more than 6 and less than 30 characters long'
+																message : 'The No AMR Interval be more than 2 and less than 30 characters long'
 															}
 														}
 													},
@@ -103,12 +103,12 @@ $(document)
 																message : 'The Low Battery Voltage is required and cannot be empty'
 															},
 															stringLength : {
-																min : 2,
-																max : 30,
-																message : 'The Low Battery Voltage must be more than 6 and less than 30 characters long'
+																min : 1,
+																max : 3,
+																message : 'The Low Battery Voltage must be more than 1 and less than 3 characters long'
 															},
 															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
+																regexp : /^[0-9]+$/,
 																message : 'The Low Battery Voltage can only consist of alphabetical and number'
 															}
 														}

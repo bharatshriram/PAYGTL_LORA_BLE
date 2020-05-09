@@ -76,14 +76,14 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select House<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating">Select CRN<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
                               </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">AMR ID</label>
+                              <label class="bmd-label-floating">MIU ID</label>
                               <input type="text" class="form-control" id="AMR_topup" name="AMR_topup" disabled>
                             </div>
                           </div>

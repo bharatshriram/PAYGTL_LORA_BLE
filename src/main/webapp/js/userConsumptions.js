@@ -32,7 +32,7 @@ $(document)
 										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
 
 											bootbox
-											.alert("Select House Name");
+											.alert("Select CRN Number");
 											return false;
 										}
 

@@ -42,7 +42,7 @@ function showBlockbyCommunity(communityId){
 	
 	$("#selectHouseBasedonBlock").find('option').remove();
 
-	$("#selectHouseBasedonBlock").append("<option>" + "Select House" + "</option>");
+	$("#selectHouseBasedonBlock").append("<option>" + "Select CRN" + "</option>");
 	
 	$("#AMR_topup").find('option').remove();
 
@@ -66,13 +66,13 @@ function showCustomerbyBlock(blockId){
 	//alert("@@-->"+communityId);
 	$("#selectHouseBasedonBlock").find('option').remove();
 
-	$("#selectHouseBasedonBlock").append("<option>" + "Select House" + "</option>");
+	$("#selectHouseBasedonBlock").append("<option>" + "Select CRN" + "</option>");
 	
 	$.getJSON("/PAYGTL_LORA_BLE/customers/" + sessionStorage.getItem("roleID") + "/"
 			+ sessionStorage.getItem("ID")+ "/" + blockId, function(data) {
 		var Options = "";
 		$.each(data.dropDownHouses, function(key, value) {
-			Options = Options + "<option value='" + key + "'>" + value
+			Options = Options + "<option value='" + key + "'>" + key
 					+ "</option>";
 		});
 		$('#selectHouseBasedonBlock').append(Options);

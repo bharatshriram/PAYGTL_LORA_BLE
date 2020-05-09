@@ -38,10 +38,10 @@ $(document)
 									                },
 													
 									                AMR_topup : {
-														message : 'The AMR is not valid',
+														message : 'The MIU ID is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The AMR is required and cannot be empty'
+																message : 'The MIU ID is required and cannot be empty'
 															}
 														}
 													},
@@ -292,6 +292,11 @@ $(document).ready(function() {
 																		+ ")'>"
 																		+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
 																		+ "</a>"
+																		+"<a onclick='getReceiptTransactionID("
+																		+ row.transactionID
+																		+ ")'>"
+																		+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
+																		+ "</a>"
 		}
 		}
 	],
@@ -340,6 +345,44 @@ function getDeleteTransactionID(transID){
 					type : "POST",
 					contentType : "application/json",
 					url : "/PAYGTL_LORA_BLE/status/delete/" + transID,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "topupStatus.jsp";
+								});
+
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
+			}
+		});
+}
+
+function getReceiptTransactionID(transID){
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DOWNLOAD RECEIPT",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/status/print/" + transID,
 					dataType : "JSON",
 					success : function(data) {
 						//alert("Success====" + data.result);

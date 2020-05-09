@@ -204,36 +204,36 @@ $(document)
 														}
 													},
 													meterSerialAdd : {
-														message : 'The Meter sr. No. is not valid',
+														message : 'The MSN is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Meter sr. No. is required and cannot be empty'
+																message : 'The MSN is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 15,
-																message : 'The Meter Serial No. must be more than 4 and less than 15 characters long'
+																message : 'The MSN must be more than 4 and less than 15 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-																message : 'The Meter Serial No. can only consist of Alphanumaric and Could not start with zero'
+																message : 'The MSN can only consist of Alphanumaric and Could not start with zero'
 															}
 														}
 													},
 													amrAdd : {
-														message : 'The AMR ID. is not valid',
+														message : 'The MIU ID. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The AMR ID is required and cannot be empty'
+																message : 'The MIU ID is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 15,
-																message : 'The AMR ID must be more than 4 and less than 15 characters long'
+																message : 'The MIU ID must be more than 4 and less than 15 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-																message : 'The AMR ID can only consist of Alphanumaric and Could not start with zero'
+																message : 'The MIU ID can only consist of Alphanumaric and Could not start with zero'
 															}
 														}
 													},
@@ -350,36 +350,36 @@ $(document)
 												}
 											},
 											meterSerialEdit : {
-												message : 'The Meter sr. No. is not valid',
+												message : 'The MSN is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Meter sr. No. is required and cannot be empty'
+														message : 'The MSN is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 15,
-														message : 'The Meter Serial Number must be more than 4 and less than 15 characters long'
+														message : 'The MSN must be more than 4 and less than 15 characters long'
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-														message : 'The Meter Serial No. can only consist of Alphanumaric and Could not start with zero'
+														message : 'The MSN can only consist of Alphanumaric and Could not start with zero'
 													}
 												}
 											},
 											amrEdit : {
-												message : 'The AMR ID is not valid',
+												message : 'The MIU ID is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The AMR ID is required and cannot be empty'
+														message : 'The MIU ID is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 15,
-														message : 'The AMR ID must be more than 4 and less than 15 characters long'
+														message : 'The MIU ID must be more than 4 and less than 15 characters long'
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-														message : 'The AMR ID can only consist of Alphanumaric and Could not start with zero'
+														message : 'The MIU ID can only consist of Alphanumaric and Could not start with zero'
 													}
 												}
 											},
