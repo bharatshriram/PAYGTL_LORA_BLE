@@ -144,5 +144,12 @@ $(document)
 
 $(document).ready(
 		function() {
-			
+			$("#back")
+			.click(
+					function() {
+		
+						window.location = "financialreports.jsp";
+						return false
+						
+					});
 		});

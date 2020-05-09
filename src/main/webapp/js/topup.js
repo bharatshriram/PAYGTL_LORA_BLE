@@ -96,9 +96,9 @@ $(document)
 															notEmpty : {
 																message : 'The Recharge Amount is required and cannot be empty'
 															},stringLength : {
-																min : 3,
+																min : 2,
 																max : 10,
-																message : 'The Recharge Amount must be more than 3 and less than 10 characters long'
+																message : 'The Recharge Amount must be more than 2 and less than 10 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
@@ -164,6 +164,13 @@ $(document)
 										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
+										
+										if(($("#recharge_topup").val() < $("#emergency_topup").val()) || ($("#recharge_topup").val() < $("#alarm_topup").val())){
+											
+											bootbox
+											.alert("Recharge Amount is Greater than Emergency Credit and Alarm Credit");
+											return false;
+										}
 										
 										/*alert("===>"
 												+ JSON.stringify(data1));*/

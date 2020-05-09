@@ -34,6 +34,9 @@
 
 
 <body class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 	%>

@@ -26,6 +26,9 @@
 
 
 <body  class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 
@@ -157,6 +160,7 @@
 
 	<script src="js/dropdown.js"></script>
 	<script src="js/configuration.js"></script>
+	<script src="js/common.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"

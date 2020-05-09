@@ -71,7 +71,7 @@ return json.data;
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit((\""
+		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
 																	+ row.CRNNumber
 																	+ "\")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
@@ -651,11 +651,11 @@ $(document)
 
 function getCustomerFormEdit(id) {
 
-//	 alert(id);
+	// alert(id);
 
 	$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
 		$.each(data.data, function(i, item) {
-			if (id == item.customerID) {
+			if (id == item.CRNNumber) {
 				$('#communityNameEdit').val(item.communityName).trigger("change");
 				$("#formcommunityNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 				

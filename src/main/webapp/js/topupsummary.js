@@ -9,6 +9,8 @@ $(document)
 							.click(
 									function() {
 
+										var data1 = {}
+										
 										var selectcommunityName = $(
 												"#selectcommunityName")
 												.val();
@@ -22,18 +24,17 @@ $(document)
 											return false;
 										}
 
-										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
+										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() != "Select Block") {
 
-											bootbox
-											.alert("Select Block Name");
-											return false;
+											data1["blockID"] = $(
+											"#selectBlockBasedonCommunity").val();
 										}
 										
-										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() != "Select House") {
 
-											bootbox
-											.alert("Select House Name");
-											return false;
+											data1["CRNNumber"] = $(
+											"#selectHouseBasedonBlock")
+											.val();
 										}
 
 
@@ -52,22 +53,18 @@ $(document)
 										}
 										
 										
-										var data1 = {}
+									
 										data1["communityID"] = $(
 												"#selectcommunityName").val();
-										data1["blockID"] = $(
-												"#selectBlockBasedonCommunity")
-												.val();
-										data1["CRNNumber"] = $(
-												"#selectHouseBasedonBlock")
-												.val();
-										data1["meterID"] = $("#AMR_topup")
-												.val();
+										
+										
+										/*data1["meterID"] = $("#AMR_topup")
+												.val();*/
 										data1["fromDate"] = $("#start_date")
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										/*alert("===>" + JSON.stringify(data1));*/
+										alert("===>" + JSON.stringify(data1));
 										$
 												.ajax({
 													type : "POST",
@@ -159,5 +156,12 @@ $(document)
 
 $(document).ready(
 		function() {
-			
+			$("#back")
+			.click(
+					function() {
+		
+						window.location = "topupSummary.jsp";
+						return false
+						
+					});
 		});
