@@ -113,32 +113,41 @@ $(document)
 										"columns" : [
 											
 												{
-													"data" : "communityName"
+													"data" : "communityName",
+													"defaultContent": ""
 												},
 												{
-													"data" : "blockName"
+													"data" : "blockName",
+													"defaultContent": ""
 												},
 												{
-													"data" : "HouseNumber"
+													"data" : "HouseNumber",
+													"defaultContent": ""
 													
 												},
 												 {
-														"data" : "CRNNumber"
+														"data" : "CRNNumber",
+														"defaultContent": ""
 												},
 												 {
-													"data" : "meterSerialNumber"
+													"data" : "meterSerialNumber",
+													"defaultContent": ""
 												},
 												{
-													"data" : "meterID"
+													"data" : "meterID",
+													"defaultContent": ""
 												},
 												{
-													"data" : "reading"
+													"data" : "reading",
+													"defaultContent": ""
 												},
 												{
-													"data" : "balance"
+													"data" : "balance",
+													"defaultContent": ""
 												},
 												{
-													"data" : "emergencyCredit"
+													"data" : "emergencyCredit",
+													"defaultContent": ""
 												},
 												{
 													  //  "data":"battery"
@@ -149,13 +158,13 @@ $(document)
 														}	
 						//								console.log(data+"!!"+type+"@@"+JSON.stringify(row));
 														if ( type === 'display' ) {
-															/*return "<span id=color style = color:"
+														/*	return "<span id=color style = color:"
 															+ row.batteryColor
 															+ ">"
 															+ row.battery
 															+ "</span>"*/
-															/*
-															return "<svg width=338pt height=168pt viewBox=0 0 338 168 version=1.1 xmlns=http://www.w3.org/2000/svg>"
+															
+															/*return "<svg width=338pt height=168pt viewBox=0 0 338 168 version=1.1 xmlns=http://www.w3.org/2000/svg>"
 															+"<g id=#000000ff>"
 +"<path fill=#000000 opacity=1.00 d= M 10.50 0.00 L 73.50 0.00 C 73.51 6.99 73.48 13.97 73.52 20.96 C 56.02 21.05 38.51 20.97 21.01 21.00 C 20.94 40.85 21.11 60.70 20.92 80.54 C 13.95 80.46 6.97 80.52 0.00 80.50 L 0.00 17.49 C 3.50 17.51 6.99 17.50 10.49 17.49 C 10.52 11.66 10.49 5.83 10.50 0.00 Z />"
 +"<path fill=#000000 opacity=1.00 d= M 94.50 0.00 L 157.50 0.00 C 157.51 6.98 157.47 13.95 157.54 20.93 C 136.52 21.06 115.49 21.02 94.47 20.95 C 94.52 13.97 94.49 6.98 94.50 0.00 Z />"
@@ -183,8 +192,8 @@ $(document)
 																+'<path fill="#000000" opacity="1.00" d=" M 206.48 147.04 C 227.49 146.97 248.50 146.98 269.52 147.03 C 269.48 154.02 269.51 161.01 269.50 168.00 L 206.50 168.00 C 206.49 161.01 206.52 154.03 206.48 147.04 Z" />'
 																+'</g>'
 															+'<svg id="1f6e43ff" x="37" y="37" width="214" height="95" class = "batteryText">'
-															+'<rect width="75%" height="100%" fill="#1f6e43"/>'
-																  +'  <text x="0" y="50" font-family="Verdana" fill="white">65</text>'
+															+'<rect width="'+row.battery+'%" height="100%" fill="'+row.batteryColora+'"/>'
+																  +'  <text x="0" y="50" font-family="Verdana" fill="white">'+row.battery+'</text>'
 															+'</svg></svg>';
 															
 													    }
@@ -208,9 +217,9 @@ $(document)
 														"defaultContent": ""
 												},
 												{
-													"data": "timeStamp",
-													"defaultContent": ""
-													/*"mData" : "action",
+													//"data": "timeStamp",
+													
+													"mData" : "action",
 													"render" : function(data,
 															type, row) {
 														return "<span id=color style = color:"
@@ -218,7 +227,8 @@ $(document)
 																+ ">"
 																+ row.timeStamp
 																+ "</span>"
-													}*/
+													},
+													"defaultContent": ""
 												} ],
 												"columnDefs" : [ {
 													"orderable" : true,
@@ -236,16 +246,16 @@ $(document)
 										 */
 										"buttons" : [
 												{
-													//extend : 'excel',
+													extend : 'excel',
 													footer : 'true',
 													//text : 'Excel',
 													title : 'Dashboard',
-													className: 'custom-btn fa fa-file-excel-o'
+													//className: 'custom-btn fa fa-file-excel-o'
 														
 												},
 
 												{
-													//extend : 'pdf',
+													extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
@@ -253,17 +263,17 @@ $(document)
 																10, 11, 12,13 ]
 													},
 													//text : 'pdf',
-													className: 'custom-btn fa fa-file-pdf-o',
+													//className: 'custom-btn fa fa-file-pdf-o',
 													orientation : 'landscape',
 													title : 'Dashboard'
 												},
 												{
 									                //text: 'AdvSerach',
-									                action: function ( e, dt, node, config ) {
-									                    alert( 'Button activated' );
-									                },
-									                className: 'customButton fa fa-search-plus ',
-									               
+										                /*action: function ( e, dt, node, config ) {
+										                    alert( 'Button activated' );
+										                },*/
+									               className: 'customButton fa fa-search-plus ',
+									               text : "Adv Serach",
 									                action: function ( e, dt, button, config ) {
 									                    $('.custombutton').attr(
 									                        {

@@ -35,11 +35,15 @@
 	%>
 
 	<%
-		if (null == user_id) {
+		if (user_id == null) {
+			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
-		}
+		}else {
 	%>
 
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -244,6 +248,7 @@
 			</div>
 		</div>
 	</div>
+	<%} %>
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

@@ -28,6 +28,8 @@ $(document)
 
 											data1["blockID"] = $(
 											"#selectBlockBasedonCommunity").val();
+										}else {
+											data1["blockID"] = "-1";
 										}
 										
 										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() != "Select House") {
@@ -35,6 +37,8 @@ $(document)
 											data1["CRNNumber"] = $(
 											"#selectHouseBasedonBlock")
 											.val();
+										}else {
+											data1["CRNNumber"] = "";
 										}
 
 
@@ -64,7 +68,7 @@ $(document)
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										alert("===>" + JSON.stringify(data1));
+										//alert("===>" + JSON.stringify(data1));
 										$
 												.ajax({
 													type : "POST",

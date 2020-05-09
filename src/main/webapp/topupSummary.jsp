@@ -34,21 +34,21 @@
 
 
 <body class="innerbody">
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+	%>
+
+	<%
+		if (user_id == null) {
+			System.out.println("response.sendRedirect=>"+user_id);
+			response.sendRedirect("login.jsp");
+		}else {
+	%>
+
 	<div id="preloader">
   <div id="status">&nbsp;</div>
 </div>
-	<%
-		String user_id = (String) session.getAttribute("roleID");
-
-		System.out.println("======>" + user_id);
-	%>
-
-	<%
-		if (null == user_id) {
-			response.sendRedirect("login.jsp");
-		}
-	%>
-	
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -166,6 +166,7 @@
 	</div>
 	<jsp:include page="footer.jsp" />
 
+<%} %>
 
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

@@ -19,6 +19,18 @@
 </head>
 
 <body class="innerbody">
+<%
+		String user_id = (String) session.getAttribute("roleID");
+
+	%>
+
+	<%
+		if (user_id == null) {
+			System.out.println("response.sendRedirect=>"+user_id);
+			response.sendRedirect("login.jsp");
+		}else {
+	%>
+
 <jsp:include page="header.jsp" />
   <div class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
     <div class="row mr-0 ml-0">
@@ -77,11 +89,13 @@
               </div>
             </div>  
             <div class="row">
+              <div class="col-md-3">
+              </div>
               <div class="col-md-6">
                 <div class="card shadow mb-4 bg-transparent">
                   <!-- Card Header - Dropdown -->
                   <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-dark">Chart 1</h6>
+                    <h6 class="m-0 font-weight-bold text-dark">Device Status</h6>
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
@@ -89,45 +103,8 @@
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="card shadow mb-4 bg-transparent">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-dark">Chart 2</h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <div id="container2" class="container" style="height: 400px; width: 500"></div>
-                  </div>
-                </div>
+              <div class="col-md-3">
               </div>
-
-              <div class="col-md-6">
-                <div class="card shadow mb-4 bg-transparent">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-dark">Chart 3</h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <div id="container3" class="container" style="height: 400px; width: 500"></div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="card shadow mb-4 bg-transparent">
-                  <!-- Card Header - Dropdown -->
-                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-dark">Chart 4</h6>
-                  </div>
-                  <!-- Card Body -->
-                  <div class="card-body">
-                    <div id="container4" class="container" style="height: 400px; width: 500"></div>
-                  </div>
-                </div>
-              </div>
-
             </div>
 
         <!--Right end-->
@@ -137,6 +114,8 @@
   </div>
 
   <jsp:include page="footer.jsp" />
+  <%} %>
+  
   <!-- Modal -->
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 
@@ -175,31 +154,49 @@
   </script>
   <script>
     $(document).ready(function () {
-    	Highcharts.chart('container', {
-    	    chart: {
-    	        type: 'pie'
-    	    },
+    	var data1;
+    	$
+		.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : "/PAYGTL_LORA_BLE/dashboard/"+ sessionStorage.getItem("roleID")+ "/"+ sessionStorage.getItem("ID"),
+			dataType : "JSON",
 
-    	    title: {
-    	        text: 'Pie with startAngle = 190'
-    	    },
+			success : function(d) {
+			
+				//alert(JSON.stringify(d));
+				
+				
+				
+				data1 = [
+    	            ["non-Communicating", ((d.nonCommunicating/d.total)*100) ],
+    	            ['communicating',     ((d.communicating/d.total)*100)]
+    	        ];
+				
+				Highcharts.chart('container', {
+		    	    chart: {
+		    	        type: 'pie'
+		    	    },
 
-    	    plotOptions: {
-    	        pie: {
-    	            startAngle: 190
-    	        }
-    	    },
+		    	    title: {
+		    	        text: 'Device Status'
+		    	    },
 
-    	    series: [{
-    	        data: [
-    	            ['Firefox', 44.2 ],
-    	            ['IE7',     26.6],
-    	            ['IE6',     20],
-    	            ['Chrome',  3.1],
-    	            ['Other',   5.4]
-    	        ]
-    	    }]
-    	});
+		    	    plotOptions: {
+		    	        pie: {
+		    	            startAngle: 190
+		    	        }
+		    	    },
+
+		    	    series: [{
+		    	        data: data1
+		    	    }]
+		    	});
+			
+		}	
+});
+    	
+    	
     	
     	Highcharts.chart('container2', {
     	    chart: {
