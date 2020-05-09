@@ -259,7 +259,7 @@ public class ManagementSettingsDAO {
 
 			if (ps.executeUpdate() > 0) {
 				responsevo.setResult("Success");
-				responsevo.setMessage("Alert Settings Added Successfully");
+				responsevo.setMessage("Alert Settings Edited Successfully");
 			}
 
 		} catch (Exception ex) {

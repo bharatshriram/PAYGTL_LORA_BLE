@@ -79,7 +79,6 @@ public class LoginController {
 			@RequestBody UserManagementRequestVO usermanagementvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
 
-		String result = "Failure";
 		LoginBO loginbo = new LoginBO();
 		ResponseVO responsevo = new ResponseVO();
 		
@@ -92,12 +91,12 @@ public class LoginController {
 		usermanagementvo.setUserID(userid);
 		
 		try{
-		result = loginbo.changepassword(usermanagementvo);
+		responsevo = loginbo.changepassword(usermanagementvo);
 		} catch (BusinessException e) {
 			String message = e.getMessage();
+			responsevo.setResult("Failure");
 			responsevo.setMessage(message);
 		}
-		responsevo.setResult(result);
 
 		return responsevo;
 	}

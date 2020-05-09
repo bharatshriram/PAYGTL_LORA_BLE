@@ -66,10 +66,11 @@ public class LoginBO {
 		return responsevo;
 	}
 	
-	public String changepassword(UserManagementRequestVO usermanagementvo) throws SQLException, BusinessException {
+	public ResponseVO changepassword(UserManagementRequestVO usermanagementvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
 		LoginDAO logindao = new LoginDAO();
+		ResponseVO responsevo = new ResponseVO();
 		
 			if(usermanagementvo.getUserID().isEmpty() || usermanagementvo.getOldPassword().isEmpty() || usermanagementvo.getNewPassword().isEmpty()){
 				throw new BusinessException("ALL FIELDS ARE MANDATORY");
@@ -79,11 +80,13 @@ public class LoginBO {
 			throw new BusinessException("NEW PASSWORD CANNOT BE SAME AS OLD PASSWORD");
 		}
 
-		if(!logindao.checkoldpassword(usermanagementvo)) {
+		if(logindao.checkoldpassword(usermanagementvo)) {
 			throw new BusinessException("INCORRECT OLD PASSWORD");
 		}
+		
+		responsevo = logindao.changepassword(usermanagementvo); 
 
-		return logindao.changepassword(usermanagementvo);
+		return responsevo;
 		
 	}
 

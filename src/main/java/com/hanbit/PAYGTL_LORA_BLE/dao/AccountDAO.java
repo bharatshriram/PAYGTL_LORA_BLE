@@ -3,9 +3,7 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,37 +11,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
-import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
-
+import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.border.DashedBorder;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Image;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
 /**
  * @author K VimaL Kumar
  * 
@@ -301,6 +295,7 @@ public class AccountDAO {
 		ResultSet rs = null;
 		ResultSet rs1 = null;
 		ResponseVO responsevo = new ResponseVO();
+		String drivename = "C:/TopupReceipts/";
 
 		try {
 			con = getConnection();
@@ -313,123 +308,153 @@ public class AccountDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				/*statusvo.setCommunityName(rs.getString("CommunityName"));
-				statusvo.setBlockName(rs.getString("BlockName"));
-				statusvo.setFirstName(rs.getString("FirstName"));
-				statusvo.setLastName(rs.getString("LastName"));
-				statusvo.setCRNNumber(rs.getString("CRNNumber"));
-				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
-				statusvo.setTransactionDate(rs.getString("TransactionDate"));
-				statusvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
-		
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 				rs1 = pstmt1.executeQuery();
 				if(rs1.next()) {
-					statusvo.setTransactedByUserName(rs1.getString("UserName"));
-					statusvo.setTransactedByRoleDescription(rs1.getString("RoleDescription"));
-				}*/
 
-				Document document = new Document(PageSize.A4);
-				
-				String head = "TOPUP RECEIPT";
-
-				String drivename = "C:/TopupReceipts/";
 				File directory = new File(drivename);
 				if (!directory.exists()) {
 					directory.mkdir();
 				}
 				
-				String copyrtext = "All  rights reserved by HANBIT ® Hyderabad";
+				PdfWriter writer = new PdfWriter(drivename+transactionID+".pdf");
+				PdfDocument pdfDocument = new PdfDocument(writer);
+				pdfDocument.addNewPage();
+				Document document = new Document(pdfDocument);
+				Paragraph newLine = new Paragraph("\n");
+				Paragraph head = new Paragraph("Top Up Receipt");
+				Paragraph copyRight = new Paragraph("All  rights reserved by HANBIT ® Hyderabad");
 
-				PdfWriter.getInstance(document, new FileOutputStream(drivename	+ transactionID + ".pdf"));
-
-				document.open();
+				// change according to the image directory
+				String imageFile = "C:/itextExamples/javafxLogo.jpg";       
+			    ImageData data = ImageDataFactory.create(imageFile);        
+			    Image img = new Image(data);
+//			    cell10.add(img.setAutoScale(true));
 				
-				Image image = Image.getInstance("Images/hanbit1.png");
-				image.scaleAbsolute(100, 100);
-				image.setWidthPercentage(50);
-
-				document.add((Element) image);
-
-				Paragraph newLine = new Paragraph(new Phrase("\n"));
-				document.add(newLine);
+			    document.add(head);
+			    document.add(newLine);
+			    
+				float [] columnWidths = {150F, 150F, 150F, 150F, 150F, 150F};
+				Table tableHeader = new Table(columnWidths);
 				
-				Chunk chunk = new Chunk(head);
-				Font font = new Font(Font.TIMES_ROMAN);
-				font.setSize(30);
-				chunk.setFont(font);
+				Border border = new DashedBorder(Color.BLACK, 2);
+				
+				Cell cell1 = new Cell();
+				cell1.add("TransactionID");
+				cell1.setBackgroundColor(Color.CYAN);
+				cell1.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell2 = new Cell();
+				cell2.add("Name");
+				cell2.setBackgroundColor(Color.CYAN);
+				cell2.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell3 = new Cell();
+				cell3.add("CRNNumber");
+				cell3.setBackgroundColor(Color.CYAN);
+				cell3.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell4 = new Cell();
+				cell4.add("MIU ID");
+				cell4.setBackgroundColor(Color.CYAN);
+				cell4.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell5 = new Cell();
+				cell5.add("Amount");
+				cell5.setBackgroundColor(Color.CYAN);
+				cell5.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell6 = new Cell();
+				cell6.add("Mode of Payment");
+				cell6.setBackgroundColor(Color.CYAN);
+				cell6.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell7 = new Cell();
+				cell7.add("Transacted By");
+				cell7.setBackgroundColor(Color.CYAN);
+				cell7.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell cell8 = new Cell();
+				cell8.add("Date");
+				cell8.setBackgroundColor(Color.CYAN);
+				cell8.setTextAlignment(TextAlignment.CENTER);
+				
+				tableHeader.addCell(cell1);
+				tableHeader.addCell(cell2);
+				tableHeader.addCell(cell3);
+				tableHeader.addCell(cell4);
+				tableHeader.addCell(cell5);
+				tableHeader.addCell(cell6);
+				tableHeader.addCell(cell7);
+				tableHeader.addCell(cell8);
+				
+				document.add(newLine);				
+				document.add(tableHeader);
+				
+				Table tableData = new Table(columnWidths);
+				
+				Cell data1 = new Cell();
+				data1.add(rs.getString("TransactionID"));
+				data1.setBackgroundColor(Color.CYAN);
+				data1.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data2 = new Cell();
+				data2.add(rs.getString("FirstName") + " " +rs.getString("LastName"));
+				data2.setBackgroundColor(Color.CYAN);
+				data2.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data3 = new Cell();
+				data3.add(rs.getString("CRNNumber"));
+				data3.setBackgroundColor(Color.CYAN);
+				data3.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data4 = new Cell();
+				data4.add(rs.getString("MeterID"));
+				data4.setBackgroundColor(Color.CYAN);
+				data4.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data5 = new Cell();
+				data5.add(rs.getString("Amount"));
+				data5.setBackgroundColor(Color.CYAN);
+				data5.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data6 = new Cell();
+				data6.add(rs.getString("ModeOfPayment"));
+				data6.setBackgroundColor(Color.CYAN);
+				data6.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data7 = new Cell();
+				data7.add(rs1.getString("UserName"));
+				data7.setBackgroundColor(Color.CYAN);
+				data7.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell data8 = new Cell();
+				data8.add(rs.getString("TransactionDate"));
+				data8.setBackgroundColor(Color.CYAN);
+				data8.setTextAlignment(TextAlignment.CENTER);
 
-				Paragraph paragraph = new Paragraph();
-				paragraph.add(chunk);
-				paragraph.setAlignment(Element.ALIGN_CENTER);
-				document.add(paragraph);
-
-				Chunk chunk1 = new Chunk("AMR ID:" + rs.getString("MeterID"));
-				Font font1 = new Font(Font.TIMES_ROMAN);
-				font1.setSize(10);
-				chunk1.setFont(font1);
-
-				// document.add(chunk);
-
-				Paragraph paragraph1 = new Paragraph();
-				paragraph1.add(chunk1);
-				paragraph1.setAlignment(Element.ALIGN_LEFT);
-				document.add(paragraph1);
-
-				Font font_for_table = new Font(Font.TIMES_ROMAN);
-				font_for_table.setSize(5);
+				tableData.addCell(data1);
+				tableData.addCell(data2);
+				tableData.addCell(data3);
+				tableData.addCell(data4);
+				tableData.addCell(data5);
+				tableData.addCell(data6);
+				tableData.addCell(data7);
+				
+				document.add(tableData);
+				
 				document.add(newLine);
-				PdfPTable table = new PdfPTable(7);
-				// table.setWidthPercentage(100);
-
-				document.add(table);
-
-				PdfPTable tablenew = new PdfPTable(7);
-				tablenew.setWidthPercentage(100);
-				PdfPTable tablenew1 = new PdfPTable(7);
-
-				tablenew.addCell("Bill No");
-				tablenew.addCell("Meter ID");
-				tablenew.addCell("House no");
-				tablenew.addCell("Recharge Amount");
-				tablenew.addCell("Emergency Credit");
-				tablenew.addCell("Alarm Credit");
-				tablenew.addCell("Date Time");
-				// tablenew.addCell("Status");
-
-				tablenew.addCell(rs.getString("TransactionID"));
-				tablenew.addCell(rs.getString("MeterID"));
-				tablenew.addCell(rs.getString("HouseNumber"));
-				tablenew.addCell(rs.getString("Amount"));
-				tablenew.addCell(rs.getString("EmergencyCredit"));
-				tablenew.addCell(rs.getString("AlarmCredit"));
-				tablenew.addCell(rs.getString("TransactionDate"));
-				// tablenew.addCell(status);
-				table.addCell(tablenew1);
-				document.add(tablenew);
-				String myPhrase3 = "\n";
-				Paragraph p3 = new Paragraph(new Phrase(myPhrase3));
-				document.add(p3);
-				String myPhrase4 = "\n";
-				Paragraph p4 = new Paragraph(new Phrase(myPhrase4));
-				document.add(p4);
-				String myPhrase5 = "\n";
-				Paragraph p5 = new Paragraph(new Phrase(myPhrase5));
-				document.add(p5);
-				String myPhrase6 = "\n";
-				Paragraph p6 = new Paragraph(new Phrase(myPhrase6));
-				document.add(p6);
-				String myPhrase7 = copyrtext;
-				Paragraph p7 = new Paragraph(new Phrase(myPhrase7));
-				p7.setAlignment(Element.ALIGN_CENTER);
-				// document.setFooter(footer);
-				document.add(p7);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(copyRight);
+				
 				document.close();
 				responsevo.setResult("Success");
 				responsevo.setLocation(drivename);
 				responsevo.setFileName(transactionID + ".pdf");
 				
 		} 
+		}
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			responsevo.setResult("Failure");
