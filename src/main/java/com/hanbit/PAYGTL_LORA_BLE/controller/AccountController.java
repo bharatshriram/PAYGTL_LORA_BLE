@@ -3,8 +3,17 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +26,6 @@ import com.hanbit.PAYGTL_LORA_BLE.bo.AccountBO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.AccountDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
-import com.hanbit.PAYGTL_LORA_BLE.request.vo.StatusRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
@@ -75,7 +83,23 @@ public class AccountController {
 
 		return responsevo;
 	}
-
+	
+	@RequestMapping(value = "/status/print/{transactionID}", method = RequestMethod.GET, produces = "application/pdf")
+	 public ResponseEntity<InputStreamResource> download(@PathVariable("transactionID") int transactionID) throws IOException, SQLException {
+			
+		ResponseVO responsevo = new ResponseVO();
+		
+		responsevo = accountdao.printreceipt(transactionID);
+	
+		File file = new File(responsevo.getLocation() + responsevo.getFileName());
+	    InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+		
+		ResponseEntity<InputStreamResource> response = new ResponseEntity<InputStreamResource>(resource, HttpStatus.OK);
+		
+		return response;
+	
+	}
+	
 	/* Configuration */
 
 	@RequestMapping(value = "/configuration/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")

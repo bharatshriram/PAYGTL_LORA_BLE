@@ -19,6 +19,8 @@ public class ResponseVO {
 	private TopupDetailsResponseVO topupdetails;
 	private String result;
 	private String Message;
+	private String fileName;
+	private String location;
 	private UserDetails userDetails;
 	
 	public UserDetails getUserDetails() {
@@ -69,4 +71,17 @@ public class ResponseVO {
 	public void setDropDownTariffs(HashMap<Integer, String> dropDownTariffs) {
 		this.dropDownTariffs = dropDownTariffs;
 	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	
 }
