@@ -36,6 +36,7 @@
               </div> -->
               <ul class="float-left list-sidebar mt-4">
               <!--  bg-defoult -->
+              <li> <a href="home.jsp"><i class="fas fa-home-alt"></i> <span class="nav-label">Home</span></a> </li>
                 <%
 			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	

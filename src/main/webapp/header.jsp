@@ -28,7 +28,7 @@
 
 		<!-- Brand -->
 		<a class="navbar-brand text-white col-md-2 mr-minus15"
-			href="#"><img class="img-responsive logo"
+			href="home.jsp"><img class="img-responsive logo"
 			src="common/images/hanbit1.png" alt="logo"></a>
 		<!-- Links -->
 
