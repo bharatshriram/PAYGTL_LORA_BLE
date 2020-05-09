@@ -28,6 +28,9 @@
 
 
 <body class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 
 <%
 		String user_id = (String) session.getAttribute("roleID");
@@ -59,7 +62,7 @@
 						<button type="button"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
-							<i class="fa fa-user"></i>
+							<i class="fa fa-user-plus"></i>
 						</button>
 					</div>
 				</div>

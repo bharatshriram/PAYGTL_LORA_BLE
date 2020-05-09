@@ -34,6 +34,9 @@
 
 
 <body class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<%
 		String user_id = (String) session.getAttribute("roleID");
 
@@ -115,7 +118,7 @@
 					</div>
 					
 					<div class="col-md-2">
-						<button 
+						<button id="back"
 							class="btn btn-raised btn-primary float-right"
 							>
 							<span>Back</span>

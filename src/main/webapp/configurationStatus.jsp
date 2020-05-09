@@ -32,6 +32,9 @@
 
 
 <body  class="innerbody">
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">

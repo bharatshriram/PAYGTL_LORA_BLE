@@ -153,5 +153,12 @@ $(document)
 
 $(document).ready(
 		function() {
-			
+			$("#back")
+			.click(
+					function() {
+		
+						window.location = "userConsumptions.jsp";
+						return false
+						
+					});
 		});
