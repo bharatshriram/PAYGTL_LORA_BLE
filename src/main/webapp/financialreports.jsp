@@ -136,7 +136,7 @@
 									<th>Community Name</th>
 									<th>Block Name</th>
 									<th>House Number</th>
-									<th>Meter ID</th>
+									<th>MIU ID</th>
 									<th>Total Amount</th>
 									<th>Total Units</th>
 								</tr>

@@ -34,19 +34,21 @@
 
 
 <body class="innerbody">
-<div id="preloader">
-  <div id="status">&nbsp;</div>
-</div>
-	<%
+<%
 		String user_id = (String) session.getAttribute("roleID");
+
 	%>
 
 	<%
-		if (null == user_id) {
+		if (user_id == null) {
+			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
-		}
+		}else {
 	%>
-	
+
+<div id="preloader">
+  <div id="status">&nbsp;</div>
+</div>
 	<jsp:include page="header.jsp" />
 	<div
 		class="container-fluid topspacing bottomspacing pl-0 pr-0 mr-0 ml-0">
@@ -81,14 +83,14 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select House<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating">Select CRN<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
                               </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">AMR ID</label>
+                              <label class="bmd-label-floating">MIU ID</label>
                               <input type="text" class="form-control" id="AMR_topup" name="AMR_topup" disabled>
                             </div>
                           </div>
@@ -101,7 +103,7 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">End Date</label>
+                              <label class="bmd-label-floating">End Date Time</label>
                               <input type="text" class="form-control" id="end_date" name="end_date">
                             </div>
                           </div>
@@ -141,7 +143,7 @@
 									<th>Community Name</th>
 									<th>Block Name</th>
 									<th>House No</th>
-									<th>AMR ID</th>
+									<th>MIU ID</th>
 									<th>Battery</th>
 									<th>Tamper</th>
 									<th>Date</th>
@@ -161,7 +163,7 @@
 	</div>
 	<jsp:include page="footer.jsp" />
 
-
+<%} %>
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

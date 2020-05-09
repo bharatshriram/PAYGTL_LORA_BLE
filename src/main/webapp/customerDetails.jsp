@@ -76,8 +76,8 @@
 									<th>CRN Number</th>
 									<th>Mobile</th>
 									<th>Email</th>
-									<th>Meter Sr. No.</th>
-									<th>AMR ID</th>
+									<th>MSN</th>
+									<th>MIU ID</th>
 									<th>Created UserName</th>
 									<th>Created Role</th>
 									<th>Registration Date</th>
@@ -184,7 +184,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Meter Serial No.</label> <input
+									<label class="bmd-label-floating">MSN</label> <input
 										type="text" class="form-control" name="meterSerialAdd"
 										id="meterSerialAdd">
 								</div>
@@ -195,7 +195,7 @@
 							
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">AMR ID</label> <input
+									<label class="bmd-label-floating">MIU ID</label> <input
 										type="text" class="form-control" name="amrAdd"
 										id="amrAdd">
 								</div>
@@ -314,7 +314,7 @@
 							</div>
 							<div class="col-md-6">
 								<div id="formmeterSerialEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Meter Serial No.</label> <input
+									<label class="bmd-label-floating">MSN</label> <input
 										type="text" class="form-control" name="meterSerialEdit"
 										id="meterSerialEdit" disabled>
 								</div>
@@ -325,7 +325,7 @@
 							
 							<div class="col-md-6">
 								<div id="formamrEdit" class="input-group form-group">
-									<label class="bmd-label-floating">AMR ID</label> <input
+									<label class="bmd-label-floating">MIU ID</label> <input
 										type="text" class="form-control" name="amrEdit"
 										id="amrEdit">
 								</div>

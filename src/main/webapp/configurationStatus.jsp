@@ -70,7 +70,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>AMR ID</th>
+									<th>MIU ID</th>
 									<th>Command Type</th>
 									<th>Date</th>
 									<th>Status</th>

@@ -84,8 +84,8 @@
 									<th>Block</th>
 									<th>House No</th>
 									<th>CRN</th>
-									<th>Meter Sr. No.</th>
-									<th>AMR ID</th>
+									<th>MSN</th>
+									<th>MIU ID</th>
 									<th>Reading</th>
 									<th>Balance</th>
 									<th>EC</th>
@@ -111,8 +111,8 @@
 									<th>Block</th>
 									<th>House No</th>
 									<th>CRN</th>
-									<th>Meter Sr. No.</th>
-									<th>AMR ID</th>
+									<th>MSN</th>
+									<th>MIU ID</th>
 									<th>Reading</th>
 									<th>Balance</th>
 									<th>EC</th>

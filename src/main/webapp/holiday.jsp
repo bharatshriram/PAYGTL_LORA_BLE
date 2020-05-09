@@ -86,7 +86,7 @@
 									<th>House No</th>
 									<th>CRN Number</th>
 									<th>Vacation</th>
-									<th>AMR ID</th>
+									<th>MIU ID</th>
 									<th>Start Date</th>
 									<th>End Date</th>
 									<th>Registration Date</th>

@@ -127,6 +127,23 @@ $(document)
 																			"data" : "transactedByRoleDescription"
 																		}, {
 																			"data" : "dateTime"
+																		}, {
+																			"mData" : "action",
+																			"render" : function(data, type, row) {
+																				
+																				/*<button type="button"
+																					class="btn btn-raised btn-primary float-right"
+																					data-toggle="modal" data-target="#exampleModal">
+																					<i class="fa fa-user"></i>
+																				</button>*/
+																			//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
+																				
+																				return "<a onclick='getReceiptTransactionID("
+																																			+ row.transactionID
+																																			+ ")'>"
+																																			+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
+																																			+ "</a>"
+																			}
 																		}],
 																		"columnDefs" : [ {
 																		"className": "dt-center", "targets": "_all"
@@ -169,3 +186,45 @@ $(document).ready(
 						
 					});
 		});
+
+
+
+
+
+function getReceiptTransactionID(transID){
+	bootbox
+	.confirm(
+			"ARE YOU SURE TO DOWNLOAD RECEIPT",
+		function(
+			result) {
+			//	alert(result);
+			if(result == true){
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/status/print/" + transID,
+					dataType : "JSON",
+					success : function(data) {
+						//alert("Success====" + data.result);
+						if (data.result == "Success") {
+							bootbox
+							.confirm(
+									data.Message,
+								function(
+									result) {
+									window.location = "topupSummary.jsp";
+								});
+
+						} else {
+							bootbox
+							.alert(data.Message);
+							return false;
+						}
+					}
+				});
+			}else if(result==false){
+				//alert("@"+false)
+				
+			}
+		});
+}
