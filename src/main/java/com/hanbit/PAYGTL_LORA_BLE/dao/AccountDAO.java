@@ -313,8 +313,7 @@ public class AccountDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				/*statusvo.setTransactionID(rs.getInt("TransactionID"));
-				statusvo.setCommunityName(rs.getString("CommunityName"));
+				/*statusvo.setCommunityName(rs.getString("CommunityName"));
 				statusvo.setBlockName(rs.getString("BlockName"));
 				statusvo.setFirstName(rs.getString("FirstName"));
 				statusvo.setLastName(rs.getString("LastName"));
@@ -331,7 +330,8 @@ public class AccountDAO {
 				}*/
 
 				Document document = new Document(PageSize.A4);
-				String head = "Topup Receipt for the house no. : " + rs.getString("HouseNumber");
+				
+				String head = "TOPUP RECEIPT";
 
 				String drivename = "C:/TopupReceipts/";
 //				String drivename = "TopupReceipts/";
@@ -348,22 +348,20 @@ public class AccountDAO {
 
 				document.open();
 				
-	//			BufferedImage image = ImageIO.read(getClass().getResourceAsStream("/src/main/webapp/common/images/hanbit1.png"));
+	//			BufferedImage image = ImageIO.read(getClass().getResourceAsStream("hanbit1.png"));
 				/*Image image = Image.getInstance(logo);
 				image.scaleAbsolute(100, 100);
 				image.setWidthPercentage(50);
 
 				document.add((Element) image);*/
 
-				String myPhrase = "\n";
-				Paragraph p = new Paragraph(new Phrase(myPhrase));
-				document.add(p);
+				Paragraph newLine = new Paragraph(new Phrase("\n"));
+				document.add(newLine);
+				
 				Chunk chunk = new Chunk(head);
 				Font font = new Font(Font.TIMES_ROMAN);
-				font.setSize(15);
+				font.setSize(30);
 				chunk.setFont(font);
-
-				// document.add(chunk);
 
 				Paragraph paragraph = new Paragraph();
 				paragraph.add(chunk);
@@ -384,7 +382,7 @@ public class AccountDAO {
 
 				Font font_for_table = new Font(Font.TIMES_ROMAN);
 				font_for_table.setSize(5);
-				document.add(p);
+				document.add(newLine);
 				PdfPTable table = new PdfPTable(7);
 				// table.setWidthPercentage(100);
 
