@@ -47,8 +47,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total MIU ID</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalmiu"></div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -62,8 +62,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Pending Requests</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Communicating</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="communicating"></div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -77,8 +77,8 @@
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Earnings (Annual)</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Non-Communicating</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="Non-Communicating"></div>
                       </div>
                       <div class="col-auto">
                         <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -166,6 +166,9 @@
 			
 				//alert(JSON.stringify(d));
 				
+				document.querySelector("#totalmiu").innerText = d.total;
+				document.querySelector("#communicating").innerText = d.communicating;
+				document.querySelector("#Non-Communicating").innerText = d.nonCommunicating;
 				
 				
 				data1 = [
@@ -184,7 +187,10 @@
 
 		    	    plotOptions: {
 		    	        pie: {
-		    	            startAngle: 190
+		    	        	colors: [
+		    	        	     '#FF0000', 
+		    	        	     '#32CD32'
+		    	        	   ]
 		    	        }
 		    	    },
 
@@ -192,97 +198,17 @@
 		    	        data: data1
 		    	    }]
 		    	});
+				
+			//	document.querySelector(".highcharts-series-group .highcharts-series .highcharts-color-0").setAttribute("fill","red");
+			  //  document.querySelector(".highcharts-series-group .highcharts-series .highcharts-color-1").setAttribute("fill","green");
 			
 		}	
 });
-    	
-    	
-    	
-    	Highcharts.chart('container2', {
-    	    chart: {
-    	        type: 'pie'
-    	    },
-
-    	    title: {
-    	        text: 'Pie with startAngle = 190'
-    	    },
-
-    	    plotOptions: {
-    	        pie: {
-    	            startAngle: 190
-    	        }
-    	    },
-
-    	    series: [{
-    	        data: [
-    	            ['Firefox', 44.2 ],
-    	            ['IE7',     26.6],
-    	            ['IE6',     20],
-    	            ['Chrome',  3.1],
-    	            ['Other',   5.4]
-    	        ]
-    	    }]
-    	});
-    	
-    	
-    	
-    	
-    	Highcharts.chart('container3', {
-    	    chart: {
-    	        type: 'pie'
-    	    },
-
-    	    title: {
-    	        text: 'Pie with startAngle = 190'
-    	    },
-
-    	    plotOptions: {
-    	        pie: {
-    	            startAngle: 190
-    	        }
-    	    },
-
-    	    series: [{
-    	        data: [
-    	            ['Firefox', 44.2 ],
-    	            ['IE7',     26.6],
-    	            ['IE6',     20],
-    	            ['Chrome',  3.1],
-    	            ['Other',   5.4]
-    	        ]
-    	    }]
-    	});
-    	
-    	
-    	
-    	Highcharts.chart('container4', {
-    	    chart: {
-    	        type: 'pie'
-    	    },
-
-    	    title: {
-    	        text: 'Pie with startAngle = 190'
-    	    },
-
-    	    plotOptions: {
-    	        pie: {
-    	            startAngle: 190
-    	        }
-    	    },
-
-    	    series: [{
-    	        data: [
-    	            ['Firefox', 44.2 ],
-    	            ['IE7',     26.6],
-    	            ['IE6',     20],
-    	            ['Chrome',  3.1],
-    	            ['Other',   5.4]
-    	        ]
-    	    }]
-    	});
-    	
-    	
     });
+    
+    
+    
+    
   </script>
   
 </body>

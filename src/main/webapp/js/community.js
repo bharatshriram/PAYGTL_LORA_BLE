@@ -72,13 +72,10 @@ return json.data;
 	//orderable : false,
 	//targets : [ 0 ],
 	targets: 4, visible: !(sessionStorage.getItem("roleID") == 4) 
-	,"className": "dt-center", "targets": "_all"
-	
-}/*,
+},
 {
-	orderable : false,
-	targets : [ 1 ]
-}*/], "buttons": [
+	"className": "dt-center", "targets": "_all"
+}], "buttons": [
    
 ]
 });
@@ -313,6 +310,7 @@ $(document)
 												.val();
 												data1["address"] = $("#communityAddressAdd").val();
 										
+												$('#communityAdd').prop('disabled', true).addClass('disabled').off( "click" );
 												
 												$
 														.ajax({
@@ -374,6 +372,7 @@ $(document)
 										.val();
 										data1["address"] = $("#communityAddressEdit").val();
 								
+										$('#communityEditsave').prop('disabled', true).addClass('disabled').off( "click" );
 										
 										$
 												.ajax({

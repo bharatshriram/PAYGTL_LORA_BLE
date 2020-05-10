@@ -97,6 +97,7 @@
 
 	<!-- <script src="common/js/bootstrap.min.js"></script> -->
 
+
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
@@ -110,13 +111,12 @@
 		src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js"
 		integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
 		crossorigin="anonymous"></script>
-	<!-- <script>
+	<script>
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
-	</script> -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> 
-	
+	</script>
+	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		
@@ -145,8 +145,8 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
 		
 		<script
-		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-	
+		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>	
+		
 		<script
 		src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
 		

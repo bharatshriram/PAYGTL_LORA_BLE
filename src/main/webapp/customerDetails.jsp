@@ -70,14 +70,14 @@
 								<tr>
 									<th>Community</th>
 									<th>Block</th>
+									<th>CRN Number</th>
 									<th>First Name</th>
 									<th>Last Name</th>
 									<th>House No</th>
-									<th>CRN Number</th>
-									<th>Mobile</th>
-									<th>Email</th>
 									<th>MSN</th>
 									<th>MIU ID</th>
+									<th>Mobile</th>
+									<th>Email</th>
 									<th>Created UserName</th>
 									<th>Created Role</th>
 									<th>Registration Date</th>

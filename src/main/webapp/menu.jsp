@@ -48,11 +48,11 @@
                   <%if(user_id.equalsIgnoreCase("1")){ %>
                 <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
                 <%}%>
-                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
                 <%if(user_id.equalsIgnoreCase("1")){ %>
                 <li> <a href="configuration.jsp"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
                 <%}%>
-                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails.png /> <span class="nav-label">Configuration Status</span></a> </li>
+                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Configuration Status</span></a> </li>
                 <li> <a href="alert.jsp"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts</span></a> </li>
                 <li><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
                     <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
@@ -77,13 +77,13 @@
                 <%}%>
                 
                 
-                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
                 
                 <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="configuration.jsp"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
                 <%}%>
                 
-                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails.png /> <span class="nav-label">Configuration Status</span></a> </li>
+                <li> <a href="configurationStatus.jsp"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Configuration Status</span></a> </li>
     
                    <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
                     <li><a href="topupSummary.jsp"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
@@ -101,7 +101,7 @@
                 <li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
                 <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
-                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Details</span></a> </li>
+                <li> <a href="topupStatus.jsp"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
                 <li class=""><a href="userConsumptions.jsp"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
                 <li><a href="holiday.jsp"><img src=common/images/icons/usermanagement.png /><span class="nav-label">Vacation</span></a></li>
                 <li><a href="alarmReport.jsp"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms Report</span></a></li>

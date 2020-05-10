@@ -76,7 +76,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select Block</label>
+                              <label class="bmd-label-floating">Select Block<sup class="blockimp" style="color:red"></sup></label>
                               <select class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity" onchange="showCustomerbyBlock(this.value);">
                               
                               </select>

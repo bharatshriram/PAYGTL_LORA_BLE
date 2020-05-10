@@ -75,7 +75,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select Block<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating">Select Block<sup class="blockimp" style="color:red"></sup></label>
                               <select class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity" onchange="showCustomerbyBlock(this.value);">
                               
                               </select>
@@ -83,7 +83,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select CRN<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating">Select CRN</label>
                               <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
                               </select>
                             </div>
@@ -96,14 +96,14 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
-                            <label class="bmd-label-floating">Start Date</label> 
+                            <label class="bmd-label-floating">Start Date Time<sup class="imp">*</sup></label> 
                              <!--  <input type="text" class="form-control datepicker" id="start_date" name="start_date"> -->
                              <input type="text" id="start_date" name="start_date" class="form-control" >
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Date & Time</label>
+                              <label class="bmd-label-floating">End Date Time<sup class="imp">*</sup></label>
                               <input type="text" class="form-control" id="end_date" name="end_date">
                             </div>
                           </div>

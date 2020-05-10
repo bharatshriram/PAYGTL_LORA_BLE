@@ -89,11 +89,11 @@
 									<th>Reading</th>
 									<th>Balance</th>
 									<th>EC</th>
-									<th>Battery</th>
-									<th>Valve</th>
 									<th>Tariff</th>
+									<th>Valve</th>
 									<th>Tamper</th>
 									<th>Communication</th>
+									<th>Battery</th>
 									<th>Date</th>
 								</tr>
 							</thead>

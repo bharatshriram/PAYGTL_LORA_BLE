@@ -122,7 +122,7 @@ $(document)
 											return false;
 										}
 										
-										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select CRN") {
 
 											bootbox
 											.alert("Select CRN Number");
@@ -243,7 +243,6 @@ $(document)
 											"data" : function(search) {
 											},
 											"complete" : function(json) {
-												console.log(JSON.stringify(json));
 												return json.data;
 											},
 										},
@@ -268,14 +267,16 @@ $(document)
 														return "<a onclick='getDeleteTransactionID("
 																+ row.transactionID
 																+ ")'>"
-																+ "<i class='material-icons' style='color:#17e9e9'>delete</i>"
+																+ "<i class='material-icons' style='color:#17e9e9; cursor:pointer;'>delete</i>"
 																+ "</a>"
 													}
 												} ],
 										"columnDefs" : [ {
 										//	orderable : false,
 											targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
-											,"className": "dt-center", "targets": "_all"
+										},
+										{
+											"className": "dt-center", "targets": "_all"
 										}],
 										"buttons" : [
 										{
@@ -304,6 +305,8 @@ $(document)
 
 
 function getDeleteTransactionID(transID){
+	
+	alert(transID);
 	
 	bootbox
 	.confirm(

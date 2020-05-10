@@ -1,7 +1,12 @@
 /**
  * 
  */
-
+$(document).ready(function() {
+	if(sessionStorage.getItem("roleID") == 2){
+		
+		document.querySelector(".blockimp").innerText ="*";
+	}
+	});
 $(document)
 		.ready(
 				function() {
@@ -20,14 +25,16 @@ $(document)
 											return false;
 										}
 
-										/*if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
+										if(sessionStorage.getItem("roleID") == 2){
+										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
 
 											bootbox
 											.alert("Select Block Name");
 											return false;
 										}
+										}
 										
-										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+									/*	if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
 
 											bootbox
 											.alert("Select House Name");

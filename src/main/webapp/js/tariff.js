@@ -4,7 +4,6 @@
 
 
 $(document).ready(function() {
-	
 	if(sessionStorage.getItem("roleID") == 1){
 		$("#tariffAddd").show();
 	}else{
@@ -74,8 +73,11 @@ return json.data;
 "columnDefs" : [ {
 //	orderable : false,
 	targets: 6, visible: !(sessionStorage.getItem("roleID") == 4)
-	,"className": "dt-center", "targets": "_all"
-}], "buttons": [
+},
+{
+	"className": "dt-center", "targets": "_all"
+}
+], "buttons": [
    
 ]
 });

@@ -150,6 +150,21 @@ $(document)
 													"defaultContent": ""
 												},
 												{
+													"data" : "tariff",
+													"defaultContent": ""
+												},
+												{
+													"data" : "valveStatus"
+												},
+												{
+													"data" : "tamperStatus",
+														"defaultContent": ""
+												},
+												{
+													"data" : "communicationStatus",
+														"defaultContent": ""
+												},
+												{
 													  //  "data":"battery"
 													"mData" : "action",
 													"render" : function(data,
@@ -192,7 +207,7 @@ $(document)
 																+'<path fill="#000000" opacity="1.00" d=" M 206.48 147.04 C 227.49 146.97 248.50 146.98 269.52 147.03 C 269.48 154.02 269.51 161.01 269.50 168.00 L 206.50 168.00 C 206.49 161.01 206.52 154.03 206.48 147.04 Z" />'
 																+'</g>'
 															+'<svg id="1f6e43ff" x="37" y="37" width="214" height="95" class = "batteryText">'
-															+'<rect width="'+row.battery+'%" height="100%" fill="'+row.batteryColora+'"/>'
+															+'<rect width="'+row.battery+'%" height="100%" fill="'+row.batteryColor+'"/>'
 																  +'  <text x="0" y="50" font-family="Verdana" fill="white">'+row.battery+'</text>'
 															+'</svg></svg>';
 															
@@ -200,21 +215,6 @@ $(document)
 														
 													},
 													"defaultContent": ""
-												},
-												{
-													"data" : "valveStatus"
-												},
-												{
-													"data" : "tariff",
-													"defaultContent": ""
-												},
-												{
-													"data" : "tamperStatus",
-														"defaultContent": ""
-												},
-												{
-													"data" : "communicationStatus",
-														"defaultContent": ""
 												},
 												{
 													//"data": "timeStamp",
@@ -296,21 +296,21 @@ $(document)
 
 								if($("#end_date").val() != ""){
 									if($("#start_date").val() == ""){
-										bootbox.alert("Enter Start Date")
+										bootbox.alert("Enter Date From")
 										return false;
 										}
 									}
-								var battery =/^[0-9]+$/;
-								if($("#batteryVoltageFrom").val() != ""){
-									if (!battery.test($("#batteryVoltageFrom").val())) {
-										bootbox.alert("Invalid Battery From Percentage");
+								var battery =/^[0-9]{3}$/;
+								if($("#battery_from").val() != ""){
+									if (!battery.test($("#battery_from").val())) {
+										bootbox.alert("Invalid Battery Percentage From ");
 										return false;
 										}
 									}
 								
-								if($("#batteryVoltageTo").val() != ""){
-									if (!battery.test($("#batteryVoltageFrom").val())) {
-										bootbox.alert("Invalid Battery To Percentage")
+								if($("#battery_to").val() != ""){
+									if (!battery.test($("#battery_to").val())) {
+										bootbox.alert("Invalid Battery Percentage To")
 										return false;
 										}
 									}

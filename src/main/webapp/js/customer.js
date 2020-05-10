@@ -45,21 +45,21 @@ return json.data;
 },{
 "data" : "blockName"
 },{
+"data" : "CRNNumber"
+},{
 "data" : "firstName"
 },{
 "data" : "lastName"
 },{
 "data" : "houseNumber"
 },{
-"data" : "CRNNumber"
+"data" : "meterSerialNumber"
+},{
+"data" : "meterID"
 },{
 "data" : "mobileNumber"
 },{
 "data" : "email"
-},{
-"data" : "meterSerialNumber"
-},{
-"data" : "meterID"
 },{
 "data" : "createdByUserName"
 },{
@@ -92,12 +92,10 @@ return json.data;
 "columnDefs" : [ {
 	//orderable : false,
 	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
-	"className": "dt-center", "targets": "_all"
-}/*,
+},
 {
-	orderable : false,
-	targets : [ 1 ]
-}*/], "buttons": [
+	"className": "dt-center", "targets": "_all"
+}], "buttons": [
    /* 'csvHtml5',
 	'excelHtml5',
 'pdfHtml5'*/
@@ -597,9 +595,9 @@ $(document)
 
 													success : function(
 															data) {
-														alert("data"
+														/*alert("data"
 																+ JSON
-																		.stringify(data));
+																		.stringify(data));*/
 														if (data.result == "Success") {
 
 															/*alert( "data"

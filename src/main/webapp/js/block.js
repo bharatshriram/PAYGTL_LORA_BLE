@@ -5,7 +5,6 @@
 
 
 $(document).ready(function() {
-	
 	if(sessionStorage.getItem("roleID") == 1){
 		$("#blockAddButton").show();
 	}else{
@@ -81,13 +80,11 @@ return json.data;
 ],
 "columnDefs" : [ {
 //	orderable : false,
-	targets: 5, visible:  ((sessionStorage.getItem("roleID") == 1) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
-	,"className": "dt-center", "targets": "_all"
-}/*,
+	targets: 5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+},
 {
-	orderable : false,
-	targets : [ 1 ]
-}*/], "buttons": [
+	"className": "dt-center", "targets": "_all"
+}], "buttons": [
 	   
 	]
 });
@@ -347,9 +344,11 @@ $(document)
 												data1["createdByID"] = sessionStorage.getItem("createdByID");
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
 												data1["roleID"] = sessionStorage.getItem("roleID");
+
+												$('#blockAdd').prop('disabled', true).addClass('disabled').off( "click" );
 												
-												console.log("===>"
-														+ JSON.stringify(data1));
+												/*console.log("===>"
+														+ JSON.stringify(data1));*/
 												$
 														.ajax({
 															type : "POST",
@@ -425,6 +424,7 @@ $(document)
 								
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
+										$('#blockEditsave').prop('disabled', true).addClass('disabled').off( "click" );
 										$
 												.ajax({
 													type : "POST",

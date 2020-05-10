@@ -61,7 +61,9 @@ return json.data;
 "columnDefs" : [ {
 	//orderable : false,
 	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
-	,"className": "dt-center", "targets": "_all"
+},
+{
+	"className": "dt-center", "targets": "_all"
 }]
 });
 });
@@ -153,7 +155,7 @@ $(document)
 													}
 												}
 											},
-											lowbatteryvoltageEdit : {
+											lowbatteryvoltageEdit1 : {
 												message : 'The Low Battery Voltage is not valid',
 												validators : {
 													notEmpty : {
@@ -167,7 +169,7 @@ $(document)
 													
 												}
 											},
-											rechargetimeoutEdit : {
+											rechargetimeoutEdit1 : {
 												message : 'The Recharge Timeout is not valid',
 												validators : {
 													notEmpty : {
@@ -256,7 +258,6 @@ $(document)
 												data1["timeOut"] = $("#rechargetimeoutAdd")
 												.val();
 
-												
 												$
 														.ajax({
 															type : "POST",
@@ -311,8 +312,8 @@ $(document)
 										
 										data1["noAMRInterval"] = $("#noamrintervalEdit")
 										.val();
-										data1["lowBatteryVoltage"] = $("#lowbatteryvoltageEdit").val();
-										data1["timeOut"] = $("#rechargetimeoutEdit")
+										data1["lowBatteryVoltage"] = $("#lowbatteryvoltageEdit1").val();
+										data1["timeOut"] = $("#rechargetimeoutEdit1")
 										.val();
 								
 										
@@ -376,10 +377,10 @@ function getAlertFormEdit(id) {
 			//	alert(item.lowBatteryVoltage);
 				$('#noamrintervalEdit').val(item.noAMRInterval).trigger("change");
 				$("#formnoamrintervalEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#lowbatteryvoltageEdit').val(item.lowBatteryVoltage).trigger("change");
-				$("#formlowbatteryvoltageEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-				$('#rechargetimeoutEdit').val(item.timeOut).trigger("change");
-				$("#formrechargetimeoutEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#lowbatteryvoltageEdit1').val(item.lowBatteryVoltage).trigger("change");
+				$("#formlowbatteryvoltageEdit1").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#rechargetimeoutEdit1').val(item.timeOut).trigger("change");
+				$("#formrechargetimeoutEdit1").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 				$("#alertIdhidden").val(item.alertID);
 			
 				$('#alertEditsave')

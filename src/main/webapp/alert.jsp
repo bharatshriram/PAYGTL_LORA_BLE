@@ -180,18 +180,18 @@
 								</div>
 							</div>
 							<div class="col-md-6">
-								<div id="lowbatteryvoltageEdit" class="input-group form-group">
+								<div id="formlowbatteryvoltageEdit" class="input-group form-group">
 									<label class="bmd-label-floating">Low Battery Voltage</label> <input
-										type="text" class="form-control" name="lowbatteryvoltageEdit"
-										id="lowbatteryvoltageEdit">
+										type="text" class="form-control" name="lowbatteryvoltageEdit1"
+										id="lowbatteryvoltageEdit1">
 								</div>
 							</div>
 
 							<div class="col-md-6">
-								<div id="rechargetimeoutEdit" class="input-group form-group">
+								<div id="formrechargetimeoutEdit" class="input-group form-group">
 									<label class="bmd-label-floating">ReCharge Time Out</label> <input
-										type="text" class="form-control" name="rechargetimeoutEdit"
-										id="rechargetimeoutEdit">
+										type="text" class="form-control" name="rechargetimeoutEdit1"
+										id="rechargetimeoutEdit1">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -199,13 +199,13 @@
 							</div>
 
 							<div class="col-md-6">
-								<input class="btn btn-lg btn-success submit-button"
-									style="width: 100%;" value="Save!" id="alertEditsave"
-									type="button" disabled></input>
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="alertEditsave"
+									type="button" disabled>Update</button>
 							</div>
 
 							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>

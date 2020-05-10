@@ -29,7 +29,7 @@ $(document)
 											return false;
 										}
 										
-										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select CRN") {
 
 											bootbox
 											.alert("Select CRN Number");

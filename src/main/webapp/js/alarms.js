@@ -117,7 +117,7 @@
 																				return false;
 																			}
 																			
-																			if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+																			if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select CRN") {
 
 																				bootbox
 																				.alert("Select CRN Number");
@@ -187,7 +187,7 @@
 																											"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
 																											"pageLength" : 5,
 																											"scrollY" : 324,
-																											"scrollX" : false,
+																											"scrollX" : true,
 																											"data" : d.data,
 																											"columns" : [ {
 																										    	"data" : "communityName"

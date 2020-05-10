@@ -2,6 +2,12 @@
  * 
  */
 
+$(document).ready(function() {
+	if(sessionStorage.getItem("roleID") == 2){
+		
+		document.querySelector(".blockimp").innerText ="*";
+	}
+	});
 $(document)
 		.ready(
 				function() {
@@ -24,6 +30,8 @@ $(document)
 											return false;
 										}
 
+										if(sessionStorage.getItem("roleID") == 1){
+										
 										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() != "Select Block") {
 
 											data1["blockID"] = $(
@@ -31,8 +39,21 @@ $(document)
 										}else {
 											data1["blockID"] = "-1";
 										}
+										} else if(sessionStorage.getItem("roleID") == 2){
+											if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
+
+												bootbox
+												.alert("Select Block Id");
+												return false;
+												
+											}else {
+												data1["blockID"] = $(
+												"#selectBlockBasedonCommunity").val();
+											}
+											
+										}
 										
-										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() != "Select House") {
+										if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() != "Select CRN") {
 
 											data1["CRNNumber"] = $(
 											"#selectHouseBasedonBlock")
@@ -68,7 +89,7 @@ $(document)
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										//alert("===>" + JSON.stringify(data1));
+										/*alert("===>" + JSON.stringify(data1));*/
 										$
 												.ajax({
 													type : "POST",
