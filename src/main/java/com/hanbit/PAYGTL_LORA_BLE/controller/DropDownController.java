@@ -23,13 +23,12 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class DropDownController {
 	
 	Gson gson = new Gson();
+	DropDownDAO dropdowndao = new DropDownDAO();
+	ResponseVO responsevo = new ResponseVO();
 	
 	@RequestMapping(value = "/communities/{roleID}/{id}",method = RequestMethod.GET, 
 			produces="application/json")
 	public @ResponseBody ResponseVO getallcommunities(@PathVariable("roleID") int roleid, @PathVariable("id") String id) {
-		
-		DropDownDAO dropdowndao = new DropDownDAO();
-		ResponseVO responsevo = new ResponseVO();
 		
 		responsevo.setDropDownCommunities(dropdowndao.getallcommunities(roleid, id));
 
@@ -40,9 +39,6 @@ public class DropDownController {
 			produces="application/json")
 	public @ResponseBody ResponseVO getallblocks(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("communityID") int communityID) {
 		
-		DropDownDAO dropdowndao = new DropDownDAO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		responsevo.setDropDownBlocks(dropdowndao.getallblocks(communityID, roleid, id));
 		
 		return responsevo;
@@ -51,9 +47,6 @@ public class DropDownController {
 	@RequestMapping(value = "/customers/{roleID}/{id}/{blockID}",method = RequestMethod.GET, 
 			produces="application/json")
 	public @ResponseBody ResponseVO getallhouses(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("blockID") int blockID) {
-		
-		DropDownDAO dropdowndao = new DropDownDAO();
-		ResponseVO responsevo = new ResponseVO();
 		
 		responsevo.setDropDownHouses(dropdowndao.getallhouses(blockID, roleid, id));
 		
@@ -64,9 +57,6 @@ public class DropDownController {
 			produces="application/json")
 	public @ResponseBody ResponseVO gettopupdetails(@PathVariable ("CRNNumber") String CRNNumber) throws SQLException {
 		
-		DropDownDAO dropdowndao = new DropDownDAO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		responsevo.setTopupdetails(dropdowndao.gettopupdetails(CRNNumber));
 		
 		return responsevo;
@@ -75,12 +65,9 @@ public class DropDownController {
 	@RequestMapping(value = "/tariffs",method = RequestMethod.GET, produces="application/json")
 	public @ResponseBody ResponseVO getalltariffs() throws SQLException {
 		
-		DropDownDAO dropdowndao = new DropDownDAO();
-		ResponseVO responsevo = new ResponseVO();
-		
 		responsevo.setDropDownTariffs(dropdowndao.getalltariffs());
 
 		return responsevo;
 	}
-
+	
 }

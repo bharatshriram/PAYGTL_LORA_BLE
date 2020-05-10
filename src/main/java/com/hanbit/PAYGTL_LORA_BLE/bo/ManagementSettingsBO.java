@@ -59,7 +59,7 @@ public class ManagementSettingsBO {
 	public ResponseVO addalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 		
-		if(alertvo.getCommunityID()==0 || alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
+		if(alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		

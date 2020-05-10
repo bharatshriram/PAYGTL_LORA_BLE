@@ -209,13 +209,13 @@ public class LoginDAO {
 
 	}
 
-	public String changepassword(UserManagementRequestVO usermanagementvo) throws SQLException {
+	public ResponseVO changepassword(UserManagementRequestVO usermanagementvo) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		String result = "Failure";
-
+		ResponseVO responsevo = new ResponseVO();
+		
 		try {
 			con = getConnection();
 
@@ -224,17 +224,20 @@ public class LoginDAO {
 			pstmt.setString(2, usermanagementvo.getUserID().trim());
 
 			if (pstmt.executeUpdate() > 0) {
-				result = "Success";
+				responsevo.setResult("Success");
+				responsevo.setMessage("Password Updated Successfully");
 			}
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setResult("Failure");
+			responsevo.setMessage("Password Updation Failed");
 		} finally {
 			pstmt.close();
 			con.close();
 		}
 
-		return result;
+		return responsevo;
 	}
 
 	public boolean checkuserid(String userid) throws SQLException {
@@ -276,12 +279,12 @@ public class LoginDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("SELECT UserPassword  FROM user where UserID = ?");
+			pstmt = con.prepareStatement("SELECT UserPassword FROM user where UserID = ?");
 			pstmt.setString(1, usermanagementvo.getUserID());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 
-				result = usermanagementvo.getOldPassword().contentEquals(rs.getString("UserPassword"));
+				result = usermanagementvo.getOldPassword().toLowerCase().equalsIgnoreCase(rs.getString("UserPassword").toLowerCase());
 			}
 
 		} catch (Exception ex) {
