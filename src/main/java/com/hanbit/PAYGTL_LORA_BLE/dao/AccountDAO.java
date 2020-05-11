@@ -26,20 +26,22 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.color.Color;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
-import com.itextpdf.layout.border.DashedBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
+import com.itextpdf.text.Rectangle;
 /**
  * @author K VimaL Kumar
  * 
@@ -337,7 +339,7 @@ public class AccountDAO {
 				Document document = new Document(pdfDocument);
 				Paragraph newLine = new Paragraph("\n");
 				Paragraph head = new Paragraph("Receipt");
-				Paragraph copyRight = new Paragraph("All  rights reserved by HANBIT ® Hyderabad");
+				Paragraph copyRight = new Paragraph("------------------------------------All  rights reserved by HANBIT ® Hyderabad-----------------------------------");
 				PdfFont font = new PdfFontFactory().createFont(FontConstants.TIMES_BOLD);
 
 				// change according to the image directory
@@ -346,10 +348,10 @@ public class AccountDAO {
 			    
 			    float [] headingWidths = { 200F, 130F, 200F };
 				
-			    Table headTable = new Table(headingWidths).setBorder(Border.NO_BORDER);
+			    Table headTable = new Table(headingWidths);
 			    
 			    Cell headtable1 = new Cell();
-			    headtable1.add(hanbit.setTextAlignment(TextAlignment.CENTER).setBorder(Border.NO_BORDER));
+			    headtable1.add(hanbit);
 			    headtable1.setTextAlignment(TextAlignment.CENTER);
 			    
 			    Cell headtable2 = new Cell();
@@ -360,16 +362,16 @@ public class AccountDAO {
 			    headtable3.add(client.setAutoScale(true));
 			    headtable3.setTextAlignment(TextAlignment.CENTER);
 			    
-			    headTable.addCell(headtable1);
-			    headTable.addCell(headtable2);
-			    headTable.addCell(headtable3);
+			    headTable.addCell(headtable1.setBorder(Border.NO_BORDER));
+			    headTable.addCell(headtable2.setBorder(Border.NO_BORDER));
+			    headTable.addCell(headtable3.setBorder(Border.NO_BORDER));
 			    
 			    document.add(headTable);
 			    document.add(newLine);
 			    
-			    float [] headerWidths = { 180F, 180F, 160F };
+			    float [] headerWidths = { 200F, 180F, 170F };
 			    
-			    Table table1 = new Table(headerWidths).setBorder(Border.NO_BORDER);
+			    Table table1 = new Table(headerWidths);
 			    
 			    Cell table1cell1 = new Cell();
 			    table1cell1.add("MIU ID: " + rs.getString("MeterID"));
@@ -383,14 +385,14 @@ public class AccountDAO {
 			    table1cell3.add("Invoice No. : " + rs.getInt("TransactionID"));
 			    table1cell3.setTextAlignment(TextAlignment.RIGHT);
 			    
-			    table1.addCell(table1cell1);
-			    table1.addCell(table1cell2);
-			    table1.addCell(table1cell3);
+			    table1.addCell(table1cell1.setBorder(Border.NO_BORDER));
+			    table1.addCell(table1cell2.setBorder(Border.NO_BORDER));
+			    table1.addCell(table1cell3.setBorder(Border.NO_BORDER));
 			    
-			    document.add(table1);
+			    document.add(table1.setHorizontalAlignment(HorizontalAlignment.CENTER));
 			    document.add(newLine);
 			    
-			    float [] columnWidths = { 250F, 200F };
+			    float [] columnWidths = { 400F, 150F };
 			    
 				Table datatable = new Table(columnWidths);
 				
@@ -502,12 +504,24 @@ public class AccountDAO {
 				datatable.addCell(acknowledgeDate);
 				datatable.startNewRow();
 				
-				document.add(datatable);
+				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
-				document.add(copyRight);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
 				
+				document.add(copyRight.setHorizontalAlignment(HorizontalAlignment.CENTER).setFont(font));				
 				document.close();
 				
 				responsevo.setResult("Success");
