@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
@@ -50,6 +52,7 @@ public class DashboardDAO {
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
+		float perUnitValue = 0.0f;
 		
 		
 		try {
@@ -63,6 +66,7 @@ public class DashboardDAO {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
@@ -85,6 +89,7 @@ public class DashboardDAO {
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
+				dashboardvo.setConsumption((dashboardvo.getReading() * perUnitValue));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
@@ -253,6 +258,8 @@ public class DashboardDAO {
 		Connection con = null;
 		ResultSet rsch = null;
 
+		String alertMessage = "";
+		
 		try {
 			
 			con = getConnection();
@@ -294,16 +301,21 @@ public class DashboardDAO {
 							.substring(40, 42);
 
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
-
-					if (meterStatusbyte.equalsIgnoreCase("40") || meterStatusbyte.equalsIgnoreCase("00")) {
-						dashboardRequestVO.setTamperStatus(0);
-						dashboardRequestVO.setLowBattery(0);
-					} else if (meterStatusbyte.equalsIgnoreCase("42")) {
-						dashboardRequestVO.setTamperStatus(0);
-						dashboardRequestVO.setLowBattery(1);
-					} else if (meterStatusbyte.equalsIgnoreCase("44")) {
-						dashboardRequestVO.setTamperStatus(1);
-						dashboardRequestVO.setLowBattery(0);
+					dashboardRequestVO.setLowBattery(meterStatusbyte.equalsIgnoreCase("42") ? 1: 0);
+					dashboardRequestVO.setTamperStatus(meterStatusbyte.equalsIgnoreCase("44") ? 1: 0);
+					
+					if (dashboardRequestVO.getLowBattery() == 1) {
+						alertMessage = "The Battery in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Consider replacing it by contacting the Administrator.";
+						
+						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(alertMessage, dashboardRequestVO.getMeterID());
+					} 
+					
+					if (dashboardRequestVO.getTamperStatus() == 1) {
+						alertMessage = "There is a Tamper in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + ". Contact the Administrator to clear it.";
+						
+						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(batteryStatusbyte)) * 3.6) / 256));
@@ -322,7 +334,7 @@ public class DashboardDAO {
 					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(valveStatusbyte));
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 				
-					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balanceLog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
+					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
 					rsch = pstmt.executeQuery();
 
@@ -355,6 +367,70 @@ public class DashboardDAO {
 		}
 
 		return responsevo;
+	}
+
+	private String sendalertsms(String message, String meterID) {
+		// TODO Auto-generated method stub
+		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
+		SMSRequestVO smsRequestVO = new SMSRequestVO();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		String result = "Failure";
+		
+		try {
+			con = getConnection();
+			
+			pstmt = con.prepareStatement("SELECT cmd.MobileNumber AS customerMobileNumber, b.MobileNumber AS adminMobileNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				smsRequestVO.setToMobileNumber(rs.getString("customerMobileNumber")+","+rs.getString("adminMobileNumber"));
+				smsRequestVO.setMessage(message);
+				
+				result = extraMethodsDao.sendsms(smsRequestVO);				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	private String sendalertmail(String subject, String message, String meterID) {
+		// TODO Auto-generated method stub
+		
+		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
+		MailRequestVO mailRequestVO = new MailRequestVO();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		String result = "Failure";
+		
+		try {
+			con = getConnection();
+			
+			pstmt = con.prepareStatement("SELECT cmd.Email AS customerEmail, b.Email AS adminEmail FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				mailRequestVO.setToEmail(rs.getString("customerEmail")+";"+rs.getString("adminEmail"));
+				mailRequestVO.setSubject(subject);
+				mailRequestVO.setMessage("Dear Customer, \n \n" + message);
+				
+				result = extraMethodsDao.sendmail(mailRequestVO);				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 
 	public List<DashboardResponseVO> getFilterDashboarddetails(int roleid, String id, FilterVO filtervo) throws SQLException {

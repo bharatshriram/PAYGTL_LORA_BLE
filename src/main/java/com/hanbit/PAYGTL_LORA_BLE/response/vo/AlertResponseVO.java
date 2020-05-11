@@ -16,6 +16,7 @@ public class AlertResponseVO {
 	private String lowBatteryVoltage;
 	private String timeOut;
 	private String registeredDate;
+	private float perUnitValue;
 		
 	private List<AlertResponseVO> data;
 
@@ -65,6 +66,14 @@ public class AlertResponseVO {
 
 	public void setData(List<AlertResponseVO> data) {
 		this.data = data;
+	}
+
+	public float getPerUnitValue() {
+		return perUnitValue;
+	}
+
+	public void setPerUnitValue(float perUnitValue) {
+		this.perUnitValue = perUnitValue;
 	}
 
 }

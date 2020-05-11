@@ -34,6 +34,7 @@ import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 /**
  * @author K VimaL Kumar
@@ -69,9 +70,8 @@ public class ExtraMethodsDAO {
 			MimeMessage message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(ExtraConstants.fromEmail));// change accordingly
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(mailrequestvo.getToEmail()));
-			message.setSubject("User Credentials For PAYGTL_LORA_BLE Application" + mailrequestvo.getUserID());
-			message.setText("Please Save the Credentials for further communication \n"
-					+ " Your UserID is : " + mailrequestvo.getUserID() + "\n Your Password is : " + mailrequestvo.getUserPassword());
+			message.setSubject(mailrequestvo.getSubject());
+			message.setText(mailrequestvo.getMessage());
 
 			Transport.send(message);
 			result = "Success";
@@ -82,6 +82,15 @@ public class ExtraMethodsDAO {
 		
 		return result;
 		
+	}
+	
+	public String sendsms(SMSRequestVO smsRequestVO) {
+		// TODO Auto-generated method stub
+		
+		String result = "Failure";
+		
+		
+		return result;
 	}
 	
 	public ResponseEntity<TataResponseVO> restcallget(RestCallVO restcallvo) throws IOException {
@@ -245,5 +254,5 @@ public class ExtraMethodsDAO {
 			con.close();
 		}
 	}
-	
+
 }
