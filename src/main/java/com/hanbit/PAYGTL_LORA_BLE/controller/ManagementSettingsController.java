@@ -182,12 +182,11 @@ public class ManagementSettingsController {
 			responsevo = managementsettingsbo.deletevacation(vacationID, source);
 		} catch (Exception e) {
 			e.printStackTrace();
-			responsevo.setMessage("DATABASE ERROR");
+			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		}
 
 		return responsevo;
 	}
-
 
 }

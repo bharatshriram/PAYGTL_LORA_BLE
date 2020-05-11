@@ -21,6 +21,8 @@ public class TopUpRequestVO {
 	private int transactedByID;
 	private int transactedByRoleID;
 	private long transactionIDForTata;
+	private int fixedCharges;
+	private int reconnectionCharges;
 	
 	public int getAmount() {
 		return amount;
@@ -87,6 +89,18 @@ public class TopUpRequestVO {
 	}
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
+	}
+	public int getFixedCharges() {
+		return fixedCharges;
+	}
+	public void setFixedCharges(int fixedCharges) {
+		this.fixedCharges = fixedCharges;
+	}
+	public int getReconnectionCharges() {
+		return reconnectionCharges;
+	}
+	public void setReconnectionCharges(int reconnectionCharges) {
+		this.reconnectionCharges = reconnectionCharges;
 	}
 	
 }

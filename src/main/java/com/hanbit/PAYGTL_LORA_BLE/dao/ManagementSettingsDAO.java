@@ -403,13 +403,24 @@ public class ManagementSettingsDAO {
 						
 						vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 						vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
-						responsevo.setResult(insertvacation(vacationRequestVO));
-						responsevo.setMessage("Vacation Request Submitted Successfully");
+						if(insertvacation(vacationRequestVO).equalsIgnoreCase("Success")) {
+							responsevo.setResult("Success");
+							responsevo.setMessage("Vacation Request Submitted Successfully");
+						}else {
+							responsevo.setResult("Failure");
+							responsevo.setMessage("Vacation Request Failed");
+						}
+						
 
 					} else {
 						vacationRequestVO.setTransactionIDForTata(0);
-						responsevo.setResult(insertvacation(vacationRequestVO));
-						responsevo.setMessage("Vacation Request Inserted Successfully");
+						if(insertvacation(vacationRequestVO).equalsIgnoreCase("Success")) {
+							responsevo.setResult("Success");
+							responsevo.setMessage("Vacation Request Inserted Successfully");
+						}else {
+							responsevo.setResult("Failure");
+							responsevo.setMessage("Vacation Request Insertion Failed");
+						}
 					}
 		} 
 			
@@ -471,6 +482,7 @@ public class ManagementSettingsDAO {
 
 			if (rs.next()) {
 				vacationRequestVO.setMeterID(rs.getString("MeterID"));
+				vacationRequestVO.setMode("edit");
 
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
@@ -543,7 +555,7 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 
 			pstmt = con.prepareStatement(
-					"UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = 'edit', ModifiedDate = NOW() WHERE VacationID = "
+					"UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "
 							+ vacationRequestVO.getVacationID());
 
 			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
@@ -552,6 +564,7 @@ public class ManagementSettingsDAO {
 			pstmt.setString(4, vacationRequestVO.getEndDateTime());
 			pstmt.setInt(5, vacationRequestVO.getStatus());
 			pstmt.setString(6, vacationRequestVO.getSource());
+			pstmt.setString(7, vacationRequestVO.getMode());
 			
 			if(pstmt.executeUpdate() > 0) {
 				result = "Success";
