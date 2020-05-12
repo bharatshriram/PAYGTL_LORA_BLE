@@ -26,6 +26,7 @@ CREATE TABLE `alertsettings` (
   `LowBatteryVoltage` decimal(10,2) NOT NULL,
   `TimeOut` int(11) NOT NULL,
   `PerUnitValue` float NOT NULL,
+  `ReconnectionCharges` int(11) DEFAULT NULL,
   `RegisteredDate` datetime NOT NULL,
   `ModifiedDate` datetime NOT NULL,
   PRIMARY KEY (`AlertID`),
@@ -34,8 +35,8 @@ CREATE TABLE `alertsettings` (
 
 /*Data for the table `alertsettings` */
 
-insert  into `alertsettings`(`AlertID`,`NoAMRInterval`,`LowBatteryVoltage`,`TimeOut`,`PerUnitValue`,`RegisteredDate`,`ModifiedDate`) values 
-(1,1442,3.35,330,2.4,'2020-04-07 02:20:35','2020-04-07 02:30:33');
+insert  into `alertsettings`(`AlertID`,`NoAMRInterval`,`LowBatteryVoltage`,`TimeOut`,`PerUnitValue`,`ReconnectionCharges`,`RegisteredDate`,`ModifiedDate`) values 
+(1,1442,3.35,330,2.4,50,'2020-04-07 02:20:35','2020-04-07 02:30:33');
 
 /*Table structure for table `balancelog` */
 

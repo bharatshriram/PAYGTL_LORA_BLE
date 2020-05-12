@@ -91,14 +91,25 @@ public class AccountDAO {
 					if(rs.next()) {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
-							topupvo.setFixedCharges(topupvo.getAmount() - (rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
+							topupvo.setFixedCharges((rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
 						}
 						
 					} else {
-						topupvo.setFixedCharges(topupvo.getAmount() - rs1.getInt("FixedCharges"));
+						topupvo.setFixedCharges(rs1.getInt("FixedCharges"));
 					}
 					
 					// write code to deduct reconnection charges if any
+					
+					PreparedStatement pstmt2 = con.prepareStatement("SELECT al.ReconnectionCharges, dbl.Minutes FROM displaybalancelog AS dbl JOIN alertsettings AS al WHERE dbl.CRNNumber = '"+topupvo.getCRNNumber()+"'");
+					ResultSet rs2 = pstmt2.executeQuery();
+					
+					if(rs2.next()) {
+						
+						if(rs2.getInt("Minutes") != 0) {
+							topupvo.setReconnectionCharges(rs2.getInt("ReconnectionCharges"));
+						}
+						
+					}
 					
 					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount() - (topupvo.getFixedCharges() + topupvo.getReconnectionCharges()))).toUpperCase();
 
