@@ -82,7 +82,7 @@ option:first-child
   }
   
   .innerbody{
-      background-image: url(../../common/images/icons/pic.jpg);
+      background-image: url(../../common/images/background.jpg);
     background-size: 100%;
     background-repeat: no-repeat;
     height: 100%;
@@ -400,8 +400,44 @@ input:-internal-autofill-selected {
   position: absolute;
   left: 50%;
   top: 50%;
-  background-image: url(../../common/images/icons/progress.gif);
+  background-image: url(../../common/images/icons/Webp.net-gifmaker.gif);
   background-repeat: no-repeat;
   background-position: center;
   margin: -100px 0 0 -100px;
 } 
+
+
+
+
+
+
+.logo_totalpage{
+	position: absolute;
+    margin: 0px auto;
+   left: 50%;
+    bottom: 50px;
+    opacity: 0.5;
+}	
+@media (min-width: 100px) and (max-width: 360px) { 
+	.topspacing {
+    margin-top: 46px;
+}
+.sidebar {
+    width: 100%;
+    z-index: 99;
+   height: calc(100% - 80px);
+}
+.list-sidebar{
+	display:none !important;
+}
+.logo_sm{
+	width:50%;
+	margin:0px auto;
+}
+.moblieclassActive{display:block;}
+.navheader{padding-left:10px !important;}
+.imgheader {font-size: 12px !important;}
+.imgheader img {width: 10%;height:auto;}
+.admindropdown{width:100%;text-align:right;}
+.admindropdown a{font-size: smaller;}
+}

@@ -13,7 +13,7 @@ $(document)
 									{
 										"dom" : "<'row'<'col-sm-4 custombutton'B><'col-sm-2'l><'col-sm-6'f>>"
 												+ "<'row'<'col-sm-12'tr>>"
-												+ "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+												+ "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 												
 												responsive: {
 											        details: {

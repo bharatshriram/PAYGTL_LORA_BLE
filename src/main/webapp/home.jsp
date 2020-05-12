@@ -51,7 +51,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalmiu"></div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                       <img src=common/images/icons/5-MIUID.png /> 
                       </div>
                     </div>
                   </div>
@@ -66,7 +66,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="communicating"></div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                       <img src=common/images/icons/6-COMMUNICATION.png /> 
                       </div>
                     </div>
                   </div>
@@ -81,7 +81,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="Non-Communicating"></div>
                       </div>
                       <div class="col-auto">
-                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                       <img src=common/images/icons/7-NONCOMMUNICATION.png />
                       </div>
                     </div>
                   </div>

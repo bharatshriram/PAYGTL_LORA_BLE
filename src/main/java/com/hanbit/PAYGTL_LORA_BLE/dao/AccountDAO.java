@@ -326,11 +326,16 @@ public class AccountDAO {
 				Paragraph copyRight = new Paragraph("All  rights reserved by HANBIT ® Hyderabad");
 
 				// change according to the image directory
-				String imageFile = "C:/itextExamples/javafxLogo.jpg";       
+				String imageFile = "/common/images/gas.png";       
 			    ImageData data = ImageDataFactory.create(imageFile);        
 			    Image img = new Image(data);
+			    String relativeWebPath = "/img/amanora.png";
+                //String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
+
+                //Image image1 = Image.getInstance(absoluteDiskPath);
 //			    cell10.add(img.setAutoScale(true));
-				
+			   // Image img1 = Image.getInstance("arvind-rai.png");
+			    document.add(img);
 			    document.add(head);
 			    document.add(newLine);
 			    

@@ -20,24 +20,25 @@
 		}
 	%>
 <!--Header Start-->
-	<nav class="navbar navbar-expand-lg fixed-top bg-info pl-4 p-0">
+	<nav class="navbar navbar-expand-lg fixed-top bg-info pl-4 p-0 navheader">
 		<div class="float-left mt-2">
 			<a href="#" class="button-left text-white"><span
 				class="fa fa-fw fa-bars "></span></a>
 		</div>
 
 		<!-- Brand -->
-		<a class="navbar-brand text-white col-md-2 mr-minus15"
-			href="home.jsp"><img class="img-responsive logo"
+		<a class="navbar-brand logo_sm
+		 text-white col-md-2 mr-minus15"
+			href="home.jsp"><img class="img-fluid logo"
 			src="common/images/hanbit1.png" alt="logo"></a>
 		<!-- Links -->
 
 
-					<div class="m-auto text-center text-white">
-					<h4 class="imgheader">   SMART PREPAID SYSTEM - GAS  <img src="common/images/gas.png">  PAYGTL</h4>
+					<div class="m-auto text-center text-white smart_text">
+					<h4 class="imgheader">   SMART PREPAID SYSTEM - GAS<img class="img-fluid" src="common/images/gas.png">PAYGTL</h4>
 					</div>
 
-		<ul class="navbar-nav">
+		<ul class="navbar-nav admindropdown">
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
 				class="nav-link dropdown-toggle text-white icon" href="#" id="navbardrop" 

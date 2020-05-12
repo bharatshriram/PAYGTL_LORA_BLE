@@ -42,7 +42,9 @@
 </head>
 
 
-<body class="innerbody">
+<body>
+<img class="img-fluid logo_totalpage" src="common/images/hanbit1.png" alt="logo">
+
 <%
 		String user_id = (String) session.getAttribute("roleID");
 

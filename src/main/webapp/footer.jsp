@@ -20,7 +20,7 @@
 	%>
 <!--Footer Start-->
 	<nav
-		class="navbar fixed-bottom navbar-light bg-light justify-content-center footer text-white">
+		class="navbar fixed-bottom navbar-light bg-light justify-content-center footer text-black">
 		<a class="navbar-brand">© Copyrights 2020 Company Name. All right
 			reserved.</a>
 	</nav>

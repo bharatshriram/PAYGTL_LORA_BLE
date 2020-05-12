@@ -23,7 +23,7 @@
 		<div class="d-flex justify-content-end h-100">
 		
 		 <!-- Rotating card -->
-         <div class="card-wrapper col-md-4 login-card">
+         <div class="card-wrapper col-md-6 col-lg-4 login-card">
           <div id="my-card" class="card-rotating">
              <!-- Front Side -->
             <div class="face front login_bg">
