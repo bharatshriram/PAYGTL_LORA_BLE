@@ -15,6 +15,7 @@ public class AlertRequestVO {
 	private int timeOut;
 	private String registeredDate;
 	private float perUnitValue;
+	private int reconnectionCharges;
 	
 	public int getAlertID() {
 		return alertID;
@@ -51,6 +52,12 @@ public class AlertRequestVO {
 	}
 	public void setPerUnitValue(float perUnitValue) {
 		this.perUnitValue = perUnitValue;
+	}
+	public int getReconnectionCharges() {
+		return reconnectionCharges;
+	}
+	public void setReconnectionCharges(int reconnectionCharges) {
+		this.reconnectionCharges = reconnectionCharges;
 	}
 	
 }
