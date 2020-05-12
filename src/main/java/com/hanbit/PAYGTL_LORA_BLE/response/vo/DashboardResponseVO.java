@@ -20,6 +20,7 @@ public class DashboardResponseVO {
 	private String meterID;
 	private String meterSerialNumber;
 	private float reading;
+	private float consumption;
 	private float balance;
 	private float emergencyCredit;
 	private int battery;
@@ -238,6 +239,14 @@ public class DashboardResponseVO {
 
 	public void setCommunicationStatus(String communicationStatus) {
 		this.communicationStatus = communicationStatus;
+	}
+
+	public float getConsumption() {
+		return consumption;
+	}
+
+	public void setConsumption(float consumption) {
+		this.consumption = consumption;
 	}
 
 }

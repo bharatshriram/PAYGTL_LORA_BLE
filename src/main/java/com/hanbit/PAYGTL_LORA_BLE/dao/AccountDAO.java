@@ -4,7 +4,6 @@
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,19 +24,21 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
-import com.itextpdf.io.image.ImageData;
+import com.itextpdf.io.font.FontConstants;
 import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.color.Color;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.border.Border;
-import com.itextpdf.layout.border.DashedBorder;
 import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 /**
  * @author K VimaL Kumar
  * 
@@ -71,8 +72,11 @@ public class AccountDAO {
 		
 		try {
 				con = getConnection();
-				
+
 				if(topupvo.getSource().equalsIgnoreCase("web")) {
+					
+					topupvo.setFixedCharges(0);
+					topupvo.setReconnectionCharges(0);
 					
 					PreparedStatement pstmt1 = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
 					pstmt1.setString(1, topupvo.getCRNNumber());
@@ -87,16 +91,27 @@ public class AccountDAO {
 					if(rs.next()) {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
-							topupvo.setAmount(topupvo.getAmount() - (rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
+							topupvo.setFixedCharges((rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
 						}
 						
 					} else {
-						topupvo.setAmount(topupvo.getAmount() - rs1.getInt("FixedCharges"));
+						topupvo.setFixedCharges(rs1.getInt("FixedCharges"));
 					}
 					
-					System.out.println("topup amount:--"+topupvo.getAmount());
+					// write code to deduct reconnection charges if any
+					
+					PreparedStatement pstmt2 = con.prepareStatement("SELECT al.ReconnectionCharges, dbl.Minutes FROM displaybalancelog AS dbl JOIN alertsettings AS al WHERE dbl.CRNNumber = '"+topupvo.getCRNNumber()+"'");
+					ResultSet rs2 = pstmt2.executeQuery();
+					
+					if(rs2.next()) {
 						
-					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount())).toUpperCase();
+						if(rs2.getInt("Minutes") != 0) {
+							topupvo.setReconnectionCharges(rs2.getInt("ReconnectionCharges"));
+						}
+						
+					}
+					
+					hexaAmount = Integer.toHexString(Float.floatToIntBits(topupvo.getAmount() - (topupvo.getFixedCharges() + topupvo.getReconnectionCharges()))).toUpperCase();
 
 					hexaAlarmCredit = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("AlarmCredit"))).toUpperCase();
 
@@ -127,15 +142,25 @@ public class AccountDAO {
 					topupvo.setTransactionIDForTata(tataResponseVO.getId());
 					topupvo.setStatus(tataResponseVO.getTransmissionStatus());
 					
-					responsevo.setResult(inserttopup(topupvo));
-					responsevo.setMessage("Topup Request Submitted Successfully");
+					if(inserttopup(topupvo).equalsIgnoreCase("Success")) {
+						responsevo.setResult("Success");
+						responsevo.setMessage("Topup Request Submitted Successfully");
+					}else {
+						responsevo.setResult("Failure");
+						responsevo.setMessage("Topup Request Failed");
+					}
 					
 				} else {
 					topupvo.setTransactionIDForTata(0);
-					responsevo.setResult(inserttopup(topupvo));
-					responsevo.setMessage("Topup Request Inserted Successfully");
-				}
+					if(inserttopup(topupvo).equalsIgnoreCase("Success")) {
+						responsevo.setResult(inserttopup(topupvo));
+						responsevo.setMessage("Topup Request Inserted Successfully");
+					}else {
+						responsevo.setResult("Failure");
+						responsevo.setMessage("Topup Request Insertion Failed");
+					}
 					
+				}
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -166,7 +191,7 @@ public class AccountDAO {
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
 				
-			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+			String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 			ps = con.prepareStatement(sql);
 			
 			ps.setLong(1, topUpRequestVO.getTransactionIDForTata());
@@ -176,17 +201,18 @@ public class AccountDAO {
 			ps.setString(5, rs.getString("MeterID"));
 			ps.setInt(6, rs.getInt("TariffID"));
 			ps.setFloat(7, topUpRequestVO.getAmount());
-			ps.setInt(8, topUpRequestVO.getStatus());
-			ps.setString(9, topUpRequestVO.getModeOfPayment());
-			ps.setInt(10, 0); // payment status from payment gateway
-			ps.setString(11, topUpRequestVO.getSource());
-			ps.setFloat(12, topUpRequestVO.getTransactedByID());
-			ps.setInt(13, topUpRequestVO.getTransactedByRoleID());
-			ps.setString(14, topUpRequestVO.getCRNNumber());
+			ps.setInt(8, topUpRequestVO.getFixedCharges());
+			ps.setFloat(9, topUpRequestVO.getReconnectionCharges());
+			ps.setInt(10, topUpRequestVO.getStatus());
+			ps.setString(11, topUpRequestVO.getModeOfPayment());
+			ps.setInt(12, 0); // payment status from payment gateway
+			ps.setString(13, topUpRequestVO.getSource());
+			ps.setFloat(14, topUpRequestVO.getTransactedByID());
+			ps.setInt(15, topUpRequestVO.getTransactedByRoleID());
+			ps.setString(16, topUpRequestVO.getCRNNumber());
 
 			if (ps.executeUpdate() > 0) {
 				result = "Success";
-
 			}
 		}
 
@@ -300,7 +326,7 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.FixedCharges, t.ReconnectionCharges, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 					"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionID = "+transactionID;
 	
@@ -313,160 +339,212 @@ public class AccountDAO {
 				if(rs1.next()) {
 
 				File directory = new File(drivename);
-				if (!directory.exists()) {
-					directory.mkdir();
-				}
+				if (!directory.exists()) { directory.mkdir(); }
 				
 				PdfWriter writer = new PdfWriter(drivename+transactionID+".pdf");
 				PdfDocument pdfDocument = new PdfDocument(writer);
 				pdfDocument.addNewPage();
 				Document document = new Document(pdfDocument);
 				Paragraph newLine = new Paragraph("\n");
-				Paragraph head = new Paragraph("Top Up Receipt");
-				Paragraph copyRight = new Paragraph("All  rights reserved by HANBIT ® Hyderabad");
+				Paragraph head = new Paragraph("Receipt");
+				Paragraph copyRight = new Paragraph("------------------------------------All  rights reserved by HANBIT ® Hyderabad-----------------------------------");
+				PdfFont font = new PdfFontFactory().createFont(FontConstants.TIMES_BOLD);
 
 				// change according to the image directory
-				String imageFile = "/common/images/gas.png";       
-			    ImageData data = ImageDataFactory.create(imageFile);        
-			    Image img = new Image(data);
-			    String relativeWebPath = "/img/amanora.png";
-                //String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
 
-                //Image image1 = Image.getInstance(absoluteDiskPath);
-//			    cell10.add(img.setAutoScale(true));
-			   // Image img1 = Image.getInstance("arvind-rai.png");
-			    document.add(img);
-			    document.add(head);
+			    Image hanbit = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit1.png"));
+			    Image client = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit1.png"));
+			    
+			    float [] headingWidths = { 200F, 130F, 200F };
+				
+			    Table headTable = new Table(headingWidths);
+			    
+			    Cell headtable1 = new Cell();
+			    headtable1.add(hanbit);
+			    headtable1.setTextAlignment(TextAlignment.CENTER);
+			    
+			    Cell headtable2 = new Cell();
+			    headtable2.add(head.setFontSize(20));
+			    headtable2.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE).setBold().setUnderline().setFont(font);
+			    
+			    Cell headtable3 = new Cell();
+			    headtable3.add(client.setAutoScale(true));
+			    headtable3.setTextAlignment(TextAlignment.CENTER);
+			    
+			    headTable.addCell(headtable1.setBorder(Border.NO_BORDER));
+			    headTable.addCell(headtable2.setBorder(Border.NO_BORDER));
+			    headTable.addCell(headtable3.setBorder(Border.NO_BORDER));
+			    
+			    document.add(headTable);
 			    document.add(newLine);
 			    
-				float [] columnWidths = {150F, 150F, 150F, 150F, 150F, 150F};
-				Table tableHeader = new Table(columnWidths);
-				
-				Border border = new DashedBorder(Color.BLACK, 2);
+			    float [] headerWidths = { 200F, 180F, 170F };
+			    
+			    Table table1 = new Table(headerWidths);
+			    
+			    Cell table1cell1 = new Cell();
+			    table1cell1.add("MIU ID: " + rs.getString("MeterID"));
+			    table1cell1.setTextAlignment(TextAlignment.LEFT);
+			    
+			    Cell table1cell2 = new Cell();
+			    table1cell2.add("CRN Number: " + rs.getString("CRNNumber"));
+			    table1cell2.setTextAlignment(TextAlignment.CENTER);
+			    
+			    Cell table1cell3 = new Cell();
+			    table1cell3.add("Invoice No. : " + rs.getInt("TransactionID"));
+			    table1cell3.setTextAlignment(TextAlignment.RIGHT);
+			    
+			    table1.addCell(table1cell1.setBorder(Border.NO_BORDER));
+			    table1.addCell(table1cell2.setBorder(Border.NO_BORDER));
+			    table1.addCell(table1cell3.setBorder(Border.NO_BORDER));
+			    
+			    document.add(table1.setHorizontalAlignment(HorizontalAlignment.CENTER));
+			    document.add(newLine);
+			    
+			    float [] columnWidths = { 400F, 150F };
+			    
+				Table datatable = new Table(columnWidths);
 				
 				Cell cell1 = new Cell();
-				cell1.add("TransactionID");
-				cell1.setBackgroundColor(Color.CYAN);
+				cell1.add("Customer Name: ");
 				cell1.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell customerName = new Cell();
+				customerName.add(rs.getString("FirstName") + " " +rs.getString("LastName"));
+				customerName.setTextAlignment(TextAlignment.CENTER);
+				
+				datatable.addCell(cell1);
+				datatable.addCell(customerName);
+				datatable.startNewRow();
+				
 				Cell cell2 = new Cell();
-				cell2.add("Name");
-				cell2.setBackgroundColor(Color.CYAN);
+				cell2.add("Amount: ");
 				cell2.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell Amount = new Cell();
+				Amount.add(rs.getString("Amount"));
+				Amount.setTextAlignment(TextAlignment.CENTER);
+				
+				datatable.addCell(cell2);
+				datatable.addCell(Amount);
+				datatable.startNewRow();
+				
 				Cell cell3 = new Cell();
-				cell3.add("CRNNumber");
-				cell3.setBackgroundColor(Color.CYAN);
+				cell3.add("FixedCharges(if any): ");
 				cell3.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell fixedCharges = new Cell();
+				fixedCharges.add(rs.getString("FixedCharges"));
+				fixedCharges.setTextAlignment(TextAlignment.CENTER);
+				
+				datatable.addCell(cell3);
+				datatable.addCell(fixedCharges);
+				datatable.startNewRow();
+				
 				Cell cell4 = new Cell();
-				cell4.add("MIU ID");
-				cell4.setBackgroundColor(Color.CYAN);
+				cell4.add("Reconnection Charges(if any): ");
 				cell4.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell reconnectionCharges = new Cell();
+				reconnectionCharges.add(rs.getString("ReconnectionCharges"));
+				reconnectionCharges.setTextAlignment(TextAlignment.CENTER);
+				
+				datatable.addCell(cell4);
+				datatable.addCell(reconnectionCharges);
+				datatable.startNewRow();
+				
 				Cell cell5 = new Cell();
-				cell5.add("Amount");
-				cell5.setBackgroundColor(Color.CYAN);
+				cell5.add("Amount Updated to Device After Deductions: ");
 				cell5.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell finalAmount = new Cell();
+				finalAmount.add(Integer.toString((rs.getInt("Amount") - (rs.getInt("FixedCharges") + rs.getInt("ReconnectionCharges")))));
+				finalAmount.setTextAlignment(TextAlignment.CENTER);
+				
+				datatable.addCell(cell5);
+				datatable.addCell(finalAmount);
+				datatable.startNewRow();
+				
 				Cell cell6 = new Cell();
-				cell6.add("Mode of Payment");
-				cell6.setBackgroundColor(Color.CYAN);
+				cell6.add("Mode of Payment: ");
 				cell6.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell modeOfPayment = new Cell();
+				modeOfPayment.add(rs.getString("ModeOfPayment"));
+				modeOfPayment.setTextAlignment(TextAlignment.CENTER);				
+				
+				datatable.addCell(cell6);
+				datatable.addCell(modeOfPayment);
+				datatable.startNewRow();
+				
 				Cell cell7 = new Cell();
-				cell7.add("Transacted By");
-				cell7.setBackgroundColor(Color.CYAN);
+				cell7.add("Transaction Initiated By: ");
 				cell7.setTextAlignment(TextAlignment.CENTER);
 				
+				Cell transactedBy = new Cell();
+				transactedBy.add(rs1.getString("UserName"));
+				transactedBy.setTextAlignment(TextAlignment.CENTER);				
+				
+				datatable.addCell(cell7);
+				datatable.addCell(transactedBy);
+				datatable.startNewRow();
+				
 				Cell cell8 = new Cell();
-				cell8.add("Date");
-				cell8.setBackgroundColor(Color.CYAN);
+				cell8.add("Date of Transaction: ");
 				cell8.setTextAlignment(TextAlignment.CENTER);
 				
-				tableHeader.addCell(cell1);
-				tableHeader.addCell(cell2);
-				tableHeader.addCell(cell3);
-				tableHeader.addCell(cell4);
-				tableHeader.addCell(cell5);
-				tableHeader.addCell(cell6);
-				tableHeader.addCell(cell7);
-				tableHeader.addCell(cell8);
+				Cell transactionDate = new Cell();
+				transactionDate.add(rs.getString("TransactionDate"));
+				transactionDate.setTextAlignment(TextAlignment.CENTER);
 				
-				document.add(newLine);				
-				document.add(tableHeader);
+				datatable.addCell(cell8);
+				datatable.addCell(transactionDate);
+				datatable.startNewRow();
 				
-				Table tableData = new Table(columnWidths);
+				Cell cell9 = new Cell();
+				cell9.add("Acknowledge Date: ");
+				cell9.setTextAlignment(TextAlignment.CENTER);
 				
-				Cell data1 = new Cell();
-				data1.add(rs.getString("TransactionID"));
-				data1.setBackgroundColor(Color.CYAN);
-				data1.setTextAlignment(TextAlignment.CENTER);
+				Cell acknowledgeDate = new Cell();
+				acknowledgeDate.add(rs.getString("AcknowledgeDate"));
+				acknowledgeDate.setTextAlignment(TextAlignment.CENTER);
 				
-				Cell data2 = new Cell();
-				data2.add(rs.getString("FirstName") + " " +rs.getString("LastName"));
-				data2.setBackgroundColor(Color.CYAN);
-				data2.setTextAlignment(TextAlignment.CENTER);
+				datatable.addCell(cell9);
+				datatable.addCell(acknowledgeDate);
+				datatable.startNewRow();
 				
-				Cell data3 = new Cell();
-				data3.add(rs.getString("CRNNumber"));
-				data3.setBackgroundColor(Color.CYAN);
-				data3.setTextAlignment(TextAlignment.CENTER);
-				
-				Cell data4 = new Cell();
-				data4.add(rs.getString("MeterID"));
-				data4.setBackgroundColor(Color.CYAN);
-				data4.setTextAlignment(TextAlignment.CENTER);
-				
-				Cell data5 = new Cell();
-				data5.add(rs.getString("Amount"));
-				data5.setBackgroundColor(Color.CYAN);
-				data5.setTextAlignment(TextAlignment.CENTER);
-				
-				Cell data6 = new Cell();
-				data6.add(rs.getString("ModeOfPayment"));
-				data6.setBackgroundColor(Color.CYAN);
-				data6.setTextAlignment(TextAlignment.CENTER);
-				
-				Cell data7 = new Cell();
-				data7.add(rs1.getString("UserName"));
-				data7.setBackgroundColor(Color.CYAN);
-				data7.setTextAlignment(TextAlignment.CENTER);
-				
-				Cell data8 = new Cell();
-				data8.add(rs.getString("TransactionDate"));
-				data8.setBackgroundColor(Color.CYAN);
-				data8.setTextAlignment(TextAlignment.CENTER);
-
-				tableData.addCell(data1);
-				tableData.addCell(data2);
-				tableData.addCell(data3);
-				tableData.addCell(data4);
-				tableData.addCell(data5);
-				tableData.addCell(data6);
-				tableData.addCell(data7);
-				
-				document.add(tableData);
-				
+				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
-				document.add(copyRight);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
+				document.add(newLine);
 				
+				document.add(copyRight.setHorizontalAlignment(HorizontalAlignment.CENTER).setFont(font));				
 				document.close();
+				
 				responsevo.setResult("Success");
 				responsevo.setLocation(drivename);
 				responsevo.setFileName(transactionID + ".pdf");
 				
-		} 
-		}
+				}
+			}
 		}catch (Exception ex) {
 			ex.printStackTrace();
 			responsevo.setResult("Failure");
 			responsevo.setMessage("INTERNAL SERVER ERROR");
 		} finally {
 			pstmt.close();
-			// ps.close();
 			rs.close();
 			con.close();
 		}

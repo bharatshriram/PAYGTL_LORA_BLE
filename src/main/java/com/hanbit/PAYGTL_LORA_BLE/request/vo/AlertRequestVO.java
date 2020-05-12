@@ -14,14 +14,9 @@ public class AlertRequestVO {
 	private float lowBatteryVoltage;
 	private int timeOut;
 	private String registeredDate;
-	private int communityID;
+	private float perUnitValue;
+	private int reconnectionCharges;
 	
-	public int getCommunityID() {
-		return communityID;
-	}
-	public void setCommunityID(int communityID) {
-		this.communityID = communityID;
-	}
 	public int getAlertID() {
 		return alertID;
 	}
@@ -52,6 +47,17 @@ public class AlertRequestVO {
 	public void setRegisteredDate(String registeredDate) {
 		this.registeredDate = registeredDate;
 	}
-	
+	public float getPerUnitValue() {
+		return perUnitValue;
+	}
+	public void setPerUnitValue(float perUnitValue) {
+		this.perUnitValue = perUnitValue;
+	}
+	public int getReconnectionCharges() {
+		return reconnectionCharges;
+	}
+	public void setReconnectionCharges(int reconnectionCharges) {
+		this.reconnectionCharges = reconnectionCharges;
+	}
 	
 }

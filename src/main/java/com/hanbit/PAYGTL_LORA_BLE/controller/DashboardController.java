@@ -80,9 +80,12 @@ public class DashboardController {
 
 		try {
 			responsevo.setResult(dashboarddao.insertdashboard(dashboardRequestVO));
+			responsevo.setMessage("Data Inserted Successfully");
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			responsevo.setResult("Failure");
+			responsevo.setMessage("Data Insertion Failed");
 		}
 		return responsevo;
 	}

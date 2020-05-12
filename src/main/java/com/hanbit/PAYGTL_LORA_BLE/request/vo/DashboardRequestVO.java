@@ -20,6 +20,7 @@ public class DashboardRequestVO {
 	private int valveStatus;
 	private int creditStatus;
 	private int lowBattery;
+	private int minutes;
 	private String timeStamp;
 	
 	public String getMeterID() {
@@ -87,6 +88,12 @@ public class DashboardRequestVO {
 	}
 	public void setLowBattery(int lowBattery) {
 		this.lowBattery = lowBattery;
+	}
+	public int getMinutes() {
+		return minutes;
+	}
+	public void setMinutes(int minutes) {
+		this.minutes = minutes;
 	}
 	public String getTimeStamp() {
 		return timeStamp;
