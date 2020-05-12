@@ -273,8 +273,8 @@ public class DashboardDAO {
 				if (StartByte.equalsIgnoreCase("0A")) {
 
 					// 0A 00 00 00 00 42 29 01 00 00 00 00 00 00 00 00 00 00 00 00 00 17
-
-//					dashboardRequestVO.setMeterID(requestvo.getPayloads_ul().getDeveui());
+					
+					// 0A 00 00 00 0F 00 80 03 40 A0 00 00 3F 80 00 00 40 A0 00 00 00 00 00 17
 
 					String meterReadingbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
 							.substring(2, 10);
@@ -302,6 +302,7 @@ public class DashboardDAO {
 
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
 					dashboardRequestVO.setLowBattery(meterStatusbyte.equalsIgnoreCase("42") ? 1: 0);
+					// 0 = no tamper 1 = tamper; 2 = door open, 
 					dashboardRequestVO.setTamperStatus(meterStatusbyte.equalsIgnoreCase("44") ? 1: 0);
 					
 					if (dashboardRequestVO.getLowBattery() == 1) {

@@ -146,10 +146,12 @@ public class ExtraMethodsDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		SMSRequestVO smsRequestVO = new SMSRequestVO();
+		MailRequestVO mailRequestVO = new MailRequestVO();
 		
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM topup WHERE Status BETWEEN 0 AND 1 AND Source = 'web'");
+			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, cmd.MobileNumber, cmd.Email FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
@@ -164,7 +166,20 @@ public class ExtraMethodsDAO {
 
 				pstmt1.setInt(1, response.getBody().getTransmissionStatus());
 				pstmt1.setLong(2, response.getBody().getId());
-				pstmt1.executeUpdate();
+				if(pstmt1.executeUpdate() > 0){
+					
+					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
+					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter (MIU ID: "+ rs.getString("MeterID")+"). Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					
+					sendsms(smsRequestVO);
+					
+					mailRequestVO.setToEmail(rs.getString("Email"));
+					mailRequestVO.setSubject("Recharge Status!!!");
+					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter (MIU ID: "+ rs.getString("MeterID")+"). Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					
+					sendmail(mailRequestVO);
+					
+				}
 
 			} 
 		} catch (Exception e) {
