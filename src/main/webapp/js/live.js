@@ -125,9 +125,19 @@ $(document)
 													"defaultContent": ""
 													
 												},
-												 {
-														"data" : "CRNNumber",
-														"defaultContent": ""
+												{
+													//"data": "timeStamp",
+													
+													"mData" : "action",
+													"render" : function(data,
+															type, row) {
+														return "<span id=color style = color:"
+																+ row.vacationColor
+																+ ">"
+																+ row.CRNNumber
+																+ "</span>"
+													},
+													"defaultContent": ""
 												},
 												 {
 													"data" : "meterSerialNumber",
@@ -157,8 +167,18 @@ $(document)
 													"data" : "valveStatus"
 												},
 												{
-													"data" : "tamperStatus",
-														"defaultContent": ""
+													//"data": "timeStamp",
+													
+													"mData" : "action",
+													"render" : function(data,
+															type, row) {
+														return "<span id=color style = color:"
+																+ row.tamperColor
+																+ ">"
+																+ row.tamperStatus
+																+ "</span>"
+													},
+													"defaultContent": ""
 												},
 												{
 													"data" : "communicationStatus",
@@ -213,6 +233,20 @@ $(document)
 															
 													    }
 														
+													},
+													"defaultContent": ""
+												},
+												{
+													//"data": "timeStamp",
+													
+													"mData" : "action",
+													"render" : function(data,
+															type, row) {
+														return "<span id=color style = color:"
+																+ row.vacationColor
+																+ ">"
+																+ row.vacationStatus
+																+ "</span>"
 													},
 													"defaultContent": ""
 												},
@@ -392,10 +426,19 @@ $(document)
 																			"data" : "HouseNumber",
 																			"defaultContent": ""
 																			
-																		},
-																		 {
-																				"data" : "CRNNumber",
-																				"defaultContent": ""
+																		},{
+																			//"data": "timeStamp",
+																			
+																			"mData" : "action",
+																			"render" : function(data,
+																					type, row) {
+																				return "<span id=color style = color:"
+																						+ row.vacationColor
+																						+ ">"
+																						+ row.CRNNumber
+																						+ "</span>"
+																			},
+																			"defaultContent": ""
 																		},
 																		 {
 																			"data" : "meterSerialNumber",
@@ -461,12 +504,36 @@ $(document)
 																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "tamperStatus",
-																				"defaultContent": ""
+																			//"data": "timeStamp",
+																			
+																			"mData" : "action",
+																			"render" : function(data,
+																					type, row) {
+																				return "<span id=color style = color:"
+																						+ row.tamperColor
+																						+ ">"
+																						+ row.tamperStatus
+																						+ "</span>"
+																			},
+																			"defaultContent": ""
 																		},
 																		{
 																			"data" : "communicationStatus",
 																				"defaultContent": ""
+																		},
+																		{
+																			//"data": "timeStamp",
+																			
+																			"mData" : "action",
+																			"render" : function(data,
+																					type, row) {
+																				return "<span id=color style = color:"
+																						+ row.vacationColor
+																						+ ">"
+																						+ row.vacationStatus
+																						+ "</span>"
+																			},
+																			"defaultContent": ""
 																		},
 																		
 																		{

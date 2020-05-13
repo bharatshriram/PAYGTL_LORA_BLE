@@ -4,6 +4,14 @@
 
 
 $(document).ready(function() {
+	
+	if(sessionStorage.getItem("roleID") == 1){
+		$("#alertAddbutton").show();
+	}else{
+		$("#alertAddbutton").remove();
+		
+	}
+	
 table = $('#alertTable')
 .DataTable(
 {
@@ -36,6 +44,10 @@ return json.data;
 },{
 "data" : "timeOut"
 },{
+"data" : "reconnectionCharges"
+},{
+"data" : "perUnitValue"
+},{
 "data" : "registeredDate"
 },{
 	"mData" : "action",
@@ -60,7 +72,7 @@ return json.data;
 ],
 "columnDefs" : [ {
 	//orderable : false,
-	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+	targets : 6, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 },
 {
 	"className": "dt-center", "targets": "_all"
@@ -123,7 +135,31 @@ $(document)
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The Recharge Timeout can only consist of alphabetical and number'
+																message : 'The Recharge Timeout can only consist of number'
+															}
+														}
+													},
+													reconnectionAdd : {
+														message : 'The ReConnection Charge is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The ReConnection Charge is required and cannot be empty'
+															},
+															regexp : {
+																regexp : /^[0-9]+$/,
+																message : 'The ReConnection Charge can only consist of number'
+															}
+														}
+													},
+													perUnitAdd : {
+														message : 'The Per Unit Charge is not valid',
+														validators : {
+															notEmpty : {
+																message : 'The Per Unit Charge is required and cannot be empty'
+															},
+															regexp : {
+																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+																message : 'The Per Unit Charge can only consist of number'
 															}
 														}
 													}
@@ -174,6 +210,30 @@ $(document)
 												validators : {
 													notEmpty : {
 														message : 'The Recharge Timeout is required and cannot be empty'
+													}
+												}
+											},
+											connectionEdit1 : {
+												message : 'The ReConnection Charge is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The ReConnection Charge is required and cannot be empty'
+													},
+													regexp : {
+														regexp : /^[0-9]+$/,
+														message : 'The ReConnection Charge can only consist of number'
+													}
+												}
+											},
+											perUnitEdit1 : {
+												message : 'The Per Unit Charge is not valid',
+												validators : {
+													notEmpty : {
+														message : 'The Per Unit Charge is required and cannot be empty'
+													},
+													regexp : {
+														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
+														message : 'The Per Unit Charge can only consist of number'
 													}
 												}
 											}
@@ -255,9 +315,11 @@ $(document)
 												data1["noAMRInterval"] = $("#noamrintervalAdd")
 														.val();
 												data1["lowBatteryVoltage"] = $("#lowbatteryvoltageAdd").val();
-												data1["timeOut"] = $("#rechargetimeoutAdd")
-												.val();
+												data1["timeOut"] = $("#rechargetimeoutAdd").val();
 
+												data1["reconnectionCharges"] = $("#reconnectionAdd").val();
+												data1["perUnitValue"] = $("#perUnitAdd").val();
+												
 												$
 														.ajax({
 															type : "POST",
@@ -316,6 +378,8 @@ $(document)
 										data1["timeOut"] = $("#rechargetimeoutEdit1")
 										.val();
 								
+										data1["reconnectionCharges"] = $("#connectionEdit1").val();
+										data1["perUnitValue"] = $("#perUnitEdit1").val();
 										
 										$
 												.ajax({
@@ -378,9 +442,15 @@ function getAlertFormEdit(id) {
 				$('#noamrintervalEdit').val(item.noAMRInterval).trigger("change");
 				$("#formnoamrintervalEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 				$('#lowbatteryvoltageEdit1').val(item.lowBatteryVoltage).trigger("change");
-				$("#formlowbatteryvoltageEdit1").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$("#formlowbatteryvoltageEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 				$('#rechargetimeoutEdit1').val(item.timeOut).trigger("change");
-				$("#formrechargetimeoutEdit1").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$("#formrechargetimeoutEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			
+				$('#connectionEdit1').val(item.reconnectionCharges).trigger("change");
+				$("#formreconnectionEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#perUnitEdit1').val(item.perUnitValue).trigger("change");
+				$("#formperUnitEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
 				$("#alertIdhidden").val(item.alertID);
 			
 				$('#alertEditsave')
