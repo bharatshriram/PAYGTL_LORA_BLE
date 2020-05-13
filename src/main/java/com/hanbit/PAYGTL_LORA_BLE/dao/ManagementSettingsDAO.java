@@ -185,7 +185,7 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			AlertResponseVO alertvo = null;
 			alert_settings_list = new LinkedList<AlertResponseVO>();
-			pstmt = con.prepareStatement("SELECT AlertID, NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, RegisteredDate FROM alertsettings");
+			pstmt = con.prepareStatement("SELECT AlertID, NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, ModifiedDate FROM alertsettings");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -195,7 +195,7 @@ public class ManagementSettingsDAO {
 				alertvo.setTimeOut(rs.getString("TimeOut"));
 				alertvo.setPerUnitValue(rs.getFloat("PerUnitValue"));
 				alertvo.setReconnectionCharges(rs.getInt("ReconnectionCharges"));
-				alertvo.setRegisteredDate(rs.getString("RegisteredDate"));
+				alertvo.setRegisteredDate(rs.getString("ModifiedDate"));
 				alertvo.setAlertID(rs.getInt("AlertID"));
 				alert_settings_list.add(alertvo);
 			}

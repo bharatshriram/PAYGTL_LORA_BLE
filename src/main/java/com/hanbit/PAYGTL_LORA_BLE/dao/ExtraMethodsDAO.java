@@ -169,13 +169,13 @@ public class ExtraMethodsDAO {
 				if(pstmt1.executeUpdate() > 0){
 					
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
-					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter (MIU ID: "+ rs.getString("MeterID")+"). Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter with MIU ID: "+ rs.getString("MeterID")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
 					
 					sendsms(smsRequestVO);
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");
-					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter (MIU ID: "+ rs.getString("MeterID")+"). Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter with MIU ID: "+ rs.getString("MeterID")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
 					
 					sendmail(mailRequestVO);
 					
@@ -258,6 +258,57 @@ public class ExtraMethodsDAO {
 				pstmt1.setInt(1, response.getBody().getTransmissionStatus());
 				pstmt1.setLong(2, response.getBody().getId());
 				pstmt1.executeUpdate();
+
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+	}
+	
+//	@Scheduled(cron="0 0/30 * * * ?")
+	@Scheduled(cron="0 0/5 * * * ?") 
+	public void communicationfailurealert() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
+		MailRequestVO mailRequestVO = null;
+		SMSRequestVO smsRequestVO = null;
+		
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT cmd.MeterID, b.Email, b.MobileNumber, cmd.HouseNumber, cmd.CRNNumber FROM customermeterdetails AS cmd LEFT JOIN block AS b ON cmd.BlockID = b.BlockID");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				pstmt1 = con.prepareStatement("SELECT ((SELECT (TIMESTAMPDIFF (MINUTE, (SELECT IotTimeStamp FROM displaybalancelog WHERE MeterID = ?), NOW()))) - (SELECT NoAMRInterval FROM alertsettings)) AS diff");
+				pstmt1.setString(1, rs.getString("MeterID"));
+				rs1 = pstmt1.executeQuery();
+				if(rs1.next()) {
+					if(rs1.getInt("diff") > 0) {
+						
+						mailRequestVO = new MailRequestVO();
+						smsRequestVO = new SMSRequestVO();
+						
+						mailRequestVO.setSubject("No Communication from MIU ID: "+rs.getString("MeterID"));
+						mailRequestVO.setToEmail(rs.getString("Email"));
+						mailRequestVO.setMessage("Dear Admin, \n \n There is no communication from MIU ID: "+rs.getString("MeterID")+" installed at House Number: " + rs.getString("HouseNumber") + "with CRN Number: " + rs.getString("CRNNumber") + ". Kindly look into the issue and resolve it as soon as possible.");
+						
+						smsRequestVO.setMessage("There is no communication from MIU ID: "+rs.getString("MeterID")+" installed at House Number: " + rs.getString("HouseNumber") + "with CRN Number: " + rs.getString("CRNNumber") + ".");
+						smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
+						
+						sendmail(mailRequestVO);
+						sendsms(smsRequestVO);
+						
+					}
+				}
 
 			} 
 		} catch (Exception e) {

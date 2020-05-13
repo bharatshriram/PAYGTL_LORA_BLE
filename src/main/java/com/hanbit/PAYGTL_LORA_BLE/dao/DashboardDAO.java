@@ -70,7 +70,7 @@ public class DashboardDAO {
 			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.Vacation, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 		
@@ -93,10 +93,14 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
+				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
 				// change the full battery voltage value accordingly
 				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
-				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 1) ? "YES" : "NO");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "YES" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
+				dashboardvo.setTamperStatusColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
+				dashboardvo.setVacation(rs.getInt("Vacation") == 1 ? "YES" : "NO");
+				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "YELLOW" : "BLACK");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();
@@ -125,316 +129,7 @@ public class DashboardDAO {
 		}
 		return dashboard_list;
 	}
-
-	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
-		// TODO Auto-generated method stub
-
-		ResponseVO responsevo = new ResponseVO();
-		DashboardRequestVO dashboardRequestVO = new DashboardRequestVO();
-		String iot_Timestamp = "";
-		PreparedStatement pstmt = null;
-		Connection con = null;
-		ResultSet rsch = null;
-
-		String alertMessage = "";
-		
-		try {
-			
-			con = getConnection();
-			
-				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
-				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
-
-				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-						.substring(0, 2);
-
-				if (StartByte.equalsIgnoreCase("0A")) {
-
-					// 0A 00 00 00 00 42 29 01 00 00 00 00 00 00 00 00 00 00 00 00 00 17
-					
-					// 0A 00 00 00 0F 00 80 03 40 A0 00 00 3F 80 00 00 40 A0 00 00 00 00 00 17
-
-					String meterReadingbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(2, 10);
-
-					String meterStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(10, 12);
-
-					String batteryStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(12, 14);
-
-					String meterTypebyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(14, 16);
-
-					String creditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(16,
-							24);
-
-					String tariffbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(24,
-							32);
-
-					String emergencyCreditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(32, 40);
-
-					String valveStatusbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
-							.substring(40, 42);
-
-					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
-					dashboardRequestVO.setLowBattery(meterStatusbyte.equalsIgnoreCase("42") ? 1: 0);
-					// 0 = no tamper 1 = tamper; 2 = door open, 3 = vacation
-					dashboardRequestVO.setTamperStatus(meterStatusbyte.equalsIgnoreCase("44") ? 1: 0);
-					
-					if (dashboardRequestVO.getLowBattery() == 1) {
-						alertMessage = "The Battery in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Consider replacing it by contacting the Administrator.";
-						
-						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(alertMessage, dashboardRequestVO.getMeterID());
-					} 
-					
-					if (dashboardRequestVO.getTamperStatus() == 1) {
-						alertMessage = "There is a Tamper in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + ". Contact the Administrator to clear it.";
-						
-						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(alertMessage, dashboardRequestVO.getMeterID());
-					}
-
-					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(batteryStatusbyte)) * 3.6) / 256));
-
-					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(meterTypebyte));
-
-					Long i = Long.parseLong(creditbyte, 16);
-					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
-
-					Long j = Long.parseLong(tariffbyte, 16);
-					dashboardRequestVO.setTariffAmount(Float.intBitsToFloat(j.intValue()));
-
-					Long k = Long.parseLong(emergencyCreditbyte, 16);
-					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
-
-					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(valveStatusbyte));
-					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
-				
-					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
-					pstmt.setString(1, dashboardRequestVO.getMeterID());
-					rsch = pstmt.executeQuery();
-
-					if (rsch.next()) {
-
-						iot_Timestamp =  rsch.getString("IoTTimeStamp");
-
-					}
-
-					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
-			        ZoneId.of("Asia/Kolkata");
-			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
-			        
-					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
-						
-						responsevo.setResult(insertdashboard(dashboardRequestVO));
-				
-				} else {
-
-					responsevo.setResult("No Data to update");
-				}
-					
-				} else {
-					responsevo.setResult("Invalid Frame");
-				}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		return responsevo;
-	}
 	
-	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmt1 = null;
-		String result = "Failure";
-		
-		try {
-			con = getConnection();
-			
-				PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, TariffID, MeterSerialNumber, CRNNumber from customermeterdetails WHERE MeterID = ?");
-				pstmt2.setString(1, dashboardRequestVO.getMeterID());
-				ResultSet rs = pstmt2.executeQuery();
-				if(rs.next()) {
-					
-					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-					pstmt.setString(1, dashboardRequestVO.getMeterID());
-					pstmt.setFloat(2, dashboardRequestVO.getReading());
-					pstmt.setFloat(3, dashboardRequestVO.getBalance());// Balance Pending
-					pstmt.setInt(4, rs.getInt("CommunityID"));
-					pstmt.setInt(5, rs.getInt("BlockID"));
-					pstmt.setInt(6, rs.getInt("CustomerID"));
-					pstmt.setFloat(7, dashboardRequestVO.getBatteryVoltage());
-					pstmt.setFloat(8, dashboardRequestVO.getTariffAmount());
-					pstmt.setFloat(9, dashboardRequestVO.getEmergencyCredit());
-					pstmt.setInt(10, dashboardRequestVO.getMeterType());
-					pstmt.setInt(11, dashboardRequestVO.getValveStatus());
-					pstmt.setInt(12, 0);
-					pstmt.setInt(13, dashboardRequestVO.getTamperStatus());
-					pstmt.setInt(14, dashboardRequestVO.getLowBattery());
-					pstmt.setString(15, rs.getString("MeterSerialNumber"));
-					pstmt.setString(16, rs.getString("CRNNumber"));
-					pstmt.setInt(17, dashboardRequestVO.getMinutes());
-					pstmt.setString(18, dashboardRequestVO.getTimeStamp());
-
-					if (pstmt.executeUpdate() > 0) {
-						
-						PreparedStatement pstmt4 = con.prepareStatement("(SELECT MAX(ReadingID) as ReadingID FROM balancelog WHERE MeterID = ?)");
-						pstmt4.setString(1, dashboardRequestVO.getMeterID());
-						ResultSet rs2 = pstmt4.executeQuery();
-						
-						if(rs2.next()) {
-							
-							PreparedStatement pstmt3 = con.prepareStatement("SELECT * FROM displaybalancelog WHERE MeterID = ? ");
-							pstmt3.setString(1, dashboardRequestVO.getMeterID());
-							ResultSet rs1 = pstmt3.executeQuery();
-							
-							if(rs1.next()) {
-								
-								pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, LowBattery = ?, Minutes = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
-								pstmt1.setInt(1, rs2.getInt("ReadingID"));
-								pstmt1.setString(2, dashboardRequestVO.getMeterID());
-								pstmt1.setFloat(3, dashboardRequestVO.getReading());
-								pstmt1.setFloat(4, dashboardRequestVO.getBalance());
-								pstmt1.setInt(5, rs.getInt("CommunityID"));
-								pstmt1.setInt(6, rs.getInt("BlockID"));
-								pstmt1.setInt(7, rs.getInt("CustomerID"));
-								pstmt1.setFloat(8, dashboardRequestVO.getBatteryVoltage());
-								pstmt1.setFloat(9, dashboardRequestVO.getTariffAmount());
-								pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
-								pstmt1.setInt(11, dashboardRequestVO.getMeterType());
-								pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
-								pstmt1.setInt(13, 0);// Balance Pending
-								pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-								pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
-								pstmt.setInt(16, dashboardRequestVO.getMinutes());
-								pstmt1.setString(17, dashboardRequestVO.getTimeStamp());
-								pstmt1.setString(18, dashboardRequestVO.getMeterID());
-								
-							} else {
-								
-									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
-									pstmt1.setInt(1, rs2.getInt("ReadingID"));
-									pstmt1.setString(2, dashboardRequestVO.getMeterID());
-									pstmt1.setFloat(3, dashboardRequestVO.getReading());
-									pstmt1.setFloat(4, dashboardRequestVO.getBalance());
-									pstmt1.setInt(5, rs.getInt("CommunityID"));
-									pstmt1.setInt(6, rs.getInt("BlockID"));
-									pstmt1.setInt(7, rs.getInt("CustomerID"));
-									pstmt1.setFloat(8, dashboardRequestVO.getBatteryVoltage());
-									pstmt1.setFloat(9, dashboardRequestVO.getTariffAmount());
-									pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
-									pstmt1.setInt(11, dashboardRequestVO.getMeterType());
-									pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
-									pstmt1.setInt(13, 0);// Balance Pending
-									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-									pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
-									pstmt1.setString(16, rs.getString("MeterSerialNumber"));
-									pstmt1.setString(17, rs.getString("CRNNumber"));
-									pstmt1.setInt(18, dashboardRequestVO.getMinutes());
-									pstmt1.setString(19, dashboardRequestVO.getTimeStamp());
-									
-							}
-							
-						}
-						
-						pstmt1.executeUpdate();
-						result = "Success";
-					}
-					
-				}
-				
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-	
-	private static int hexDecimal(String meterStatusbyte) {
-		// TODO Auto-generated method stub
-		String digits = "0123456789ABCDEF";
-		int val = 0;
-		for (int i = 0; i < meterStatusbyte.length(); i++) {
-			char c = meterStatusbyte.charAt(i);
-			int d = digits.indexOf(c);
-			val = 16 * val + d;
-		}
-
-		return val;
-	}
-	
-	private String sendalertsms(String message, String meterID) {
-		// TODO Auto-generated method stub
-		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
-		SMSRequestVO smsRequestVO = new SMSRequestVO();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Connection con = null;
-		String result = "Failure";
-		
-		try {
-			con = getConnection();
-			
-			pstmt = con.prepareStatement("SELECT cmd.MobileNumber AS customerMobileNumber, b.MobileNumber AS adminMobileNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				smsRequestVO.setToMobileNumber(rs.getString("customerMobileNumber")+","+rs.getString("adminMobileNumber"));
-				smsRequestVO.setMessage(message);
-				
-				result = extraMethodsDao.sendsms(smsRequestVO);				
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-
-	private String sendalertmail(String subject, String message, String meterID) {
-		// TODO Auto-generated method stub
-		
-		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
-		MailRequestVO mailRequestVO = new MailRequestVO();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		Connection con = null;
-		String result = "Failure";
-		
-		try {
-			con = getConnection();
-			
-			pstmt = con.prepareStatement("SELECT cmd.Email AS customerEmail, b.Email AS adminEmail FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				
-				mailRequestVO.setToEmail(rs.getString("customerEmail")+";"+rs.getString("adminEmail"));
-				mailRequestVO.setSubject(subject);
-				mailRequestVO.setMessage("Dear Customer, \n \n" + message);
-				
-				result = extraMethodsDao.sendmail(mailRequestVO);				
-			}
-			
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		return result;
-	}
-
 	public List<DashboardResponseVO> getFilterDashboarddetails(int roleid, String id, FilterVO filtervo) throws SQLException {
 		// TODO Auto-generated method stub
 
@@ -531,5 +226,331 @@ public class DashboardDAO {
 		}
 		return dashboard_list;
 	}
+
+	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+
+		ResponseVO responsevo = new ResponseVO();
+		DashboardRequestVO dashboardRequestVO = new DashboardRequestVO();
+		String iot_Timestamp = "";
+		PreparedStatement pstmt = null;
+		Connection con = null;
+		ResultSet rsch = null;
+
+		String alertMessage = "";
+		
+		try {
+			
+			con = getConnection();
+			
+				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
+				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
+
+				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+						.substring(0, 2);
+
+				if (StartByte.equalsIgnoreCase("0A")) {
+
+					// 0A 00 00 00 0F 00 80 03 40 A0 00 00 3F 80 00 00 40 A0 00 00 00 00 00 17
+					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67
+					//               10             20             30             40   
+					
+					String meterReadingbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(2, 10);
+
+					String meterStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(10, 12);
+
+					String batteryStatusbyte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(12, 14);
+
+					String meterTypebyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(14, 16);
+
+					String creditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(16,
+							24);
+
+					String tariffbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(24,
+							32);
+
+					String emergencyCreditbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(32, 40);
+					
+					String minutesByte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase().substring(40, 44);
+
+					String valveStatusbyte = String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
+							.substring(44, 46);
+					
+					dashboardRequestVO.setMinutes(DashboardDAO.hexDecimal(minutesByte));
+					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(meterReadingbyte));
+					dashboardRequestVO.setLowBattery(meterStatusbyte.equalsIgnoreCase("02") ? 1: 0);
+					// 0 = no tamper 1 = tamper; 2 = door open
+					dashboardRequestVO.setTamperStatus(meterStatusbyte.equalsIgnoreCase("04") ? 1: meterStatusbyte.equalsIgnoreCase("08") ? 2: 0);
+					dashboardRequestVO.setVacation(meterStatusbyte.equalsIgnoreCase("10") ? 1: 0);
+					
+					if (dashboardRequestVO.getLowBattery() == 1) {
+						alertMessage = "The Battery in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN> is low. Consider replacing it for uninterrupted Service.";
+						
+						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+					} 
+					
+					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
+						alertMessage = "There is a <change> Tamper in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN>. Clear it for uninterrupted Service.";
+						alertMessage = alertMessage.replaceAll("<change>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : "");
+						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+					}
+
+					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(batteryStatusbyte)) * 3.6) / 256));
+
+					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(meterTypebyte));
+
+					Long i = Long.parseLong(creditbyte, 16);
+					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
+					
+					Long j = Long.parseLong(tariffbyte, 16);
+					dashboardRequestVO.setTariffAmount(Float.intBitsToFloat(j.intValue()));
+					
+					// chnage low balance alert after discussion with team
+					
+					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 5)) {
+						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + "is low. Recharge it for uninterrupted Service.";
+						
+						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+					}
+
+					Long k = Long.parseLong(emergencyCreditbyte, 16);
+					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
+
+					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(valveStatusbyte));
+					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
+				
+					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
+					pstmt.setString(1, dashboardRequestVO.getMeterID());
+					rsch = pstmt.executeQuery();
+
+					if (rsch.next()) {
+
+						iot_Timestamp =  rsch.getString("IoTTimeStamp");
+
+					}
+
+					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
+			        ZoneId.of("Asia/Kolkata");
+			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+			        
+					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
+						
+						responsevo.setResult(insertdashboard(dashboardRequestVO));
+				
+				} else {
+
+					responsevo.setResult("No Data to update");
+				}
+					
+				} else {
+					responsevo.setResult("Invalid Frame");
+				}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return responsevo;
+	}
 	
+	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		String result = "Failure";
+		
+		try {
+			con = getConnection();
+			
+				PreparedStatement pstmt2 = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, TariffID, MeterSerialNumber, CRNNumber from customermeterdetails WHERE MeterID = ?");
+				pstmt2.setString(1, dashboardRequestVO.getMeterID());
+				ResultSet rs = pstmt2.executeQuery();
+				if(rs.next()) {
+					
+					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+					pstmt.setString(1, dashboardRequestVO.getMeterID());
+					pstmt.setFloat(2, dashboardRequestVO.getReading());
+					pstmt.setFloat(3, dashboardRequestVO.getBalance());// Balance Pending
+					pstmt.setInt(4, rs.getInt("CommunityID"));
+					pstmt.setInt(5, rs.getInt("BlockID"));
+					pstmt.setInt(6, rs.getInt("CustomerID"));
+					pstmt.setFloat(7, dashboardRequestVO.getBatteryVoltage());
+					pstmt.setFloat(8, dashboardRequestVO.getTariffAmount());
+					pstmt.setFloat(9, dashboardRequestVO.getEmergencyCredit());
+					pstmt.setInt(10, dashboardRequestVO.getMeterType());
+					pstmt.setInt(11, dashboardRequestVO.getValveStatus());
+					pstmt.setInt(12, 0);
+					pstmt.setInt(13, dashboardRequestVO.getTamperStatus());
+					pstmt.setInt(14, dashboardRequestVO.getLowBattery());
+					pstmt.setInt(15, dashboardRequestVO.getVacation());
+					pstmt.setString(16, rs.getString("MeterSerialNumber"));
+					pstmt.setString(17, rs.getString("CRNNumber"));
+					pstmt.setInt(18, dashboardRequestVO.getMinutes());
+					pstmt.setString(19, dashboardRequestVO.getTimeStamp());
+
+					if (pstmt.executeUpdate() > 0) {
+						
+						PreparedStatement pstmt4 = con.prepareStatement("(SELECT MAX(ReadingID) as ReadingID FROM balancelog WHERE MeterID = ?)");
+						pstmt4.setString(1, dashboardRequestVO.getMeterID());
+						ResultSet rs2 = pstmt4.executeQuery();
+						
+						if(rs2.next()) {
+							
+							PreparedStatement pstmt3 = con.prepareStatement("SELECT * FROM displaybalancelog WHERE MeterID = ? ");
+							pstmt3.setString(1, dashboardRequestVO.getMeterID());
+							ResultSet rs1 = pstmt3.executeQuery();
+							
+							if(rs1.next()) {
+								
+								pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, LowBattery = ?, Vacation = ?, Minutes = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
+								pstmt1.setInt(1, rs2.getInt("ReadingID"));
+								pstmt1.setString(2, dashboardRequestVO.getMeterID());
+								pstmt1.setFloat(3, dashboardRequestVO.getReading());
+								pstmt1.setFloat(4, dashboardRequestVO.getBalance());
+								pstmt1.setInt(5, rs.getInt("CommunityID"));
+								pstmt1.setInt(6, rs.getInt("BlockID"));
+								pstmt1.setInt(7, rs.getInt("CustomerID"));
+								pstmt1.setFloat(8, dashboardRequestVO.getBatteryVoltage());
+								pstmt1.setFloat(9, dashboardRequestVO.getTariffAmount());
+								pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
+								pstmt1.setInt(11, dashboardRequestVO.getMeterType());
+								pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
+								pstmt1.setInt(13, 0);// Balance Pending
+								pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
+								pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
+								pstmt1.setInt(16, dashboardRequestVO.getVacation());
+								pstmt1.setInt(17, dashboardRequestVO.getMinutes());
+								pstmt1.setString(18, dashboardRequestVO.getTimeStamp());
+								pstmt1.setString(19, dashboardRequestVO.getMeterID());
+								
+							} else {
+								
+									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+									pstmt1.setInt(1, rs2.getInt("ReadingID"));
+									pstmt1.setString(2, dashboardRequestVO.getMeterID());
+									pstmt1.setFloat(3, dashboardRequestVO.getReading());
+									pstmt1.setFloat(4, dashboardRequestVO.getBalance());
+									pstmt1.setInt(5, rs.getInt("CommunityID"));
+									pstmt1.setInt(6, rs.getInt("BlockID"));
+									pstmt1.setInt(7, rs.getInt("CustomerID"));
+									pstmt1.setFloat(8, dashboardRequestVO.getBatteryVoltage());
+									pstmt1.setFloat(9, dashboardRequestVO.getTariffAmount());
+									pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
+									pstmt1.setInt(11, dashboardRequestVO.getMeterType());
+									pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
+									pstmt1.setInt(13, 0);// Balance Pending
+									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
+									pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
+									pstmt1.setInt(16, dashboardRequestVO.getVacation());
+									pstmt1.setString(17, rs.getString("MeterSerialNumber"));
+									pstmt1.setString(18, rs.getString("CRNNumber"));
+									pstmt1.setInt(19, dashboardRequestVO.getMinutes());
+									pstmt1.setString(20, dashboardRequestVO.getTimeStamp());
+									
+							}
+							
+						}
+						
+						pstmt1.executeUpdate();
+						result = "Success";
+					}
+					
+				}
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	private String sendalertsms(int i, String message, String meterID) {
+		// TODO Auto-generated method stub
+		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
+		SMSRequestVO smsRequestVO = new SMSRequestVO();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		String result = "Failure";
+		
+		try {
+			con = getConnection();
+			
+			pstmt = con.prepareStatement("SELECT cmd.MobileNumber AS customerMobileNumber, b.MobileNumber AS adminMobileNumber, cmd.HouseNumber, cmd.CRNNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				smsRequestVO.setToMobileNumber(i == 1 ? rs.getString("customerMobileNumber") : rs.getString("adminMobileNumber"));
+				message = message.replaceAll("<CRN>", rs.getString("CRNNumber"));
+				smsRequestVO.setMessage(message.replaceAll("<house>", rs.getString("HouseNumber")));
+				
+				result = extraMethodsDao.sendsms(smsRequestVO);				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	private String sendalertmail(String subject, String message, String meterID) {
+		// TODO Auto-generated method stub
+		
+		ExtraMethodsDAO extraMethodsDao = new ExtraMethodsDAO();
+		MailRequestVO mailRequestVO = new MailRequestVO();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		String result = "Failure";
+		
+		try {
+			con = getConnection();
+			
+			pstmt = con.prepareStatement("SELECT cmd.Email AS customerEmail, b.Email AS adminEmail FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = "+ meterID);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				mailRequestVO.setToEmail(subject.equalsIgnoreCase("Low Balance Alert!!!") ? rs.getString("customerEmail") : rs.getString("adminEmail"));
+				mailRequestVO.setSubject(subject);
+				message = message.replaceAll("<CRN>", rs.getString("CRNNumber"));
+				mailRequestVO.setMessage("Dear Customer, \n \n" + message.replaceAll("<house>", rs.getString("HouseNumber")));
+				
+				result = extraMethodsDao.sendmail(mailRequestVO);				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	private static int hexDecimal(String meterStatusbyte) {
+		// TODO Auto-generated method stub
+		String digits = "0123456789ABCDEF";
+		int val = 0;
+		for (int i = 0; i < meterStatusbyte.length(); i++) {
+			char c = meterStatusbyte.charAt(i);
+			int d = digits.indexOf(c);
+			val = 16 * val + d;
+		}
+
+		return val;
+	}
+
 }

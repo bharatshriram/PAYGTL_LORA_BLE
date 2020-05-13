@@ -25,6 +25,7 @@ public class DashboardResponseVO {
 	private float emergencyCredit;
 	private int battery;
 	private String valveStatus;
+	private String valveStatusColor;
 	private float tariff;
 	private String tariffName;
 	private String tamperStatus;
@@ -35,6 +36,9 @@ public class DashboardResponseVO {
 	private int communicating;
 	private int total;
 	private String communicationStatus;
+	private String tamperStatusColor;
+	private String vacation;
+	private String vacationColor;
 	
 	private List<DashboardResponseVO> data;
 
@@ -247,6 +251,38 @@ public class DashboardResponseVO {
 
 	public void setConsumption(float consumption) {
 		this.consumption = consumption;
+	}
+
+	public String getValveStatusColor() {
+		return valveStatusColor;
+	}
+
+	public void setValveStatusColor(String valveStatusColor) {
+		this.valveStatusColor = valveStatusColor;
+	}
+
+	public String getTamperStatusColor() {
+		return tamperStatusColor;
+	}
+
+	public void setTamperStatusColor(String tamperStatusColor) {
+		this.tamperStatusColor = tamperStatusColor;
+	}
+
+	public String getVacation() {
+		return vacation;
+	}
+
+	public void setVacation(String vacation) {
+		this.vacation = vacation;
+	}
+
+	public String getVacationColor() {
+		return vacationColor;
+	}
+
+	public void setVacationColor(String vacationColor) {
+		this.vacationColor = vacationColor;
 	}
 
 }

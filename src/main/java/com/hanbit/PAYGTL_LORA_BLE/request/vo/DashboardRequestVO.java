@@ -21,6 +21,7 @@ public class DashboardRequestVO {
 	private int creditStatus;
 	private int lowBattery;
 	private int minutes;
+	private int vacation;
 	private String timeStamp;
 	
 	public String getMeterID() {
@@ -100,6 +101,12 @@ public class DashboardRequestVO {
 	}
 	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
+	}
+	public int getVacation() {
+		return vacation;
+	}
+	public void setVacation(int vacation) {
+		this.vacation = vacation;
 	}
 	
 }
