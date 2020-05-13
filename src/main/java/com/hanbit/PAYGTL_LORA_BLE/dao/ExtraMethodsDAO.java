@@ -271,7 +271,7 @@ public class ExtraMethodsDAO {
 	}
 	
 //	@Scheduled(cron="0 0/30 * * * ?")
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0 7 ? * TUE,FRI") 
 	public void communicationfailurealert() throws SQLException {
 		
 		Connection con = null;

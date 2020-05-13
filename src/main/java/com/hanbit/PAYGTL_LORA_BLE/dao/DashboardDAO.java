@@ -98,9 +98,9 @@ public class DashboardDAO {
 				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "YES" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
-				dashboardvo.setTamperStatusColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
-				dashboardvo.setVacation(rs.getInt("Vacation") == 1 ? "YES" : "NO");
-				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "YELLOW" : "BLACK");
+				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
+				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
+				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
 				
 				Date currentDateTime = new Date();

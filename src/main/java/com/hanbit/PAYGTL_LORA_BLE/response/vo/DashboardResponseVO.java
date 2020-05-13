@@ -36,8 +36,8 @@ public class DashboardResponseVO {
 	private int communicating;
 	private int total;
 	private String communicationStatus;
-	private String tamperStatusColor;
-	private String vacation;
+	private String tamperColor;
+	private String vacationStatus;
 	private String vacationColor;
 	
 	private List<DashboardResponseVO> data;
@@ -261,20 +261,21 @@ public class DashboardResponseVO {
 		this.valveStatusColor = valveStatusColor;
 	}
 
-	public String getTamperStatusColor() {
-		return tamperStatusColor;
+
+	public String getTamperColor() {
+		return tamperColor;
 	}
 
-	public void setTamperStatusColor(String tamperStatusColor) {
-		this.tamperStatusColor = tamperStatusColor;
+	public void setTamperColor(String tamperColor) {
+		this.tamperColor = tamperColor;
 	}
 
-	public String getVacation() {
-		return vacation;
+	public String getVacationStatus() {
+		return vacationStatus;
 	}
 
-	public void setVacation(String vacation) {
-		this.vacation = vacation;
+	public void setVacationStatus(String vacationStatus) {
+		this.vacationStatus = vacationStatus;
 	}
 
 	public String getVacationColor() {
