@@ -41,28 +41,29 @@
       
       <div class="right_data col-md-10 mt-4 mb-4">
 				 <!--Right start-->
+				 <div class="rightblock">
             <div class="row">
               <div class="col-md-4 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
+                <div class="card border-left-grey shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total MIU ID</div>
+                        <div class="text-xs font-weight-bold text-gray text-uppercase mb-1">Total MIU ID</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalmiu"></div>
                       </div>
                       <div class="col-auto">
-                       <img src=common/images/icons/5-MIUID.png /> 
+                       <img src=common/images/icons/GAS2.jpg /> 
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="col-md-4 mb-4">
-                <div class="card border-left-yellow shadow h-100 py-2">
+                <div class="card border-left-success shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Communicating</div>
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Communicating</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="communicating"></div>
                       </div>
                       <div class="col-auto">
@@ -73,7 +74,7 @@
                 </div>
               </div>
               <div class="col-md-4 mb-4">
-                <div class="card border-left-success shadow h-100 py-2">
+                <div class="card border-left-danger shadow h-100 py-2">
                   <div class="card-body">
                     <div class="row no-gutters align-items-center">
                       <div class="col mr-2">
@@ -99,14 +100,14 @@
                   </div>
                   <!-- Card Body -->
                   <div class="card-body">
-                    <div id="container" class="container" style="height: 400px; width: 500"></div>
+                    <div id="container" class="container" style="height: 300px; width: 500"></div>
                   </div>
                 </div>
               </div>
               <div class="col-md-3">
               </div>
             </div>
-
+			</div>
         <!--Right end-->
 
 			</div>
@@ -188,8 +189,8 @@
 		    	    plotOptions: {
 		    	        pie: {
 		    	        	colors: [
-		    	        	     '#FF0000', 
-		    	        	     '#32CD32'
+		    	        	     '#f54747', 
+		    	        	     '#33c354'
 		    	        	   ]
 		    	        }
 		    	    },

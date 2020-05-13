@@ -376,7 +376,8 @@ function getReceiptTransactionID(transID){
 		function(
 			result) {
 			//	alert(result);
-			if(result == true){
+				window.open("/PAYGTL_LORA_BLE/status/print/" + transID);
+			/*if(result == true){
 				$.ajax({
 					type : "GET",
 					contentType : "application/json",
@@ -403,7 +404,7 @@ function getReceiptTransactionID(transID){
 			}else if(result==false){
 				//alert("@"+false)
 				
-			}
+			}*/
 		});
 }
 

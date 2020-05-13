@@ -57,7 +57,7 @@
 						<h3>Alert Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button"
+						<button type="button" id="alertAddbutton"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>
@@ -74,6 +74,8 @@
 									<th>No MIU ID Interval</th>
 									<th>Low Battery Voltage</th>
 									<th>Timeout</th>
+									<th>ReConnection Charge</th>
+									<th>Per Unit Charge</th>
 									<th>Date</th>
 									<th>Edit</th>
 								</tr>
@@ -129,7 +131,23 @@
 								</div>
 							</div>
 							<div class="col-md-6">
+								<div class="input-group form-group">
+									<label class="bmd-label-floating">ReConnection Charge</label> <input
+										type="text" class="form-control" name="reconnectionAdd"
+										id="reconnectionAdd">
+								</div>
 								<input type = "hidden" id="alertIdhidden">
+							</div>
+
+								<div class="col-md-6">
+								<div class="input-group form-group">
+									<label class="bmd-label-floating">Per Unit Charge</label> <input
+										type="text" class="form-control" name="perUnitAdd"
+										id="perUnitAdd">
+								</div>
+							</div>
+							<div class="col-md-6">
+								
 							</div>
 
 							<div class="col-md-6">
@@ -192,6 +210,22 @@
 									<label class="bmd-label-floating">ReCharge Time Out</label> <input
 										type="text" class="form-control" name="rechargetimeoutEdit1"
 										id="rechargetimeoutEdit1">
+								</div>
+							</div>
+							
+							<div class="col-md-6">
+								<div id="formreconnectionEdit" class="input-group form-group">
+									<label class="bmd-label-floating">ReConnection Charge</label> <input
+										type="text" class="form-control" name="connectionEdit1"
+										id="connectionEdit1">
+								</div>
+							</div>
+							
+							<div class="col-md-6">
+								<div id="formperUnitEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Per Unit Charge</label> <input
+										type="text" class="form-control" name="perUnitEdit1"
+										id="perUnitEdit1">
 								</div>
 							</div>
 							<div class="col-md-6">

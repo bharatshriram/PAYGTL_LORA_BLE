@@ -5,7 +5,7 @@
 $(document).ready(function () {
     	var flag =true;
       $('.button-left').click(function () {
-       // $('.left ').toggleClass('fliph');
+        $('.left ').toggleClass('fliph');
 		flag = !flag;
 		if(flag == true){
 			document.querySelector('.left_nav').className="left_nav col-md-2 pl-0 pr-0";
@@ -27,7 +27,7 @@ $(window).on('load', function() {
 
 
 
- $(document).ready(function () {
+ /*$(document).ready(function () {
   //if($(window).width()<768){
 		alert("check");
        $('.left').addClass('moblieclass');
@@ -44,4 +44,4 @@ $(window).on('load', function() {
 	   
     }); 
    
-});
+});*/

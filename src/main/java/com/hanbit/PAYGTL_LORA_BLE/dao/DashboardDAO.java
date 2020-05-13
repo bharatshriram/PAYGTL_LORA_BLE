@@ -60,7 +60,7 @@ public class DashboardDAO {
 			dashboard_list = new LinkedList<DashboardResponseVO>();
 			int nonCommunicating = 0;
 			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, PerUnitValue, TimeOut FROM alertsettings");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
 			if(rs1.next()) {
 				

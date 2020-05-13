@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<img class="img-fluid logo_totalpage" src="common/images/hanbit1.png" alt="logo">
 <%
 		String user_id = (String) session.getAttribute("roleID");
 
@@ -21,8 +22,7 @@
 <!--Footer Start-->
 	<nav
 		class="navbar fixed-bottom navbar-light bg-light justify-content-center footer text-black">
-		<a class="navbar-brand">© Copyrights 2020 Company Name. All right
-			reserved.</a>
+		<a class="navbar-brand">&copy; Copyrights 2020 Hanbit<sup>&reg;</sup>. All Rights Reserved.</a>
 	</nav>
 	<!--Footer end-->
 </body>

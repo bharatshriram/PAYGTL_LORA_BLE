@@ -43,7 +43,7 @@
 
 
 <body>
-<img class="img-fluid logo_totalpage" src="common/images/hanbit1.png" alt="logo">
+
 
 <%
 		String user_id = (String) session.getAttribute("roleID");
@@ -96,6 +96,7 @@
 									<th>Tamper</th>
 									<th>Communication</th>
 									<th>Battery</th>
+									<th>Vacation</th>
 									<th>Date</th>
 								</tr>
 							</thead>
@@ -123,6 +124,7 @@
 									<th>Tariff</th>
 									<th>Tamper</th>
 									<th>Communication</th>
+									<th>Vacation</th>
 									<th>Date</th>
 								</tr>
 							</thead>
@@ -194,8 +196,9 @@
                 <label class="bmd-label-floating">Tamper</label>
                 <select class="form-control" id="tamper" name="tamper">
                   <option value="-1">Tamper Type</option>
-                  <option value="0">Door Tamper</option>
-                  <option value="1">Magnetic Tamper</option>
+                  <option value="1">Tamper Detect</option>
+                  <option value="2">Door Tamper</option>
+                  <option value="3">Magnetic Tamper</option>
                 </select>
               </div>
             </div>
