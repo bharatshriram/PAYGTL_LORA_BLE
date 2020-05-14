@@ -266,7 +266,7 @@ $(document)
 												} ],
 												"columnDefs" : [ {
 													"orderable" : true,
-													"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+													"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
 													"className": "dt-center", "targets": "_all"
 												},
 												{
@@ -285,6 +285,10 @@ $(document)
 													//text : 'Excel',
 													title : 'Dashboard',
 													//className: 'custom-btn fa fa-file-excel-o'
+													
+													customize: function (csv) {
+										                 return "My header here....\n\n"+  csv +"\n\nMy Footer here.....";
+										              }
 														
 												},
 
@@ -294,12 +298,13 @@ $(document)
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
 																5, 6, 7, 8, 9,
-																10, 11, 12,13 ]
+																10, 11, 12,13,14,15 ]
 													},
 													//text : 'pdf',
 													//className: 'custom-btn fa fa-file-pdf-o',
 													orientation : 'landscape',
-													title : 'Dashboard'
+													title : 'Dashboard',
+													pageSize: 'LEGAL'
 												},
 												{
 									                //text: 'AdvSerach',
@@ -551,7 +556,7 @@ $(document)
 																		} ],
 																		"columnDefs" : [ {
 																			"orderable" : true,
-																			"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
+																			"targets":  [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
 																			"className": "dt-center", "targets": "_all"
 																		},
 																		{
@@ -578,12 +583,13 @@ $(document)
 																		exportOptions : {
 																			columns : [ 0,1, 2, 3, 4,
 																					5, 6, 7, 8, 9,
-																					10, 11, 12,13 ]
+																					10, 11, 12,13, 14,15 ]
 																		},
 																		//text : 'pdf',
 																		className: 'custom-btn fa fa-file-pdf-o',
 																		orientation : 'landscape',
-																		title : 'Dashboard'
+																		title : 'Dashboard',
+																		pageSize: 'LEGAL'
 																	},
 																	{
 														                //text: 'AdvSerach',

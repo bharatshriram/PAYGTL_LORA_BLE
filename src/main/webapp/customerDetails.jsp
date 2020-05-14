@@ -351,7 +351,7 @@
 
 							<div class="col-md-6">
 								<input class="btn btn-success submit-button"
-									 value="Save!" id="customerEditsave"
+									 value="Update" id="customerEditsave"
 									type="button" disabled />
 							</div>
 

@@ -353,9 +353,7 @@ $(document)
 							
 							
 
-							$("#tariffAdd")
-									.click(
-											function() {
+												$(document).on('click', '#tariffAdd', function () {
 
 												var data1 = {}
 												data1["tariffName"] = $("#tariffNameAdd").val();
@@ -390,7 +388,7 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																		window.location = "tariff.jsp";
+																	//	window.location = "tariff.jsp";
 																		return false
 																	});
 																	
@@ -408,9 +406,7 @@ $(document)
 							
 							
 							
-							$("#tariffEditsave")
-							.click(
-									function() {
+										$(document).on('click', '#tariffEditsave', function () {
 
 										var data1 = {}
 										

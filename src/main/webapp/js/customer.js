@@ -475,10 +475,7 @@ $(document)
 										}
 									});
 							
-							
-							$("#customerAdd")
-									.click(
-											function() {
+												$(document).on('click', '#customerAdd', function () {
 
 												if($("#selectcommunityName").val() == -1 || $("#selectcommunityName").val() == null || $("#selectcommunityName").val() == "Select Community"){
 													bootbox
@@ -511,6 +508,9 @@ $(document)
 												
 												/*alert("===>"
 														+ JSON.stringify(data1));*/
+												
+												$('#customerAdd').prop('disabled', true).addClass('disabled').off( "click" );
+												
 												$
 														.ajax({
 															type : "POST",
@@ -543,14 +543,9 @@ $(document)
 
 																} else if(data.result == "Failure"){
 																	
-																	bootbox.alert(data.Message,
-																			function(
-																					result) {
-																					
-																		//alert();
-																		window.location = "customerDetails.jsp";
-																		return false
-																				});
+																	bootbox.alert(data.Message);
+																	return false;
+																				//});
 																}else {
 																	
 																	bootbox.alert(data.Message);
@@ -562,11 +557,8 @@ $(document)
 											});
 							
 							
-							
-							$("#customerEditsave")
-							.click(
-									function() {
-
+										$(document).on('click', '#customerEditsave', function () {
+											
 										var data1 = {}
 										
 										data1["firstName"] = $("#firstNameEdit").val();
@@ -581,7 +573,7 @@ $(document)
 										data1["createdByID"] = sessionStorage.getItem("createdByID");
 										data1["loggedInUserID"] = sessionStorage.getItem("userID");
 										data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
-								
+										$('#customerEditsave').prop('disabled', true).addClass('disabled').off( "click" );
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
 										$
@@ -613,27 +605,13 @@ $(document)
 															});
 														} else if(data.result == "Failure" && data.Message == undefined){
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "customerDetails.jsp";
-																return false
-																
-																		});
+															bootbox.alert(data.Message);
+															return false;
 															
 														}else {
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "customerDetails.jsp";
-																return false
-																
-																		});
+															bootbox.alert(data.Message);
+															return false;
 															//return false;
 														}
 													}

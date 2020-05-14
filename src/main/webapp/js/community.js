@@ -298,9 +298,7 @@ $(document)
 									});
 							
 							
-							$("#communityAdd")
-									.click(
-											function() {
+												$(document).on('click', '#communityAdd', function () {
 
 												var data1 = {}
 												data1["communityName"] = $("#communityNameAdd")
@@ -341,15 +339,8 @@ $(document)
 
 																} else if(data.result == "Failure"){
 																	
-																	bootbox.alert(data.Message,
-																			function(
-																					result) {
-																					
-																		//alert();
-																		window.location = "communityDetails.jsp";
-																		
-																				});
-																	return false
+																	bootbox.alert(data.Message);
+																	return false;
 																}
 															}
 														});
@@ -358,12 +349,8 @@ $(document)
 							
 							
 							
-							$("#communityEditsave")
-							.click(
-									function() {
-
-										var data1 = {}
-										
+										$(document).on('click', '#communityEditsave', function () {
+											
 										var data1 = {}
 										data1["communityName"] = $("#communityNameEdit")
 												.val();
@@ -403,15 +390,8 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "communityDetails.jsp";
-																
-																		});
-															return false
+															bootbox.alert(data.Message);
+															return false;
 														}
 													}
 												});
