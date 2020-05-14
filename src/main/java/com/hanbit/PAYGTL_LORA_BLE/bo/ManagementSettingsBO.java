@@ -20,7 +20,6 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 public class ManagementSettingsBO {
 	
 	ManagementSettingsDAO managementsettingsdao = new ManagementSettingsDAO();
-	ResponseVO responsevo = new ResponseVO();
 
 	/* UserManagement */
 
@@ -58,6 +57,8 @@ public class ManagementSettingsBO {
 
 	public ResponseVO addalert(AlertRequestVO alertvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
+		
+		ResponseVO responsevo = new ResponseVO();
 		
 		if(alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");

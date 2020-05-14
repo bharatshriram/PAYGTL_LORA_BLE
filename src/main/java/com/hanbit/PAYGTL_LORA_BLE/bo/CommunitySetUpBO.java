@@ -22,7 +22,6 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class CommunitySetUpBO {
 	
 	CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
-	ResponseVO responsevo = new ResponseVO();
 
 	/* Community */
 
@@ -129,6 +128,8 @@ public class CommunitySetUpBO {
 	public ResponseVO deleteblock(int blockID) throws BusinessException {
 		// TODO Auto-generated method stub
 		
+		ResponseVO responsevo = new ResponseVO();
+		
 		try {
 
 			if (communitysetupdao.checkifhousesexist(blockID)) {
@@ -232,6 +233,8 @@ public class CommunitySetUpBO {
 	public ResponseVO deletecustomer(CustomerRequestVO customervo)
 			throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
+		
+		ResponseVO responsevo = new ResponseVO();
 		
 		try {
 

@@ -85,20 +85,18 @@ public class AccountDAO {
 						
 					LocalDateTime dateTime = LocalDateTime.now();  
 						
-					PreparedStatement pstmt = con.prepareStatement("SELECT MONTH(TransactionDate) AS previoustopupmonth from topup WHERE Status = 2 and CRNNumber = '"+topupvo.getCRNNumber()+"'" + "ORDER BY TransactionDate DESC LIMIT 0,1");
+					PreparedStatement pstmt = con.prepareStatement("SELECT MONTH(TransactionDate) AS previoustopupmonth from topup WHERE Status = 2 and CRNNumber = '"+topupvo.getCRNNumber()+"'" + "ORDER BY TransactionID DESC LIMIT 0,1");
 					ResultSet rs = pstmt.executeQuery();
 					
 					if(rs.next()) {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
-							topupvo.setFixedCharges((rs1.getInt("FixedCharges") * (rs.getInt("previoustopupmonth") - dateTime.getMonthValue())));
+							topupvo.setFixedCharges((rs1.getInt("FixedCharges") * (dateTime.getMonthValue() - rs.getInt("previoustopupmonth"))));
 						}
 						
 					} else {
 						topupvo.setFixedCharges(rs1.getInt("FixedCharges"));
 					}
-					
-					// write code to deduct reconnection charges if any
 					
 					PreparedStatement pstmt2 = con.prepareStatement("SELECT al.ReconnectionCharges, dbl.Minutes FROM displaybalancelog AS dbl JOIN alertsettings AS al WHERE dbl.CRNNumber = '"+topupvo.getCRNNumber()+"'");
 					ResultSet rs2 = pstmt2.executeQuery();
