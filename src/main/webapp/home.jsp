@@ -52,7 +52,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="totalmiu"></div>
                       </div>
                       <div class="col-auto">
-                       <img src=common/images/icons/GAS2.jpg /> 
+                       <img src=common/images/icons/GAS1.png /> 
                       </div>
                     </div>
                   </div>
@@ -67,7 +67,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="communicating"></div>
                       </div>
                       <div class="col-auto">
-                       <img src=common/images/icons/6-COMMUNICATION.png /> 
+                       <img src=common/images/icons/gas2.png /> 
                       </div>
                     </div>
                   </div>
@@ -82,7 +82,7 @@
                         <div class="h5 mb-0 font-weight-bold text-gray-800" id="Non-Communicating"></div>
                       </div>
                       <div class="col-auto">
-                       <img src=common/images/icons/7-NONCOMMUNICATION.png />
+                       <img src=common/images/icons/gas3.png />
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,4 @@
-<!doctype html>
+\<!doctype html>
 <html lang="en">
 
 <head>
@@ -226,7 +226,7 @@
 							<div class="col-md-6">
 									<button class="btn btn-secondary submit-button"
 									 value="Save!" id="blockEditsave"
-									type="button" disabled>Save</button>
+									type="button" disabled>Update</button>
 							</div>
 
 							<div class="col-md-6">

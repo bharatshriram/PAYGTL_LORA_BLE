@@ -62,7 +62,7 @@
 						<button type="button" id="tariffAddd"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
-							<i class="fa fa-user"></i>
+							<i class="fa fa-user-plus"></i>
 						</button>
 					</div>
 				</div>
@@ -232,7 +232,7 @@
 							<div class="col-md-6">
 								<button class="btn btn-secondary submit-button"
 									 value="Save!" id="tariffEditsave"
-									type="button" disabled>Save</button>
+									type="button" disabled>Update</button>
 							</div>
 
 							<div class="col-md-6">

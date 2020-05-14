@@ -49,27 +49,6 @@ return json.data;
 },{
 "data" : "createdByRoleDescription"
 }
-,{
-	"mData" : "action",
-	"render" : function(data, type, row) {
-		
-		/*<button type="button"
-			class="btn btn-raised btn-primary float-right"
-			data-toggle="modal" data-target="#exampleModal">
-			<i class="fa fa-user"></i>
-		</button>*/
-	//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-		
-		return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit("
-																	+ row.customerID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																	+ "</a>"
-	}
-	}
-
-
-
 ],
 "columnDefs" : [ {
 "className": "dt-center", "targets": "_all"

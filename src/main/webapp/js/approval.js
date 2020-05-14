@@ -80,8 +80,8 @@ $(document)
 														"className": "dt-center", "targets": "_all"
 													},
 													{
-														orderable : false,
-														targets : [ 1 ]
+														targets: 5, 
+														visible: !(sessionStorage.getItem("roleID") == 5)
 													}],
 
 										"buttons" : [

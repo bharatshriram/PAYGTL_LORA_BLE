@@ -323,9 +323,9 @@ $(document)
 									});
 							
 							
-							$("#blockAdd")
-									.click(
-											function() {
+							
+												$(document).on('click', '#blockAdd', function () {
+													 
 												
 												//alert(""+$("#selectcommunityName").val());
 
@@ -360,11 +360,9 @@ $(document)
 
 															success : function(
 																	data) {
+
 																if (data.result == "Success") {
 
-																	/*alert( "data"
-																			+ data.result);*/
-																	
 																	bootbox.alert(data.Message,
 																			function(
 																					result) {
@@ -378,14 +376,17 @@ $(document)
 
 																} else if(data.result == "Failure"){
 									
-																	bootbox.alert(data.Message,
+																	/*bootbox.alert(data.Message,
 																			function(
 																					result) {
 																					
 																		//alert();
 																		window.location = "blockDetails.jsp";
 																		return false
-																				});
+																				});*/
+																	
+																	bootbox.alert(data.Message);
+																	return false;
 																	
 																	
 																}else {
@@ -456,14 +457,9 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "blockDetails.jsp";
-																return false;
-															});
+															bootbox.alert(data.Message);
+															return false;
+															//});
 														}
 													}
 												});

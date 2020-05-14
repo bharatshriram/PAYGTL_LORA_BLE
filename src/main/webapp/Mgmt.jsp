@@ -60,7 +60,7 @@
 						<button type="button"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
-							<i class="fa fa-user"></i>
+							<i class="fa fa-user-plus"></i>
 						</button>
 					</div>
 				</div>
@@ -78,7 +78,6 @@
 									<th>Block Name</th>
 									<th>Created By User Name</th>
 									<th>Created By Role Description</th>
-									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -71,7 +71,7 @@
 										        {extend: 'pdf',
 										        footer: 'true',
 										        exportOptions: {
-										            columns: [1,2,3,4,5,6,7]
+										            columns: [0,1,2,3,4,5,6]
 										        },
 										        text: 'pdf',
 										        orientation: 'landscape',
@@ -228,7 +228,7 @@
 																											        {extend: 'pdf',
 																											        footer: 'true',
 																											        exportOptions: {
-																											            columns: [1,2,3,4,5,6]
+																											            columns: [0,1,2,3,4,5,6]
 																											        },
 																											        text: 'pdf',
 																											        orientation: 'landscape',
