@@ -931,7 +931,6 @@ public class CommunitySetUpDAO {
 		try{
 		con = getConnection();
 		pstmt = con.prepareStatement("SELECT * from customermeterdetails where MeterSerialNumber = '"+customervo.getMeterSerialNumber().trim()+"'");
-		pstmt.setString(1, customervo.getMeterSerialNumber().trim());
 		rs = pstmt.executeQuery();
 		
 		if(rs.next()) {

@@ -256,8 +256,8 @@ public class DashboardDAO {
 				
 				System.out.println("StartByte==>"+StartByte);
 
-				if (StartByte.equalsIgnoreCase("0A")) {
-
+				if (StartByte.equalsIgnoreCase("A0")) {
+					// 0A 00 00 00 C1 08 FF 03 42 48 00 00 41 20 00 00 42 C8 00 00 00 7E 00 17
 					// 0A 00 00 00 0F 00 80 03 40 A0 00 00 3F 80 00 00 40 A0 00 00 00 00 00 17
 					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67
 					//               10             20             30             40   
@@ -516,7 +516,7 @@ public class DashboardDAO {
 				message = message.replaceAll("<CRN>", rs.getString("CRNNumber"));
 				smsRequestVO.setMessage(message.replaceAll("<house>", rs.getString("HouseNumber")));
 				
-				result = extraMethodsDao.sendsms(smsRequestVO);				
+				result = extraMethodsDao.sendsms(smsRequestVO).toString();				
 			}
 			
 		} catch(Exception e) {
