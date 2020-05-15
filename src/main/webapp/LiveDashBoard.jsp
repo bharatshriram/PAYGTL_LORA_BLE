@@ -197,8 +197,7 @@
                 <select class="form-control" id="tamper" name="tamper">
                   <option value="-1">Tamper Type</option>
                   <option value="1">Tamper Detect</option>
-                  <option value="2">Door Tamper</option>
-                  <option value="3">Magnetic Tamper</option>
+                  <option value="2">Door Open</option>
                 </select>
               </div>
             </div>

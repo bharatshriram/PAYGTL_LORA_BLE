@@ -2,7 +2,7 @@
  * 
  */
 $(document).ready(function() {
-	if(sessionStorage.getItem("roleID") == 2){
+	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		
 		document.querySelector(".blockimp").innerText ="*";
 	}
@@ -25,7 +25,7 @@ $(document)
 											return false;
 										}
 
-										if(sessionStorage.getItem("roleID") == 2){
+										if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
 
 											bootbox
@@ -70,12 +70,13 @@ $(document)
 												.val();
 										data1["month"] =  $("#end_date").val() == "" ? 0 : $("#end_date").val();
 
+										alert("D=>"+JSON.stringify(data1));
 										
 										$
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/financialreports/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+													url : "/PAYGTL_LORA_BLE/financialreports1/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",

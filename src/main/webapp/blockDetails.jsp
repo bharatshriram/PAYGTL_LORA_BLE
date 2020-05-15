@@ -1,4 +1,4 @@
-\<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -22,18 +22,15 @@
 	href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
-
-<title>Block Details</title>
+	
+<title>Customer Details</title>
 </head>
 
 
 <body class="innerbody">
-<%
+		<%
 		String user_id = (String) session.getAttribute("roleID");
 
-	%>
-
-	<%
 		if (user_id == null) {
 			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
@@ -257,14 +254,10 @@
 
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
-		
-		<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
-		
-		   <!--   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script> -->
 
-	<script src="js/block.js"></script>
 	<script src="js/dropdown.js"></script>
 	<script src="js/common.js"></script>
+	<script src="js/block.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
@@ -277,8 +270,9 @@
 		$(document).ready(function() {
 			$('body').bootstrapMaterialDesign();
 		});
-	</script>
-	<!-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> -->
+	 </script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
+	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 		
@@ -330,9 +324,10 @@
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
+	
 	<script>
 		$(document).ready(function() {
-			$('#blockTable').DataTable();
+			$('#communityTable').DataTable();
 		});
 	</script>
 

@@ -43,13 +43,13 @@
                 <div class="form-group md-form">
                   <i class="fas fa-envelope prefix icon_colors d-flex"></i>
                   <input type="text" id="username" name="username" class="form-control">
-                  <label for="username" class="bmd-label-floating">User ID</label>
+                  <label for="username" class="bmd-label-floating text-white">User ID</label>
                 </div>
 
                 <div class="form-group md-form">
                   <i class="fas fa-lock prefix icon_colors d-flex"></i>
                   <input type="password" name="password" id="password" class="form-control">
-                  <label for="password" class="bmd-label-floating">Your password</label>
+                  <label for="password" class="bmd-label-floating text-white">Your password</label>
                   <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                 </div>
 
