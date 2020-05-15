@@ -174,7 +174,7 @@ public class ExtraMethodsDAO {
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter with MIU ID: "+ rs.getString("MeterID")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
 					
-					sendsms(smsRequestVO);
+//					sendsms(smsRequestVO);
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");

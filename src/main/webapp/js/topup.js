@@ -165,12 +165,12 @@ $(document)
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
 										
-										if(($("#recharge_topup").val() < $("#emergency_topup").val()) || ($("#recharge_topup").val() < $("#alarm_topup").val())){
+										/*if(($("#recharge_topup").val() < $("#emergency_topup").val()) || ($("#recharge_topup").val() < $("#alarm_topup").val())){
 											
 											bootbox
 											.alert("Recharge Amount must be Greater than Emergency Credit and Alarm Credit");
 											return false;
-										}
+										}*/
 										
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
@@ -206,14 +206,9 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "topup.jsp";
+															bootbox.alert(data.Message)
+																	
 																return false
-																		});
 														}
 													}
 												});
