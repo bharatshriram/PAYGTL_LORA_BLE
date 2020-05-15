@@ -3,7 +3,6 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -172,6 +171,7 @@ public class DashboardDAO {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
 				}
 				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
+					System.out.println("@@");
 					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 10));
 				}
 				if(filtervo.getTamperType() > 0) {
@@ -250,18 +250,16 @@ public class DashboardDAO {
 			
 				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
 				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
-				
+
 				StringBuffer sb = new StringBuffer(decoded.length * 2);
 		        for (int i = 0; i < decoded.length; i++) {
 		            sb.append(DIGITS[(decoded[i] >>> 4) & 0x0F]);
 		            sb.append(DIGITS[decoded[i] & 0x0F]);
 		        }
 		        
-		        System.out.println(sb.toString());
 		        
 				if (sb.substring(0, 2).equalsIgnoreCase("0A")) {
 					
-					// 0A 00 00 00 0F 00 80 03 40 A0 00 00 3F 80 00 00 40 A0 00 00 00 00 00 17				
 					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67
 					//               10             20             30             40   
 					
@@ -303,7 +301,7 @@ public class DashboardDAO {
 					// change low balance alert after discussion with team
 					
 					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 3)) {
-						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Recharge it for uninterrupted Service.";
+						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Recharge now for uninterrupted Service.";
 						
 						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
@@ -341,7 +339,7 @@ public class DashboardDAO {
 
 		return responsevo;
 	}
-	
+
 	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
 		
 		Connection con = null;

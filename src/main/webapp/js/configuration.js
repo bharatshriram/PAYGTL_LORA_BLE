@@ -103,9 +103,7 @@ $(document)
 								}
 							});*/
 
-					$("#configuration")
-							.click(
-									function() {
+										$(document).on('click', '#configuration', function () {
 									    
 										var data1 = {}										
 										if ($("#selectcommunityName").val() == "-1") {
@@ -162,6 +160,7 @@ $(document)
 												data1["tariffID"] = $("#selectTariffName").val();
 											}
 										 
+										data1["commandType"] = $("#selectcommandType").val();
 										data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();
 										data1["meterID"] = $("#AMR_topup").val();
 										data1["source"] = "web";
