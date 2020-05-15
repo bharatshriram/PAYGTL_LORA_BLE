@@ -172,6 +172,7 @@ public class DashboardDAO {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
 				}
 				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
+					System.out.println("@@");
 					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 10));
 				}
 				if(filtervo.getTamperType() > 0) {
@@ -246,8 +247,14 @@ public class DashboardDAO {
 				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
 				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
 
+				System.out.println(tataRequestVO.getDataFrame()+"@@@+>"+decoded);
+				
+				System.out.println(toHex(decoded));
+				
 				String StartByte = (String) String.format("%044x", new BigInteger(1, decoded)).toUpperCase()
 						.substring(0, 2);
+				
+				System.out.println("StartByte==>"+StartByte);
 
 				if (StartByte.equalsIgnoreCase("0A")) {
 
@@ -360,7 +367,20 @@ public class DashboardDAO {
 
 		return responsevo;
 	}
-	
+	private static final char[] DIGITS
+    = {'0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	private static final String toHex(byte[] data) {
+		// TODO Auto-generated method stub
+		
+		final StringBuffer sb = new StringBuffer(data.length * 2);
+        for (int i = 0; i < data.length; i++) {
+            sb.append(DIGITS[(data[i] >>> 4) & 0x0F]);
+            sb.append(DIGITS[data[i] & 0x0F]);
+        }
+        return sb.toString();
+	}
+
 	public String insertdashboard (DashboardRequestVO dashboardRequestVO) {
 		
 		Connection con = null;
