@@ -83,10 +83,10 @@ option:first-child
 
  /* login page start  */
 .login{
-  background-image: url('../images/WATER-HMWSSB.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  height: 100%;
+  background-image: url('../images/8-lora-LOGIN.jpg') !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  height: 100% !important;
   
   }
   

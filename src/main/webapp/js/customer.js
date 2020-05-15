@@ -84,35 +84,60 @@ return json.data;
 																	
 																	
 	}
-	}
+	},{
+		"mData" : "action",
+		"render" : function(data, type, row) {
+			
+			return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
+																		+ row.CRNNumber
+																		+ "\")'>"
+																		+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																		+ "</a>"
+		}
+		}
 
 
 
 ],
 "columnDefs" : [ {
 	//orderable : false,
-	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
+	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+	//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
+},{
+	//orderable : false,
+	//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+	targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
 },
 {
 	"className": "dt-center", "targets": "_all"
 }], "buttons": [
-   /* 'csvHtml5',
-	'excelHtml5',
-'pdfHtml5'*/
-	
-	/*{extend: 'excel',
-        footer: 'true',
-        text: 'Excel',
-        title:'Statistics'  },
-         
-        {extend: 'pdf',
-        footer: 'true',
-        exportOptions: {
-            columns: [1,2,3,4,5,6,7,8,9,10,11,12]
-        },
-        text: 'pdf',
-        orientation: 'landscape',
-        title:'Statistics'  }*/
+	{
+		extend : 'excel',
+		footer : 'true',
+		//text : 'Excel',
+		exportOptions : {
+			columns : [ 0,1, 2, 3, 4,
+					5, 6, 7, 8, 9,
+					10, 11, 12 ]
+		},
+		title : 'Customer Details',
+		//className: 'custom-btn fa fa-file-excel-o'
+	},
+
+	{
+		extend : 'pdf',
+		footer : 'true',
+		exportOptions : {
+			columns : [ 0,1, 2, 3, 4,
+					5, 6, 7, 8, 9,
+					10, 11, 12 ]
+		},
+		//text : 'pdf',
+		//className: 'custom-btn fa fa-file-pdf-o',
+		orientation : 'landscape',
+		title : 'Customer Details',
+		pageSize: 'LEGAL'
+	}
 ]
 });
 });
@@ -226,8 +251,8 @@ $(document)
 															},
 															stringLength : {
 																min : 4,
-																max : 15,
-																message : 'The MIU ID must be more than 4 and less than 15 characters long'
+																max : 16,
+																message : 'The MIU ID must be more than 4 and less than 16 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
@@ -372,8 +397,8 @@ $(document)
 													},
 													stringLength : {
 														min : 4,
-														max : 15,
-														message : 'The MIU ID must be more than 4 and less than 15 characters long'
+														max : 16,
+														message : 'The MIU ID must be more than 4 and less than 16 characters long'
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,

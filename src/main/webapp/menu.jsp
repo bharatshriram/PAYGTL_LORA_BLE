@@ -68,6 +68,7 @@
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
  				<li> <a href="approval.jsp"><img src=common/images/icons/listofapproval.png /> <span class="nav-label">List Of Approval</span></a> </li>
+ 				 <li> <a href="communityDetails.jsp"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
                 <li> <a href="blockDetails.jsp"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block</span></a> </li>
 				<li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
@@ -97,7 +98,8 @@
                   <ul class="sub-menu collapse" id="dashboard">
  -->                  
                 <% } else if (user_id.equalsIgnoreCase("3")) {%>
-                
+                <li> <a href="communityDetails.jsp"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
+                <li> <a href="blockDetails.jsp"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block</span></a> </li>
                 <li> <a href="customerDetails.jsp"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
                 <li> <a href="LiveDashBoard.jsp"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
                 <li> <a href="topup.jsp"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
