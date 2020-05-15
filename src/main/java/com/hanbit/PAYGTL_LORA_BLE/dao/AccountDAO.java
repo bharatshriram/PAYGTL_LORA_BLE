@@ -92,8 +92,8 @@ public class AccountDAO {
 						
 						if(rs.getInt("previoustopupmonth") != dateTime.getMonthValue()) {
 							topupvo.setFixedCharges((rs1.getInt("FixedCharges") * (dateTime.getMonthValue() - rs.getInt("previoustopupmonth"))));
-						}
-						
+					}
+					
 					} else {
 						topupvo.setFixedCharges(rs1.getInt("FixedCharges"));
 					}

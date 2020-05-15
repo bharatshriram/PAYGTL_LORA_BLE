@@ -84,13 +84,16 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-	public String sendsms(SMSRequestVO smsRequestVO) {
+	public ResponseEntity<String> sendsms(SMSRequestVO smsRequestVO) {
 		// TODO Auto-generated method stub
 		
-		String result = "Failure";
+		RestTemplate restTemplate = new RestTemplate();
 		
+		ResponseEntity<String> response = restTemplate.postForEntity(ExtraConstants.SMSAPI+smsRequestVO.getToMobileNumber()+ExtraConstants.SenderID+smsRequestVO.getMessage(), HttpMethod.POST, String.class);
 		
-		return result;
+		System.out.println("SMSresponse:-"+response.toString());
+		return response;
+		
 	}
 	
 	public ResponseEntity<TataResponseVO> restcallget(RestCallVO restcallvo) throws IOException {

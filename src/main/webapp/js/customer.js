@@ -226,8 +226,8 @@ $(document)
 															},
 															stringLength : {
 																min : 4,
-																max : 15,
-																message : 'The MIU ID must be more than 4 and less than 15 characters long'
+																max : 16,
+																message : 'The MIU ID must be more than 4 and less than 16 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
