@@ -82,6 +82,7 @@
 									<th>Created Role</th>
 									<th>Registration Date</th>
 									<th>Action</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>

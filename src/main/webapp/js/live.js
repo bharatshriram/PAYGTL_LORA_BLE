@@ -285,11 +285,6 @@ $(document)
 													//text : 'Excel',
 													title : 'Dashboard',
 													//className: 'custom-btn fa fa-file-excel-o'
-													
-													customize: function (csv) {
-										                 return "My header here....\n\n"+  csv +"\n\nMy Footer here.....";
-										              }
-														
 												},
 
 												{

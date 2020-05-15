@@ -58,7 +58,7 @@
 						<h3>Community Details</h3>
 					</div>
 					<div class="col-md-6">
-						<button type="button"
+						<button type="button" id="communitypopup"
 							class="btn btn-raised btn-primary float-right"
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user-plus"></i>

@@ -283,6 +283,9 @@ $(document)
 											extend : 'excel',
 											footer : 'true',
 											text : 'Excel',
+											exportOptions : {
+												columns : [ 0, 1, 2, 3 ]
+											},
 											title : 'Configuration Status'
 										},
 
@@ -290,7 +293,7 @@ $(document)
 											extend : 'pdf',
 											footer : 'true',
 											exportOptions : {
-												columns : [ 1, 2, 3 ]
+												columns : [ 0, 1, 2, 3 ]
 											},
 											text : 'pdf',
 											orientation : 'landscape',
