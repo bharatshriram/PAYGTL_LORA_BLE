@@ -849,7 +849,7 @@ public class CommunitySetUpDAO {
             	pstmt1.setInt(1, requestid);
             	if(pstmt1.executeUpdate() > 0) {
             		responsevo.setResult("Success");
-            		responsevo.setMessage("Rejected");
+            		responsevo.setMessage("Rejected Successfully");
             	}
 				
 			}
@@ -859,7 +859,7 @@ public class CommunitySetUpDAO {
 			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
-			pstmt.close();
+//			pstmt.close();
 			con.close();
 		}
 		

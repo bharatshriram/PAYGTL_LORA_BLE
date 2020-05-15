@@ -94,7 +94,7 @@ public class DashboardDAO {
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
 				// change the full battery voltage value accordingly
-				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
+				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "YES" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
@@ -196,7 +196,7 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
-				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5)));
+				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "YES" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");

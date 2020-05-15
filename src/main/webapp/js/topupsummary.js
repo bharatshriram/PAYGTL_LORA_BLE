@@ -3,7 +3,7 @@
  */
 
 $(document).ready(function() {
-	if(sessionStorage.getItem("roleID") == 2){
+	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		
 		document.querySelector(".blockimp").innerText ="*";
 	}
@@ -39,7 +39,7 @@ $(document)
 										}else {
 											data1["blockID"] = "-1";
 										}
-										} else if(sessionStorage.getItem("roleID") == 2){
+										} else if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 											if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
 
 												bootbox
@@ -110,7 +110,7 @@ $(document)
 
 														 table = $('#topupsummaryTable').DataTable(
 																	{
-																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-white'p>>",
 																		"responsive" : true,
 																		/*"processing" : true,*/
 																		"serverSide" : false,
