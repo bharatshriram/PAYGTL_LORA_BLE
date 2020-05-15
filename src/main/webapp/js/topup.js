@@ -193,14 +193,9 @@ $(document)
 
 														} else if(data.result == "Failure"){
 															
-															bootbox.alert(data.Message,
-																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "topup.jsp";
+															bootbox.alert(data.Message)
+																	
 																return false
-																		});
 														}
 													}
 												});

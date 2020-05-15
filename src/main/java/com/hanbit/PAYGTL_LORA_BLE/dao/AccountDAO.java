@@ -130,7 +130,7 @@ public class AccountDAO {
 					
 					restcallvo.setDataFrame(Encoding.getHexBase644(dataFrame));
 					restcallvo.setMeterID(topupvo.getMeterID().toLowerCase());
-					
+					System.out.println("topup: "+restcallvo.getDataFrame());
 					String restcallresponse = extramethodsdao.restcallpost(restcallvo);
 					
 					TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
