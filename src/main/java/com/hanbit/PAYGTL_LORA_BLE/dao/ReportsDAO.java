@@ -62,7 +62,7 @@ public class ReportsDAO {
 			financialreportsresponselist = new ArrayList<FinancialReportsResponseVO>();
 			
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
-			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (financialreportsrequestvo.getBlockID() < 0 && (roleid==1 || roleid==4)) ? "WHERE cmd.CommunityID = "+financialreportsrequestvo.getCommunityID() + " ORDER BY cmd.CustomerID ASC" : (financialreportsrequestvo.getBlockID() > 0 && (roleid==1 || roleid==4)) ? "WHERE cmd.CommunityID = "+financialreportsrequestvo.getBlockID() + " ORDER BY cmd.CustomerID ASC" :(roleid==2 || roleid==5) ? "WHERE cmd.CommunityID = "+financialreportsrequestvo.getCommunityID() + " AND cmd.BlockID = "+id+" ORDER BY cmd.CustomerID ASC":""));
+			pstmt1 = con.prepareStatement(query.replaceAll("<change>", (financialreportsrequestvo.getBlockID() == 0 && (roleid==1 || roleid==4)) ? "WHERE cmd.CommunityID = "+financialreportsrequestvo.getCommunityID() + " ORDER BY cmd.CustomerID ASC" : (financialreportsrequestvo.getBlockID() != 0 && (roleid==1 || roleid==4)) ? "WHERE cmd.BlockID = "+financialreportsrequestvo.getBlockID() + " ORDER BY cmd.CustomerID ASC" :(roleid==2 || roleid==5) ? "WHERE cmd.CommunityID = "+financialreportsrequestvo.getCommunityID() + " AND cmd.BlockID = "+id+" ORDER BY cmd.CustomerID ASC":""));
 			rs1 = pstmt1.executeQuery();
 			while(rs1.next()) {
 				

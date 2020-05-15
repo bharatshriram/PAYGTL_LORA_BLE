@@ -91,7 +91,6 @@ public class ExtraMethodsDAO {
 		
 		ResponseEntity<String> response = restTemplate.postForEntity(ExtraConstants.SMSAPI+smsRequestVO.getToMobileNumber()+ExtraConstants.SenderID+smsRequestVO.getMessage(), HttpMethod.POST, String.class);
 		
-		System.out.println("SMSresponse:-"+response.toString());
 		return response;
 		
 	}

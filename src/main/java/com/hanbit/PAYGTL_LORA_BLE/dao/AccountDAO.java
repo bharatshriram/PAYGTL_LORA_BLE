@@ -350,8 +350,10 @@ public class AccountDAO {
 
 				// change according to the image directory
 
-			    Image hanbit = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit1.png"));
-			    Image client = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit1.png"));
+			    Image hanbit = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit.png"));
+			    Image client = new Image(ImageDataFactory.create("C:/TopupReceipts/raychem.png"));
+			    Image technology = new Image(ImageDataFactory.create("C:/TopupReceipts/lorawan.png"));
+			    Image mode = new Image(ImageDataFactory.create("C:/TopupReceipts/bluetooth.png"));
 			    
 			    float [] headingWidths = { 200F, 130F, 200F };
 				
@@ -359,15 +361,15 @@ public class AccountDAO {
 			    
 			    Cell headtable1 = new Cell();
 			    headtable1.add(hanbit);
-			    headtable1.setTextAlignment(TextAlignment.CENTER);
+			    headtable1.setTextAlignment(TextAlignment.LEFT);
 			    
 			    Cell headtable2 = new Cell();
 			    headtable2.add(head.setFontSize(20));
 			    headtable2.setTextAlignment(TextAlignment.CENTER).setVerticalAlignment(VerticalAlignment.MIDDLE).setBold().setUnderline().setFont(font);
 			    
 			    Cell headtable3 = new Cell();
-			    headtable3.add(client.setAutoScale(true));
-			    headtable3.setTextAlignment(TextAlignment.CENTER);
+			    headtable3.add(client);
+			    headtable3.setTextAlignment(TextAlignment.RIGHT);
 			    
 			    headTable.addCell(headtable1.setBorder(Border.NO_BORDER));
 			    headTable.addCell(headtable2.setBorder(Border.NO_BORDER));
@@ -512,7 +514,6 @@ public class AccountDAO {
 				datatable.startNewRow();
 				
 				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
-				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
@@ -711,7 +712,7 @@ public class AccountDAO {
 
 					if (ps.executeUpdate() > 0) {
 						responsevo.setResult("Success");
-						responsevo.setMessage("Command Request Submitted SUccessfully");
+						responsevo.setMessage("Command Request Submitted Successfully");
 						}
 						
 		} catch (Exception ex) {

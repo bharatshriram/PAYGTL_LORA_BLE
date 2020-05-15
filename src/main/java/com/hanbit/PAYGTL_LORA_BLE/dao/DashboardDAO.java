@@ -171,8 +171,7 @@ public class DashboardDAO {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
 				}
 				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
-					System.out.println("@@");
-					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 10));
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageTo()*3.5)/100) : 10));
 				}
 				if(filtervo.getTamperType() > 0) {
 					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
@@ -300,11 +299,11 @@ public class DashboardDAO {
 
 					// change low balance alert after discussion with team
 					
-					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 3)) {
+					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
 						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Recharge now for uninterrupted Service.";
 						
 						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-//						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
