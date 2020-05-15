@@ -24,12 +24,12 @@ public class DropDownController {
 	
 	Gson gson = new Gson();
 	DropDownDAO dropdowndao = new DropDownDAO();
-	ResponseVO responsevo = new ResponseVO();
 	
 	@RequestMapping(value = "/communities/{roleID}/{id}",method = RequestMethod.GET, 
 			produces="application/json")
 	public @ResponseBody ResponseVO getallcommunities(@PathVariable("roleID") int roleid, @PathVariable("id") String id) {
 		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo.setDropDownCommunities(dropdowndao.getallcommunities(roleid, id));
 
 		return responsevo;
@@ -39,6 +39,7 @@ public class DropDownController {
 			produces="application/json")
 	public @ResponseBody ResponseVO getallblocks(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("communityID") int communityID) {
 		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo.setDropDownBlocks(dropdowndao.getallblocks(communityID, roleid, id));
 		
 		return responsevo;
@@ -48,6 +49,7 @@ public class DropDownController {
 			produces="application/json")
 	public @ResponseBody ResponseVO getallhouses(@PathVariable("roleID") int roleid, @PathVariable("id") String id, @PathVariable ("blockID") int blockID) {
 		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo.setDropDownHouses(dropdowndao.getallhouses(blockID, roleid, id));
 		
 		return responsevo;
@@ -57,6 +59,7 @@ public class DropDownController {
 			produces="application/json")
 	public @ResponseBody ResponseVO gettopupdetails(@PathVariable ("CRNNumber") String CRNNumber) throws SQLException {
 		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo.setTopupdetails(dropdowndao.gettopupdetails(CRNNumber));
 		
 		return responsevo;
@@ -65,6 +68,7 @@ public class DropDownController {
 	@RequestMapping(value = "/tariffs",method = RequestMethod.GET, produces="application/json")
 	public @ResponseBody ResponseVO getalltariffs() throws SQLException {
 		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo.setDropDownTariffs(dropdowndao.getalltariffs());
 
 		return responsevo;

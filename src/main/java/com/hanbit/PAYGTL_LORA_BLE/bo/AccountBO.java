@@ -18,7 +18,6 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 public class AccountBO {
 
 	AccountDAO accountdao = new AccountDAO();
-	ResponseVO responsevo = new ResponseVO();
 	
 	/* TopUp */
 	
@@ -40,7 +39,7 @@ public class AccountBO {
 	
 	public ResponseVO addconfiguration(ConfigurationRequestVO configurationvo) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
-		
+		ResponseVO responsevo = new ResponseVO();
 			if (accountdao.checkstatus(configurationvo.getMeterID())) {
 				throw new BusinessException("PREVIOUS COMMAND REQUEST IS PENDING");
 			}

@@ -8,11 +8,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +38,6 @@ public class AccountController {
 
 	Gson gson = new Gson();
 	AccountBO accountbo = new AccountBO();
-	ResponseVO responsevo = new ResponseVO();
 	AccountDAO accountdao = new AccountDAO();
 
 	/* TopUp */
@@ -50,7 +46,7 @@ public class AccountController {
 	public @ResponseBody
 	ResponseVO addtopup(@RequestBody TopUpRequestVO topupRequestVO) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			responsevo = accountbo.addtopup(topupRequestVO);
 		} catch (BusinessException e) {
@@ -67,6 +63,7 @@ public class AccountController {
 	public @ResponseBody
 	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
 
+		ResponseVO responsevo = new ResponseVO();
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
 
 		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id));
@@ -78,7 +75,8 @@ public class AccountController {
 	public @ResponseBody
 	ResponseVO deletestatus(@PathVariable("transactionID") int transactionID)
 			throws SQLException {
-
+		
+		ResponseVO responsevo = new ResponseVO();
 		responsevo = accountdao.deletestatus(transactionID);
 
 		return responsevo;
@@ -118,6 +116,7 @@ public class AccountController {
 	ResponseVO addconfiguration(@RequestBody ConfigurationRequestVO configurationvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
 
+		ResponseVO responsevo = new ResponseVO();
 		try{
 			responsevo = accountbo.addconfiguration(configurationvo);
 		} catch (BusinessException e) {
@@ -132,7 +131,7 @@ public class AccountController {
 	public @ResponseBody
 	ResponseVO editcommunity(@PathVariable("transactionID") int transactionID)
 			throws ClassNotFoundException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		responsevo = accountdao.deleteconfiguration(transactionID);
 
 		return responsevo;

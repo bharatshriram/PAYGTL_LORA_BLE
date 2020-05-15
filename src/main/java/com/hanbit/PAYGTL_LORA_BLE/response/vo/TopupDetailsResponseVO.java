@@ -18,6 +18,8 @@ public class TopupDetailsResponseVO {
 	private float tariff;
 	private int tariffID;
 	private String CRNNumber;
+	private int reconnectionCharges;
+	private int fixedCharges;
 	
 	public String getMeterID() {
 		return meterID;
@@ -73,4 +75,17 @@ public class TopupDetailsResponseVO {
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
 	}
+	public int getReconnectionCharges() {
+		return reconnectionCharges;
+	}
+	public void setReconnectionCharges(int reconnectionCharges) {
+		this.reconnectionCharges = reconnectionCharges;
+	}
+	public int getFixedCharges() {
+		return fixedCharges;
+	}
+	public void setFixedCharges(int fixedCharges) {
+		this.fixedCharges = fixedCharges;
+	}
+	
 }

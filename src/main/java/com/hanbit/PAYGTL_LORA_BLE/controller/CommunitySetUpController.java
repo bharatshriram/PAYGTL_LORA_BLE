@@ -33,7 +33,6 @@ public class CommunitySetUpController {
 	
 	CommunitySetUpDAO communitysetupdao = new CommunitySetUpDAO();
 	CommunitySetUpBO communitysetupbo = new CommunitySetUpBO();
-	ResponseVO responsevo = new ResponseVO();
 	
 	/* Community */
 
@@ -52,7 +51,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO addcommunity(@RequestBody CommunityRequestVO communityvo)
 			throws ClassNotFoundException, SQLException, BusinessException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			responsevo = communitysetupbo.addcommunity(communityvo);
 
@@ -69,7 +68,7 @@ public class CommunitySetUpController {
 	ResponseVO editcommunity(@PathVariable("communityID") int communityid,
 			@RequestBody CommunityRequestVO communityvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		communityvo.setCommunityID(communityid);
 
 		try {
@@ -99,7 +98,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO addblock(@RequestBody BlockRequestVO blockvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			
 			responsevo = communitysetupbo.addblock(blockvo);
@@ -117,7 +116,7 @@ public class CommunitySetUpController {
 	ResponseVO editblock(@PathVariable("blockID") int blockid,
 			@RequestBody BlockRequestVO blockvo) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		blockvo.setBlockID(blockid);
 		try {
 			responsevo = communitysetupbo.editblock(blockvo);
@@ -133,7 +132,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO deleteblock(@PathVariable("blockID") int blockid)
 			throws BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try{
 
 			responsevo = communitysetupbo.deleteblock(blockid);
@@ -163,7 +162,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO addcustomer(@RequestBody CustomerRequestVO customervo) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			responsevo = communitysetupbo.addcustomer(customervo);
 		} catch (BusinessException e) {
@@ -179,7 +178,7 @@ public class CommunitySetUpController {
 	ResponseVO editcustomer(@PathVariable("CRNNumber") String CRNNumber,
 			@RequestBody CustomerRequestVO customervo) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		customervo.setCRNNumber(CRNNumber);
 
 		try {
@@ -196,7 +195,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO deletecustomer(@PathVariable("CRNNumber") String CRNNumber)
 			throws ClassNotFoundException, BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		CustomerRequestVO customervo = new CustomerRequestVO();
 
 		customervo.setCRNNumber(CRNNumber);
@@ -228,7 +227,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO approverequest(@PathVariable("requestID") int requestid, @PathVariable("action") int action) throws ClassNotFoundException,
 			BusinessException, SQLException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			responsevo = communitysetupdao.approverequest(requestid, action);
 		} catch (Exception e) {
@@ -257,7 +256,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO addtariff(@RequestBody TariffRequestVO tariffvo) throws ClassNotFoundException,
 			SQLException, BusinessException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			 responsevo = communitysetupbo.addtariff(tariffvo);
 			
@@ -275,7 +274,7 @@ public class CommunitySetUpController {
 			SQLException, BusinessException {
 
 		tariffvo.setTariffID(tariffID);
-		
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			 responsevo = communitysetupbo.edittariff(tariffvo);
 			
@@ -291,7 +290,7 @@ public class CommunitySetUpController {
 	public @ResponseBody
 	ResponseVO deletetariff(@PathVariable("tariffID") int tariffID) throws ClassNotFoundException,
 			SQLException, BusinessException {
-
+		ResponseVO responsevo = new ResponseVO();
 		try {
 			 responsevo = communitysetupbo.deletetariff(tariffID);
 			
