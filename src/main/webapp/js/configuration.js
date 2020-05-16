@@ -267,7 +267,13 @@ $(document)
 														
 															return "---";
 															
-														}else if(row.status == "Failed"){
+														}else if(row.status == "Pending...waiting for acknowledge"){
+														
+															return "---";
+															
+														}
+														
+														else if(row.status == "Failed"){
 															return "<a onclick='getDeleteTransactionID("
 															+ row.transactionID
 															+ ")'>"

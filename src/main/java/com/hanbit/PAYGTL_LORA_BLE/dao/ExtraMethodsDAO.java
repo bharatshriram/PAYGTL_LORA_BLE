@@ -196,7 +196,7 @@ public class ExtraMethodsDAO {
 	}
 	
 //	@Scheduled(cron="0 0/30 * * * ?")
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0/2 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;

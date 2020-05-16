@@ -286,13 +286,13 @@ public class DashboardDAO {
 					if (dashboardRequestVO.getLowBattery() == 1) {
 						alertMessage = "The Battery in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN> is low. Consider replacing it for uninterrupted Service.";
 						
-						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+//						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+//						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					} 
 					
 					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
-						alertMessage = "There is a <change> Tamper in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN>. Clear it for uninterrupted Service.";
-						alertMessage = alertMessage.replaceAll("<change>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : "");
+//						alertMessage = "There is a <change> Tamper in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN>. Clear it for uninterrupted Service.";
+//						alertMessage = alertMessage.replaceAll("<change>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : "");
 						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					}
@@ -302,8 +302,8 @@ public class DashboardDAO {
 					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
 						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Recharge now for uninterrupted Service.";
 						
-						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+//						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+//						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
