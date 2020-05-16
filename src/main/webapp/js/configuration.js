@@ -263,11 +263,20 @@ $(document)
 													"render" : function(data,
 															type, row) {
 
-														return "<a onclick='getDeleteTransactionID("
-																+ row.transactionID
-																+ ")'>"
-																+ "<i class='material-icons' style='color:#17e9e9; cursor:pointer;'>delete</i>"
-																+ "</a>"
+														if(row.status == "Passed"){
+														
+															return "---";
+															
+														}else if(row.status == "Failed"){
+															return "<a onclick='getDeleteTransactionID("
+															+ row.transactionID
+															+ ")'>"
+															+ "<i class='material-icons' style='color:#17e9e9; cursor:pointer;'>delete</i>"
+															+ "</a>"
+															
+														}
+														
+														
 													}
 												} ],
 										"columnDefs" : [ {

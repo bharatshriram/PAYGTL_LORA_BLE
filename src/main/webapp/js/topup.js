@@ -261,24 +261,21 @@ $(document).ready(function() {
 	},{
 		"mData" : "action",
 		"render" : function(data, type, row) {
-			
-			/*<button type="button"
-				class="btn btn-raised btn-primary float-right"
-				data-toggle="modal" data-target="#exampleModal">
-				<i class="fa fa-user"></i>
-			</button>*/
-		//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-			
-			return "<a onclick='getDeleteTransactionID("
-																		+ row.transactionID
-																		+ ")'>"
-																		+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
-																		+ "</a>"
-																		+"<a onclick='getReceiptTransactionID("
-																		+ row.transactionID
-																		+ ")'>"
-																		+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
-																		+ "</a>"
+			if(row.Status == "Failed"){
+				return "<a onclick='getDeleteTransactionID("
+				+ row.transactionID
+				+ ")'>"
+				+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
+				+ "</a>";
+				
+			}else if(row.Status == "Passed" || row.Status == "Pending...waiting for acknowledge"){
+				return "<a onclick='getReceiptTransactionID("
+				+ row.transactionID
+				+ ")'>"
+				+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
+				+ "</a>"
+			}
+																
 		}
 		}
 	],

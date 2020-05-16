@@ -30,7 +30,7 @@
 		<a class="navbar-brand logo_sm
 		 text-white col-md-2 mr-minus15"
 			href="home.jsp"><img class="img-fluid logo"
-			src="common/images/hanbit1.png" alt="logo"></a>
+			src="common/images/logogif.gif" alt="logo" style="max-width: 58% !important;"></a>
 		<!-- Links -->
 
 
