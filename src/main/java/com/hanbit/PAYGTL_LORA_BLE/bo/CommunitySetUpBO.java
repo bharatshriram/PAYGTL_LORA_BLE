@@ -180,11 +180,11 @@ public class CommunitySetUpBO {
 		}
 		
 		if(communitysetupdao.checkcustomerName(customervo)) {
-			throw new BusinessException("CUSTOMER/CRNNUMBER ALREADY REGISTERED");
+			throw new BusinessException("CUSTOMER NAME ALREADY EXISTS");
 		}
 		
 		if(communitysetupdao.checkAMRID(customervo)) {
-			throw new BusinessException("AMR ID IS ALREADY REGISTERED");
+			throw new BusinessException("MIU ID IS ALREADY REGISTERED");
 		}
 		
 		if(communitysetupdao.checkMeterSerialNumber(customervo)) {
@@ -193,6 +193,10 @@ public class CommunitySetUpBO {
 		
 		if(communitysetupdao.checkHouseNumber(customervo)) {
 			throw new BusinessException("HOUSE NUMBER IS ALREADY REGISTERED");
+		}
+		
+		if(communitysetupdao.checkCRNNumber(customervo.getCRNNumber())) {
+			throw new BusinessException("CRN NUMBER IS ALREADY REGISTERED");
 		}
 
 		return communitysetupdao.addcustomer(customervo);

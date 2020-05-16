@@ -150,7 +150,7 @@ public class DropDownDAO {
 		catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			pstmt.close();
+//			pstmt.close();
 	//		ps.close();
 			rs.close();
 			con.close();

@@ -975,6 +975,34 @@ public class CommunitySetUpDAO {
 		return result;
 	}
 	
+	public boolean checkCRNNumber(String CRNNumber) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		boolean result = false;
+		
+		try{
+		con = getConnection();
+		
+		pstmt = con.prepareStatement("SELECT * from customermeterdetails where CRNNumber = ?");
+		pstmt.setString(1, CRNNumber.trim());
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+				result = true;
+			}
+		
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		
+		return result;
+	}
+	
 	public boolean checkpendingrequest(String CRNNumber) throws SQLException {
 		// TODO Auto-generated method stub
 		Connection con = null;
