@@ -383,6 +383,7 @@ public class ManagementSettingsDAO {
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 					
 						String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+						System.out.println("serialNumber:-"+ serialNumber);
 
 						DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 						LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime()+":00", dtf);
@@ -491,11 +492,12 @@ public class ManagementSettingsDAO {
 				if (vacationRequestVO.getSource().equalsIgnoreCase("web")) {
 
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
+					
+					System.out.println("serialNumber:-"+ serialNumber);
 
 					DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime() + ":00",
-							dtf);
-					LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime() + ":00", dtf);
+					LocalDateTime startDateTime = LocalDateTime.parse(vacationRequestVO.getStartDateTime()+":00", dtf);
+					LocalDateTime endDateTime = LocalDateTime.parse(vacationRequestVO.getEndDateTime()+":00", dtf);
 
 					String dataframe = "0A1600" + serialNumber + "020C0141"
 							+ String.format("%02x", startDateTime.getDayOfMonth())
@@ -558,9 +560,7 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement(
-					"UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "
-							+ vacationRequestVO.getVacationID());
+			pstmt = con.prepareStatement("UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "+ vacationRequestVO.getVacationID());
 
 			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
 			pstmt.setString(2, vacationRequestVO.getVacationName());
@@ -594,13 +594,15 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("SELECT MeterID FROM vacation WHERE VacationID = " + vacationID);
+			pstmt = con.prepareStatement("SELECT MeterID, VacationName FROM vacation WHERE VacationID = " + vacationID);
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				vacationRequestVO.setMeterID(rs.getString("MeterID"));
 				vacationRequestVO.setMode("delete");
 				vacationRequestVO.setSource(source);
+				vacationRequestVO.setVacationName(rs.getString("VacationName"));
+				vacationRequestVO.setVacationID(vacationID);
 
 				if (source.equalsIgnoreCase("web")) {
 
@@ -612,7 +614,7 @@ public class ManagementSettingsDAO {
 					RestCallVO restcallvo = new RestCallVO();
 
 					restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
-					restcallvo.setDataFrame(dataframe);
+					restcallvo.setDataFrame(Encoding.getHexBase644(dataframe));
 
 					String restcallresponse = extramethodsdao.restcallpost(restcallvo);
 

@@ -327,7 +327,7 @@ function getDeleteTransactionID(transID){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE RECORD",
+			"ARE YOU SURE TO DELETE RECORD",
 		function(
 			result) {
 			//	alert(result);

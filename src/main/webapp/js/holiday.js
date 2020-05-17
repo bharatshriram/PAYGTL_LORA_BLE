@@ -77,7 +77,7 @@ return json.data;
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
 																	+ "</a>"
-																	+"<a onclick='getHolidayFormDelete("
+																	+"<a onclick='getVacationrFormDelete("
 																	+ row.vacationID
 																	+ ")'>"
 																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
