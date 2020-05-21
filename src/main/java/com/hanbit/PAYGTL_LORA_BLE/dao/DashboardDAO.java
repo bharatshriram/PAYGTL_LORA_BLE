@@ -84,9 +84,9 @@ public class DashboardDAO {
 				dashboardvo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
+				// send tariff id/TariffName after fetching from db
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
-				// send tariff id/TariffName after fetching from db
 				dashboardvo.setReading(rs.getFloat("Reading"));
 				dashboardvo.setConsumption((dashboardvo.getReading() * perUnitValue));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
@@ -264,7 +264,7 @@ public class DashboardDAO {
 					
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(sb.substring(2, 10)));					
 					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);
-					// 0 = no tamper 1 = tamper; 2 = door open
+					// 0 = no tamper 1 = magnetic; 2 = door open
 					dashboardRequestVO.setTamperStatus(sb.substring(10, 12).equalsIgnoreCase("04") ? 1: sb.substring(10, 12).equalsIgnoreCase("08") ? 2: 0);
 					dashboardRequestVO.setVacation(sb.substring(10, 12).equalsIgnoreCase("10") ? 1: 0);
 					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
@@ -284,23 +284,23 @@ public class DashboardDAO {
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
 					if (dashboardRequestVO.getLowBattery() == 1) {
-						alertMessage = "The Battery in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN> is low. Consider replacing it for uninterrupted Service.";
+						alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
 						
 //						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					} 
 					
 					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
-//						alertMessage = "There is a <change> Tamper in Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " installed at H.No: <house> with CRNNumber: <CRN>. Clear it for uninterrupted Service.";
-//						alertMessage = alertMessage.replaceAll("<change>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : "");
-						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
+						alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
+//						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+//						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					// change low balance alert after discussion with team
 					
 					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
-						alertMessage = "Balance in your Meter with MIU ID: " + dashboardRequestVO.getMeterID() + " is low. Recharge now for uninterrupted Service.";
+						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
 						
 //						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
@@ -465,14 +465,20 @@ public class DashboardDAO {
 		try {
 			con = getConnection();
 			
-			pstmt = con.prepareStatement("SELECT cmd.MobileNumber AS customerMobileNumber, b.MobileNumber AS adminMobileNumber, cmd.HouseNumber, cmd.CRNNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = '"+ meterID+"'");
+			pstmt = con.prepareStatement("SELECT cmd.MobileNumber AS customerMobileNumber, b.MobileNumber AS adminMobileNumber, cmd.HouseNumber, cmd.CRNNumber, b.BlockName as BlockName, c.CommunityName as CommunityName FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID LEFT JOIN community AS c ON c.CommunityID = cmd.CommunityID WHERE cmd.MeterID = '"+ meterID+"'");
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				
 				smsRequestVO.setToMobileNumber(i == 1 ? rs.getString("customerMobileNumber") : rs.getString("adminMobileNumber"));
 				message = message.replaceAll("<CRN>", rs.getString("CRNNumber"));
-				smsRequestVO.setMessage(message.replaceAll("<house>", rs.getString("HouseNumber")));
+				if(i!=1) {
+					message = message.replaceAll("<community>", rs.getString("CommunityName"));
+					message = message.replaceAll("<block>", rs.getString("BlockName"));
+					message = message.replaceAll("<house>", rs.getString("HouseNumber"));	
+				}
+				
+				smsRequestVO.setMessage(message);
 				
 				result = extraMethodsDao.sendsms(smsRequestVO).toString();				
 			}
@@ -498,7 +504,7 @@ public class DashboardDAO {
 		try {
 			con = getConnection();
 			
-			pstmt = con.prepareStatement("SELECT cmd.Email AS customerEmail, b.Email AS adminEmail, cmd.CRNNumber, cmd.HouseNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID WHERE cmd.MeterID = '"+ meterID+"'");
+			pstmt = con.prepareStatement("SELECT cmd.Email AS customerEmail, b.Email AS adminEmail, b.BlockName as BlockName, c.CommunityName as CommunityName, cmd.CRNNumber, cmd.HouseNumber FROM customermeterdetails as cmd LEFT JOIN block AS b ON b.BlockID = cmd.BlockID LEFT JOIN community AS c ON c.CommunityID = cmd.CommunityID WHERE cmd.MeterID = '"+ meterID+"'");
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -506,7 +512,13 @@ public class DashboardDAO {
 				mailRequestVO.setToEmail(subject.equalsIgnoreCase("Low Balance Alert!!!") ? rs.getString("customerEmail") : rs.getString("adminEmail"));
 				mailRequestVO.setSubject(subject);
 				message = message.replaceAll("<CRN>", rs.getString("CRNNumber"));
-				mailRequestVO.setMessage("Dear Customer, \n \n" + message.replaceAll("<house>", rs.getString("HouseNumber")));
+				if(!subject.equalsIgnoreCase("Low Balance Alert!!!")) {
+					message = message.replaceAll("<community>", rs.getString("CommunityName"));
+					message = message.replaceAll("<block>", rs.getString("BlockName"));
+					message = message.replaceAll("<house>", rs.getString("HouseNumber"));	
+				}
+				
+				mailRequestVO.setMessage(subject.equalsIgnoreCase("Low Balance Alert!!!") ? "Dear Customer, \n \n" : "Dear Admin, \n \n");
 				
 				result = extraMethodsDao.sendmail(mailRequestVO);				
 			}
