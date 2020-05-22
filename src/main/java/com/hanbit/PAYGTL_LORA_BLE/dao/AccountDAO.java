@@ -3,9 +3,7 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,12 +14,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
-
-import org.apache.xmlbeans.ResourceLoader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
