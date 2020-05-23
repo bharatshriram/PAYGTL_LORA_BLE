@@ -4,6 +4,7 @@
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
 import java.io.File;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -16,6 +17,7 @@ import java.util.Random;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
+import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
@@ -349,11 +351,13 @@ public class AccountDAO {
 				PdfFont font = new PdfFontFactory().createFont(FontConstants.TIMES_BOLD);
 
 				// change according to the image directory
-
-			    Image hanbit = new Image(ImageDataFactory.create("C:/TopupReceipts/hanbit.png"));
-			    Image client = new Image(ImageDataFactory.create("C:/TopupReceipts/raychem.png"));
-			    Image technology = new Image(ImageDataFactory.create("C:/TopupReceipts/lorawan.png"));
-			    Image mode = new Image(ImageDataFactory.create("C:/TopupReceipts/bluetooth.png"));
+				
+				URL hanbiturl = new URL(ExtraConstants.HANBITIMAGEURL);
+				URL clienturl = new URL(ExtraConstants.CLIENTIMAGEURL); 
+			    Image hanbit = new Image(ImageDataFactory.create(hanbiturl));
+			    Image client = new Image(ImageDataFactory.create(clienturl));
+//			    Image technology = new Image(ImageDataFactory.create("C:/TopupReceipts/lorawan.png"));
+//			    Image mode = new Image(ImageDataFactory.create("C:/TopupReceipts/bluetooth.png"));
 			    
 			    float [] headingWidths = { 200F, 130F, 200F };
 				

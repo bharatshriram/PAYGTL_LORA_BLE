@@ -153,7 +153,7 @@ public class ExtraMethodsDAO {
 		
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, cmd.MobileNumber, cmd.Email FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web'");
+			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web'");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
@@ -171,13 +171,13 @@ public class ExtraMethodsDAO {
 				if(pstmt1.executeUpdate() > 0){
 					
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
-					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter with MIU ID: "+ rs.getString("MeterID")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
 					
 //					sendsms(smsRequestVO);
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");
-					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your Meter with MIU ID: "+ rs.getString("MeterID")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the Meter (MIU ID: "+ rs.getString("MeterID")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
 					
 					sendmail(mailRequestVO);
 					
