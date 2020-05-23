@@ -73,8 +73,8 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Tariff Name</th>
-									<th>Tariff Rate</th>
+									<th>Name</th>
+									<th>Rate</th>
 									<th>Emergency Credit</th>
 									<th>Alarm Credit</th>
 									<th>Fixed Charge</th>
@@ -111,14 +111,14 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Name</label> <input
+									<label class="bmd-label-floating">Name</label> <input
 										type="text" class="form-control" name="tariffNameAdd"
 										id="tariffNameAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Rate</label> <input
+									<label class="bmd-label-floating">Rate</label> <input
 										type="text" class="form-control" name="tariffRateAdd"
 										id="tariffRateAdd">
 								</div>
@@ -189,14 +189,14 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div id="formtariffName" class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Name</label> <input
+									<label class="bmd-label-floating">Name</label> <input
 										type="text" class="form-control" name="tariffNameEdit"
 										id="tariffNameEdit">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div id="formtariffRate" class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Rate</label> <input
+									<label class="bmd-label-floating">Rate</label> <input
 										type="text" class="form-control" name="tariffRateEdit"
 										id="tariffRateEdit">
 								</div>

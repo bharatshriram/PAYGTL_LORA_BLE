@@ -28,14 +28,19 @@
 
 		<!-- Brand -->
 		<a class="navbar-brand logo_sm
+		 text-white col-md-1 mr-minus15"
+			href="home.jsp"><img class="img-fluid logo"
+			src="common/images/hanbit1.png" alt="logo" style="max-width: 140% !important;"></a>
+			
+		<a class="navbar-brand logo_sm
 		 text-white col-md-2 mr-minus15"
 			href="home.jsp"><img class="img-fluid logo"
-			src="common/images/logogif.gif" alt="logo" style="max-width: 58% !important;"></a>
+			src="common/images/4-raychem.png" alt="logo" style="max-width: 58% !important;"></a>
 		<!-- Links -->
 
 
 					<div class="m-auto text-center text-white smart_text">
-					<h4 class="imgheader">   SMART PREPAID SYSTEM - GAS<img class="img-fluid" src="common/images/gas.png">PAYGTL</h4>
+					<h4 class="imgheader">  PAY AS YOU GO GAS<img class="img-fluid" src="common/images/gas.png">PAYGTL</h4>
 					</div>
 
 		<ul class="navbar-nav admindropdown">

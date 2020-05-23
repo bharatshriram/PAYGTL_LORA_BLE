@@ -101,36 +101,36 @@ $(document)
 												},
 												fields : {
 													tariffNameAdd : {
-														message : 'The Tariff Name is not valid',
+														message : 'The Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Tariff Name is required and cannot be empty'
+																message : 'The Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Tariff Name must be more than 4 and less than 30 characters long'
+																message : 'The Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z ]*$/,
-																message : 'The Tariff Name can only consist of alphabet'
+																message : 'The Name can only consist of alphabet'
 															}
 														}
 													},
 													tariffRateAdd : {
-														message : 'The Tariff Rate is not valid',
+														message : 'The Rate is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Tariff Rate is required and cannot be empty'
+																message : 'The Rate is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Tariff Rate must be more than 2 and less than 30 characters long'
+																message : 'The Rate must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Tariff Rate can only consist of alphabetical and number'
+																message : 'The Rate can only consist of alphabetical and number'
 															}
 														}
 													},
@@ -198,36 +198,36 @@ $(document)
 										},
 										fields : {
 											tariffNameEdit : {
-												message : 'The Tariff Name is not valid',
+												message : 'The Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Tariff Name is required and cannot be empty'
+														message : 'The Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The Tariff Name must be more than 4 and less than 30 characters long'
+														message : 'The Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z ]*$/,
-														message : 'The Tariff Name can only consist of alphabet'
+														message : 'The Name can only consist of alphabet'
 													}
 												}
 											},
 											tariffRateEdit : {
-												message : 'The Tariff Rate is not valid',
+												message : 'The Rate is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Tariff Rate is required and cannot be empty'
+														message : 'The Rate is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Tariff Rate must be more than 2 and less than 30 characters long'
+														message : 'The Rate must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Tariff Rate can only consist of alphabetical and number'
+														message : 'The Rate can only consist of alphabetical and number'
 													}
 												}
 											},

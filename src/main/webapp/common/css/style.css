@@ -417,9 +417,11 @@ input:-internal-autofill-selected {
 } 
 
 
-
-
-
+.cardSpacing{padding: 4px 1.25rem !important;}
+.view_details{
+	float: right;
+    line-height: 15px;
+}
 
 .logo_totalpage{
 	position: absolute;
