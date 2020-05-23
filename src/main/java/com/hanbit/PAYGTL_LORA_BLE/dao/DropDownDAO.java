@@ -126,7 +126,7 @@ public class DropDownDAO {
 	                    pstmt.setString(1, CRNNumber);
 	                    ResultSet rs1 = pstmt.executeQuery();
 	                    if (rs1.next()) {
-	                    	topupdetailsresponsevo.setIoTTimeStamp(rs1.getString("IoTTimeStamp"));
+	                    	topupdetailsresponsevo.setIoTTimeStamp(ExtraMethodsDAO.datetimeformatter(rs1.getString("IoTTimeStamp")));
                         	topupdetailsresponsevo.setCurrentBalance(rs1.getFloat("Balance"));
                         	topupdetailsresponsevo.setReconnectionCharges(rs1.getInt("Minutes") != 0 ? rs1.getInt("ReconnectionCharges") : 0);
                         	
@@ -134,7 +134,7 @@ public class DropDownDAO {
         					ResultSet rs2 = pstmt2.executeQuery();
         					
         					if(rs2.next()) {
-        						
+        						topupdetailsresponsevo.setNoOfMonths(dateTime.getMonthValue() - rs2.getInt("previoustopupmonth"));
         						topupdetailsresponsevo.setFixedCharges(rs2.getInt("previoustopupmonth") != dateTime.getMonthValue() ? (rs.getInt("FixedCharges") * (dateTime.getMonthValue() - rs2.getInt("previoustopupmonth"))) : 0);
         					}
 
@@ -143,6 +143,7 @@ public class DropDownDAO {
 	        					topupdetailsresponsevo.setIoTTimeStamp("0");
 	                        	topupdetailsresponsevo.setCurrentBalance(0);
 	                        	topupdetailsresponsevo.setReconnectionCharges(0);
+	                        	topupdetailsresponsevo.setNoOfMonths(0);
 	                        	topupdetailsresponsevo.setFixedCharges(rs.getInt("FixedCharges"));
 	                        }
 	            }

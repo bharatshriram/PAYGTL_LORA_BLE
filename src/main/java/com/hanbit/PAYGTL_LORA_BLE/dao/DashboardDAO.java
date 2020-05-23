@@ -25,6 +25,8 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.FinancialReportsResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
 /**
@@ -100,7 +102,7 @@ public class DashboardDAO {
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
-				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
+				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
 				
 				Date currentDateTime = new Date();
 				
@@ -110,7 +112,10 @@ public class DashboardDAO {
 					nonCommunicating++;
 					dashboardvo.setDateColor("RED");
 					dashboardvo.setCommunicationStatus("NO");
-				}else {
+				}else if(minutes > 1440 || minutes < noAMRInterval) {
+					dashboardvo.setDateColor("ORANGE");
+					dashboardvo.setCommunicationStatus("YES");
+				} else {
 					dashboardvo.setDateColor("GREEN");
 					dashboardvo.setCommunicationStatus("YES");
 				}
@@ -202,7 +207,7 @@ public class DashboardDAO {
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
-				dashboardvo.setTimeStamp(rs.getString("IoTTimeStamp"));
+				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
 				
 				Date currentDateTime = new Date();
 				
@@ -227,6 +232,105 @@ public class DashboardDAO {
 			con.close();
 		}
 		return dashboard_list;
+	}
+	
+	public HomeResponseVO getHomeDashboardDetails(int roleid, String id)
+			throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		ResultSet rs3 = null;
+		ResultSet rs4 = null;
+		
+		HomeResponseVO homeResponseVO = null;
+		int noAMRInterval = 0;
+		double lowBatteryVoltage = 0.0;
+		int nonLive = 0;
+		int live = 0;
+		int active = 0;
+		int inActive = 0;
+		int emergency = 0;
+		int lowBattery = 0;
+		int amr = 0;
+		int consumption = 0;
+		
+		try {
+			con = getConnection();
+			homeResponseVO = new HomeResponseVO();
+			
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage FROM alertsettings");
+			ResultSet rs1 = pstmt1.executeQuery();
+			if(rs1.next()) {
+				
+				noAMRInterval = rs1.getInt("NoAMRInterval");
+				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+			}
+			
+			String query = "SELECT DISTINCT cmd.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.SolonideStatus, dbl.TamperDetect, dbl.Minutes, dbl.IoTTimeStamp, dbl.LogDate FROM displaybalancelog AS dbl LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
+
+			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				
+				amr++;
+
+				Date currentDateTime = new Date();
+				
+				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
+				
+				if(minutes > noAMRInterval) { nonLive++; } else { live++; }
+				if(rs.getInt("SolonideStatus") == 0) { active++; } else { inActive++; }
+				if(rs.getInt("Minutes") != 0) { emergency++; }
+				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) { lowBattery++; }
+				
+			}
+			
+			homeResponseVO.setLive(live);
+			homeResponseVO.setNonLive(nonLive);
+			homeResponseVO.setActive(active);
+			homeResponseVO.setInActive(inActive);
+			homeResponseVO.setEmergency(emergency);
+			homeResponseVO.setLowBattery(lowBattery);
+			homeResponseVO.setAmr(amr);
+			
+			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN (CURDATE() - INTERVAL 1 DAY) AND CONCAT(CURDATE(), ' 23:59:59') <change>";
+			pstmt2 = con.prepareStatement(query1.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "AND BlockID = "+id :""));
+			rs2 = pstmt2.executeQuery();
+			if(rs2.next()) { homeResponseVO.setTopup(rs2.getInt("topup")); } else { homeResponseVO.setTopup(0); }
+			
+			String query2 = "SELECT MeterID FROM customermeterdetails <change>";
+			pstmt3 = con.prepareStatement(query2.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "WHERE BlockID = "+id + " ORDER BY CustomerID ASC" :""));
+			rs3 = pstmt3.executeQuery();
+			while(rs3.next()) {
+				
+				String query3 = "SELECT ABS((SELECT Reading FROM balancelog WHERE MeterID = ? AND IoTTImeStamp BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW() ORDER BY ReadingID DESC LIMIT 0,1)\r\n" + 
+						"- (SELECT Reading FROM balancelog WHERE MeterID = ? AND IoTTImeStamp BETWEEN (NOW() - INTERVAL 1 DAY) AND NOW() ORDER BY ReadingID ASC LIMIT 0,1)) AS Units";
+
+				pstmt4 = con.prepareStatement(query3);
+				pstmt4.setString(1, rs3.getString("MeterID"));
+				pstmt4.setString(2, rs3.getString("MeterID"));
+				rs4 = pstmt4.executeQuery();
+				if(rs4.next()) {
+					consumption = rs4.getInt("Units") + consumption;
+				}
+			}
+			
+			homeResponseVO.setConsumption(consumption);
+			
+		}
+
+		catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		return homeResponseVO;
 	}
 
 	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {

@@ -59,14 +59,13 @@ public class AccountController {
 	
 	/* Status */
 
-	@RequestMapping(value = "/status/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/status/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid) throws SQLException {
 
-		ResponseVO responsevo = new ResponseVO();
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
 
-		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id));
+		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id, filterCid));
 
 		return statusresponsevo;
 	}
@@ -100,13 +99,13 @@ public class AccountController {
 	
 	/* Configuration */
 
-	@RequestMapping(value = "/configuration/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/configuration/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	ConfigurationResponseVO configurationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid) throws SQLException {
 
 		ConfigurationResponseVO configurationresponsevo = new ConfigurationResponseVO();
 
-		configurationresponsevo.setData(accountdao.getConfigurationdetails(roleid, id));
+		configurationresponsevo.setData(accountdao.getConfigurationdetails(roleid, id, filterCid));
 
 		return configurationresponsevo;
 	}

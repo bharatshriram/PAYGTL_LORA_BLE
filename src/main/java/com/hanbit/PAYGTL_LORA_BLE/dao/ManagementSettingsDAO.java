@@ -195,7 +195,7 @@ public class ManagementSettingsDAO {
 				alertvo.setTimeOut(rs.getString("TimeOut"));
 				alertvo.setPerUnitValue(rs.getFloat("PerUnitValue"));
 				alertvo.setReconnectionCharges(rs.getInt("ReconnectionCharges"));
-				alertvo.setRegisteredDate(rs.getString("ModifiedDate"));
+				alertvo.setRegisteredDate(ExtraMethodsDAO.datetimeformatter(rs.getString("ModifiedDate")));
 				alertvo.setAlertID(rs.getInt("AlertID"));
 				alert_settings_list.add(alertvo);
 			}
@@ -314,7 +314,7 @@ public class ManagementSettingsDAO {
 
 	/* Vacation */
 
-	public List<VacationResponseVO> getvacationdetails(int roleid, String id) throws SQLException {
+	public List<VacationResponseVO> getvacationdetails(int roleid, String id, int filterCid) throws SQLException {
 
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -327,7 +327,7 @@ public class ManagementSettingsDAO {
 
 			String query = "SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Status, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID WHERE v.Mode = ('add' or 'edit') <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? " AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? " AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY v.VacationID DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " AND v.CommunityID = "+filterCid+" ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? " AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? " AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
@@ -343,9 +343,9 @@ public class ManagementSettingsDAO {
 				vacationResponseVO.setCRNNumber(rs.getString("CRNNumber"));
 				vacationResponseVO.setMeterID(rs.getString("MeterID"));
 				vacationResponseVO.setVacationName(rs.getString("VacationName"));
-				vacationResponseVO.setStartDate(rs.getString("StartDate"));
-				vacationResponseVO.setEndDate(rs.getString("EndDate"));
-				vacationResponseVO.setRegisteredDate(rs.getString("RegisteredDate"));
+				vacationResponseVO.setStartDate(ExtraMethodsDAO.datetimeformatter(rs.getString("StartDate")));
+				vacationResponseVO.setEndDate(ExtraMethodsDAO.datetimeformatter(rs.getString("EndDate")));
+				vacationResponseVO.setRegisteredDate(ExtraMethodsDAO.datetimeformatter(rs.getString("RegisteredDate")));
 				vacationResponseVO.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				vacationlist.add(vacationResponseVO);
 			}

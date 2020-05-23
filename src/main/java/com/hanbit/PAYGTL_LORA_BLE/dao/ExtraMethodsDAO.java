@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Properties;
 
@@ -196,7 +198,7 @@ public class ExtraMethodsDAO {
 	}
 	
 //	@Scheduled(cron="0 0/30 * * * ?")
-	@Scheduled(cron="0 0/2 * * * ?") 
+	@Scheduled(cron="0 0/5 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -321,6 +323,14 @@ public class ExtraMethodsDAO {
 			rs.close();
 			con.close();
 		}
+	}
+	
+	public static String datetimeformatter(String dateTime) throws ParseException {
+		
+		SimpleDateFormat IOTFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat clientFormat = new SimpleDateFormat("MM:dd:yyyy,HH:mm:ss");
+		
+		return clientFormat.format(IOTFormat.parse(dateTime));
 	}
 
 }

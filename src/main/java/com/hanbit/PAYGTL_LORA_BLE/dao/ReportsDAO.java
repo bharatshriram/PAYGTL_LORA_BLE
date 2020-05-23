@@ -155,7 +155,7 @@ public class ReportsDAO {
 					userconsumptionreportsresponsevo.setBattery(rs.getFloat("BatteryVoltage"));
 					userconsumptionreportsresponsevo.setTariff(rs.getFloat("TariffAmount"));
 					userconsumptionreportsresponsevo.setEmergencyCredit(rs.getFloat("Emergencycredit"));
-					userconsumptionreportsresponsevo.setDateTime(rs.getString("IoTTimeStamp"));
+					userconsumptionreportsresponsevo.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
 					
 					userconsumptionreportsresponselist.add(userconsumptionreportsresponsevo);
 				}
@@ -212,7 +212,7 @@ public class ReportsDAO {
 					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
 					topupsummaryresponsevo.setModeOfPayment(rs.getString("ModeOfPayment"));
 					topupsummaryresponsevo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
-					topupsummaryresponsevo.setDateTime(rs.getString("TransactionDate"));
+					topupsummaryresponsevo.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getString("TransactionDate")));
 					
 					pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
 					rs1 = pstmt1.executeQuery();
@@ -285,7 +285,7 @@ public class ReportsDAO {
 						pstmt3.setString(1, rs.getString("MeterID"));
 						ResultSet rs3 = pstmt3.executeQuery();
 						if(rs3.next()) {
-							alarmsResponseVO.setDateTime(rs3.getString("IotTimeStamp"));
+							alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs3.getString("IotTimeStamp")));
 							if(rs3.getInt("LowBattery")==1 || rs3.getFloat("BatteryVoltage") < lowBatteryVoltage) {
 								alarmsResponseVO.setBatteryVoltage(rs3.getString("BatteryVoltage"));	
 							}else {
@@ -352,7 +352,7 @@ public class ReportsDAO {
 						alarmsResponseVO.setBatteryVoltage(rs.getString("BatteryVoltage"));
 						alarmsResponseVO.setTamper(rs.getInt("TamperDetect") == 1 ? "YES" : "NO");
 						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
-						alarmsResponseVO.setDateTime(rs.getString("IotTimeStamp"));
+						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getString("IotTimeStamp")));
 							
 						alarmsResponseList.add(alarmsResponseVO);
 					}

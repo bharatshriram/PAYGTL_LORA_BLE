@@ -125,13 +125,13 @@ public class ManagementSettingsController {
 	
 	/* Vacation */
 
-	@RequestMapping(value = "/vacation/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/vacation/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	VacationResponseVO vacationdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid) throws SQLException {
 
 		VacationResponseVO vacationResponseVO = new VacationResponseVO();
 
-		vacationResponseVO.setData(managementsettingsdao.getvacationdetails(roleid, id));
+		vacationResponseVO.setData(managementsettingsdao.getvacationdetails(roleid, id, filterCid));
 
 		return vacationResponseVO;
 	}
