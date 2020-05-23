@@ -20,6 +20,7 @@ public class TopupDetailsResponseVO {
 	private String CRNNumber;
 	private int reconnectionCharges;
 	private int fixedCharges;
+	private int noOfMonths;
 	
 	public String getMeterID() {
 		return meterID;
@@ -86,6 +87,12 @@ public class TopupDetailsResponseVO {
 	}
 	public void setFixedCharges(int fixedCharges) {
 		this.fixedCharges = fixedCharges;
+	}
+	public int getNoOfMonths() {
+		return noOfMonths;
+	}
+	public void setNoOfMonths(int noOfMonths) {
+		this.noOfMonths = noOfMonths;
 	}
 	
 }

@@ -225,7 +225,7 @@ public class AccountDAO {
 
 	/* Status */
 
-	public List<StatusResponseVO> getStatusdetails(int roleid, String id) throws SQLException {
+	public List<StatusResponseVO> getStatusdetails(int roleid, String id, int filterCid) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -243,7 +243,7 @@ public class AccountDAO {
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionDate BETWEEN (CURDATE() - INTERVAL 30 DAY) AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY t.TransactionDate DESC" : (roleid == 2 || roleid == 5) ? "AND t.BlockID = "+id+ " ORDER BY t.TransactionDate DESC" : (roleid == 3) ? "AND t.CRNNumber = '"+id+"'" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY t.TransactionDate DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " AND t.CommunityID = "+filterCid+" ORDER BY t.TransactionDate DESC" : (roleid == 2 || roleid == 5) ? "AND t.BlockID = "+id+ " ORDER BY t.TransactionDate DESC" : (roleid == 3) ? "AND t.CRNNumber = '"+id+"' ORDER BY t.TransactionDate DESC" :""));
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -260,7 +260,7 @@ public class AccountDAO {
 				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
-				statusvo.setTransactionDate(rs.getString("TransactionDate"));
+				statusvo.setTransactionDate(ExtraMethodsDAO.datetimeformatter(rs.getString("TransactionDate")));
 				statusvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 
 				pstmt1 = con.prepareStatement("SELECT user.ID, user.UserName, userrole.RoleDescription FROM USER LEFT JOIN userrole ON user.RoleID = userrole.RoleID WHERE user.ID = "+rs.getInt("CreatedByID"));
@@ -498,7 +498,7 @@ public class AccountDAO {
 				cell8.setTextAlignment(TextAlignment.CENTER);
 				
 				Cell transactionDate = new Cell();
-				transactionDate.add(rs.getString("TransactionDate"));
+				transactionDate.add(ExtraMethodsDAO.datetimeformatter(rs.getString("TransactionDate")));
 				transactionDate.setTextAlignment(TextAlignment.CENTER);
 				
 				datatable.addCell(cell8);
@@ -510,7 +510,7 @@ public class AccountDAO {
 				cell9.setTextAlignment(TextAlignment.CENTER);
 				
 				Cell acknowledgeDate = new Cell();
-				acknowledgeDate.add(rs.getString("AcknowledgeDate"));
+				acknowledgeDate.add(ExtraMethodsDAO.datetimeformatter(rs.getString("AcknowledgeDate")));
 				acknowledgeDate.setTextAlignment(TextAlignment.CENTER);
 				
 				datatable.addCell(cell9);
@@ -557,7 +557,7 @@ public class AccountDAO {
 
 	/* Configuration */
 
-	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, String id)
+	public List<ConfigurationResponseVO> getConfigurationdetails(int roleid, String id, int filterCid)
 			throws SQLException {
 
 		Connection con = null;
@@ -573,7 +573,7 @@ public class AccountDAO {
 					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
 					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
 			
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? " ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = '"+id+ "' ORDER BY cmd.ModifiedDate DESC":""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? " ORDER BY cmd.ModifiedDate DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " WHERE cm.CommunityID = "+filterCid+" ORDER BY cmd.ModifiedDate DESC" : (roleid == 2 || roleid == 5) ? "WHERE cm.BlockID = "+id+ " ORDER BY cmd.ModifiedDate DESC" : (roleid == 3) ? "WHERE cm.CRNNumber = '"+id+ "' ORDER BY cmd.ModifiedDate DESC":""));
 			
 			rs = pstmt.executeQuery();
 			ConfigurationResponseVO configurationvo = null;
@@ -582,7 +582,7 @@ public class AccountDAO {
 				configurationvo = new ConfigurationResponseVO();
 				configurationvo.setMeterID(rs.getString("MeterID"));
 				configurationvo.setCommandType((rs.getInt("CommandType") == 40) ? "Solenoid Open" : (rs.getInt("CommandType") == 0) ? "Solenoid Close" : (rs.getInt("CommandType") == 3) ? "Clear Meter" : (rs.getInt("CommandType") == 1) ? "Clear Tamper" : (rs.getInt("CommandType") == 5) ? "RTC" : (rs.getInt("CommandType") == 6) ? "Set Default Read" : (rs.getInt("CommandType") == 10) ? "Set Tariff" : "");
-				configurationvo.setModifiedDate(rs.getString("ModifiedDate"));
+				configurationvo.setModifiedDate(ExtraMethodsDAO.datetimeformatter(rs.getString("ModifiedDate")));
 				configurationvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
 				configurationdetailslist.add(configurationvo);
@@ -833,11 +833,11 @@ public class AccountDAO {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
+			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.Tariff, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
 			pstmt.setString(1, topupvo.getCRNNumber());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if(topupvo.getAmount() < rs.getFloat("EmergencyCredit") || topupvo.getAmount() < rs.getFloat("AlarmCredit"))
+				if(topupvo.getAmount() < rs.getFloat("EmergencyCredit") || topupvo.getAmount() < rs.getFloat("Tariff"))
 					result = true;
 			}
 		} catch (Exception ex) {

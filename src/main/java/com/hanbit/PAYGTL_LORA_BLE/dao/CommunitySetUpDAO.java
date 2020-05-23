@@ -378,12 +378,15 @@ public class CommunitySetUpDAO {
 		try{
 		con = getConnection();
 		
-		pstmt = con.prepareStatement("DELETE FROM block where BlockID=?");
-		pstmt.setInt(1, blockID);
+		pstmt = con.prepareStatement("DELETE FROM block WHERE BlockID= "+blockID);
 		
         if (pstmt.executeUpdate() > 0) {
-        	responsevo.setResult("Success");
-			responsevo.setMessage("Block Deleted Successfully");
+        	
+        	PreparedStatement pstmt1 = con.prepareStatement("DELETE FROM user WHERE RoleID = 2 AND BlockID = "+blockID);
+        	if(pstmt1.executeUpdate() > 0) {
+        		responsevo.setResult("Success");
+    			responsevo.setMessage("Block Deleted Successfully");        		
+        	}
         	}
 		}
 		catch (Exception ex) {
@@ -459,7 +462,7 @@ public class CommunitySetUpDAO {
 
 	/* Customer */
 
-	public List<CustomerResponseVO> getCustomerdetails(int roleid, String id) throws SQLException {
+	public List<CustomerResponseVO> getCustomerdetails(int roleid, String id, int filterCid) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -480,7 +483,7 @@ public class CommunitySetUpDAO {
 							"customermeterdetails.CRNNumber, tariff.TariffName, customermeterdetails.ModifiedDate, customermeterdetails.CreatedByID, customermeterdetails.CreatedByRoleID FROM customermeterdetails \r\n" + 
 							"LEFT JOIN community ON community.CommunityID = customermeterdetails.communityID LEFT JOIN block ON block.BlockID = customermeterdetails.BlockID LEFT JOIN tariff ON tariff.TariffID = customermeterdetails.TariffID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = '"+id+"'":""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY customermeterdetails.CustomerID DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " WHERE customermeterdetails.CommunityID = "+filterCid+" ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 2 || roleid == 5) ? "WHERE customermeterdetails.BlockID = "+id+ " ORDER BY customermeterdetails.CustomerID DESC" : (roleid == 3) ? "WHERE customermeterdetails.CRNNumber = '"+id+"'":""));
 			
 			rs = pstmt.executeQuery();
 
@@ -507,7 +510,8 @@ public class CommunitySetUpDAO {
 					customervo.setCreatedByRoleDescription(rs1.getString("RoleDescription"));
 				}
 				
-				customervo.setDate(rs.getString("ModifiedDate"));
+				customervo.setDate(ExtraMethodsDAO.datetimeformatter(rs.getString("ModifiedDate")));
+
 				customer_list.add(customervo);
 			}
 		} catch (Exception ex) {
@@ -1055,7 +1059,7 @@ public class CommunitySetUpDAO {
 				tariffvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
 				tariffvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				tariffvo.setFixedCharges(rs.getString("FixedCharges"));
-				tariffvo.setModifiedDate(rs.getString("ModifiedDate"));
+				tariffvo.setModifiedDate(ExtraMethodsDAO.datetimeformatter(rs.getString("ModifiedDate")));
 				tariff_list.add(tariffvo);
 			}
 		} catch (Exception ex) {

@@ -147,13 +147,13 @@ public class CommunitySetUpController {
 
 	/* Customer */
 
-	@RequestMapping(value = "/customer/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/customer/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	CustomerResponseVO customerdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid) throws SQLException {
 
 		CustomerResponseVO customerresponsevo = new CustomerResponseVO();
 
-		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id));
+		customerresponsevo.setData(communitysetupdao.getCustomerdetails(roleid, id, filterCid));
 
 		return customerresponsevo;
 	}
