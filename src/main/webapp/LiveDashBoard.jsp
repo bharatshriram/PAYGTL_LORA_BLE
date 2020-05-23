@@ -38,11 +38,11 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" 
 	integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 
-<title>DashBoard Details</title>
+<title>Customer Details</title>
 </head>
 
 
-<body>
+<body class ="innerbody">
 
 
 <%
@@ -70,11 +70,11 @@
 			</div>
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
-				<div class="row mb-4">
+				<!-- <div class="row mb-4">
 					<div class="col-md-6">
-						<h3>DashBoard</h3>
+						<h3>Customer Details</h3>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-md-12">
 						<table id="liveTable"
@@ -94,7 +94,6 @@
 									<th>Tariff</th>
 									<th>Valve</th>
 									<th>Tamper</th>
-									<th>Communication</th>
 									<th>Battery</th>
 									<th>Vacation</th>
 									<th>Date</th>
@@ -123,7 +122,6 @@
 									<th>Valve</th>
 									<th>Tariff</th>
 									<th>Tamper</th>
-									<th>Communication</th>
 									<th>Vacation</th>
 									<th>Date</th>
 								</tr>

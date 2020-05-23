@@ -16,7 +16,7 @@ $(document).ready(function() {
 table = $('#tariffTable')
 .DataTable(
 {
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+	"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,
@@ -81,6 +81,11 @@ return json.data;
    
 ]
 });
+
+$("div.headname").html('<h3>Tariff Details</h3>');
+
+$("div.addevent").html('<button type="button" id="tariffAddd" class="btn btn-raised btn-primary" data-toggle="modal" data-target="#exampleModal"> <i class="fa fa-user-plus"></i></button>');
+
 });
 
 

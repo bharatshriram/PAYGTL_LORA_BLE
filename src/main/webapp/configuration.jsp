@@ -135,8 +135,6 @@
               </div>
           </div>
         </div>
-       
-
         <!--Right end-->
 			</div>
 		</div>

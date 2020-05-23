@@ -31,11 +31,12 @@
                 <%
 			if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")) {
 				%>	
-                <li> <a href="tariff.jsp" title="Tariff"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>
-                <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
-				<li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block</span></a> </li>
-				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
+                
+                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
+                <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community Management</span></a> </li>
+				<li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block Management</span></a> </li>
+				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
+				<li> <a href="tariff.jsp" title="Tariff"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>                
                   <%if(user_id.equalsIgnoreCase("1")){ %>
                 <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
                 <%}%>
@@ -59,10 +60,10 @@
                 <% } else if (user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")) {
                 %>
  				<li> <a href="approval.jsp" title="List Approval"><img src=common/images/icons/listofapproval.png /> <span class="nav-label">List Of Approval</span></a> </li>
- 				 <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
-                <li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block</span></a> </li>
-				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
+ 				<li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
+                <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community Management</span></a> </li>
+				<li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block Management</span></a> </li>
+				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
                 
                 <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>

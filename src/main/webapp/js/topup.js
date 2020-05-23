@@ -208,10 +208,20 @@ $(document)
 
 
 $(document).ready(function() {
+	
+	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
+		$("#blockAddButton").show();
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>"; 
+	}else{
+		$("#customerAddd").remove();
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
+	}
+	
+	$('#topstatusTable1').hide();
 	table = $('#topstatusTable')
 	.DataTable(
 	{
-		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-white'p>>",
+		"dom": dom1,
 		"responsive" : true,
 		/*"processing" : true,*/
 		"serverSide" : false,
@@ -286,10 +296,6 @@ $(document).ready(function() {
 	{
 		"className": "dt-center", "targets": "_all"
 	}], "buttons": [
-		   /* 'csvHtml5',
-		'excelHtml5',
-	'pdfHtml5'*/
-		
 		{extend: 'excel',
 	        footer: 'true',
 	        text: 'Excel',
@@ -308,9 +314,163 @@ $(document).ready(function() {
 	        orientation: 'landscape',
 	        title:'Top Up Status',
 	        pageSize: 'LEGAL'
-	       }
+	       },
+	       {
+	    	   
+	           className: 'customButton',
+	           text : "Filter",
+	            action: function ( e, dt, button, config ) {
+	            	$('.customButton').attr(
+	                    {
+	                        "data-toggle": "modal",
+	                        "data-target": "#filter"
+	                    }
+	                );
+	            }
+	        }
 	]
 	});
+	if(sessionStorage.getItem("roleID") == 3){
+		table.buttons( $('a.customButton') ).remove();	
+	}
+	$("div.headname").html('<h3>Topup Status</h3>');
+	
+	
+	$("#customerFilter")
+	.click(
+			function() {
+
+				var data1 = {}
+				
+				var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
+				var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
+				
+				$
+						.ajax({
+							type : "POST",
+							contentType : "application/json",
+							url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
+							.getItem("roleID")
+							+ "/"
+							+ sessionStorage
+									.getItem("ID"),
+							data : JSON
+									.stringify(data1),
+							dataType : "JSON",
+
+							success : function(d) {
+								
+									$('#topstatusTable').dataTable()._fnAjaxUpdate();
+									$("#topstatusTable_wrapper").hide();
+									$("#filter").modal("hide");
+									$("#topstatusTable1").show();
+									
+									var hCols = [ 3, 4 ];
+									table = $('#topstatusTable1')
+									.DataTable(
+											{
+												
+													"dom": dom1,
+												   "responsive" : true,
+													/*"processing" : true,*/
+													"serverSide" : false,
+													"bDestroy" : true,
+													"bPaginate": true,
+													"pagging" : true,
+													"bProcessing" : true,
+													"ordering" : true,
+													"order" : [ 0, "desc" ],
+													"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+													"pageLength" : 5,
+													"scrollY" : 324,
+													"scrollX" : false,
+													"data" : d.data,
+													"columns" : [
+											{
+											"data" : "communityName"
+											},{
+											"data" : "blockName"
+											},{
+											"data" : "CRNNumber"
+											},{
+											"data" : "firstName"
+											},{
+											"data" : "lastName"
+											},{
+											"data" : "houseNumber"
+											},{
+											"data" : "meterSerialNumber"
+											},{
+											"data" : "meterID"
+											},{
+											"data" : "mobileNumber"
+											},{
+											"data" : "email"
+											},{
+											"data" : "createdByUserName"
+											},{
+											"data" : "createdByRoleDescription"
+											},{
+											"data" : "date"
+											}
+											,{
+												"mData" : "action",
+												"render" : function(data, type, row) {
+													
+													return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
+												}
+												},{
+													"mData" : "action",
+													"render" : function(data, type, row) {
+														
+														return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
+																													+ row.CRNNumber
+																													+ "\")'>"
+																													+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																													+ "</a>"
+													}
+													}
+
+
+
+											],
+											"columnDefs" : [ {
+												//orderable : false,
+												targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+												//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
+											},{
+												//orderable : false,
+												//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+												targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
+											},
+											{
+												"className": "dt-center", "targets": "_all"
+											}], "buttons": [
+												{
+									                text: 'Reset',
+									                action: function ( e, dt, node, config ) {
+									                    alert( 'Button activated' );
+									                },
+									                className: 'customButton',
+									               
+									                action: function ( e, dt, button, config ) {
+									                   
+									                	window.location = "topupStatus.jsp"
+									                }
+									            }
+											]
+
+											})
+							}
+						});
+				return false;
+			});
+	
+	$("#resetFilter")
+	.on(
+			function() {
+				 $("input:text").val("");
+			});	
 	});
 
 

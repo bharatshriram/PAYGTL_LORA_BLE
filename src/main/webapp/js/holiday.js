@@ -9,8 +9,10 @@ $(document).ready(function() {
 		$("#holidayAddd").show();
 		$("#CRNNumberAdd").val(sessionStorage.getItem("ID"));
 		$("#formCRNNumber").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
 		$("#holidayAddd").remove();
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 		
 	}
 	
@@ -18,7 +20,7 @@ $(document).ready(function() {
 table = $('#holidayTable')
 .DataTable(
 {//'Pfrtip'
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+	"dom": dom1,
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,
@@ -120,9 +122,183 @@ return json.data;
 		className: 'custom-btn fa fa-file-pdf-o',
 		orientation : 'landscape',
 		title : 'Vacation'
-	}
+	},
+	{
+        className: 'customButton',
+        text : "Filter",
+         action: function ( e, dt, button, config ) {
+         	$('.customButton').attr(
+                 {
+                     "data-toggle": "modal",
+                     "data-target": "#filter"
+                 }
+             );
+         }
+     }
 	]
 });
+if(sessionStorage.getItem("roleID") == 3){
+	table.buttons( $('a.customButton') ).remove();	
+}
+
+$("div.headname").html('<h3>Vacation Details</h3>');
+$("div.addevent").html('<button type="button" id="holidayAddd" class="btn btn-raised btn-primary float-right" data-toggle="modal" data-target="#exampleModal">	<i class="fa fa-user"></i></button>');
+
+
+$("#customerFilter")
+.on(
+		function() {
+
+			var data1 = {}
+			
+			var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
+			var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
+			
+			$
+					.ajax({
+						type : "POST",
+						contentType : "application/json",
+						url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
+						.getItem("roleID")
+						+ "/"
+						+ sessionStorage
+								.getItem("ID"),
+						data : JSON
+								.stringify(data1),
+						dataType : "JSON",
+
+						success : function(d) {
+							
+								$('#configurationstatusTable').dataTable()._fnAjaxUpdate();
+								$("#configurationstatusTable_wrapper").hide();
+								$("#filter").modal("hide");
+								$("#configurationstatusTable1").show();
+								
+								var hCols = [ 3, 4 ];
+								table = $('#configurationstatusTable1')
+								.DataTable(
+										{
+											
+												"dom": dom1,
+											   "responsive" : true,
+												"serverSide" : false,
+												"bDestroy" : true,
+												"bPaginate": true,
+												"pagging" : true,
+												"bProcessing" : true,
+												"ordering" : true,
+												"order" : [ 0, "desc" ],
+												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+												"pageLength" : 5,
+												"scrollY" : 324,
+												"scrollX" : false,
+												"data" : d.data,
+												"columns" : [
+													{
+													"data" : "communityName"
+													},{
+													"data" : "blockName"
+													},{
+													"data" : "firstName"
+													},{
+													"data" : "lastName"
+													},{
+													"data" : "houseNumber"
+													},{
+													"data" : "CRNNumber"
+													},{
+													"data" : "vacationName"
+													},{
+													"data" : "meterID"
+													},{
+													"data" : "startDate"
+													},{
+													"data" : "endDate"
+													},{
+													"data" : "registeredDate"
+													},{
+													"data" : "status"
+													}
+													,{
+														"mData" : "action",
+														"render" : function(data, type, row) {
+															
+															return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
+																														+ row.vacationID
+																														+ ")'>"
+																														+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																														+ "</a>"
+																														+"<a onclick='getVacationrFormDelete("
+																														+ row.vacationID
+																														+ ")'>"
+																														+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
+																														+ "</a>"
+																														
+																														
+														}
+														}
+
+
+
+													],
+													"columnDefs" : [ {
+														//orderable : false,
+														targets : 12, visible:  (sessionStorage.getItem("roleID") == 3)
+													},
+													{
+														
+														"className": "dt-center", "targets": "_all"}
+													],
+														"buttons" : [
+														{
+															//extend : 'excel',
+															footer : 'true',
+															//text : 'Excel',
+															title : 'Vacation',
+															className: 'custom-btn fa fa-file-excel-o'
+																
+														},
+
+														{
+															//extend : 'pdf',
+															footer : 'true',
+															exportOptions : {
+																columns : [ 0,1, 2, 3, 4,
+																		5, 6, 7, 8, 9,
+																		10]
+															},
+															//text : 'pdf',
+															className: 'custom-btn fa fa-file-pdf-o',
+															orientation : 'landscape',
+															title : 'Vacation'
+														},
+										        {
+									                text: 'Reset',
+									                action: function ( e, dt, node, config ) {
+									                    alert( 'Button activated' );
+									                },
+									                className: 'customButton',
+									               
+									                action: function ( e, dt, button, config ) {
+									                   
+									                	window.location = "holiday.jsp"
+									                }
+									            }
+										        ]
+
+										})
+						}
+					});
+			return false;
+		});
+
+$("#resetFilter")
+.on(
+		function() {
+			 $("input:text").val("");
+		});	
+
+
 });
 
  

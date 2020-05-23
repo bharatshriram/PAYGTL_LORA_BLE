@@ -110,7 +110,7 @@ $(document)
 
 														 table = $('#topupsummaryTable').DataTable(
 																	{
-																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-white'p>>",
+																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		"responsive" : true,
 																		/*"processing" : true,*/
 																		"serverSide" : false,
@@ -188,8 +188,16 @@ $(document)
 																		        title:'Top Up Summary'  }
 																		]
 																	});
+
+														 $("div.headname").html('<h3>Top Up Summary Details</h3>');
 															//table.ajax.reload()
-													//	}
+														 
+														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
+																 +'class="btn btn-raised btn-primary float-right"'
+																	+'>'
+																+'	<span>Back</span>'
+															+'</button>');
+														 
 													}
 												});
 										return false;

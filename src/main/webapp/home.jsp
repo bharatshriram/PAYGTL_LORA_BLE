@@ -48,106 +48,13 @@
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="rightblock">
+				<div class="row admin">
+				<div class="col-md-12">
 					<div class="row">
 						<div class="col-md-4">
-							<div class="card shadow mb-4 bg-transparent">
-								<!-- Card Header - Dropdown -->
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-dark">Live Status</h6>
-								</div>
-								<!-- Card Body -->
-								<div class="card-body">
-									<div id="container" class="container"
-										style="height: 200px; width: 500"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="card shadow mb-4 bg-transparent">
-								<!-- Card Header - Dropdown -->
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-dark">Valve Status</h6>
-								</div>
-								<!-- Card Body -->
-								<div class="card-body">
-									<div id="container" class="container"
-										style="height: 200px; width: 500"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="card shadow mb-4 bg-transparent">
-								<!-- Card Header - Dropdown -->
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-dark">Device Status</h6>
-								</div>
-								<!-- Card Body -->
-								<div class="card-body">
-									<div id="container" class="container"
-										style="height: 200px; width: 500"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<!-- <div class="col-md-3 mb-4">
-						<div class="card border-left-grey shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col-auto">
-										<img src=common/images/icons/GAS1.png />
-									</div>
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-gray text-uppercase mb-1">Total
-											MIU ID</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800"
-											id="totalmiu"></div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-3 mb-4">
-						<div class="card border-left-success shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-success text-uppercase mb-1">Communicating</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800"
-											id="communicating"></div>
-									</div>
-									<div class="col-auto">
-										<img src=common/images/icons/gas2.png />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div> -->
-					
-					<!--  <div class="col-md-3 mb-4">
-                <div class="card border-left-danger shadow h-100 py-2">
-                  <div class="card-body">
-                    <div class="row no-gutters align-items-center">
-                      <div class="col mr-2">
-                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Non-Communicating</div>
-                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="Non-Communicating"></div>
-                      </div>
-                      <div class="col-auto">
-                       <img src=common/images/icons/gas3.png />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-					
-					<div class="col col1 mb-2">
-						<div class="card card-stats">
+							<div class="row billingAmount">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -163,16 +70,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col col2 mb-2">
-						<div class="card card-stats">
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -188,24 +97,23 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					
-					
-					
-					<div class="col col3 mb-2">
-						<div class="card card-stats">
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
 										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png /></i>
+											<img src=common/images/icons/gas3.png />
 										</div>
 									</div>
 									<div class="col-7 col-md-8">
@@ -216,21 +124,23 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col col4 mb-2">
-						<div class="card card-stats">
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
 										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png /></i>
+											<img src=common/images/icons/gas3.png />
 										</div>
 									</div>
 									<div class="col-7 col-md-8">
@@ -241,18 +151,21 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					
-					
-					<div class="col col5 mb-2">
-						<div class="card card-stats">
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-4">
+							<div class="row billingAmount">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -268,23 +181,36 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					
-					
-					
-				</div>
-
-				<div class="row">
-				
-				<div class="col col1">
-						<div class="card card-stats">
+								</div>
+							</div>
+							<div class="row mt-4">
+								<div class="col-md-12">
+								<div class="card shadow mb-4 bg-transparent">
+								<!-- Card Header - Dropdown -->
+								<div
+									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+									<h6 class="m-0 font-weight-bold text-white">Live Status</h6>
+								</div>
+								<!-- Card Body -->
+								<div class="card-body">
+									<div id="container" class="container"
+										style="height: 250px; width: 500"></div>
+								</div>
+							</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="row billingAmount">
+							   <div class="col-md-6">
+							   		<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -300,16 +226,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col col2">
-						<div class="card card-stats">
+							   </div>
+							</div>
+							<div class="row mt-4 billingAmount">
+							   <div class="col-md-6">
+							   	<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -325,24 +253,23 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					
-					
-					
-					<div class="col col3">
-						<div class="card card-stats">
+							   </div>
+							</div> 
+							<div class="row mt-4 billingAmount">
+							   <div class="col-md-6">
+							   	<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
 										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png /></i>
+											<img src=common/images/icons/gas3.png />
 										</div>
 									</div>
 									<div class="col-7 col-md-8">
@@ -353,16 +280,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col col4">
-						<div class="card card-stats">
+							   </div>
+							</div>
+							<div class="row mt-4 billingAmount">
+							   <div class="col-md-6">
+							   	<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
@@ -378,49 +307,130 @@
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
+							   </div>
+							</div>
+						</div>
+
 					</div>
-					
-					
-					<div class="col col5">
-						<div class="card card-stats">
+				</div>
+				</div>
+				
+				<div class="row customer">
+					<div class="col-md-6">
+						<div class="row billingAmount">
+						   		<div class="col-md-6 bg-success text-center">
+						   			<p class="text-white">Last Bill Amount:<span>0000</span></p>
+						   			<p class="text-white">Last Bill Amount:<span>0000</span></p>
+						   		</div>
+						   </div>
+						    <div class="row mt-4 billingAmount">
+						   		<div class="col-md-6 text-center">
+						   			<div class="row mt-4">
+							   			<div class="col col1">
+							   				<img src=common/images/icon/23-consumptionn.png />
+							   				<p class="text-white mt-4">Consumption</p>
+							   			</div>
+							   			<div class="col col2">
+							   				<img src=common/images/icon/24-PaymentInfo.png />
+							   				<p class="text-white mt-4">Payment Info</p>
+							   			</div>
+						   			</div>
+						   		</div>
+						   </div>
+						   <div class="row mt-4 billingAmount">
+						   		<div class="col-md-6 text-center">
+						   			<div class="row mt-4">
+							   			<div class="col col1">
+							   				<img src=common/images/icon/25-billpayment.png />
+							   				<p class="text-white mt-4">Bill Payment</p>
+							   			</div>
+							   			<div class="col col2">
+							   				<img src=common/images/icon/26-feedback.png />
+							   				<p class="text-white mt-4">Feedback</p>
+							   			</div>
+						   			</div>
+						   		</div>
+						   </div>
+						    <div class="row mt-4 billingAmount">
+						   		<div class="col-md-6 text-center">
+						   			<div class="row mt-4">
+							   			<div class="col col1">
+							   				<img src=common/images/icon/27-profiifle.png />
+							   				<p class="text-white mt-4">Profile</p>
+							   			</div>
+							   			<div class="col col2">
+							   				<img src=common/images/icon/28-complaints.png />
+							   				<p class="text-white mt-4">Compliants</p>
+							   			</div>
+						   			</div>
+						   		</div>
+						   </div>
+					</div>
+					<div class="col-md-4">
+						<div class="row">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
 							<div class="card-body cardSpacing">
 								<div class="row">
 									<div class="col-5 col-md-4">
 										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png /></i>
+											<img src=common/images/icons/gas3.png />
 										</div>
 									</div>
 									<div class="col-7 col-md-8">
 										<div class="numbers text-right">
-											<p class="card-category">Battery Voltage1</p>
-											<p class="card-title" id="communicating">3.12</p>
+											<p class="card-category">Total AMR</p>
+											<p class="card-title" id="communicating">21</p>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer ">
+							<div class="card-footer borderRadius">
 								
 								<div class="stats">
 									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
 								</div>
 							</div>
 						</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+							<div class="card-body cardSpacing">
+								<div class="row">
+									<div class="col-5 col-md-4">
+										<div class="icon-big text-center icon-warning">
+											<img src=common/images/icons/gas3.png />
+										</div>
+									</div>
+									<div class="col-7 col-md-8">
+										<div class="numbers text-right">
+											<p class="card-category">Total AMR</p>
+											<p class="card-title" id="communicating">21</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer borderRadius">
+								
+								<div class="stats">
+									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
+								</div>
+							</div>
+						</div>
+								</div>
+							</div>
 					</div>
-					
 				</div>
-
 			</div>
-			<!--Right end-->
-
+			</div>
 		</div>
-	</div>
 	</div>
 
 	<jsp:include page="footer.jsp" />
@@ -484,11 +494,11 @@
 
 											//alert(JSON.stringify(d));
 
-											document.querySelector("#totalmiu").innerText = d.total;
+										 	document.querySelector("#totalmiu").innerText = d.total;
 											document
 													.querySelector("#communicating").innerText = d.communicating;
 											document
-													.querySelector("#Non-Communicating").innerText = d.nonCommunicating;
+													.querySelector("#Non-Communicating").innerText = d.nonCommunicating; 
 
 											data1 = [
 													[

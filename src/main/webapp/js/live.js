@@ -4,6 +4,13 @@ $(document)
 		.ready(
 				function() {
 					
+					var dom1 ="<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
+						+ "<'row'<'col-sm-12'tr>>"
+						+ "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
+					
+					var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
+					
+					
 					$("#liveTable1").hide();
 					
 					var hCols = [ 3, 4 ];
@@ -11,9 +18,7 @@ $(document)
 					$('#liveTable')
 							.DataTable(
 									{
-										"dom" : "<'row'<'col-sm-4 custombutton'B><'col-sm-2'l><'col-sm-6'f>>"
-												+ "<'row'<'col-sm-12'tr>>"
-												+ "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
+										"dom" : dom1,
 												
 												responsive: {
 											        details: {
@@ -181,10 +186,6 @@ $(document)
 													"defaultContent": ""
 												},
 												{
-													"data" : "communicationStatus",
-														"defaultContent": ""
-												},
-												{
 													  //  "data":"battery"
 													"mData" : "action",
 													"render" : function(data,
@@ -274,10 +275,6 @@ $(document)
 													targets : [ 12 ]
 												}],
 
-										/*
-										 * "columnDefs": [{ "visible": false,
-										 * "targets": hCols }],
-										 */
 										"buttons" : [
 												{
 													extend : 'excel',
@@ -293,36 +290,29 @@ $(document)
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
 																5, 6, 7, 8, 9,
-																10, 11, 12,13,14,15 ]
+																10, 11, 12,13,14 ]
 													},
-													//text : 'pdf',
-													//className: 'custom-btn fa fa-file-pdf-o',
 													orientation : 'landscape',
 													title : 'Dashboard',
 													pageSize: 'LEGAL'
 												},
 												{
-									                //text: 'AdvSerach',
-										                /*action: function ( e, dt, node, config ) {
-										                    alert( 'Button activated' );
-										                },*/
 									               className: 'customButton',
 									               text : "Adv Serach",
+									              // extend : 'ADv',
 									                action: function ( e, dt, button, config ) {
-									                    $('.custombutton').attr(
+									                	$('.customButton').attr(
 									                        {
 									                            "data-toggle": "modal",
 									                            "data-target": "#exampleModal"
 									                        }
 									                    );
-									                //    var selected = dt.row( { selected: true } ).data(); 
-									                	$('#exampleModal').modal('show');
 									                }
 									            }
 												]
 
 									}).columns.adjust();
-					
+					$("div.headname").html('<h3>Customer Details</h3>');
 					
 					$("#dashboardFilter")
 					.click(
@@ -516,10 +506,6 @@ $(document)
 																						+ "</span>"
 																			},
 																			"defaultContent": ""
-																		},
-																		{
-																			"data" : "communicationStatus",
-																				"defaultContent": ""
 																		},
 																		{
 																			//"data": "timeStamp",

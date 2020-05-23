@@ -6,9 +6,11 @@
 $(document).ready(function() {
 	
 	if(sessionStorage.getItem("roleID") == 1){
-		$("#alertAddbutton").show();
+		//$("#alertAddbutton").show();
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
-		$("#alertAddbutton").remove();
+	/*	$("#alertAddbutton").remove();*/
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 		
 	}
 	
@@ -16,6 +18,7 @@ table = $('#alertTable')
 .DataTable(
 {
 /*"processing" : false,*/
+	"dom":dom1,
 "serverSide" : false,
 "bDestroy" : true,
 "pagging" : true,
@@ -78,6 +81,15 @@ return json.data;
 	"className": "dt-center", "targets": "_all"
 }]
 });
+
+$("div.headname").html('<h3>Alert Details</h3>');
+
+$("div.addevent").html('<button type="button" id="alertAddbutton"'
+		+'class="btn btn-raised btn-primary float-right"'
+			+'data-toggle="modal" data-target="#exampleModal">'
+		+'	<i class="fa fa-user"></i>'
+		+'</button>');
+
 });
 
 

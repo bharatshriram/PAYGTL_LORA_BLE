@@ -122,7 +122,7 @@
        
 			<div id="tablereport"  style = "display:none">
 			<div class="row mb-4">
-					<div class="col-md-6">
+					<!-- <div class="col-md-6">
 						<h3>Top Up Summary Details</h3>
 					</div>
 					<div class="col-md-6">
@@ -131,7 +131,7 @@
 							>
 							<span>Back</span>
 						</button>
-					</div>
+					</div> -->
 				</div>
 				<div class="row">
 					<div class="col-md-12">

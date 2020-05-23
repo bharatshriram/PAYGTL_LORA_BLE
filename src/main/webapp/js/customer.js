@@ -7,17 +7,16 @@ $(document).ready(function() {
 	
 	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
 		$("#blockAddButton").show();
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
-		$("#customerAddd").remove();
-		
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}
-	
+	$("#customerTable1").hide();
 table = $('#customerTable')
 .DataTable(
-{//'Pfrtip'
-	"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+{
+	"dom": dom1,
 	"responsive" : true,
-	/*"processing" : true,*/
 	"serverSide" : false,
 	"bDestroy" : true,
 	"bPaginate": true,
@@ -112,34 +111,28 @@ return json.data;
 	"className": "dt-center", "targets": "_all"
 }], "buttons": [
 	{
-		extend : 'excel',
-		footer : 'true',
-		//text : 'Excel',
-		exportOptions : {
-			columns : [ 0,1, 2, 3, 4,
-					5, 6, 7, 8, 9,
-					10, 11, 12 ]
-		},
-		title : 'Customer Details',
-		//className: 'custom-btn fa fa-file-excel-o'
-	},
-
-	{
-		extend : 'pdf',
-		footer : 'true',
-		exportOptions : {
-			columns : [ 0,1, 2, 3, 4,
-					5, 6, 7, 8, 9,
-					10, 11, 12 ]
-		},
-		//text : 'pdf',
-		//className: 'custom-btn fa fa-file-pdf-o',
-		orientation : 'landscape',
-		title : 'Customer Details',
-		pageSize: 'LEGAL'
-	}
+        className: 'customButton',
+        text : "Filter",
+         action: function ( e, dt, button, config ) {
+         	$('.customButton').attr(
+                 {
+                     "data-toggle": "modal",
+                     "data-target": "#filter"
+                 }
+             );
+         }
+     }
 ]
 });
+
+$("div.headname").html('<h3>Block Managemnent</h3>');
+
+$("div.addevent").html('<button type="button" id="customerAddd"'
+		+'class="btn btn-raised btn-primary float-right"'
+			+'data-toggle="modal" data-target="#exampleModal">'
+		+'<i class="fa fa-user-plus"></i>'
+		+'</button>');
+
 });
 
 
@@ -437,6 +430,149 @@ $(document)
 							
 							
 							
+							$("#customerFilter")
+							.click(
+									function() {
+
+										var data1 = {}
+										
+										var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
+										var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
+										
+										$
+												.ajax({
+													type : "POST",
+													contentType : "application/json",
+													url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
+													.getItem("roleID")
+													+ "/"
+													+ sessionStorage
+															.getItem("ID"),
+													data : JSON
+															.stringify(data1),
+													dataType : "JSON",
+
+													success : function(d) {
+														
+														//if (data.result == "Success") {
+														$('#customerTable').dataTable()._fnAjaxUpdate();
+														//$("#form").hide();
+														//$("#tablereport").show();
+															console.log(JSON.stringify(d));
+															$("#customerTable_wrapper").hide();
+															$("#filter").modal("hide");
+															$("#customerTable1").show();
+															
+															var hCols = [ 3, 4 ];
+															table = $('#customerTable1')
+															.DataTable(
+																	{
+																		
+																		"dom": dom1,
+																		   "responsive" : true,
+																			/*"processing" : true,*/
+																			"serverSide" : false,
+																			"bDestroy" : true,
+																			"bPaginate": true,
+																			"pagging" : true,
+																			"bProcessing" : true,
+																			"ordering" : true,
+																			"order" : [ 0, "desc" ],
+																			"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
+																			"pageLength" : 5,
+																			"scrollY" : 324,
+																			"scrollX" : false,
+																			"data" : d.data,
+																			"columns" : [
+																	{
+																	"data" : "communityName"
+																	},{
+																	"data" : "blockName"
+																	},{
+																	"data" : "CRNNumber"
+																	},{
+																	"data" : "firstName"
+																	},{
+																	"data" : "lastName"
+																	},{
+																	"data" : "houseNumber"
+																	},{
+																	"data" : "meterSerialNumber"
+																	},{
+																	"data" : "meterID"
+																	},{
+																	"data" : "mobileNumber"
+																	},{
+																	"data" : "email"
+																	},{
+																	"data" : "createdByUserName"
+																	},{
+																	"data" : "createdByRoleDescription"
+																	},{
+																	"data" : "date"
+																	}
+																	,{
+																		"mData" : "action",
+																		"render" : function(data, type, row) {
+																			
+																			return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
+																		}
+																		},{
+																			"mData" : "action",
+																			"render" : function(data, type, row) {
+																				
+																				return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
+																																			+ row.CRNNumber
+																																			+ "\")'>"
+																																			+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																																			+ "</a>"
+																			}
+																			}
+
+
+
+																	],
+																	"columnDefs" : [ {
+																		//orderable : false,
+																		targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+																		//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
+																	},{
+																		//orderable : false,
+																		//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+																		targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
+																	},
+																	{
+																		"className": "dt-center", "targets": "_all"
+																	}], "buttons": [
+																		,
+																		{
+															                text: 'Reset',
+															                action: function ( e, dt, node, config ) {
+															                    alert( 'Button activated' );
+															                },
+															                className: 'customButton',
+															               
+															                action: function ( e, dt, button, config ) {
+															                   
+															                	window.location = "customerDetails.jsp"
+															                }
+															            }
+																	]
+
+																	})
+													}
+												});
+										return false;
+									});
+							
+							$("#resetFilter")
+							.on(
+									function() {
+										
+										 $("input:text").val("");
+							
+									});	
+							
 
 							$('#customerDetails')
 									.on(
@@ -587,7 +723,7 @@ $(document)
 										var data1 = {}
 										
 										data1["firstName"] = $("#firstNameEdit").val();
-										data1["houseNumber"] = $("#houseNoEdit").val();
+										//data1["houseNumber"] = $("#houseNoEdit").val();
 										data1["mobileNumber"] = $("#mobileNoEdit").val();
 										data1["email"] = $("#emailEdit").val();
 										data1["CRNNumber"] = $("#CRNEdit").val();

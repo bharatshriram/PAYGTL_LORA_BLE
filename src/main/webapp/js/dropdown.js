@@ -17,6 +17,7 @@ $(function() {
 					+ "</option>";
 		});
 		$('#selectcommunityName').append(Options);
+		$('#filterselectcommunityName').append(Options);
 		//$("#selectcommunityName").material_select();
 	});
 	
@@ -40,6 +41,10 @@ function showBlockbyCommunity(communityId){
 
 	$("#selectBlockBasedonCommunity").append("<option>" + "Select Block" + "</option>");
 	
+	$("#filterselectBlockBasedonCommunity").find('option').remove();
+
+	$("#filterselectBlockBasedonCommunity").append("<option>" + "Select Block" + "</option>");
+	
 	$("#selectHouseBasedonBlock").find('option').remove();
 
 	$("#selectHouseBasedonBlock").append("<option>" + "Select CRN" + "</option>");
@@ -56,7 +61,8 @@ function showBlockbyCommunity(communityId){
 					+ "</option>";
 		});
 		$('#selectBlockBasedonCommunity').append(Options);
-		//$("#selectBlockBasedonCommunity").material_select();
+		$('#filterselectBlockBasedonCommunity').append(Options);
+		//$("#filterselectBlockBasedonCommunity").material_select();
 	});
 }
 
@@ -104,6 +110,15 @@ function showTopupDetails(customerId){
 		
 		$("#alarm_topup").val(data.topupdetails.alarmCredit).trigger("change");
 		$("#formalarm_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		
+		$("#reconnection_topup").val(data.topupdetails.reconnectionCharges).trigger("change");
+		$("#formreconnection_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		
+		$("#fixed_topup").val(data.topupdetails.fixedCharges).trigger("change");
+		$("#formfixed_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		
+		$("#month_topup").val(data.topupdetails.noOfMonths).trigger("change");
+		$("#formmonth_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 		
 	});
 	
