@@ -76,7 +76,7 @@ $(document)
 												.ajax({
 													type : "POST",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/financialreports1/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+													url : "/PAYGTL_LORA_BLE/financialreports/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
 													data : JSON
 															.stringify(data1),
 													dataType : "JSON",
@@ -88,11 +88,11 @@ $(document)
 														$("#form").hide();
 														$("#tablereport").show();
 
-														document.querySelector("#totalcount").innerHTML = "Total Amount: "+d.totalAmountForSelectedPeriod+ " Total Units: "+d.totalUnitsForSelectedPeriod
+												//		document.querySelector(".totalcount").innerHTML = "Total Amount: "+d.totalAmountForSelectedPeriod+ " Total Units: "+d.totalUnitsForSelectedPeriod
 														
 														 table = $('#financialTable').DataTable(
 																	{
-																		"dom": "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f<br/><'span'>>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		"responsive" : true,
 																		"serverSide" : false,
 																		"bDestroy" : true,
@@ -142,22 +142,20 @@ $(document)
 																		        title:'Financial Report'  }
 																		]
 																	});
+
+														 $("div.headname").html('<h3>User Consumptions</h3>');
 															//table.ajax.reload()
-													//	}
+														 
+														 $("div.totalcount").html('Total Amount: '+d.totalAmountForSelectedPeriod+ ' Total Units: '+d.totalUnitsForSelectedPeriod);
+														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
+																 +'class="btn btn-raised btn-primary float-right"'
+																	+'>'
+																+'	<span>Back</span>'
+															+'</button>');
+													
 													}
 												});
 										return false;
 									});
 				});
 
-$(document).ready(
-		function() {
-			$("#back")
-			.click(
-					function() {
-		
-						window.location = "financialreports.jsp";
-						return false
-						
-					});
-		});

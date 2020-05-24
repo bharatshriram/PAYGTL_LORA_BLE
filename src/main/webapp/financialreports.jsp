@@ -85,14 +85,30 @@
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
                             <label class="bmd-label-floating">Year<sup class="imp">*</sup></label> 
-                             <!--  <input type="text" class="form-control datepicker" id="start_date" name="start_date"> -->
-                             <input type="text" id="start_date" name="start_date" class="form-control" >
+                             <select class="yrselectdesc form-control start_date" id="start_date">
+                             <option value="">Select Year</option>
+                             </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">Month</label>
-                              <input type="text" class="form-control" id="end_date" name="end_date">
+                               <label class="bmd-label-floating">Month<sup class="imp">*</sup></label> 
+                             <select class="form-control end_date" id="end_date">
+                             <option value="">Select Month</option>
+                             <option value="01">January</option>
+                             <option value="02">February</option>
+                             <option value="03">March</option>
+                             <option value="04">April</option>
+                             <option value="05">May</option>
+                             <option value="06">June</option>
+                             <option value="07">July</option>
+                             <option value="08">August</option>
+                             <option value="09">September</option>
+                             <option value="10">October</option>
+                             <option value="11">November</option>
+                             <option value="12">December</option>
+                             </select>
+                             
                             </div>
                           </div>
                     </div>
@@ -110,7 +126,7 @@
        
 			<div id="tablereport"  style = "display:none">
 			<div class="row mb-4">
-					<div class="col-md-2">
+					<!-- <div class="col-md-2">
 						<h3>Financial Report</h3>
 					</div>
 					
@@ -124,7 +140,7 @@
 							>
 							<span>Back</span>
 						</button>
-					</div>
+					</div> -->
 				</div>
 				<div class="row">
 					<div class="col-md-12">
@@ -249,7 +265,7 @@
 		
 		<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
-	<script type="text/javascript">
+	<!-- <script type="text/javascript">
 		$(document).ready(function()
 		{
 			var date = new Date();
@@ -309,7 +325,17 @@
 
 			$.material.init()
 		});
-		</script>
-		
+		</script> -->
+
+<script src="common/js/year-select.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(e) {
+                $('.yearselect').yearselect();
+
+                $('.yrselectdesc').yearselect({step: 5, order: 'desc'});
+                $('.yrselectasc').yearselect({order: 'asc'});
+            });
+        </script>
+        		
 </body>
 </html>

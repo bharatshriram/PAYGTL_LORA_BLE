@@ -23,7 +23,7 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Community</title>
+<title>Community Management</title>
 </head>
 
 
@@ -53,9 +53,9 @@
 			</div>
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
-				<div class="row mb-4">
+				<!-- <div class="row mb-4">
 					<div class="col-md-6">
-						<h3>Community Details</h3>
+						<h3>Community Management</h3>
 					</div>
 					<div class="col-md-6">
 						<button type="button" id="communitypopup"
@@ -64,7 +64,7 @@
 							<i class="fa fa-user-plus"></i>
 						</button>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-md-12">
 						<table id="communityTable"

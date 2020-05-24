@@ -53,7 +53,7 @@
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="row mb-4">
-					<div class="col-md-6">
+					<!-- <div class="col-md-6">
 						<h3>Alert Details</h3>
 					</div>
 					<div class="col-md-6">
@@ -62,7 +62,7 @@
 							data-toggle="modal" data-target="#exampleModal">
 							<i class="fa fa-user"></i>
 						</button>
-					</div>
+					</div> -->
 				</div>
 				<div class="row">
 					<div class="col-md-12">

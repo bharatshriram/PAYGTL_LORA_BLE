@@ -25,7 +25,9 @@ $(window).on('load', function() {
   $('body').delay(0).css({'overflow':'visible'});
 })
 
-
+function returnBack(){
+	window.location.reload();
+}
 
  /*$(document).ready(function () {
   //if($(window).width()<768){

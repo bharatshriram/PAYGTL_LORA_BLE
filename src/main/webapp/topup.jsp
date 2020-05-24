@@ -118,6 +118,27 @@
                               <input type = "hidden" id="tariffID">
                             </div>
                           </div>
+                          
+                          <div class="col-md-4">
+                            <div id="formreconnection_topup" class="input-group form-group">
+                              <label class="bmd-label-floating">Reconnection Charges</label>
+                              <input type="text" class="form-control" id="reconnection_topup" name="reconnection_topup" disabled>
+                            </div>
+                          </div>
+                          
+                          <div class="col-md-4">
+                            <div id="formfixed_topup" class="input-group form-group">
+                              <label class="bmd-label-floating">Fixed Charge</label>
+                              <input type="text" class="form-control" id="fixed_topup" name="fixed_topup" disabled>
+                            </div>
+                          </div>
+                          
+                          <div class="col-md-4">
+                            <div id="formmonth_topup" class="input-group form-group">
+                              <label class="bmd-label-floating">No. of Months</label>
+                              <input type="text" class="form-control" id="month_topup" name="month_topup" disabled>
+                            </div>
+                          </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating">ReCharge Amount</label>

@@ -54,7 +54,7 @@
 			</div>
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
-				<div class="row mb-4">
+				<!-- <div class="row mb-4">
 					<div class="col-md-6">
 						<h3>Tariff Details</h3>
 					</div>
@@ -65,7 +65,7 @@
 							<i class="fa fa-user-plus"></i>
 						</button>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-md-12">
 						<table id="tariffTable"
@@ -73,7 +73,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>Name</th>
+									<th><b>Name</b></th>
 									<th>Rate</th>
 									<th>Emergency Credit</th>
 									<th>Alarm Credit</th>

@@ -50,11 +50,11 @@
 			</div>
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
-				<div class="row mb-4">
+				<!-- <div class="row mb-4">
 					<div class="col-md-6">
 						<h3>Alarms</h3>
 					</div>
-				</div>
+				</div> -->
 				<div class="row">
 					<div class="col-md-12">
 						<table id="alarmTable"
