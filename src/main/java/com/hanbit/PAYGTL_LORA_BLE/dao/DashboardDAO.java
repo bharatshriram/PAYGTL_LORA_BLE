@@ -25,7 +25,6 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
-import com.hanbit.PAYGTL_LORA_BLE.response.vo.FinancialReportsResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -76,6 +75,28 @@ public class DashboardDAO {
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 		
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
+			
+			/*StringBuilder stringBuilder = new StringBuilder(query);
+			if(roleid !=3) {
+				
+				LocalDateTime dateTime = LocalDateTime.now();  
+			    DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+				
+				if(!filtervo.getDateFrom().equalsIgnoreCase("null") || !filtervo.getDateTo().equalsIgnoreCase("null")) {
+					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+dateTime.format(dateTimeFormat)+"'"));
+				}
+				if(filtervo.getReadingFrom() != 0 || filtervo.getReadingTo() != 0) {
+					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
+				}
+				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageTo()*3.5)/100) : 10));
+				}
+				if(filtervo.getTamperType() > 0) {
+					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
+				}
+					stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
+			}*/
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();
@@ -120,6 +141,15 @@ public class DashboardDAO {
 					dashboardvo.setCommunicationStatus("YES");
 				}
 				dashboardvo.setNonCommunicating(nonCommunicating);
+				
+				if(roleid==3) {
+					PreparedStatement pstmt2 = con.prepareStatement("SELECT Amount, TransactionDate FROM topup WHERE CRNNumber = '"+rs.getString("CRNNumber")+"' AND STATUS BETWEEN 0 AND 2 ORDER BY TransactionID DESC LIMIT 0,1") ;
+					ResultSet rs2 = pstmt2.executeQuery();
+					if(rs2.next()) {
+						dashboardvo.setLastTopupAmount(rs2.getInt("Amount"));
+						dashboardvo.setLastRechargeDate(ExtraMethodsDAO.datetimeformatter(rs2.getString("TransactionDate")));
+					}
+				}
 				dashboard_list.add(dashboardvo);
 			}
 		}

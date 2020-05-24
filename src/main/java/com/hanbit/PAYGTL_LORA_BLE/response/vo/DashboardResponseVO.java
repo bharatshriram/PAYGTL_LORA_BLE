@@ -39,6 +39,8 @@ public class DashboardResponseVO {
 	private String tamperColor;
 	private String vacationStatus;
 	private String vacationColor;
+	private String lastRechargeDate;
+	private int lastTopupAmount;
 	
 	private List<DashboardResponseVO> data;
 
@@ -284,6 +286,22 @@ public class DashboardResponseVO {
 
 	public void setVacationColor(String vacationColor) {
 		this.vacationColor = vacationColor;
+	}
+
+	public String getLastRechargeDate() {
+		return lastRechargeDate;
+	}
+
+	public void setLastRechargeDate(String lastRechargeDate) {
+		this.lastRechargeDate = lastRechargeDate;
+	}
+
+	public int getLastTopupAmount() {
+		return lastTopupAmount;
+	}
+
+	public void setLastTopupAmount(int lastTopupAmount) {
+		this.lastTopupAmount = lastTopupAmount;
 	}
 
 }
