@@ -17,6 +17,7 @@ $(document).ready(function () {
 			
 		}
       });
+      
     });
 
 $(window).on('load', function() { 
@@ -27,6 +28,11 @@ $(window).on('load', function() {
 
 function returnBack(){
 	window.location.reload();
+}
+
+function redirection(obj){
+	sessionStorage.setItem("filterId",obj);
+	window.location = "LiveDashBoard.jsp";
 }
 
  /*$(document).ready(function () {

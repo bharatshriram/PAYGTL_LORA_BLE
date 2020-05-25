@@ -396,7 +396,7 @@
 								<div id="formamrEdit" class="input-group form-group">
 									<label class="bmd-label-floating">MIU ID</label> <input
 										type="text" class="form-control" name="amrEdit"
-										id="amrEdit" disabled>
+										id="amrEdit">
 								</div>
 							</div>
 							<!-- <div class="col-md-6">
@@ -412,7 +412,7 @@
 							<div class="col-md-6">
 								<div id="formCRNEdit" class="input-group form-group">
 									<label class="bmd-label-floating">CRN Number</label> <input
-										type="email" class="form-control" name="CRNEdit"
+										type="text" class="form-control" name="CRNEdit"
 										id="CRNEdit" disabled>
 										<input type = "hidden" id="customerIdhidden" />
 								</div>

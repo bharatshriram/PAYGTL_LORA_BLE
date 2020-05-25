@@ -785,9 +785,8 @@ $(document)
 
 function getCustomerFormEdit(id) {
 
-	// alert(id);
 
-	$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 		$.each(data.data, function(i, item) {
 			if (id == item.CRNNumber) {
 				$('#communityNameEdit').val(item.communityName).trigger("change");
@@ -820,9 +819,12 @@ function getCustomerFormEdit(id) {
 				
 				$('#amrEdit').val(item.meterID).trigger("change");
 				$("#formamrEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-
-				//$('#defaultReadingEdit').val(item.defaultReading).trigger("change");
-				//$("#formdefaultReadingEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				if(sessionStorage.getItem("roleID") == 3){
+					$('#amrEdit')
+					.attr('disabled',
+							true);
+				}
 				$('#CRNEdit').val(item.CRNNumber).trigger("change");
 				$("#formCRNEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 			    

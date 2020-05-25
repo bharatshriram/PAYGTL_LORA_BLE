@@ -23,7 +23,7 @@
 <link rel="stylesheet"
 	href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
-<title>Topup Details</title>
+<title>ReCharge Details</title>
 </head>
 
 

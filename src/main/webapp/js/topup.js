@@ -357,7 +357,7 @@ $(document).ready(function() {
 	        exportOptions: {
 	            columns: [0,1,2,3,4,5,6,7,8,9,10]
 	        },
-	        title:'Top Up Status' 
+	        title:'ReCharge Status' 
 	        },
 	         
 	        {extend: 'pdf',
@@ -367,7 +367,7 @@ $(document).ready(function() {
 	        },
 	        text: 'pdf',
 	        orientation: 'landscape',
-	        title:'Top Up Status',
+	        title:'ReCharge Status',
 	        pageSize: 'LEGAL'
 	       },
 	       {
@@ -390,7 +390,7 @@ $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		table.buttons( $('a.customButton') ).remove();	
 	}
-	$("div.headname").html('<h3>Topup Status</h3>');
+	$("div.headname").html('<h3>ReCharge Status</h3>');
 	//$("div.total").html('MUI ID: '+data.meterID+ ' Total Units: '+data.meterID);
 	
 	$("#customerFilter")
@@ -493,7 +493,7 @@ $(document).ready(function() {
 														        exportOptions: {
 														            columns: [0,1,2,3,4,5,6,7,8,9,10]
 														        },
-														        title:'Top Up Status' 
+														        title:'ReCharge Status' 
 														        },
 														         
 														        {extend: 'pdf',
@@ -503,7 +503,7 @@ $(document).ready(function() {
 														        },
 														        text: 'pdf',
 														        orientation: 'landscape',
-														        title:'Top Up Status',
+														        title:'ReCharge Status',
 														        pageSize: 'LEGAL'
 														       },
 														       {
@@ -523,7 +523,7 @@ $(document).ready(function() {
 														if(sessionStorage.getItem("roleID") == 3){
 															table.buttons( $('a.customButton') ).remove();	
 														}
-											$("div.headname").html('<h3>Topup Status</h3>');
+											$("div.headname").html('<h3>ReCharge Status</h3>');
 							}
 						});
 				return false;

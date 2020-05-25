@@ -38,16 +38,16 @@
 				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
 				<li> <a href="tariff.jsp" title="Tariff"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>                
                   <%if(user_id.equalsIgnoreCase("1")){ %>
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
+                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
                 <%if(user_id.equalsIgnoreCase("1")){ %>
                 <li> <a href="configuration.jsp" title="Configuration"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
                 <%}%>
                 <li> <a href="configurationStatus.jsp" title="Configuration Status"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Configuration Status</span></a> </li>
                 <li> <a href="alert.jsp" title="Alert"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts</span></a> </li>
                 <li><a href="userConsumptions.jsp" title="User Consumptions"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
-                    <li><a href="topupSummary.jsp" title="Top Up Summary"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="topupSummary.jsp" title="Top Up Summary"><img src=common/images/icons/topupsummary.png /><span class="nav-label">ReCharge Summary</span></a></li>
                     <li><a href="financialreports.jsp" title="Finanical Report"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
 				<li><a href="alarmReport.jsp" title="Report Alarm"><img src=common/images/icons/3-alarmreport.png /><span class="nav-label">Alarms Report</span></a></li>
@@ -66,11 +66,11 @@
 				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
                 
                 <%if(user_id.equalsIgnoreCase("2")){ %>
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
+                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
                 
                 
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
                 
                 <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="configuration.jsp" title="Configuration"><img src=common/images/icons/configuration.png /> <span class="nav-label">Configuration</span></a> </li>
@@ -79,7 +79,7 @@
                 <li> <a href="configurationStatus.jsp" title="Configuration Status"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Configuration Status</span></a> </li>
     
                    <li class=""><a href="userConsumptions.jsp" title="User Consumption"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
-                    <li><a href="topupSummary.jsp" title="Topup Summary"><img src=common/images/icons/topupsummary.png /><span class="nav-label">Top Up Summary</span></a></li>
+                    <li><a href="topupSummary.jsp" title="Topup Summary"><img src=common/images/icons/topupsummary.png /><span class="nav-label">ReCharge Summary</span></a></li>
                     <li><a href="financialreports.jsp" title="Financial Report"><img src=common/images/icons/financialreports.png /><span class="nav-label">Financial Reports</span></a></li>
                     <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
     				<li><a href="alarmReport.jsp" title="Alarm Report"><img src=common/images/icons/3-alarmreport.png /><span class="nav-label">Alarms Report</span></a></li>

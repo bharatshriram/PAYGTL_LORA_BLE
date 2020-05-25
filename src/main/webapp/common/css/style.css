@@ -467,3 +467,7 @@ table.dataTable thead tr {
 	display:inline-flex;
 	
 }
+
+.stats{
+	cursor: pointer;
+}

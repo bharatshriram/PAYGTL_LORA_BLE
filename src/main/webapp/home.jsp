@@ -48,12 +48,13 @@
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="rightblock">
+				<%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")){ %>
 					<div class="row admin">
 						<div class="col-md-12">
 							<div class="row">
-								<div class="col-md-4">
-									<div class="row billingAmount">
-										<div class="col-md-6">
+								<div class="col-md-2">
+									<div class="row">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -66,14 +67,14 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">Active</p>
-																<p class="card-title" id="totalmiu"></p>
+																<p class="card-title" id="adminActive"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(1)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -81,8 +82,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
+									<div class="row mt-4">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -94,14 +95,14 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">In-Active</p>
-																<p class="card-title">15</p>
+																<p class="card-title" id="adminInActive"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(2)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -109,8 +110,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
+									<div class="row mt-4">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -122,14 +123,14 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">Non-Live</p>
-																<p class="card-title" id="Non-Communicating"></p>
+																<p class="card-title" id="adminNonLive"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(4)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -137,8 +138,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
+									<div class="row mt-4">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -150,14 +151,14 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">Live</p>
-																<p class="card-title" id="communicating"></p>
+																<p class="card-title" id="adminLive"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(3)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -167,9 +168,9 @@
 									</div>
 								</div>
 
-								<div class="col-md-4">
+								<div class="col-md-8">
 									<div class="row billingAmount">
-										<div class="col-md-6">
+										<div class="col-md-3">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -180,15 +181,15 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Battery Voltage</p>
-																<p class="card-title" id="communicating">3.12</p>
+																<p class="card-category">Low-Battery</p>
+																<p class="card-title" id="adminBattery"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(5)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -210,15 +211,44 @@
 													<!-- <div id="container" class="container"
 														style="height: 250px; width: 500"></div> -->
 														
-														<div id="chartContainer" style="height: 360px; width: 100%;"></div>
+														<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+														<div id="highchart_container" style="width: 100%; max-width: 800px; margin: 0 auto"></div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="col-md-4">
-									<div class="row billingAmount">
-										<div class="col-md-6">
+								<div class="col-md-2">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															   <div class="numbers text-right">
+																<p class="card-category">EC</p>
+																<p class="card-title" id="adminEmergency"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats" onClick="redirection(6)">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -229,8 +259,8 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Emergency Credit</p>
-																<p class="card-title" id="totalmiu">51</p>
+																<p class="card-category">Consumption</p>
+																<p class="card-title" id="admincomption"></p>
 															</div>
 														</div>
 													</div>
@@ -245,36 +275,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
-											<div class="card card-stats borderRadius">
-												<div class="card-body cardSpacing">
-													<div class="row">
-														<div class="col-5 col-md-4">
-															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
-															</div>
-														</div>
-														<div class="col-7 col-md-8">
-															<div class="numbers text-right">
-																<p class="card-category">Total Topup</p>
-																<p class="card-title">15</p>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="card-footer borderRadius">
-
-													<div class="stats">
-														View Details<i class="fa fa-chevron-right view_details"
-															aria-hidden="true"></i>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
+									<div class="row mt-4 ">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -286,7 +288,7 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">Day Topup</p>
-																<p class="card-title" id="Non-Communicating">74</p>
+																<p class="card-title" id="admindayTopup"></p>
 															</div>
 														</div>
 													</div>
@@ -301,8 +303,8 @@
 											</div>
 										</div>
 									</div>
-									<div class="row mt-4 billingAmount">
-										<div class="col-md-6">
+									<div class="row mt-4 ">
+										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
@@ -314,7 +316,7 @@
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
 																<p class="card-category">Total AMR</p>
-																<p class="card-title" id="communicating">21</p>
+																<p class="card-title" id="adminAMR"></p>
 															</div>
 														</div>
 													</div>
@@ -334,11 +336,11 @@
 							</div>
 						</div>
 					</div>
-
+<%} else if(user_id.equalsIgnoreCase("3")){ %>>
 					<div class="row customer">
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<div class="row billingAmount">
-								<div class="col-md-6 bg-success text-center">
+								<div class="col-md-12 bg-success text-center">
 									<p class="text-white">
 										Last Bill Amount:<span>0000</span>
 									</p>
@@ -348,7 +350,7 @@
 								</div>
 							</div>
 							<div class="row mt-4 billingAmount">
-								<div class="col-md-6 text-center">
+								<div class="col-md-12 text-center">
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/23-consumptionn.png />
@@ -362,7 +364,7 @@
 								</div>
 							</div>
 							<div class="row mt-4 billingAmount">
-								<div class="col-md-6 text-center">
+								<div class="col-md-12 text-center">
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/25-billpayment.png />
@@ -376,7 +378,7 @@
 								</div>
 							</div>
 							<div class="row mt-4 billingAmount">
-								<div class="col-md-6 text-center">
+								<div class="col-md-12 text-center">
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/27-profiifle.png />
@@ -390,9 +392,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4">
+						<div class="col-md-9">
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col col1">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
 											<div class="row">
@@ -403,7 +405,7 @@
 												</div>
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
+														<p class="card-category">Community</p>
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
@@ -418,7 +420,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col col2">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
 											<div class="row">
@@ -429,7 +431,59 @@
 												</div>
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
+														<p class="card-category">Block</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col col3">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">CRN Number</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col col4">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Available Status</p>
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
@@ -449,8 +503,12 @@
 							
 							
 							
+							
+							
+							
+							
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col col1">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
 											<div class="row">
@@ -461,7 +519,7 @@
 												</div>
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
+														<p class="card-category">Valve Status</p>
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
@@ -476,7 +534,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col col2">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
 											<div class="row">
@@ -487,7 +545,33 @@
 												</div>
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
+														<p class="card-category">Meter Status</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col col3">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Battery Status</p>
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
@@ -507,118 +591,29 @@
 							
 							
 							<div class="row">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-										<div class="card-body cardSpacing">
-											<div class="row">
-												<div class="col-5 col-md-4">
-													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
-													</div>
+								<div class="col-md-12">
+											<div class="card shadow mb-4 bg-transparent">
+												<!-- Card Header - Dropdown -->
+												<div
+													class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+													<h6 class="m-0 font-weight-bold text-white">Live
+														Status</h6>
 												</div>
-												<div class="col-7 col-md-8">
-													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
-														<p class="card-title" id="communicating">21</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-										<div class="card-body cardSpacing">
-											<div class="row">
-												<div class="col-5 col-md-4">
-													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
-													</div>
-												</div>
-												<div class="col-7 col-md-8">
-													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
-														<p class="card-title" id="communicating">21</p>
-													</div>
+												<!-- Card Body -->
+												<div class="card-body">
+													<!-- <div id="container" class="container"
+														style="height: 250px; width: 500"></div> -->
+														
+														<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+														<div id="highchart_container" style="height: 250px;width: 100%; max-width: 800px; margin: 0 auto"></div>
 												</div>
 											</div>
 										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							
-							
-							
-							<div class="row">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-										<div class="card-body cardSpacing">
-											<div class="row">
-												<div class="col-5 col-md-4">
-													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
-													</div>
-												</div>
-												<div class="col-7 col-md-8">
-													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
-														<p class="card-title" id="communicating">21</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-										<div class="card-body cardSpacing">
-											<div class="row">
-												<div class="col-5 col-md-4">
-													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
-													</div>
-												</div>
-												<div class="col-7 col-md-8">
-													<div class="numbers text-right">
-														<p class="card-category">Total AMR</p>
-														<p class="card-title" id="communicating">21</p>
-													</div>
-												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
+						
 				</div>
+		<%} %>	
 			</div>
 		</div>
 	</div>
@@ -635,7 +630,8 @@
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
 		crossorigin="anonymous"></script>
 
-	<!-- <script src="common/js/bootstrap.min.js"></script> -->
+	  <script src="js/home.js"></script> 
+	  <script src="js/common.js"></script> 
 	<script src="https://code.highcharts.com/highcharts.js"></script>
 	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
@@ -670,7 +666,7 @@
 				.ready(
 						function() {
 							var data1;
-							$
+							/* $
 									.ajax({
 										type : "GET",
 										contentType : "application/json",
@@ -724,7 +720,7 @@
 											//  document.querySelector(".highcharts-series-group .highcharts-series .highcharts-color-1").setAttribute("fill","green");
 
 										}
-									});
+									}); */
 							
 						//	window.onload = function () {
 								var chart = new CanvasJS.Chart("chartContainer",
@@ -758,6 +754,81 @@
 								chart.render();
 								    
 						});
+	
+	$('#highchart_container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Bar Graph Title'
+        },
+        subtitle: {
+            text: 'Subtittle'
+        },
+        xAxis: {
+            categories: ['Active',
+'In-Active',
+'Live',
+'Non-Live',
+'Low Battery',
+'EC',
+'Consumption',
+'Day Topup',
+],
+            title: {
+                text: null
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'Chart',
+                align: 'high'
+            },
+            labels: {
+                overflow: 'justify'
+            }
+        },
+        tooltip: {
+            valueSuffix: ''
+        },
+        plotOptions: {
+            bar: {
+                dataLabels: {
+                    enabled: true
+                }
+            }
+        },
+        /*
+legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -40,
+            y: 100,
+            floating: true,
+            borderWidth: 1,
+            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+            shadow: true
+        },
+*/
+        credits: {
+            enabled: false
+        },
+        series: [{
+            data: [89.2,
+88.4,
+87.7,
+86.6,
+86.1,
+83.9,
+83.8,
+81.8,
+],
+name: 'Percentage (%)'
+        }]
+        
+    });
 	</script>
 
 	<script>

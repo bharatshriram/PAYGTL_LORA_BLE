@@ -71,8 +71,8 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>No MIU ID Interval</th>
-									<th>Low Battery Voltage</th>
+									<th>MIU ID Interval (Min)</th>
+									<th>Battery (%)</th>
 									<th>Timeout</th>
 									<th>ReConnection Charge</th>
 									<th>Per Unit Charge</th>

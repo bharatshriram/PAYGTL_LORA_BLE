@@ -176,7 +176,7 @@ $(document)
 																			{extend: 'excel',
 																		        footer: 'true',
 																		        text: 'Excel',
-																		        title:'Top Up Summary'  },
+																		        title:'ReCharge Summary'  },
 																		         
 																		        {extend: 'pdf',
 																		        footer: 'true',
@@ -185,11 +185,11 @@ $(document)
 																		        },
 																		        text: 'pdf',
 																		        orientation: 'landscape',
-																		        title:'Top Up Summary'  }
+																		        title:'ReCharge Summary'  }
 																		]
 																	});
 
-														 $("div.headname").html('<h3>Top Up Summary Details</h3>');
+														 $("div.headname").html('<h3>ReCharge Summary Details</h3>');
 															//table.ajax.reload()
 														 
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
