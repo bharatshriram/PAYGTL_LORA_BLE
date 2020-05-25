@@ -43,7 +43,7 @@ public class DashboardDAO {
 		return connection;
 	}
 
-	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id)
+	public List<DashboardResponseVO> getDashboarddetails(int roleid, String id, int filter)
 			throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
@@ -65,38 +65,27 @@ public class DashboardDAO {
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				lowBatteryVoltage = rs1.getDouble("LowBatteryVoltage");
 				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
 					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.Vacation, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber WHERE 1=1 <change>";
 		
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
+			query = query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "" : (roleid == 2 || roleid == 5) ? "AND dbl.BlockID = "+id : (roleid == 3) ? "AND dbl.CRNNumber = '"+id+"'":"");
 			
-			/*StringBuilder stringBuilder = new StringBuilder(query);
-			if(roleid !=3) {
+			StringBuilder stringBuilder = new StringBuilder(query);
+			if(roleid !=3 && filter != 0) {
 				
-				LocalDateTime dateTime = LocalDateTime.now();  
-			    DateTimeFormatter dateTimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+//				1 = valve open(active), 2 = valve close(inactive) 3 = communicating(live), 4 = non-communicating(non-live) 5 = low battery 6 = emergency credit
 				
-				if(!filtervo.getDateFrom().equalsIgnoreCase("null") || !filtervo.getDateTo().equalsIgnoreCase("null")) {
-					stringBuilder.append(" AND dbl.IoTTimeStamp BETWEEN '" + filtervo.getDateFrom() + "' AND '" + (filtervo.getDateTo() != null ? filtervo.getDateTo()+"'" : "'"+dateTime.format(dateTimeFormat)+"'"));
-				}
-				if(filtervo.getReadingFrom() != 0 || filtervo.getReadingTo() != 0) {
-					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
-				}
-				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
-					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageTo()*3.5)/100) : 10));
-				}
-				if(filtervo.getTamperType() > 0) {
-					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
-				}
-					stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
-			}*/
-			
+				stringBuilder.append((filter == 1 || filter == 2) ? " AND dbl.SolonideStatus = "+ (filter == 1 ? 0 : 1) : (filter == 3 || filter == 4) ? (filter == 3 ? " AND dbl.IotTimeStamp >= (NOW() - INTERVAL (SELECT NoAMRInterval/(24*60) FROM alertsettings) DAY) " : " AND dbl.IotTimeStamp <= (NOW() - INTERVAL (SELECT NoAMRInterval/(24*60) FROM alertsettings) DAY) " ) :  (filter == 5) ? " AND dbl.BatteryVoltage < "+ lowBatteryVoltage : (filter == 6) ? " AND dbl.Balance <= 0" : "");
+				
+			}
+			stringBuilder.append(" ORDER BY dbl.IoTTimeStamp DESC");
+			pstmt = con.prepareStatement(stringBuilder.toString());
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				dashboardvo = new DashboardResponseVO();

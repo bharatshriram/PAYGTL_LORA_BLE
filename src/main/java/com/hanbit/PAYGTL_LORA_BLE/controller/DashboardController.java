@@ -29,13 +29,13 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 @Controller
 public class DashboardController {
 
-	@RequestMapping(value = "/dashboard/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
-	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id) throws SQLException {
+	@RequestMapping(value = "/dashboard/{roleid}/{id}/{filter}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filter") int filter) throws SQLException {
 
 		DashboardDAO dashboarddao = new DashboardDAO();
 		DashboardResponseVO dasboardresponsevo = new DashboardResponseVO();
 
-		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id));
+		dasboardresponsevo.setData(dashboarddao.getDashboarddetails(roleid, id, filter));
 		dasboardresponsevo.setTotal(dasboardresponsevo.getData().size());
 		dasboardresponsevo.setNonCommunicating(dasboardresponsevo.getData().size() == 0 ? 0 : dasboardresponsevo.getData().get(dasboardresponsevo.getData().size()-1).getNonCommunicating());
 		dasboardresponsevo.setCommunicating(dasboardresponsevo.getData().size()-dasboardresponsevo.getNonCommunicating());

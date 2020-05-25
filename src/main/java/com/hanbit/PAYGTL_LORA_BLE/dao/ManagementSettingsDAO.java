@@ -563,7 +563,7 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "+ vacationRequestVO.getVacationID());
+			pstmt = con.prepareStatement("UPDATE vacation SET TataReferenceNumber = ?, VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "+ vacationRequestVO.getVacationID());
 
 			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
 			pstmt.setString(2, vacationRequestVO.getVacationName());
