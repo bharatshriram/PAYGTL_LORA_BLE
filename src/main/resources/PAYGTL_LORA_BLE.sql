@@ -36,7 +36,7 @@ CREATE TABLE `alertsettings` (
 /*Data for the table `alertsettings` */
 
 insert  into `alertsettings`(`AlertID`,`NoAMRInterval`,`LowBatteryVoltage`,`TimeOut`,`PerUnitValue`,`ReconnectionCharges`,`RegisteredDate`,`ModifiedDate`) values 
-(1,1442,3.35,330,2.4,50,'2020-04-07 02:20:35','2020-04-07 02:30:33');
+(1,2880,3.35,330,2.4,50,'2020-04-07 02:20:35','2020-04-07 02:30:33');
 
 /*Table structure for table `balancelog` */
 
@@ -65,7 +65,7 @@ CREATE TABLE `balancelog` (
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=latin1;
 
 /*Data for the table `balancelog` */
 
@@ -147,7 +147,17 @@ insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID
 (75,'70b3d5f83000157b',217.00,500.00,5,11,12,3.59,30.00,'50.0',3,1,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:04:16','2020-05-15 23:06:17'),
 (76,'70b3d5f83000157b',217.00,500.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:08:39','2020-05-15 23:10:23'),
 (77,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:48:33','2020-05-15 23:49:41'),
-(78,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:49:50','2020-05-15 23:50:52');
+(78,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:49:50','2020-05-15 23:50:52'),
+(79,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,0,0,0,'986630','HAN0013',0,'2020-05-16 13:07:18','2020-05-16 13:09:00'),
+(80,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,1,0,0,'986630','HAN0013',0,'2020-05-16 13:31:36','2020-05-16 13:32:22'),
+(81,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,0,0,0,'986630','HAN0013',0,'2020-05-16 21:50:23','2020-05-16 21:51:15'),
+(82,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,0,0,0,0,0,'986630','HAN0013',0,'2020-05-16 21:54:27','2020-05-16 21:55:30'),
+(83,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,0,0,1,'986630','HAN0013',0,'2020-05-16 22:06:43','2020-05-16 22:07:20'),
+(84,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,0,0,0,0,0,'986630','HAN0013',0,'2020-05-16 22:10:33','2020-05-16 22:11:09'),
+(85,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,0,0,1,'986630','HAN0013',0,'2020-05-16 22:35:21','2020-05-16 22:47:05'),
+(86,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,1,0,0,0,0,'986630','HAN0013',0,'2020-05-17 14:36:45','2020-05-17 14:38:14'),
+(87,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,0,0,0,0,0,'986630','HAN0013',0,'2020-05-17 15:00:55','2020-05-17 15:01:57'),
+(88,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,0,0,0,0,0,'986630','HAN0013',0,'2020-05-17 15:03:43','2020-05-17 15:04:59');
 
 /*Table structure for table `block` */
 
@@ -194,7 +204,7 @@ CREATE TABLE `command` (
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 /*Data for the table `command` */
 
@@ -213,7 +223,14 @@ insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`Meter
 (12,1588488443361,0,'70b3d5f830000a68',0,2,'HAN0006','2020-05-03 12:17:23','2020-05-03 12:20:00'),
 (13,1588488808889,0,'70b3d5f830000a68',0,5,'HAN0006','2020-05-03 12:23:28','2020-05-03 12:30:00'),
 (14,1589556416015,12,'70b3d5f83000157b',0,5,'HAN0012','2020-05-15 20:57:03','2020-05-15 20:57:03'),
-(15,1589564238261,12,'70b3d5f83000157b',40,2,'HAN0012','2020-05-15 23:07:25','2020-05-15 23:10:00');
+(15,1589564238261,12,'70b3d5f83000157b',40,2,'HAN0012','2020-05-15 23:07:25','2020-05-15 23:10:00'),
+(16,1589649682365,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-16 22:51:48','2020-05-16 22:54:00'),
+(17,1589649911667,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-16 22:55:18','2020-05-16 22:58:00'),
+(18,1589650187111,14,'70b3d5f830004fb4',6,2,'HAN0013','2020-05-16 22:59:53','2020-05-16 23:02:00'),
+(19,1589650434886,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-16 23:04:01','2020-05-16 23:06:00'),
+(20,1589650989308,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-16 23:13:15','2020-05-16 23:22:00'),
+(21,1589712670324,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-17 16:21:10','2020-05-17 16:24:00'),
+(22,1589712916653,14,'70b3d5f830004fb4',40,5,'HAN0013','2020-05-17 16:25:16','2020-05-17 16:28:00');
 
 /*Table structure for table `community` */
 
@@ -262,9 +279,12 @@ CREATE TABLE `customerdeletemeter` (
   `RegistrationDate` datetime NOT NULL,
   `DeletedDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`CustomerDeleteID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `customerdeletemeter` */
+
+insert  into `customerdeletemeter`(`CustomerDeleteID`,`CustomerID`,`CommunityID`,`BlockID`,`HouseNumber`,`FirstName`,`LastName`,`Email`,`MobileNumber`,`MeterID`,`MeterSerialNumber`,`TariffID`,`CRNNumber`,`CreatedByID`,`CreatedByRoleID`,`RegistrationDate`,`DeletedDate`) values 
+(1,9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',2,'HAN0009',1,1,'2020-04-17 15:29:25','2020-05-16 13:03:36');
 
 /*Table structure for table `customermeterdetails` */
 
@@ -290,7 +310,7 @@ CREATE TABLE `customermeterdetails` (
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`CustomerID`),
   UNIQUE KEY `CRNNumber` (`CRNNumber`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 /*Data for the table `customermeterdetails` */
 
@@ -300,10 +320,10 @@ insert  into `customermeterdetails`(`CustomerID`,`CommunityID`,`BlockID`,`HouseN
 (4,2,3,'302','Bharatttttt','sriram','bharat@gmail.com','7777777777','3002','3457',1,1,'HAN0004',1,1,'2020-04-06 15:36:17','2020-04-09 19:58:42'),
 (5,2,5,'501','Demo','Customer','democustomer@gmail.com','6666666666','5001','5678',2,1,'HAN0005',6,2,'2020-04-06 22:31:15','2020-04-06 22:39:04'),
 (6,1,1,'102','Amanora','testing','Amanora@gmail.com','8498890000','70b3d5f830000a68','4567',2,1,'HAN0006',1,1,'2020-04-16 15:43:25','2020-05-01 00:09:04'),
-(9,2,5,'502','Demo502','Customer502','democustomer502@gmail.com','9876598765','5002','6789',2,1,'HAN0009',1,1,'2020-04-17 15:29:25','2020-04-17 15:29:25'),
-(10,4,10,'Sri # 45','Sri babu','kasamsetty','sri@gmail.com','9703668598','k486','987645k',3,1,'HAN0010',1,1,'2020-04-30 13:19:57','2020-04-30 13:19:57'),
+(10,4,10,'Sri 45','Sri babu','kasamsetty','sri@gmail.com','9703668598','k486','987645k',3,1,'HAN0010',1,1,'2020-04-30 13:19:57','2020-04-30 13:19:57'),
 (11,4,10,'V-24','VIjay','Bhaskar','bhaskarnimmagadda@gmail.com','9494281300','1300','949428',3,1,'HAN0011',1,1,'2020-04-30 13:22:36','2020-04-30 13:22:36'),
-(12,5,11,'49/38','K VIMAL','KUMAR','kvk9889@gmail.com','9398348954','70b3d5f83000157b','17221006',1,1,'HAN0012',18,2,'2020-05-15 17:41:42','2020-05-15 22:47:47');
+(12,5,11,'49/38','K VIMAL','KUMAR','kvk9889@gmail.com','9398348954','70b3d5f83000157b','17221006',1,1,'HAN0012',18,2,'2020-05-15 17:41:42','2020-05-15 22:47:47'),
+(14,5,11,'45','Phani','Varanasi','phani.varanasi@hanbitsolutions.com','9866305554','70b3d5f830004fb4','986630',1,1,'HAN0013',1,1,'2020-05-16 13:01:17','2020-05-16 13:01:17');
 
 /*Table structure for table `displaybalancelog` */
 
@@ -333,7 +353,7 @@ CREATE TABLE `displaybalancelog` (
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `displaybalancelog` */
 
@@ -341,7 +361,34 @@ insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Readi
 (1,23,'70b3d5f830004f56',0.00,30.00,1,1,1,3.59,50.00,'20.0',3,0,0,0,0,0,'1234','HAN0001',0,'2020-04-20 13:34:40','2020-05-13 19:36:28'),
 (2,17,'70b3d5f83000157a',164.00,900.00,2,3,2,2.18,1000.00,'0.0',3,1,0,0,0,0,'3456','HAN0002',0,'2020-04-16 10:36:55','2020-05-16 00:52:59'),
 (3,61,'70b3d5f830000a68',0.00,1910.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,0,0,'4567','HAN0006',0,'2020-05-13 23:11:19','2020-05-14 00:51:11'),
-(4,78,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:49:50','2020-05-15 23:50:52');
+(4,78,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,0,0,'17221006','HAN0012',0,'2020-05-15 23:49:50','2020-05-15 23:50:52'),
+(5,88,'70b3d5f830004fb4',0.00,0.00,5,11,14,3.59,0.00,'0.0',3,0,0,0,0,0,'986630','HAN0013',0,'2020-05-17 15:03:43','2020-05-17 15:04:59');
+
+/*Table structure for table `feedback` */
+
+DROP TABLE IF EXISTS `feedback`;
+
+CREATE TABLE `feedback` (
+  `FeedbackID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `Feedback` varchar(200) DEFAULT NULL,
+  `Description` varchar(2000) DEFAULT NULL,
+  `Status` int(1) NOT NULL DEFAULT '0',
+  `CommunityID` int(11) NOT NULL,
+  `BlockID` int(11) NOT NULL,
+  `CustomerID` int(11) NOT NULL,
+  `CRNNumber` varchar(20) NOT NULL,
+  `MeterID` varchar(20) NOT NULL,
+  `Remarks` varchar(2000) DEFAULT NULL,
+  `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `ModifiedDate` datetime NOT NULL,
+  PRIMARY KEY (`FeedbackID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+/*Data for the table `feedback` */
+
+insert  into `feedback`(`FeedbackID`,`Feedback`,`Description`,`Status`,`CommunityID`,`BlockID`,`CustomerID`,`CRNNumber`,`MeterID`,`Remarks`,`RegisteredDate`,`ModifiedDate`) values 
+(1,'test','testing',1,5,11,12,'HAN0012','70b3d5f83000157b','processed successfully','2020-05-25 01:09:36','2020-05-25 01:15:57'),
+(2,'test1','testing1',0,5,11,12,'HAN0012','70b3d5f83000157b',NULL,'2020-05-25 01:12:28','2020-05-25 01:12:28');
 
 /*Table structure for table `mailsettings` */
 
@@ -450,7 +497,7 @@ insert  into `testtable`(`HolidayID`,`date`,`dt`,`numb`) values
 DROP TABLE IF EXISTS `topup`;
 
 CREATE TABLE `topup` (
-  `TransactionID` int(11) NOT NULL AUTO_INCREMENT,
+  `TransactionID` bigint(20) NOT NULL AUTO_INCREMENT,
   `TataReferenceNumber` bigint(20) NOT NULL,
   `CommunityID` int(11) NOT NULL,
   `BlockID` int(11) NOT NULL,
@@ -478,9 +525,9 @@ CREATE TABLE `topup` (
 
 insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockID`,`CustomerID`,`MeterID`,`TariffID`,`Amount`,`Status`,`FixedCharges`,`ReconnectionCharges`,`ModeOfPayment`,`PaymentStatus`,`Source`,`CreatedByID`,`CreatedByRoleID`,`CRNNumber`,`CardNumber`,`CardType`,`TransactionDate`,`AcknowledgeDate`) values 
 (1,1,2,3,2,'70b3d5f83000157a',2,400,2,0,0,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 19:42:21','2020-04-15 19:42:21'),
-(2,2,2,3,2,'70b3d5f83000157a',2,400,2,0,NULL,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
-(3,3,2,3,2,'70b3d5f83000157a',2,400,2,0,NULL,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
-(4,4,2,3,2,'70b3d5f83000157a',2,400,2,0,NULL,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
+(2,2,2,3,2,'70b3d5f83000157a',2,400,2,0,0,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 19:51:54','2020-04-15 19:51:54'),
+(3,3,2,3,2,'70b3d5f83000157a',2,400,2,0,0,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 20:30:15','2020-04-15 20:30:15'),
+(4,4,2,3,2,'70b3d5f83000157a',2,400,2,0,0,'cash',0,'web',1,1,'HAN0002',NULL,NULL,'2020-04-15 22:09:03','2020-04-15 22:09:03'),
 (5,5,1,1,6,'70b3d5f830000a68',2,400,2,0,0,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:05:14','2020-04-16 16:05:14'),
 (6,6,1,1,6,'70b3d5f830000a68',2,400,2,0,0,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:21:48','2020-04-16 16:21:48'),
 (7,7,1,1,6,'70b3d5f830000a68',2,350,2,0,0,'cash',0,'web',1,1,'HAN0006',NULL,NULL,'2020-04-16 16:35:59','2020-04-17 00:54:48'),
@@ -506,7 +553,7 @@ insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockI
 DROP TABLE IF EXISTS `updaterequestcustomermeterdetails`;
 
 CREATE TABLE `updaterequestcustomermeterdetails` (
-  `RequestID` int(255) NOT NULL AUTO_INCREMENT,
+  `RequestID` bigint(255) NOT NULL AUTO_INCREMENT,
   `BlockID` int(11) NOT NULL,
   `CustomerID` int(11) NOT NULL,
   `CRNNumber` varchar(100) NOT NULL,
@@ -519,7 +566,7 @@ CREATE TABLE `updaterequestcustomermeterdetails` (
   PRIMARY KEY (`RequestID`),
   UNIQUE KEY `CustomerID` (`CustomerID`),
   CONSTRAINT `updaterequestcustomermeterdetails_ibfk_1` FOREIGN KEY (`CustomerID`) REFERENCES `customermeterdetails` (`CustomerID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `updaterequestcustomermeterdetails` */
 
@@ -544,7 +591,7 @@ CREATE TABLE `user` (
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `CommunityID` (`CommunityID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 /*Data for the table `user` */
 
@@ -560,13 +607,13 @@ insert  into `user`(`ID`,`UserID`,`UserName`,`UserPassword`,`RoleID`,`ActiveStat
 (10,'bhrtsrm','Bharat Sriram','cvp/LzpadrQT+2k0WDjyOQ==',3,1,2,3,4,'HAN0004',9,2,'2020-04-09 05:00:11','2020-04-09 05:00:14'),
 (11,'TestCommunity1Demoblock5','Demoblock5','wih1Khk5v8/1bgPmA8lVuA==',2,1,2,8,0,NULL,1,1,'2020-04-11 23:54:59','2020-04-11 23:54:59'),
 (12,'TestCommunity2Demoblock6','Demoblock6','kVA6fP+zltT3x1e91Xa5lA==',2,1,3,9,0,NULL,1,1,'2020-04-12 15:32:00','2020-04-12 15:32:00'),
-(13,'De02Cu02democustomer502','Demo502 Customer502','Mb5vqPCVR48upDxrShoKjU/uF9DJyKSl9czmqz6hS6Y=',3,1,2,5,9,'HAN0009',1,1,'2020-04-17 15:29:26','2020-04-17 15:29:26'),
 (14,'Testingtesting','testing','WV1UipqkSze2zl0HHoY+aQ==',2,1,4,10,0,NULL,1,1,'2020-04-28 22:47:57','2020-04-28 22:47:57'),
 (15,'Amanora','Amanora testing','cvp/LzpadrQT+2k0WDjyOQ==',3,1,1,1,6,'HAN0006',1,1,'2020-04-30 10:32:37','2020-05-10 01:35:35'),
 (16,'Srbukatysri','Sri babu kasamsetty','Q7u8tBIDBFgMKzvqfRfUHA==',3,1,4,10,10,NULL,1,1,'2020-04-30 13:19:57','2020-04-30 13:19:57'),
 (17,'VIayBharbhaskarnimmagadda','VIjay Bhaskar','NwCfJchKOl2wGzmihPkCvA==',3,1,4,10,11,'HAN0011',1,1,'2020-04-30 13:22:37','2020-04-30 13:22:37'),
-(18,'Finaltestingfinaltest','finaltest','fS7XnP9eyi/TFnii3boeIw==',2,1,5,11,0,'NULL',1,1,'2020-05-15 17:38:46','2020-05-15 17:38:46'),
-(19,'HAN0012','K VIMAL KUMAR','bw3DDcrztc/dbrKnOY5JbA==',3,1,5,11,12,'HAN0012',18,2,'2020-05-15 17:41:42','2020-05-15 17:41:42');
+(18,'Finaltestingfinaltest','finaltest','cvp/LzpadrQT+2k0WDjyOQ==',2,1,5,11,0,'NULL',1,1,'2020-05-15 17:38:46','2020-05-15 17:38:46'),
+(19,'HAN0012','K VIMAL KUMAR','cvp/LzpadrQT+2k0WDjyOQ==',3,1,5,11,12,'HAN0012',18,2,'2020-05-15 17:41:42','2020-05-15 17:41:42'),
+(20,'HAN0013','Phani Varanasi','5P+Phux2WXyFrrD01hRAzg==',3,1,5,11,14,'HAN0013',1,1,'2020-05-16 13:01:17','2020-05-16 13:01:17');
 
 /*Table structure for table `userrole` */
 
@@ -592,7 +639,7 @@ insert  into `userrole`(`RoleID`,`RoleDescription`) values
 DROP TABLE IF EXISTS `vacation`;
 
 CREATE TABLE `vacation` (
-  `VacationID` int(11) NOT NULL AUTO_INCREMENT,
+  `VacationID` bigint(20) NOT NULL AUTO_INCREMENT,
   `TataReferenceNumber` bigint(20) NOT NULL,
   `CommunityID` int(11) NOT NULL,
   `BlockID` int(11) NOT NULL,
@@ -608,7 +655,7 @@ CREATE TABLE `vacation` (
   `RegisteredDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime NOT NULL,
   PRIMARY KEY (`VacationID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 /*Data for the table `vacation` */
 
@@ -627,7 +674,14 @@ insert  into `vacation`(`VacationID`,`TataReferenceNumber`,`CommunityID`,`BlockI
 (12,1589564844140,5,11,12,'70b3d5f83000157b','finaltesting','2020-05-15 23:20:00','2020-05-15 23:25:00',5,'web','HAN0012','add','2020-05-15 23:17:31','2020-05-15 23:20:00'),
 (13,1589565077586,5,11,12,'70b3d5f83000157b','finaltest','2020-05-15 23:25:00','2020-05-15 23:30:00',5,'web','HAN0012','add','2020-05-15 23:21:24','2020-05-15 23:21:24'),
 (14,1589566064799,5,11,12,'70b3d5f83000157b','finals','2020-05-15 23:40:00','2020-05-15 23:45:00',5,'web','HAN0012','add','2020-05-15 23:37:52','2020-05-15 23:40:00'),
-(15,1589566422672,5,11,12,'70b3d5f83000157b','demo','2020-05-15 23:46:00','2020-05-15 23:50:00',5,'web','HAN0012','add','2020-05-15 23:43:50','2020-05-15 23:45:00');
+(15,1589566422672,5,11,12,'70b3d5f83000157b','demo','2020-05-15 23:46:00','2020-05-15 23:50:00',5,'web','HAN0012','add','2020-05-15 23:43:50','2020-05-15 23:45:00'),
+(16,1589646174760,5,11,14,'70b3d5f830004fb4','test','2020-05-16 22:05:00','2020-05-16 22:10:00',2,'web','HAN0013','add','2020-05-16 21:53:01','2020-05-16 21:55:00'),
+(17,1589647335610,5,11,14,'70b3d5f830004fb4','test2','2020-05-16 22:30:00','2020-05-16 22:45:00',5,'web','HAN0013','add','2020-05-16 22:12:22','2020-05-16 22:15:00'),
+(18,1589647812466,5,11,14,'70b3d5f830004fb4','test3','2020-05-16 22:55:00','2020-05-16 22:59:00',5,'web','HAN0013','add','2020-05-16 22:20:18','2020-05-16 22:25:00'),
+(19,1589648286350,5,11,14,'70b3d5f830004fb4','test4','2020-05-16 22:50:00','2020-05-16 22:55:00',5,'web','HAN0013','add','2020-05-16 22:29:59','2020-05-16 22:30:00'),
+(20,1589648286355,5,11,14,'70b3d5f830004fb4','test5','2020-05-17 15:15:00','2020-05-17 15:30:59',2,'web','HAN0013','add','2020-05-17 14:43:37','2020-05-17 14:43:39'),
+(21,1589709236164,5,11,14,'70b3d5f830004fb4','testing1','2020-05-17 15:40:00','2020-05-17 15:50:00',2,'web','HAN0013','add','2020-05-17 15:23:56','2020-05-17 15:30:00'),
+(22,1589710864860,5,11,14,'70b3d5f830004fb4','newtest','2020-05-17 16:10:00','2020-05-17 16:30:00',3,'web','HAN0013','add','2020-05-17 15:51:04','2020-05-17 15:55:00');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

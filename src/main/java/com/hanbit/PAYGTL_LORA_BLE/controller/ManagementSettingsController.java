@@ -18,9 +18,11 @@ import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ManagementSettingsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.FeedbackRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.FeedbackResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserManagementResponseVO;
@@ -115,6 +117,53 @@ public class ManagementSettingsController {
 		alertvo.setAlertID(alertID);
 		try {
 			responsevo = managementsettingsbo.editalert(alertvo);
+		} catch (BusinessException e) {
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
+		}
+
+		return responsevo;
+	}
+	
+	/* Feedback/Complaints */
+	
+	@RequestMapping(value = "/feedback/{blockid}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody FeedbackResponseVO feedbackdetails(@PathVariable("blockid") int blockid) throws SQLException {
+
+		FeedbackResponseVO feedbackresponsevo = new FeedbackResponseVO();
+
+		feedbackresponsevo.setData(managementsettingsdao.getfeedbackdetails(blockid));
+
+		return feedbackresponsevo;
+	}
+
+	@RequestMapping(value = "/feedback/add", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	ResponseVO addalert(@RequestBody FeedbackRequestVO feedbackRequestVO) throws ClassNotFoundException,
+			SQLException, BusinessException {
+
+		ResponseVO responsevo = new ResponseVO();
+
+		try {
+			 responsevo = managementsettingsbo.addfeedback(feedbackRequestVO);
+			
+		} catch (BusinessException e) {
+			responsevo.setMessage(e.getMessage());
+			responsevo.setResult("Failure");
+		}
+		
+		return responsevo;
+	}
+
+	@RequestMapping(value = "/feedback/{feedbackID}/{action}/{remarks}", method = RequestMethod.POST, produces = "application/json")
+	public @ResponseBody
+	ResponseVO feedbackaction(@PathVariable("feedbackID") int feedbackID, @PathVariable("action") int action,@PathVariable("remarks") String remarks) throws ClassNotFoundException,
+			BusinessException, SQLException {
+
+		ResponseVO responsevo = new ResponseVO();
+
+		try {
+			responsevo = managementsettingsdao.feedbackaction(feedbackID, action, remarks);
 		} catch (BusinessException e) {
 			responsevo.setMessage(e.getMessage());
 			responsevo.setResult("Failure");

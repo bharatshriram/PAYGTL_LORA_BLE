@@ -16,12 +16,15 @@ import java.util.Random;
 
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
+import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.FeedbackRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.LoginVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.AlertResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.FeedbackResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.VacationResponseVO;
@@ -560,7 +563,7 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("UPDATE vacation SET TataReferenceNumber = ? VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "+ vacationRequestVO.getVacationID());
+			pstmt = con.prepareStatement("UPDATE vacation SET TataReferenceNumber = ?, VacationName = ?, StartDate = ?, EndDate = ?, Status = ?, Source = ?, Mode = ?, ModifiedDate = NOW() WHERE VacationID = "+ vacationRequestVO.getVacationID());
 
 			pstmt.setLong(1, vacationRequestVO.getTransactionIDForTata());
 			pstmt.setString(2, vacationRequestVO.getVacationName());
@@ -729,6 +732,140 @@ public class ManagementSettingsDAO {
 		}
 
 		return result;
+	}
+
+	public List<FeedbackResponseVO> getfeedbackdetails(int blockid) throws SQLException {
+		// TODO Auto-generated method stub
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<FeedbackResponseVO> feedbackList = null;
+		FeedbackResponseVO feedbackResponseVO = null;
+		try {
+			con = getConnection();
+			feedbackList = new LinkedList<FeedbackResponseVO>();
+
+			pstmt = con.prepareStatement("SELECT f.FeedbackID, f.Feedback, f.Description, CONCAT(cmd.FirstName, ' ', cmd.LastName) AS CustomerName, cmd.HouseNumber, f.MeterID, f.CRNNumber, f.RegisteredDate \n" + 
+					"FROM feedback AS f LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = f.CustomerID WHERE f.Status = 0 AND f.BlockID = "+blockid);
+			
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				feedbackResponseVO = new FeedbackResponseVO();
+				
+				feedbackResponseVO.setFeedbackID(rs.getInt("FeedbackID"));
+				feedbackResponseVO.setFeedback(rs.getString("Feedback"));
+				feedbackResponseVO.setDescription(rs.getString("Description"));
+				feedbackResponseVO.setCRNNumber(rs.getString("CRNNumber"));
+				feedbackResponseVO.setName(rs.getString("CustomerName"));
+				feedbackResponseVO.setHouseNumber(rs.getString("HouseNumber"));
+				feedbackResponseVO.setMeterID(rs.getString("MeterID"));
+				feedbackResponseVO.setDate(ExtraMethodsDAO.datetimeformatter(rs.getString("RegisteredDate")));
+				
+				feedbackList.add(feedbackResponseVO);
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		return feedbackList;
+	}
+
+	public ResponseVO addfeedback(FeedbackRequestVO feedbackRequestVO) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		ResponseVO responsevo = new ResponseVO(); 
+
+		try {
+			con = getConnection();
+			
+			pstmt = con.prepareStatement("SELECT CommunityID, BlockID, CustomerID, MeterID from customermeterdetails WHERE CRNNumber = '"+feedbackRequestVO.getCRNNumber()+"'");
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+
+			ps = con.prepareStatement("INSERT INTO feedback (Feedback, Description, CommunityID, BlockID, CustomerID, CRNNumber, MeterID, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+			ps.setString(1, feedbackRequestVO.getFeedback());
+			ps.setString(2, feedbackRequestVO.getDescription());
+			ps.setInt(3, rs.getInt("CommunityID"));
+			ps.setInt(4, rs.getInt("BlockID"));
+			ps.setInt(5, rs.getInt("CustomerID"));
+			ps.setString(6, feedbackRequestVO.getCRNNumber());
+			ps.setString(7, rs.getString("MeterID"));
+
+			if (ps.executeUpdate() > 0) {
+				responsevo.setResult("Success");
+				responsevo.setMessage("Feedback/Complaint Submitted Successfully");
+			}
+			
+			}
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			responsevo.setMessage("INTERNAL SERVER ERROR");
+			responsevo.setResult("Failure");
+		} finally {
+			ps.close();
+			con.close();
+		}
+
+		return responsevo;
+	}
+	
+	public ResponseVO feedbackaction(int feedbackID, int action, String remarks) throws BusinessException, SQLException {
+		// TODO Auto-generated method stub
+	
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResponseVO responsevo = new ResponseVO();
+
+		try {
+			con = getConnection();
+			
+			if(action == 1) {
+				
+				pstmt = con.prepareStatement("UPDATE feedback SET Status = 1, Remarks = ?, ModifiedDate = NOW() WHERE FeedbackID = ?");
+	            pstmt.setString(1, remarks);
+				pstmt.setInt(2, feedbackID);
+
+	            if (pstmt.executeUpdate() > 0) {
+	            	
+	            	responsevo.setResult("Success");
+            		responsevo.setMessage("Resolved Successfully");
+	            	
+	            }
+
+			}else {
+				
+				pstmt = con.prepareStatement("UPDATE feedback SET Status = 2, Remarks = ?, ModifiedDate = NOW() WHERE FeedbackID = ?");
+				pstmt.setString(1, remarks);
+				pstmt.setInt(2, feedbackID);
+				
+            	if(pstmt.executeUpdate() > 0) {
+            		responsevo.setResult("Success");
+            		responsevo.setMessage("Rejected Successfully");
+            	}
+				
+			}
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			responsevo.setMessage("INTERNAL SERVER ERROR");
+			responsevo.setResult("Failure");
+		} finally {
+			pstmt.close();
+			con.close();
+		}
+		
+		return responsevo;
 	}
 
 }

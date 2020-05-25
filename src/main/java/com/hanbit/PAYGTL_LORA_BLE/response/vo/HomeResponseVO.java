@@ -4,7 +4,7 @@
 package com.hanbit.PAYGTL_LORA_BLE.response.vo;
 
 /**
- * @author VmL
+ * @author K Vimal Kumar
  *
  */
 public class HomeResponseVO {

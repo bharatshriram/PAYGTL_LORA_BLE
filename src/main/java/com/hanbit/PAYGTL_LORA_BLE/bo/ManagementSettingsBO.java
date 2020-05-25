@@ -9,6 +9,7 @@ import com.hanbit.PAYGTL_LORA_BLE.dao.LoginDAO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.ManagementSettingsDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.AlertRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.FeedbackRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.VacationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
@@ -136,6 +137,16 @@ public class ManagementSettingsBO {
 		}
 		
 		return managementsettingsdao.deletevacation(vacationID, source);
+	}
+
+	public ResponseVO addfeedback(FeedbackRequestVO feedbackRequestVO) throws BusinessException, SQLException {
+		// TODO Auto-generated method stub
+		
+		if(feedbackRequestVO.getCRNNumber().isEmpty()){
+			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		
+		return managementsettingsdao.addfeedback(feedbackRequestVO);
 	}
 
 }
