@@ -31,10 +31,10 @@ th.dt-center, td.dt-center { text-align: center; }
 .scroll{
   overflow-y: auto;
 }
-.admin{display:none}
-.customer{display:block}
+.admin{display:block}
+.customer{display:none}
 .billingAmount{justify-content: center;}
-.borderRadius{border-radius:6px !important;}
+.borderRadius{border-radius:6px !important;margin: 5px;}
 .right-block{
  /*  height: 400px; */
 }
@@ -460,4 +460,10 @@ input:-internal-autofill-selected {
 
 table.dataTable thead tr {
   background-color: green;
+}
+
+.customer{
+	width:100%;
+	display:inline-flex;
+	
 }

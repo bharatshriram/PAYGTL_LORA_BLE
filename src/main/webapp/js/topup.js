@@ -5,6 +5,12 @@
 $(document)
 				.ready(
 						function() {
+							
+							if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
+								
+								
+							
+							
 							$('#topupDetails').bootstrapValidator(
 											{
 												feedbackIcons : {
@@ -108,7 +114,43 @@ $(document)
 													}
 												}
 											});
-							
+							}else if(sessionStorage.getItem("roleID") == 3){
+								
+								$.getJSON("/PAYGTL_LORA_BLE/topupdetails/" + sessionStorage.getItem("ID"), function(data) {
+									//var Options = "";
+									$("#CustomerCRNNumber").val(sessionStorage.getItem("ID")).trigger("change");
+									$("#formCRNNumber").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#AMR_topup").val(data.topupdetails.meterID).trigger("change");
+									$("#formAMR_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#currentBalance_topup").val(data.topupdetails.currentBalance).trigger("change");
+									$("#formcurrentBalance_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#dateTime_topup").val(data.topupdetails.IoTTimeStamp).trigger("change");
+									$("#formdateTime_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#unit_topup").val(data.topupdetails.tariff).trigger("change");
+									$("#formunit_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#emergency_topup").val(data.topupdetails.emergencyCredit).trigger("change");
+									$("#formemergency_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#alarm_topup").val(data.topupdetails.alarmCredit).trigger("change");
+									$("#formalarm_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#reconnection_topup").val(data.topupdetails.reconnectionCharges).trigger("change");
+									$("#formreconnection_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#fixed_topup").val(data.topupdetails.fixedCharges).trigger("change");
+									$("#formfixed_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+									$("#month_topup").val(data.topupdetails.noOfMonths).trigger("change");
+									$("#formmonth_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+									
+								});
+								
+							}
 							
 							
 							$('#topupDetails')
@@ -147,14 +189,19 @@ $(document)
 
 										var data1 = {}
 										
-										data1["communityID"] = $("#selectcommunityName").val();
-										data1["blockID"] = $("#selectBlockBasedonCommunity").val();
-										data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();
+										if(sessionStorage.getItem("roleID") == 3){
+											data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();	
+										}else{
+											data1["communityID"] = $("#selectcommunityName").val();
+											data1["blockID"] = $("#selectBlockBasedonCommunity").val();
+											data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();
+										}
+
 										data1["meterID"] = $("#AMR_topup").val();
 										data1["currentBalance"] = $("#currentBalance_topup").val();
 										data1["tariffID"] = $("#tariffID").val();
 										data1["amount"] = $("#recharge_topup").val();
-										data1["modeOfPayment"] = "Cash"
+										data1["modeOfPayment"] = "Cash"	
 										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
@@ -212,10 +259,16 @@ $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
 		$("#blockAddButton").show();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>"; 
-	}else{
+	}else if(sessionStorage.getItem("roleID") == 3){
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-5 total'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
+	}
+	else{
 		$("#customerAddd").remove();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}
+	
+	//alert((sessionStorage.getItem("roleID") == 3) ? [0,1,2,11]:11);
+	//alert(((sessionStorage.getItem("roleID") == 3)) ? (sessionStorage.getItem("roleID") == 3) :(((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))));
 	
 	$('#topstatusTable1').hide();
 	table = $('#topstatusTable')
@@ -236,12 +289,13 @@ $(document).ready(function() {
 		"scrollY" : 324,
 		"scrollX" : true,
 	"ajax" : {
-	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1",
 	"type" : "GET",
 	"data" : function(search) {
 	},
 	"complete" : function(json) {
 		console.log(json);
+		$("div.total").html('MUI ID: '+json.responseJSON.data[0].meterID+ ' CRN Number: '+sessionStorage.getItem("ID"));
 	return json.data;
 	},
 	},
@@ -291,7 +345,8 @@ $(document).ready(function() {
 	],
 	"columnDefs" : [ {
 		//orderable : false,
-		targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+		targets : (sessionStorage.getItem("roleID") == 3) ? [0,1,2,3]:11, visible: ((sessionStorage.getItem("roleID") == 3)) ? false :(((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+		
 	},
 	{
 		"className": "dt-center", "targets": "_all"
@@ -330,32 +385,28 @@ $(document).ready(function() {
 	        }
 	]
 	});
-	if(sessionStorage.getItem("roleID") == 3){
+	
+	
+	if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		table.buttons( $('a.customButton') ).remove();	
 	}
 	$("div.headname").html('<h3>Topup Status</h3>');
-	
+	//$("div.total").html('MUI ID: '+data.meterID+ ' Total Units: '+data.meterID);
 	
 	$("#customerFilter")
 	.click(
 			function() {
 
-				var data1 = {}
-				
-				var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
-				var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
-				
+				var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
+						$("#filterselectcommunityName").val() == "-1" ? 
+						sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
+					"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
+						
 				$
 						.ajax({
-							type : "POST",
+							type : "GET",
 							contentType : "application/json",
-							url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
-							.getItem("roleID")
-							+ "/"
-							+ sessionStorage
-									.getItem("ID"),
-							data : JSON
-									.stringify(data1),
+							url : "/PAYGTL_LORA_BLE/status/"+url,
 							dataType : "JSON",
 
 							success : function(d) {
@@ -364,7 +415,7 @@ $(document).ready(function() {
 									$("#topstatusTable_wrapper").hide();
 									$("#filter").modal("hide");
 									$("#topstatusTable1").show();
-									
+									var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 									var hCols = [ 3, 4 ];
 									table = $('#topstatusTable1')
 									.DataTable(
@@ -386,81 +437,93 @@ $(document).ready(function() {
 													"scrollX" : false,
 													"data" : d.data,
 													"columns" : [
-											{
-											"data" : "communityName"
-											},{
-											"data" : "blockName"
-											},{
-											"data" : "CRNNumber"
-											},{
-											"data" : "firstName"
-											},{
-											"data" : "lastName"
-											},{
-											"data" : "houseNumber"
-											},{
-											"data" : "meterSerialNumber"
-											},{
-											"data" : "meterID"
-											},{
-											"data" : "mobileNumber"
-											},{
-											"data" : "email"
-											},{
-											"data" : "createdByUserName"
-											},{
-											"data" : "createdByRoleDescription"
-											},{
-											"data" : "date"
-											}
-											,{
-												"mData" : "action",
-												"render" : function(data, type, row) {
-													
-													return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
-												}
-												},{
-													"mData" : "action",
-													"render" : function(data, type, row) {
-														
-														return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
-																													+ row.CRNNumber
-																													+ "\")'>"
-																													+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																													+ "</a>"
-													}
-													}
-
-
-
-											],
-											"columnDefs" : [ {
-												//orderable : false,
-												targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
-												//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
-											},{
-												//orderable : false,
-												//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
-												targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
-											},
-											{
-												"className": "dt-center", "targets": "_all"
-											}], "buttons": [
-												{
-									                text: 'Reset',
-									                action: function ( e, dt, node, config ) {
-									                    alert( 'Button activated' );
-									                },
-									                className: 'customButton',
-									               
-									                action: function ( e, dt, button, config ) {
-									                   
-									                	window.location = "topupStatus.jsp"
-									                }
-									            }
-											]
-
-											})
+														 {
+														    	"data" : "communityName"
+														 },{
+														"data" : "blockName"
+														},{
+														"data" : "houseNumber"
+														},{
+														"data" : "meterID"
+														},{
+														"data" : "amount"
+														},{
+														"data" : "emergencyCredit"
+														},{
+														"data" : "alarmCredit"
+														},{
+														"data" : "transactionDate"
+														},{
+														"data" : "transactedByUserName"
+														},{
+														"data" : "transactedByRoleDescription"
+														},{
+														"data" : "Status"
+														},{
+															"mData" : "action",
+															"render" : function(data, type, row) {
+																if(row.Status == "Failed"){
+																	return "<a onclick='getDeleteTransactionID("
+																	+ row.transactionID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
+																	+ "</a>";
+																	
+																}else if(row.Status == "Passed" || row.Status == "Pending...waiting for acknowledge"){
+																	return "<a onclick='getReceiptTransactionID("
+																	+ row.transactionID
+																	+ ")'>"
+																	+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
+																	+ "</a>"
+																}
+																													
+															}
+															}
+														],
+														"columnDefs" : [ {
+															//orderable : false,
+															targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+														},
+														{
+															"className": "dt-center", "targets": "_all"
+														}], "buttons": [
+															{extend: 'excel',
+														        footer: 'true',
+														        text: 'Excel',
+														        exportOptions: {
+														            columns: [0,1,2,3,4,5,6,7,8,9,10]
+														        },
+														        title:'Top Up Status' 
+														        },
+														         
+														        {extend: 'pdf',
+														        footer: 'true',
+														        exportOptions: {
+														            columns: [0,1,2,3,4,5,6,7,8,9,10]
+														        },
+														        text: 'pdf',
+														        orientation: 'landscape',
+														        title:'Top Up Status',
+														        pageSize: 'LEGAL'
+														       },
+														       {
+													                text: 'Reset',
+													                action: function ( e, dt, node, config ) {
+													                    alert( 'Button activated' );
+													                },
+													                className: 'customButton',
+													               
+													                action: function ( e, dt, button, config ) {
+													                   
+													                	window.location = "topupStatus.jsp"
+													                }
+													            }
+														]
+														});
+														if(sessionStorage.getItem("roleID") == 3){
+															table.buttons( $('a.customButton') ).remove();	
+														}
+											$("div.headname").html('<h3>Topup Status</h3>');
 							}
 						});
 				return false;

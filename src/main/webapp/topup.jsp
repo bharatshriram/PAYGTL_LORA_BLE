@@ -59,6 +59,9 @@
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
+                    
+                    <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2")){ %>
+                    
                         <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
@@ -81,6 +84,15 @@
                               </select>
                             </div>
                           </div>
+                          <%} else if(user_id.equalsIgnoreCase("3")){%>
+                          <div class="col-md-4">
+                            <div id="formCRNNumber" class="input-group form-group">
+                              <label class="bmd-label-floating">CRN Number</label>
+                              <input type="text" class="form-control" id="CustomerCRNNumber" name="CustomerCRNNumber" disabled>
+                            </div>
+                          </div>
+                          
+                          <%} %>
                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
                               <label class="bmd-label-floating">MIU ID</label>
@@ -145,12 +157,6 @@
                               <input type="text" class="form-control" id="recharge_topup" name="recharge_topup">
                             </div>
                           </div>
-                          <!-- <div class="col-md-4">
-                            <div class="custom-control custom-checkbox mt-4">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                                <label class="custom-control-label" for="defaultUnchecked">Set Tariff</label>
-                            </div>
-                          </div> -->
                     </div>
                     
                     <div class="row">

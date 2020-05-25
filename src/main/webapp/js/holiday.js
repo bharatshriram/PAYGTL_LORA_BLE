@@ -9,14 +9,14 @@ $(document).ready(function() {
 		$("#holidayAddd").show();
 		$("#CRNNumberAdd").val(sessionStorage.getItem("ID"));
 		$("#formCRNNumber").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-5 total'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
 		$("#holidayAddd").remove();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 		
 	}
 	
-	
+	$("#holidayTable1").hide();
 table = $('#holidayTable')
 .DataTable(
 {//'Pfrtip'
@@ -35,12 +35,13 @@ table = $('#holidayTable')
 	"scrollY" : 324,
 	"scrollX" : true,
 "ajax" : {
-"url":"/PAYGTL_LORA_BLE/vacation/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+"url":"/PAYGTL_LORA_BLE/vacation/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1",
 "type" : "GET",
 "data" : function(search) {
 },
 "complete" : function(json) {
 	console.log(json);
+	$("div.total").html('MUI ID: '+json.responseJSON.data[0].meterID+ ' CRN Number: '+sessionStorage.getItem("ID"));
 return json.data;
 },
 },
@@ -97,6 +98,11 @@ return json.data;
 	targets : 12, visible:  (sessionStorage.getItem("roleID") == 3)
 },
 {
+	//orderable : false,
+	targets :  [0,1,2,3,4], visible: !(sessionStorage.getItem("roleID") == 3) 
+	
+},
+{
 	
 	"className": "dt-center", "targets": "_all"}
 ],
@@ -137,7 +143,7 @@ return json.data;
      }
 	]
 });
-if(sessionStorage.getItem("roleID") == 3){
+if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 	table.buttons( $('a.customButton') ).remove();	
 }
 
@@ -146,36 +152,30 @@ $("div.addevent").html('<button type="button" id="holidayAddd" class="btn btn-ra
 
 
 $("#customerFilter")
-.on(
+.click(
 		function() {
 
-			var data1 = {}
-			
-			var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
-			var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
-			
+			var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
+					$("#filterselectcommunityName").val() == "-1" ? 
+					sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
+				"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
+					
 			$
 					.ajax({
-						type : "POST",
+						type : "GET",
 						contentType : "application/json",
-						url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
-						.getItem("roleID")
-						+ "/"
-						+ sessionStorage
-								.getItem("ID"),
-						data : JSON
-								.stringify(data1),
+						url : "/PAYGTL_LORA_BLE/status/"+url,
 						dataType : "JSON",
 
 						success : function(d) {
 							
-								$('#configurationstatusTable').dataTable()._fnAjaxUpdate();
-								$("#configurationstatusTable_wrapper").hide();
+								$('#holidayTable').dataTable()._fnAjaxUpdate();
+								$("#holidayTable_wrapper").hide();
 								$("#filter").modal("hide");
-								$("#configurationstatusTable1").show();
-								
+								$("#holidayTable1").show();
+								var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 								var hCols = [ 3, 4 ];
-								table = $('#configurationstatusTable1')
+								table = $('#holidayTable1')
 								.DataTable(
 										{
 											
@@ -272,21 +272,25 @@ $("#customerFilter")
 															orientation : 'landscape',
 															title : 'Vacation'
 														},
-										        {
-									                text: 'Reset',
-									                action: function ( e, dt, node, config ) {
-									                    alert( 'Button activated' );
-									                },
-									                className: 'customButton',
-									               
-									                action: function ( e, dt, button, config ) {
-									                   
-									                	window.location = "holiday.jsp"
-									                }
-									            }
-										        ]
+														{
+											                text: 'Reset',
+											                action: function ( e, dt, node, config ) {
+											                    alert( 'Button activated' );
+											                },
+											                className: 'customButton',
+											               
+											                action: function ( e, dt, button, config ) {
+											                   
+											                	window.location = "holiday.jsp"
+											                }
+											            }
+														]
+													});
+										if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+									table.buttons( $('a.customButton') ).remove();	
+								}
 
-										})
+													$("div.headname").html('<h3>Vacation Details</h3>');
 						}
 					});
 			return false;

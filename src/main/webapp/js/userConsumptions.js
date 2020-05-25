@@ -86,7 +86,7 @@ $(document)
 
 														 table = $('#userConsumptionsTable').DataTable(
 																	{
-																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
+																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-5 totalCount'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		"responsive" : true,
 																		/*"processing" : true,*/
 																		"serverSide" : false,
@@ -120,8 +120,12 @@ $(document)
 																		}, {
 																			"data" : "dateTime"
 																		}],
-																		"columnDefs" : [ {
-																			targets : [ 0 ],
+																		"columnDefs" : [  {
+																			//orderable : false,
+																			targets : [0,1], visible: false
+																			
+																		},
+																		{
 																			"className": "dt-center", "targets": "_all"
 																		}], "buttons": [
 																			   /* 'csvHtml5',
@@ -145,7 +149,7 @@ $(document)
 																	});
 														 $("div.headname").html('<h3>User Consumptions</h3>');
 															//table.ajax.reload()
-														 
+														 $("div.totalCount").html('MUI: ' + d.data[0].meterID+ ' CRN Number: '+ d.data[0].CRNNumber);
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
 																 +'class="btn btn-raised btn-primary float-right"'
 																	+'>'

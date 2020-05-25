@@ -97,6 +97,31 @@
 							<tbody>
 							</tbody>
 						</table>
+						
+						<table id="holidayTable1"
+							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+							style="width: 100%">
+							<thead>
+								<tr>
+									<th>Community</th>
+									<th>Block</th>
+									<th>First Name</th>
+									<th>Last Name</th>
+									<th>House No</th>
+									<th>CRN Number</th>
+									<th>Vacation</th>
+									<th>MIU ID</th>
+									<th>Start Date</th>
+									<th>End Date</th>
+									<th>Registration Date</th>
+									<th>Status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						
 					</div>
 				</div>
 
@@ -247,7 +272,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Customer Management Filter</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Vacation Management Filter</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

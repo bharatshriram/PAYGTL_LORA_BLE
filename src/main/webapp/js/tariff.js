@@ -6,9 +6,10 @@
 $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 1){
 		$("#tariffAddd").show();
+		var dom1 ="<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
 		$("#tariffAddd").remove();
-		
+		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>"
 	}
 	
 	//alert(!(sessionStorage.getItem("roleID") == 4))
@@ -16,7 +17,7 @@ $(document).ready(function() {
 table = $('#tariffTable')
 .DataTable(
 {
-	"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
+	"dom": dom1,
 	"responsive" : true,
 	/*"processing" : true,*/
 	"serverSide" : false,

@@ -48,391 +48,581 @@
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="rightblock">
-				<div class="row admin">
-				<div class="col-md-12">
-					<div class="row">
-						<div class="col-md-4">
-							<div class="row billingAmount">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/icons8-sports-mode-802.png style ="width: 50px;height: 50px;"/>
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Active</p>
-											<p class="card-title" id="totalmiu"></p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-								</div>
-							</div>
-							<div class="row mt-4 billingAmount">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Non-Active</p>
-											<p class="card-title">15</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-								</div>
-							</div>
-							<div class="row mt-4 billingAmount">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Non-Communicating</p>
-											<p class="card-title" id="Non-Communicating"></p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-								</div>
-							</div>
-							<div class="row mt-4 billingAmount">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Communication</p>
-											<p class="card-title" id="communicating"></p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-								</div>
-							</div>
-						</div>
+					<div class="row admin">
+						<div class="col-md-12">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="row billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/icons8-sports-mode-802.png
+																	style="width: 50px; height: 50px;" />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Active</p>
+																<p class="card-title" id="totalmiu"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
 
-						<div class="col-md-4">
-							<div class="row billingAmount">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Battery Voltage</p>
-											<p class="card-title" id="communicating">3.12</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-								</div>
-							</div>
-							<div class="row mt-4">
-								<div class="col-md-12">
-								<div class="card shadow mb-4 bg-transparent">
-								<!-- Card Header - Dropdown -->
-								<div
-									class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-									<h6 class="m-0 font-weight-bold text-white">Live Status</h6>
-								</div>
-								<!-- Card Body -->
-								<div class="card-body">
-									<div id="container" class="container"
-										style="height: 250px; width: 500"></div>
-								</div>
-							</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="row billingAmount">
-							   <div class="col-md-6">
-							   		<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Emergency Credit</p>
-											<p class="card-title" id="totalmiu">51</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-							   </div>
-							</div>
-							<div class="row mt-4 billingAmount">
-							   <div class="col-md-6">
-							   	<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Total Topup</p>
-											<p class="card-title">15</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-							   </div>
-							</div> 
-							<div class="row mt-4 billingAmount">
-							   <div class="col-md-6">
-							   	<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Day Topup</p>
-											<p class="card-title" id="Non-Communicating">74</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-							   </div>
-							</div>
-							<div class="row mt-4 billingAmount">
-							   <div class="col-md-6">
-							   	<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
-										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Total AMR</p>
-											<p class="card-title" id="communicating">21</p>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
-								</div>
-							</div>
-						</div>
-							   </div>
-							</div>
-						</div>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">In-Active</p>
+																<p class="card-title">15</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
 
-					</div>
-				</div>
-				</div>
-				
-				<div class="row customer">
-					<div class="col-md-6">
-						<div class="row billingAmount">
-						   		<div class="col-md-6 bg-success text-center">
-						   			<p class="text-white">Last Bill Amount:<span>0000</span></p>
-						   			<p class="text-white">Last Bill Amount:<span>0000</span></p>
-						   		</div>
-						   </div>
-						    <div class="row mt-4 billingAmount">
-						   		<div class="col-md-6 text-center">
-						   			<div class="row mt-4">
-							   			<div class="col col1">
-							   				<img src=common/images/icon/23-consumptionn.png />
-							   				<p class="text-white mt-4">Consumption</p>
-							   			</div>
-							   			<div class="col col2">
-							   				<img src=common/images/icon/24-PaymentInfo.png />
-							   				<p class="text-white mt-4">Payment Info</p>
-							   			</div>
-						   			</div>
-						   		</div>
-						   </div>
-						   <div class="row mt-4 billingAmount">
-						   		<div class="col-md-6 text-center">
-						   			<div class="row mt-4">
-							   			<div class="col col1">
-							   				<img src=common/images/icon/25-billpayment.png />
-							   				<p class="text-white mt-4">Bill Payment</p>
-							   			</div>
-							   			<div class="col col2">
-							   				<img src=common/images/icon/26-feedback.png />
-							   				<p class="text-white mt-4">Feedback</p>
-							   			</div>
-						   			</div>
-						   		</div>
-						   </div>
-						    <div class="row mt-4 billingAmount">
-						   		<div class="col-md-6 text-center">
-						   			<div class="row mt-4">
-							   			<div class="col col1">
-							   				<img src=common/images/icon/27-profiifle.png />
-							   				<p class="text-white mt-4">Profile</p>
-							   			</div>
-							   			<div class="col col2">
-							   				<img src=common/images/icon/28-complaints.png />
-							   				<p class="text-white mt-4">Compliants</p>
-							   			</div>
-						   			</div>
-						   		</div>
-						   </div>
-					</div>
-					<div class="col-md-4">
-						<div class="row">
-								<div class="col-md-6">
-									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
 										</div>
 									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Total AMR</p>
-											<p class="card-title" id="communicating">21</p>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Non-Live</p>
+																<p class="card-title" id="Non-Communicating"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Live</p>
+																<p class="card-title" id="communicating"></p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-md-4">
+									<div class="row billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Battery Voltage</p>
+																<p class="card-title" id="communicating">3.12</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4">
+										<div class="col-md-12">
+											<div class="card shadow mb-4 bg-transparent">
+												<!-- Card Header - Dropdown -->
+												<div
+													class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+													<h6 class="m-0 font-weight-bold text-white">Live
+														Status</h6>
+												</div>
+												<!-- Card Body -->
+												<div class="card-body">
+													<!-- <div id="container" class="container"
+														style="height: 250px; width: 500"></div> -->
+														
+														<div id="chartContainer" style="height: 360px; width: 100%;"></div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="row billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Emergency Credit</p>
+																<p class="card-title" id="totalmiu">51</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Total Topup</p>
+																<p class="card-title">15</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Day Topup</p>
+																<p class="card-title" id="Non-Communicating">74</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="row mt-4 billingAmount">
+										<div class="col-md-6">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">Total AMR</p>
+																<p class="card-title" id="communicating">21</p>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="card-footer borderRadius">
+
+													<div class="stats">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+					<div class="row customer">
+						<div class="col-md-6">
+							<div class="row billingAmount">
+								<div class="col-md-6 bg-success text-center">
+									<p class="text-white">
+										Last Bill Amount:<span>0000</span>
+									</p>
+									<p class="text-white">
+										Last Bill Amount:<span>0000</span>
+									</p>
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src=common/images/icon/23-consumptionn.png />
+											<p class="text-white mt-4">Consumption</p>
+										</div>
+										<div class="col col2">
+											<img src=common/images/icon/24-PaymentInfo.png />
+											<p class="text-white mt-4">Payment Info</p>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src=common/images/icon/25-billpayment.png />
+											<p class="text-white mt-4">Bill Payment</p>
+										</div>
+										<div class="col col2">
+											<img src=common/images/icon/26-feedback.png />
+											<p class="text-white mt-4">Feedback</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-6 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src=common/images/icon/27-profiifle.png />
+											<p class="text-white mt-4">Profile</p>
+										</div>
+										<div class="col col2">
+											<img src=common/images/icon/28-complaints.png />
+											<p class="text-white mt-4">Compliants</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
+						<div class="col-md-4">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="card card-stats borderRadius">
-							<div class="card-body cardSpacing">
-								<div class="row">
-									<div class="col-5 col-md-4">
-										<div class="icon-big text-center icon-warning">
-											<img src=common/images/icons/gas3.png />
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="col-7 col-md-8">
-										<div class="numbers text-right">
-											<p class="card-category">Total AMR</p>
-											<p class="card-title" id="communicating">21</p>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="card-footer borderRadius">
-								
-								<div class="stats">
-									View Details<i class="fa fa-chevron-right view_details" aria-hidden="true"></i>
+							
+							
+							
+							
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							
+							
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="card card-stats borderRadius">
+										<div class="card-body cardSpacing">
+											<div class="row">
+												<div class="col-5 col-md-4">
+													<div class="icon-big text-center icon-warning">
+														<img src=common/images/icons/gas3.png />
+													</div>
+												</div>
+												<div class="col-7 col-md-8">
+													<div class="numbers text-right">
+														<p class="card-category">Total AMR</p>
+														<p class="card-title" id="communicating">21</p>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="card-footer borderRadius">
+
+											<div class="stats">
+												View Details<i class="fa fa-chevron-right view_details"
+													aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
-								</div>
-							</div>
-					</div>
 				</div>
-			</div>
 			</div>
 		</div>
 	</div>
-
+</div>
 	<jsp:include page="footer.jsp" />
 	<%
 		}
@@ -447,6 +637,7 @@
 
 	<!-- <script src="common/js/bootstrap.min.js"></script> -->
 	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
 
 	<script
@@ -494,11 +685,11 @@
 
 											//alert(JSON.stringify(d));
 
-										 	document.querySelector("#totalmiu").innerText = d.total;
+											document.querySelector("#totalmiu").innerText = d.total;
 											document
 													.querySelector("#communicating").innerText = d.communicating;
 											document
-													.querySelector("#Non-Communicating").innerText = d.nonCommunicating; 
+													.querySelector("#Non-Communicating").innerText = d.nonCommunicating;
 
 											data1 = [
 													[
@@ -534,6 +725,38 @@
 
 										}
 									});
+							
+						//	window.onload = function () {
+								var chart = new CanvasJS.Chart("chartContainer",
+								{
+									title: {
+										text: "Setting fixed width to columns"
+									},
+									dataPointWidth: 20,
+									 axisY:{
+							   maximum: 100,
+							   yAxisLabel: "My Y Axis Label",
+							   suffix: "%"
+							 },
+									data: [
+									{
+										type: "column",
+										dataPoints: [
+											{ label: "Orange", y: 290 },
+											{ label: "Apple",  y: 40 },
+											{ label: "Mango",  y: 34 },
+											{ label: "Grape",  y: 24 },
+											{ label: "Orange", y: 290 },
+											{ label: "Apple",  y: 40 },
+											{ label: "Mango",  y: 34 },
+											{ label: "Grape",  y: 24 }
+											
+										]
+									}
+									]
+								});
+								chart.render();
+								    
 						});
 	</script>
 

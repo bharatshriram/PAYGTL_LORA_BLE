@@ -29,7 +29,7 @@ table = $('#customerTable')
 	"scrollY" : 324,
 	"scrollX" : true,
 "ajax" : {
-"url":"/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+"url":"/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1",
 "type" : "GET",
 "data" : function(search) {
 },
@@ -125,7 +125,11 @@ return json.data;
 ]
 });
 
-$("div.headname").html('<h3>Block Managemnent</h3>');
+$("div.headname").html('<h3>Customer Managemnent</h3>');
+
+if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+	table.buttons( $('a.customButton') ).remove();	
+}
 
 $("div.addevent").html('<button type="button" id="customerAddd"'
 		+'class="btn btn-raised btn-primary float-right"'
@@ -434,22 +438,16 @@ $(document)
 							.click(
 									function() {
 
-										var data1 = {}
-										
-										var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
-										var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
-										
+										var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
+												$("#filterselectcommunityName").val() == "-1" ? 
+												sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
+											"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
+												
 										$
 												.ajax({
-													type : "POST",
+													type : "GET",
 													contentType : "application/json",
-													url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
-													.getItem("roleID")
-													+ "/"
-													+ sessionStorage
-															.getItem("ID"),
-													data : JSON
-															.stringify(data1),
+													url : "/PAYGTL_LORA_BLE/customer/"+url,
 													dataType : "JSON",
 
 													success : function(d) {
@@ -462,7 +460,7 @@ $(document)
 															$("#customerTable_wrapper").hide();
 															$("#filter").modal("hide");
 															$("#customerTable1").show();
-															
+															var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 															var hCols = [ 3, 4 ];
 															table = $('#customerTable1')
 															.DataTable(
@@ -544,7 +542,6 @@ $(document)
 																	{
 																		"className": "dt-center", "targets": "_all"
 																	}], "buttons": [
-																		,
 																		{
 															                text: 'Reset',
 															                action: function ( e, dt, node, config ) {
@@ -558,8 +555,8 @@ $(document)
 															                }
 															            }
 																	]
-
 																	})
+																	$("div.headname").html('<h3>Customer Managemnent</h3>');
 													}
 												});
 										return false;

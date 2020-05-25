@@ -90,15 +90,17 @@
                   <ul class="sub-menu collapse" id="dashboard">
  -->                  
                 <% } else if (user_id.equalsIgnoreCase("3")) {%>
-                <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community</span></a> </li>
-                <li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block</span></a> </li>
                 <li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li>
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Topup</span></a> </li>
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Topup Status</span></a> </li>
-                <li class=""><a href="userConsumptions.jsp" title="User Consumption"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
+<li class=""><a href="userConsumptions.jsp" title="User Consumption"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
+<!--                 <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li> -->
+                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">Bill Payment</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">Payment Info</span></a> </li>
+                
+                <li><a href="feedback.jsp" title="Feedback"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Feedback</span></a></li>
+                
+                <li><a href="myprofile.jsp" title="Profile"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Profile</span></a></li>
+                
                 <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
-                <li><a href="alarmReport.jsp" title="Alarm Report"><img src=common/images/icons/3-alarmreport.png /><span class="nav-label">Alarms Report</span></a></li>
                 <% } %>
                 
                 </ul>

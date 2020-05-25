@@ -138,7 +138,7 @@ $(document)
 												"scrollY" : 324,
 												"scrollX" : true,
 												"ajax" : {
-											"url" : "/PAYGTL_LORA_BLE/configuration/"+ sessionStorage.getItem("roleID")+ "/"+ sessionStorage.getItem("ID"),
+											"url" : "/PAYGTL_LORA_BLE/configuration/"+ sessionStorage.getItem("roleID")+ "/"+ sessionStorage.getItem("ID")+"/-1",
 											"type" : "GET",
 											"data" : function(search) {
 											},
@@ -229,7 +229,7 @@ $(document)
 									        } ]
 
 									});
-					if(sessionStorage.getItem("roleID") == 3){
+					if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 						table.buttons( $('a.customButton') ).remove();	
 					}
 					
@@ -242,22 +242,16 @@ $(document)
 					.click(
 							function() {
 
-								var data1 = {}
-								
-								var communityId = $("#selectcommunityName").val() == "" ? "-1":$("#selectcommunityName").val();
-								var blockId = $("#selectBlockBasedonCommunity").val() == "" ? "-1":$("#selectBlockBasedonCommunity").val()
-								
+								var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
+										$("#filterselectcommunityName").val() == "-1" ? 
+										sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
+									"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
+										
 								$
 										.ajax({
-											type : "POST",
+											type : "GET",
 											contentType : "application/json",
-											url : "/PAYGTL_LORA_BLE/filterdashboard/"+ sessionStorage
-											.getItem("roleID")
-											+ "/"
-											+ sessionStorage
-													.getItem("ID"),
-											data : JSON
-													.stringify(data1),
+											url : "/PAYGTL_LORA_BLE/configuration/"+url,
 											dataType : "JSON",
 
 											success : function(d) {
@@ -272,7 +266,7 @@ $(document)
 													.DataTable(
 															{
 																
-																	"dom": dom1,
+																	"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																   "responsive" : true,
 																	"serverSide" : false,
 																	"bDestroy" : true,
@@ -354,34 +348,25 @@ $(document)
 																	orientation : 'landscape',
 																	title : 'Configuration Status'
 																},
-															       {
-															    	   
-															           className: 'customButton',
-															           text : "Filter",
-															            action: function ( e, dt, button, config ) {
-															            	$('.customButton').attr(
-															                    {
-															                        "data-toggle": "modal",
-															                        "data-target": "#filter"
-															                    }
-															                );
-															            }
-															        },
-															        {
-														                text: 'Reset',
-														                action: function ( e, dt, node, config ) {
-														                    alert( 'Button activated' );
-														                },
-														                className: 'customButton',
-														               
-														                action: function ( e, dt, button, config ) {
-														                   
-														                	window.location = "configurationStatus.jsp"
-														                }
-														            }
-															        ]
+																{
+													                text: 'Reset',
+													                action: function ( e, dt, node, config ) {
+													                    alert( 'Button activated' );
+													                },
+													                className: 'customButton',
+													               
+													                action: function ( e, dt, button, config ) {
+													                   
+													                	window.location = "configurationStatus.jsp"
+													                }
+													            } ]
 
-															})
+															});
+													if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+														table.buttons( $('a.customButton') ).remove();	
+													}
+											
+											$("div.headname").html('<h3>Configuration</h3>');
 											}
 										});
 								return false;
