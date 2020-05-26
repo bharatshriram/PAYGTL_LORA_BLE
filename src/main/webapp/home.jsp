@@ -48,7 +48,10 @@
 			<div class="right_data col-md-10 mt-4 mb-4">
 				<!--Right start-->
 				<div class="rightblock">
-				<%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("5")){ %>
+					<%
+						if (user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("4")
+									|| user_id.equalsIgnoreCase("5")) {
+					%>
 					<div class="row admin">
 						<div class="col-md-12">
 							<div class="row">
@@ -82,6 +85,7 @@
 											</div>
 										</div>
 									</div>
+									
 									<div class="row mt-4">
 										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
@@ -94,22 +98,16 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">In-Active</p>
-																<p class="card-title" id="adminInActive"></p>
+																<p class="card-category">Consumption</p>
+																<p class="card-title" id="admincomption"></p>
 															</div>
 														</div>
-													</div>
-												</div>
-												<div class="card-footer borderRadius">
-
-													<div class="stats" onClick="redirection(2)">
-														View Details<i class="fa fa-chevron-right view_details"
-															aria-hidden="true"></i>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
+									
 									<div class="row mt-4">
 										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
@@ -138,9 +136,10 @@
 											</div>
 										</div>
 									</div>
+									
 									<div class="row mt-4">
 										<div class="col-md-12">
-											<div class="card card-stats borderRadius">
+									<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
 													<div class="row">
 														<div class="col-5 col-md-4">
@@ -150,22 +149,26 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Live</p>
-																<p class="card-title" id="adminLive"></p>
+																<p class="card-category">EC</p>
+																<p class="card-title" id="adminEmergency"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats" onClick="redirection(3)">
+													<div class="stats" onClick="redirection(6)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
 												</div>
 											</div>
-										</div>
+											</div>
 									</div>
+									
+									
+									
+									
 								</div>
 
 								<div class="col-md-8">
@@ -181,8 +184,8 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Low-Battery</p>
-																<p class="card-title" id="adminBattery"></p>
+																<p class="card-category">Total AMR</p>
+																<p class="card-title" id="adminAMR"></p>
 															</div>
 														</div>
 													</div>
@@ -210,9 +213,10 @@
 												<div class="card-body">
 													<!-- <div id="container" class="container"
 														style="height: 250px; width: 500"></div> -->
-														
-														<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
-														<div id="highchart_container" style="width: 100%; max-width: 800px; margin: 0 auto"></div>
+
+													<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+													<div id="highchart_container"
+														style="width: 100%; max-width: 800px; margin: 0 auto"></div>
 												</div>
 											</div>
 										</div>
@@ -221,33 +225,6 @@
 								<div class="col-md-2">
 									<div class="row">
 										<div class="col-md-12">
-											<div class="card card-stats borderRadius">
-												<div class="card-body cardSpacing">
-													<div class="row">
-														<div class="col-5 col-md-4">
-															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
-															</div>
-														</div>
-														<div class="col-7 col-md-8">
-															   <div class="numbers text-right">
-																<p class="card-category">EC</p>
-																<p class="card-title" id="adminEmergency"></p>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div class="card-footer borderRadius">
-
-													<div class="stats" onClick="redirection(6)">
-														View Details<i class="fa fa-chevron-right view_details"
-															aria-hidden="true"></i>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row mt-4">
 										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
 												<div class="card-body cardSpacing">
@@ -259,20 +236,22 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Consumption</p>
-																<p class="card-title" id="admincomption"></p>
+																<p class="card-category">Live</p>
+																<p class="card-title" id="adminLive"></p>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(3)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
 												</div>
 											</div>
+										</div>
+											
 										</div>
 									</div>
 									<div class="row mt-4 ">
@@ -293,9 +272,32 @@
 														</div>
 													</div>
 												</div>
+											</div>
+										</div>
+									</div>
+									
+									
+									<div class="row mt-4">
+										<div class="col-md-12">
+											<div class="card card-stats borderRadius">
+												<div class="card-body cardSpacing">
+													<div class="row">
+														<div class="col-5 col-md-4">
+															<div class="icon-big text-center icon-warning">
+																<img src=common/images/icons/gas3.png />
+															</div>
+														</div>
+														<div class="col-7 col-md-8">
+															<div class="numbers text-right">
+																<p class="card-category">In-Active</p>
+																<p class="card-title" id="adminInActive"></p>
+															</div>
+														</div>
+													</div>
+												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(2)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -303,6 +305,7 @@
 											</div>
 										</div>
 									</div>
+									
 									<div class="row mt-4 ">
 										<div class="col-md-12">
 											<div class="card card-stats borderRadius">
@@ -315,8 +318,8 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Total AMR</p>
-																<p class="card-title" id="adminAMR"></p>
+																<p class="card-category">Low Battery</p>
+																<p class="card-title" id="adminBattery"></p>
 															</div>
 														</div>
 													</div>
@@ -336,7 +339,9 @@
 							</div>
 						</div>
 					</div>
-<%} else if(user_id.equalsIgnoreCase("3")){ %>>
+					<%
+						} else if (user_id.equalsIgnoreCase("3")) {
+					%>>
 					<div class="row customer">
 						<div class="col-md-3">
 							<div class="row billingAmount">
@@ -499,14 +504,14 @@
 									</div>
 								</div>
 							</div>
-							
-							
-							
-							
-							
-							
-							
-							
+
+
+
+
+
+
+
+
 							<div class="row">
 								<div class="col col1">
 									<div class="card card-stats borderRadius">
@@ -587,37 +592,39 @@
 									</div>
 								</div>
 							</div>
-							
-							
-							
+
+
+
 							<div class="row">
 								<div class="col-md-12">
-											<div class="card shadow mb-4 bg-transparent">
-												<!-- Card Header - Dropdown -->
-												<div
-													class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-													<h6 class="m-0 font-weight-bold text-white">Live
-														Status</h6>
-												</div>
-												<!-- Card Body -->
-												<div class="card-body">
-													<!-- <div id="container" class="container"
-														style="height: 250px; width: 500"></div> -->
-														
-														<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
-														<div id="highchart_container" style="height: 250px;width: 100%; max-width: 800px; margin: 0 auto"></div>
-												</div>
-											</div>
+									<div class="card shadow mb-4 bg-transparent">
+										<!-- Card Header - Dropdown -->
+										<div
+											class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+											<h6 class="m-0 font-weight-bold text-white">Live Status</h6>
 										</div>
+										<!-- Card Body -->
+										<div class="card-body">
+											<!-- <div id="container" class="container"
+														style="height: 250px; width: 500"></div> -->
+
+											<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
+											<div id="highchart_container1"
+												style="height: 250px; width: 100%; max-width: 800px; margin: 0 auto"></div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
-						
+
+					</div>
+					<%
+						}
+					%>
 				</div>
-		<%} %>	
 			</div>
 		</div>
 	</div>
-</div>
 	<jsp:include page="footer.jsp" />
 	<%
 		}
@@ -630,10 +637,11 @@
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
 		crossorigin="anonymous"></script>
 
-	  <script src="js/home.js"></script> 
-	  <script src="js/common.js"></script> 
+	<script src="js/home.js"></script>
+	<script src="js/common.js"></script>
 	<script src="https://code.highcharts.com/highcharts.js"></script>
-	<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+	<script type="text/javascript"
+		src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
 
 	<script
@@ -660,195 +668,6 @@
 			});
 
 		});
-	</script>
-	<script>
-		$(document)
-				.ready(
-						function() {
-							var data1;
-							/* $
-									.ajax({
-										type : "GET",
-										contentType : "application/json",
-										url : "/PAYGTL_LORA_BLE/dashboard/"
-												+ sessionStorage
-														.getItem("roleID")
-												+ "/"
-												+ sessionStorage.getItem("ID"),
-										dataType : "JSON",
-
-										success : function(d) {
-
-											//alert(JSON.stringify(d));
-
-											document.querySelector("#totalmiu").innerText = d.total;
-											document
-													.querySelector("#communicating").innerText = d.communicating;
-											document
-													.querySelector("#Non-Communicating").innerText = d.nonCommunicating;
-
-											data1 = [
-													[
-															"non-Communicating",
-															((d.nonCommunicating / d.total) * 100) ],
-													[
-															'communicating',
-															((d.communicating / d.total) * 100) ] ];
-
-											Highcharts.chart('container', {
-												chart : {
-													type : 'pie'
-												},
-
-												title : {
-													text : ""
-												},
-
-												plotOptions : {
-													pie : {
-														colors : [ '#f54747',
-																'#33c354' ]
-													}
-												},
-
-												series : [ {
-													data : data1
-												} ]
-											});
-
-											//	document.querySelector(".highcharts-series-group .highcharts-series .highcharts-color-0").setAttribute("fill","red");
-											//  document.querySelector(".highcharts-series-group .highcharts-series .highcharts-color-1").setAttribute("fill","green");
-
-										}
-									}); */
-							
-						//	window.onload = function () {
-								var chart = new CanvasJS.Chart("chartContainer",
-								{
-									title: {
-										text: "Setting fixed width to columns"
-									},
-									dataPointWidth: 20,
-									 axisY:{
-							   maximum: 100,
-							   yAxisLabel: "My Y Axis Label",
-							   suffix: "%"
-							 },
-									data: [
-									{
-										type: "column",
-										dataPoints: [
-											{ label: "Orange", y: 290 },
-											{ label: "Apple",  y: 40 },
-											{ label: "Mango",  y: 34 },
-											{ label: "Grape",  y: 24 },
-											{ label: "Orange", y: 290 },
-											{ label: "Apple",  y: 40 },
-											{ label: "Mango",  y: 34 },
-											{ label: "Grape",  y: 24 }
-											
-										]
-									}
-									]
-								});
-								chart.render();
-								    
-						});
-	
-	$('#highchart_container').highcharts({
-        chart: {
-            type: 'line'
-        },
-        title: {
-            text: 'Graph Title'
-        },
-        subtitle: {
-            text: 'Subtittle'
-        },
-        xAxis: {
-            /* categories: ['Active',
-'In-Active',
-'Live',
-'Non-Live',
-'Low Battery',
-'EC',
-'Consumption',
-'Day Topup',
-], */
-categories: ['Jan',
-	'Feb',
-	'March',
-	'April',
-	'May',
-	'June',
-	'July',
-	'August',
-	'Sept',
-	'Oct',
-	'Nov',
-	'Dec'
-	],
-            title: {
-                text: null
-            }
-        },
-        yAxis: {
-            min: 0,
-            title: {
-                text: 'Chart',
-                align: 'high'
-            },
-            labels: {
-                overflow: 'justify'
-            }
-        },
-        tooltip: {
-            valueSuffix: ''
-        },
-        plotOptions: {
-            bar: {
-                dataLabels: {
-                    enabled: true
-                }
-            }
-        },
-        /*
-legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'top',
-            x: -40,
-            y: 100,
-            floating: true,
-            borderWidth: 1,
-            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-            shadow: true
-        },
-*/
-        credits: {
-            enabled: false
-        },
-        series: [{
-            data: [89.2,
-88.4,
-87.7,
-86.6,
-86.1,
-83.9,
-83.8,
-81.8,
-89.2,
-88.4,
-87.7,
-86.6
-],
-name: 'Percentage (%)'
-        }]
-        
-    });
-	</script>
-
-	<script>
 		$(document).ready(function() {
 			$('[data-toggle="tooltip"]').tooltip();
 		});

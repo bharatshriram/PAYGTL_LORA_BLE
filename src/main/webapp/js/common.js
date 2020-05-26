@@ -21,10 +21,183 @@ $(document).ready(function () {
       
       
       var pageURL = $(location). attr("href");
-		//pageURL.split('LORA_BLE/')[1]
-		document.querySelector("a[href='"+pageURL.split('LORA_BLE/')[1]+"']").className = "active";
-		//alert(document.querySelector("a[href='"+pageURL.split('LORA_BLE/')[1]+"']").innerText);
-      
+		//alert(pageURL.split('LORA_BLE/')[1]);
+		let  url = pageURL.split('LORA_BLE/')[1].split("?")[0] =="LoginAction.jsp"?"home.jsp":pageURL.split('LORA_BLE/')[1];
+		document.querySelector("a[href='"+url+"']").className = "active";
+
+		if(sessionStorage.getItem("roleID") != 3){
+		
+		$.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : "/PAYGTL_LORA_BLE/homedashboard/"
+					+ sessionStorage.getItem("roleID") + "/"
+					+ sessionStorage.getItem("ID"),
+			dataType : "JSON",
+
+			success : function(d) {
+
+				$('#highchart_container').highcharts(
+						{
+							chart : {
+								type : 'bar'
+							},
+							title : {
+								text : 'Graph Title'
+							},
+							subtitle : {
+								text : 'Subtittle'
+							},
+							xAxis : {
+								categories : [ 'Active',
+										'In-Active', 'Live',
+										'Non-Live', 'Low Battery',
+										'EC', ],
+
+								title : {
+									text : null
+								},
+							},
+							yAxis : {
+								min : 0,
+								title : {
+									text : 'Chart',
+									align : 'high'
+								},
+								labels : {
+									overflow : 'justify'
+								},
+								min : 0,
+								max : 100
+
+							},
+							tooltip : {
+								valueSuffix : ''
+							},
+							plotOptions : {
+								bar : {
+									dataLabels : {
+										enabled : true
+									}
+								}
+							},
+							/*
+							legend: {
+							    layout: 'vertical',
+							    align: 'right',
+							    verticalAlign: 'top',
+							    x: -40,
+							    y: 100,
+							    floating: true,
+							    borderWidth: 1,
+							    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+							    shadow: true
+							},
+							 */
+							credits : {
+								enabled : false
+							},
+							series : [ {
+								data : [ d.activePercentage,
+										d.inActivePercentage,
+										d.livePercentage,
+										d.nonLivePercentage,
+										d.emergencyPercentage,
+										d.lowBatteryPercentage ],
+								name : 'Percentage (%)'
+							} ]
+
+						});
+			}
+		});
+		}
+		if(sessionStorage.getItem("roleID") == 3){
+		
+		/*$.ajax({
+			type : "GET",
+			contentType : "application/json",
+			url : "/PAYGTL_LORA_BLE/graph/"
+					+ 0 + "/"
+					+ 0+"/"+,
+			dataType : "JSON",
+
+			success : function(d) {
+
+				$('#highchart_container1').highcharts(
+						{
+							chart : {
+								type : 'line'
+							},
+							title : {
+								text : 'Graph Title'
+							},
+							subtitle : {
+								text : 'Subtittle'
+							},
+							xAxis : {
+								categories : [ 'Active',
+										'In-Active', 'Live',
+										'Non-Live', 'Low Battery',
+										'EC', ],
+
+								title : {
+									text : null
+								},
+							},
+							yAxis : {
+								min : 0,
+								title : {
+									text : 'Chart',
+									align : 'high'
+								},
+								labels : {
+									overflow : 'justify'
+								},
+								min : 0,
+								max : 100
+
+							},
+							tooltip : {
+								valueSuffix : ''
+							},
+							plotOptions : {
+								bar : {
+									dataLabels : {
+										enabled : true
+									}
+								}
+							},
+							
+							legend: {
+							    layout: 'vertical',
+							    align: 'right',
+							    verticalAlign: 'top',
+							    x: -40,
+							    y: 100,
+							    floating: true,
+							    borderWidth: 1,
+							    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+							    shadow: true
+							},
+							 
+							credits : {
+								enabled : false
+							},
+							series : [ {
+								data : [ d.activePercentage,
+										d.inActivePercentage,
+										d.livePercentage,
+										d.nonLivePercentage,
+										d.emergencyPercentage,
+										d.lowBatteryPercentage ],
+								name : 'Percentage (%)'
+							} ]
+
+						});
+			}
+		});*/
+		}
+					
     });
 
 $(window).on('load', function() { 
