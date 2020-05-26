@@ -210,8 +210,7 @@ public class CommunitySetUpBO {
 			throw new BusinessException("PREVIOUS REQUEST IS PENDING FOR APPROVAL");
 		}
 
-		if (customervo.getHouseNumber().isEmpty()
-				|| customervo.getFirstName().isEmpty()
+		if (customervo.getFirstName().isEmpty()
 				|| customervo.getEmail().isEmpty()
 				|| customervo.getMobileNumber().isEmpty()
 				|| customervo.getCRNNumber().isEmpty()) {

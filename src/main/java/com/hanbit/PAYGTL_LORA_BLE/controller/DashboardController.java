@@ -17,6 +17,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.GraphResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -49,6 +50,14 @@ public class DashboardController {
 		DashboardDAO dashboarddao = new DashboardDAO();
 
 		return dashboarddao.getHomeDashboardDetails(roleid, id);
+	}
+	
+	@RequestMapping(value = "/graph/{year}/{month}/{CRNNumber}", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody GraphResponseVO homedashboarddetails(@PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("CRNNumber") String CRNNumber) throws SQLException {
+
+		DashboardDAO dashboarddao = new DashboardDAO();
+
+		return dashboarddao.getGraphDashboardDetails(year, month, CRNNumber);
 	}
 	
 	@RequestMapping(value = "/filterdashboard/{roleid}/{id}", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")

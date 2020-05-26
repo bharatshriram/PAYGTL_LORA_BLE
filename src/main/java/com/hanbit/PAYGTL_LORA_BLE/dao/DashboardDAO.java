@@ -25,6 +25,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.GraphResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -309,14 +310,21 @@ public class DashboardDAO {
 			}
 			
 			homeResponseVO.setLive(live);
+			homeResponseVO.setLivePercentage((live*100/amr));
 			homeResponseVO.setNonLive(nonLive);
+			homeResponseVO.setNonLivePercentage((nonLive*100/amr));
 			homeResponseVO.setActive(active);
+			homeResponseVO.setActivePercentage((active*100/amr));
 			homeResponseVO.setInActive(inActive);
+			homeResponseVO.setInActivePercentage((inActive*100/amr));
 			homeResponseVO.setEmergency(emergency);
+			homeResponseVO.setEmergencyPercentage((emergency*100/amr));
 			homeResponseVO.setLowBattery(lowBattery);
+			homeResponseVO.setLowBatteryPercentage((lowBattery*100/amr));
 			homeResponseVO.setAmr(amr);
+			homeResponseVO.setAmrPercentage(100);
 			
-			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN (CURDATE() - INTERVAL 1 DAY) AND CONCAT(CURDATE(), ' 23:59:59') <change>";
+			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN CONCAT(CURDATE(), ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			pstmt2 = con.prepareStatement(query1.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "AND BlockID = "+id :""));
 			rs2 = pstmt2.executeQuery();
 			if(rs2.next()) { homeResponseVO.setTopup(rs2.getInt("topup")); } else { homeResponseVO.setTopup(0); }
@@ -350,6 +358,100 @@ public class DashboardDAO {
 			con.close();
 		}
 		return homeResponseVO;
+	}
+	
+	public GraphResponseVO getGraphDashboardDetails(int year, int month, String CRNNumber) {
+		// TODO Auto-generated method stub
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		
+		GraphResponseVO graphResponseVO = new GraphResponseVO();
+		List<String> xAxis;
+		List<Integer> yAxis;
+		
+		try {
+			con = getConnection();
+			xAxis = new LinkedList<String>();
+			yAxis = new LinkedList<Integer>();
+			
+			if(year == 0 && month == 0) {
+				
+				for(int i = 30; i>0; i-- ) {
+					
+					String query = "SELECT ((SELECT Reading FROM balancelog WHERE CRNNumber = ? AND IoTTImeStamp BETWEEN CONCAT(CURDATE() - INTERVAL <day> DAY, ' 00:00:00') AND CONCAT(CURDATE() - INTERVAL <day> DAY, ' 23:59:59') ORDER BY ReadingID DESC LIMIT 0,1) \r\n" + 
+										 "- (SELECT Reading FROM balancelog WHERE CRNNumber = ? AND IoTTImeStamp BETWEEN CONCAT(CURDATE() - INTERVAL <day> DAY, ' 00:00:00') AND CONCAT(CURDATE() - INTERVAL <day> DAY, ' 23:59:59') ORDER BY ReadingID ASC LIMIT 0,1)) AS Units, CURDATE() - INTERVAL <day> DAY AS consumptiondate";
+					
+					pstmt = con.prepareStatement(query.replaceAll("<day>", ""+i));
+					pstmt.setString(1, CRNNumber);
+					pstmt.setString(2, CRNNumber);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						
+						xAxis.add(rs.getString("consumptiondate"));
+						yAxis.add(rs.getString("Units") == null ? 0 : rs.getInt("Units"));
+						
+						}
+				}
+			} else if (year != 0 &&  month == 0) {
+				
+				for(int i = 1; i<=12; i++ ) {
+					
+					String query = "SELECT ((SELECT Reading FROM balancelog WHERE CRNNumber = ? AND YEAR(IotTimeStamp) = ? AND MONTH(IotTimeStamp) = <month> ORDER BY ReadingID DESC LIMIT 0,1) \r\n" + 
+									      "-(SELECT Reading FROM balancelog WHERE CRNNumber = ? AND YEAR(IotTimeStamp) = ? AND MONTH(IotTimeStamp) = <month> ORDER BY ReadingID ASC LIMIT 0,1)) AS Units";
+					
+					pstmt = con.prepareStatement(query.replaceAll("<month>", ""+i));
+					pstmt.setString(1, CRNNumber);
+					pstmt.setInt(2, year);
+					pstmt.setString(3, CRNNumber);
+					pstmt.setInt(4, year);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						
+						xAxis.add(i==1 ? "JAN" : i==2 ? "FEB" : i==3 ? "MAR" : i==4 ? "APR" : i==5 ? "MAY" : i==6 ? "JUN" : i==7 ? "JUL" : i==8 ? "AUG" : i==9 ? "SEP" : i==10 ? "OCT" : i==11 ? "NOV" : i==12 ? "DEC" : "");
+						yAxis.add(rs.getString("Units") == null ? 0 : rs.getInt("Units"));
+						
+						}
+				}
+				
+			} else if(year != 0 && month != 0) {
+				
+				int j = (month == 2 ? 28 : (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) ? 31 : 30);
+				
+				for(int i = 1; i <= j ; i++) {
+					
+					String query = "SELECT ((SELECT Reading FROM balancelog WHERE CRNNumber = ? AND YEAR(IotTimeStamp) = ? AND MONTH(IotTimeStamp) = ? AND DAY(IotTimeStamp) = <day> ORDER BY ReadingID DESC LIMIT 0,1) \r\n" + 
+										 "- (SELECT Reading FROM balancelog WHERE CRNNumber = ? AND YEAR(IotTimeStamp) = ? AND MONTH(IotTimeStamp) = ? AND DAY(IotTimeStamp) = <day> ORDER BY ReadingID ASC LIMIT 0,1)) AS Units";
+					
+					pstmt = con.prepareStatement(query.replaceAll("<day>", ""+i));
+					pstmt.setString(1, CRNNumber);
+					pstmt.setInt(2, year);
+					pstmt.setInt(3, month);
+					pstmt.setString(4, CRNNumber);
+					pstmt.setInt(5, year);
+					pstmt.setInt(6, month);
+					rs = pstmt.executeQuery();
+					
+					if(rs.next()) {
+						
+						xAxis.add(Integer.toString(i));
+						yAxis.add(rs.getString("Units") == null ? 0 : rs.getInt("Units"));
+						
+						}
+					}
+				}
+			
+			graphResponseVO.setXAxis(xAxis);
+			graphResponseVO.setYAxis(yAxis);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return graphResponseVO;
 	}
 
 	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {
