@@ -757,16 +757,16 @@
 	
 	$('#highchart_container').highcharts({
         chart: {
-            type: 'bar'
+            type: 'line'
         },
         title: {
-            text: 'Bar Graph Title'
+            text: 'Graph Title'
         },
         subtitle: {
             text: 'Subtittle'
         },
         xAxis: {
-            categories: ['Active',
+            /* categories: ['Active',
 'In-Active',
 'Live',
 'Non-Live',
@@ -774,7 +774,20 @@
 'EC',
 'Consumption',
 'Day Topup',
-],
+], */
+categories: ['Jan',
+	'Feb',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'Sept',
+	'Oct',
+	'Nov',
+	'Dec'
+	],
             title: {
                 text: null
             }
@@ -824,6 +837,10 @@ legend: {
 83.9,
 83.8,
 81.8,
+89.2,
+88.4,
+87.7,
+86.6
 ],
 name: 'Percentage (%)'
         }]

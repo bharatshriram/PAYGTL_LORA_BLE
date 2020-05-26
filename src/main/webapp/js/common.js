@@ -18,6 +18,13 @@ $(document).ready(function () {
 		}
       });
       
+      
+      
+      var pageURL = $(location). attr("href");
+		//pageURL.split('LORA_BLE/')[1]
+		document.querySelector("a[href='"+pageURL.split('LORA_BLE/')[1]+"']").className = "active";
+		//alert(document.querySelector("a[href='"+pageURL.split('LORA_BLE/')[1]+"']").innerText);
+      
     });
 
 $(window).on('load', function() { 
