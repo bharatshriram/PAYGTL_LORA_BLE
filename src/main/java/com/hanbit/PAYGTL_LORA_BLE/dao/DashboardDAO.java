@@ -25,6 +25,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TataRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.DashboardResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.GraphResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
@@ -309,14 +310,21 @@ public class DashboardDAO {
 			}
 			
 			homeResponseVO.setLive(live);
+			homeResponseVO.setLivePercentage((live*100/amr));
 			homeResponseVO.setNonLive(nonLive);
+			homeResponseVO.setNonLivePercentage((nonLive*100/amr));
 			homeResponseVO.setActive(active);
+			homeResponseVO.setActivePercentage((active*100/amr));
 			homeResponseVO.setInActive(inActive);
+			homeResponseVO.setInActivePercentage((inActive*100/amr));
 			homeResponseVO.setEmergency(emergency);
+			homeResponseVO.setEmergencyPercentage((emergency*100/amr));
 			homeResponseVO.setLowBattery(lowBattery);
+			homeResponseVO.setLowBatteryPercentage((lowBattery*100/amr));
 			homeResponseVO.setAmr(amr);
+			homeResponseVO.setAmrPercentage(100);
 			
-			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN (CURDATE() - INTERVAL 1 DAY) AND CONCAT(CURDATE(), ' 23:59:59') <change>";
+			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN CONCAT(CURDATE(), ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			pstmt2 = con.prepareStatement(query1.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "AND BlockID = "+id :""));
 			rs2 = pstmt2.executeQuery();
 			if(rs2.next()) { homeResponseVO.setTopup(rs2.getInt("topup")); } else { homeResponseVO.setTopup(0); }
@@ -350,6 +358,41 @@ public class DashboardDAO {
 			con.close();
 		}
 		return homeResponseVO;
+	}
+	
+	public GraphResponseVO getGraphDashboardDetails(String CRNNumber) {
+		// TODO Auto-generated method stub
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		
+		try {
+			con = getConnection();
+			
+			for(int i = 30; i<=30; i-- ) {
+				
+				String query = "SELECT ((SELECT Reading FROM balancelog WHERE CRNNumber = ? AND IoTTImeStamp BETWEEN CONCAT(CURDATE() - INTERVAL <day> DAY, ' 00:00:00') AND CONCAT(CURDATE() - INTERVAL <day> DAY, ' 23:53:59') ORDER BY ReadingID DESC LIMIT 0,1) \r\n" + 
+									 "- (SELECT Reading FROM balancelog WHERE CRNNumber = ? AND IoTTImeStamp BETWEEN CONCAT(CURDATE() - INTERVAL <day> DAY, ' 00:00:00') AND CONCAT(CURDATE() - INTERVAL <day> DAY, ' 23:53:59') ORDER BY ReadingID ASC LIMIT 0,1)) AS Units";
+				
+				pstmt = con.prepareStatement(query.replaceAll("<day>", ""+i));
+				pstmt.setString(1, CRNNumber);
+				pstmt.setString(2, CRNNumber);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					
+					
+					
+					}
+				
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 	public ResponseVO postDashboarddetails(TataRequestVO tataRequestVO) throws SQLException {

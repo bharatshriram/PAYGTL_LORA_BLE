@@ -59,13 +59,13 @@ public class AccountController {
 	
 	/* Status */
 
-	@RequestMapping(value = "/status/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/status/{roleid}/{id}/{filterCid}/{day}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid) throws SQLException {
+	StatusResponseVO statusdetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filterCid") int filterCid, @PathVariable("day") int day) throws SQLException {
 
 		StatusResponseVO statusresponsevo = new StatusResponseVO();
 
-		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id, filterCid));
+		statusresponsevo.setData(accountdao.getStatusdetails(roleid, id, filterCid, day));
 
 		return statusresponsevo;
 	}

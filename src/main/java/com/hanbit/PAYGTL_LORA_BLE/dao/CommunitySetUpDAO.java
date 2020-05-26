@@ -646,15 +646,14 @@ public class CommunitySetUpDAO {
 					customervo.setCustomerID(rs.getInt("CustomerID"));
 					customervo.setBlockID(rs.getInt("BlockID"));
 				
-				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CRNNumber = ?))");
+				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CRNNumber = ?))");
 				pstmt.setInt(1, customervo.getBlockID());
 				pstmt.setInt(2, customervo.getCustomerID());
 				pstmt.setString(3, customervo.getCRNNumber());
-				pstmt.setString(4, customervo.getHouseNumber());
-				pstmt.setString(5, customervo.getFirstName());
-				pstmt.setString(6, customervo.getEmail());
-				pstmt.setString(7, customervo.getMobileNumber());
-				pstmt.setString(8, customervo.getCRNNumber());
+				pstmt.setString(4, customervo.getFirstName());
+				pstmt.setString(5, customervo.getEmail());
+				pstmt.setString(6, customervo.getMobileNumber());
+				pstmt.setString(7, customervo.getCRNNumber());
 				
 				if (pstmt.executeUpdate() > 0) {
 					responsevo.setResult("Success");
@@ -775,7 +774,7 @@ public class CommunitySetUpDAO {
 		con = getConnection();
 		updaterequestlist = new LinkedList<CustomerResponseVO>();
 		
-		pstmt = con.prepareStatement("SELECT RequestID, CustomerID, CRNNumber, HouseNumber, FirstName, Email, MobileNumber FROM updaterequestcustomermeterdetails WHERE BlockID = ?");
+		pstmt = con.prepareStatement("SELECT RequestID, CustomerID, CRNNumber, FirstName, Email, MobileNumber FROM updaterequestcustomermeterdetails WHERE BlockID = ?");
 		pstmt.setInt(1, blockid);
 		
 		rs = pstmt.executeQuery();
@@ -783,7 +782,6 @@ public class CommunitySetUpDAO {
         	
         	customerresponsevo = new CustomerResponseVO();
         	customerresponsevo.setRequestID(rs.getInt("RequestID"));
-        	customerresponsevo.setHouseNumber(rs.getString("HouseNumber"));
         	customerresponsevo.setCRNNumber(rs.getString("CRNNumber"));
         	customerresponsevo.setFirstName(rs.getString("FirstName"));
         	customerresponsevo.setEmail(rs.getString("Email"));
@@ -822,7 +820,7 @@ public class CommunitySetUpDAO {
 			
 			if(action == 1) {
 				
-				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CRNNumber = urcmd.CRNNumber SET cmd.HouseNumber = urcmd.HouseNumber, cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CRNNumber = (SELECT CRNNumber FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
+				pstmt = con.prepareStatement("UPDATE customermeterdetails AS cmd INNER JOIN updaterequestcustomermeterdetails AS urcmd ON cmd.CRNNumber = urcmd.CRNNumber SET cmd.FirstName = urcmd.FirstName, cmd.Email = urcmd.Email, cmd.MobileNumber = urcmd.MobileNumber, cmd.ModifiedDate = NOW() WHERE cmd.CRNNumber = (SELECT CRNNumber FROM updaterequestcustomermeterdetails WHERE RequestID = ?)");
 	            pstmt.setInt(1, requestid);
 
 	            if (pstmt.executeUpdate() > 0) {

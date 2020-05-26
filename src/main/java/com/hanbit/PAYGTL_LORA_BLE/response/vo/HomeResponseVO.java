@@ -15,9 +15,16 @@ public class HomeResponseVO {
 	private int nonLive;
 	private int emergency;
 	private int lowBattery;
+	private int activePercentage;
+	private int inActivePercentage;
+	private int livePercentage;
+	private int nonLivePercentage;
+	private int emergencyPercentage;
+	private float lowBatteryPercentage;
 	private int consumption;
 	private int topup;
 	private int amr;
+	private int amrPercentage;
 	
 	public int getActive() {
 		return active;
@@ -72,6 +79,48 @@ public class HomeResponseVO {
 	}
 	public void setAmr(int amr) {
 		this.amr = amr;
+	}
+	public int getActivePercentage() {
+		return activePercentage;
+	}
+	public void setActivePercentage(int activePercentage) {
+		this.activePercentage = activePercentage;
+	}
+	public int getInActivePercentage() {
+		return inActivePercentage;
+	}
+	public void setInActivePercentage(int inActivePercentage) {
+		this.inActivePercentage = inActivePercentage;
+	}
+	public int getLivePercentage() {
+		return livePercentage;
+	}
+	public void setLivePercentage(int livePercentage) {
+		this.livePercentage = livePercentage;
+	}
+	public int getNonLivePercentage() {
+		return nonLivePercentage;
+	}
+	public void setNonLivePercentage(int nonLivePercentage) {
+		this.nonLivePercentage = nonLivePercentage;
+	}
+	public int getEmergencyPercentage() {
+		return emergencyPercentage;
+	}
+	public void setEmergencyPercentage(int emergencyPercentage) {
+		this.emergencyPercentage = emergencyPercentage;
+	}
+	public float getLowBatteryPercentage() {
+		return lowBatteryPercentage;
+	}
+	public void setLowBatteryPercentage(float lowBatteryPercentage) {
+		this.lowBatteryPercentage = lowBatteryPercentage;
+	}
+	public int getAmrPercentage() {
+		return amrPercentage;
+	}
+	public void setAmrPercentage(int amrPercentage) {
+		this.amrPercentage = amrPercentage;
 	}
 	
 }
