@@ -113,12 +113,12 @@ $(document).ready(function () {
 		}
 		if(sessionStorage.getItem("roleID") == 3){
 		
-		/*$.ajax({
+		$.ajax({
 			type : "GET",
 			contentType : "application/json",
 			url : "/PAYGTL_LORA_BLE/graph/"
 					+ 0 + "/"
-					+ 0+"/"+,
+					+ 0+"/HAN0006",
 			dataType : "JSON",
 
 			success : function(d) {
@@ -129,16 +129,13 @@ $(document).ready(function () {
 								type : 'line'
 							},
 							title : {
-								text : 'Graph Title'
+								text : 'Consumption Graph'
 							},
 							subtitle : {
-								text : 'Subtittle'
+								text : 'CRN Number'
 							},
 							xAxis : {
-								categories : [ 'Active',
-										'In-Active', 'Live',
-										'Non-Live', 'Low Battery',
-										'EC', ],
+								categories : d.xAxis,
 
 								title : {
 									text : null
@@ -181,21 +178,16 @@ $(document).ready(function () {
 							},
 							 
 							credits : {
-								enabled : false
+								//enabled : false
 							},
 							series : [ {
-								data : [ d.activePercentage,
-										d.inActivePercentage,
-										d.livePercentage,
-										d.nonLivePercentage,
-										d.emergencyPercentage,
-										d.lowBatteryPercentage ],
-								name : 'Percentage (%)'
+								data : d.yAxis ,
+								name : ''
 							} ]
 
 						});
 			}
-		});*/
+		});
 		}
 					
     });

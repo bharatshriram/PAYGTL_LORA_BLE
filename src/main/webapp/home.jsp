@@ -184,7 +184,7 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Total AMR</p>
+																<p class="card-category">Total MUI</p>
 																<p class="card-title" id="adminAMR"></p>
 															</div>
 														</div>
@@ -359,11 +359,11 @@
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/23-consumptionn.png />
-											<p class="text-white mt-4">Consumption</p>
+											<p class="mt-4">Consumption</p>
 										</div>
 										<div class="col col2">
 											<img src=common/images/icon/24-PaymentInfo.png />
-											<p class="text-white mt-4">Payment Info</p>
+											<p class="mt-4">Payment Info</p>
 										</div>
 									</div>
 								</div>
@@ -373,11 +373,11 @@
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/25-billpayment.png />
-											<p class="text-white mt-4">Bill Payment</p>
+											<p class="mt-4">Bill Payment</p>
 										</div>
 										<div class="col col2">
 											<img src=common/images/icon/26-feedback.png />
-											<p class="text-white mt-4">Feedback</p>
+											<p class="mt-4">Feedback</p>
 										</div>
 									</div>
 								</div>
@@ -387,11 +387,11 @@
 									<div class="row mt-4">
 										<div class="col col1">
 											<img src=common/images/icon/27-profiifle.png />
-											<p class="text-white mt-4">Profile</p>
+											<p class="mt-4">Profile</p>
 										</div>
 										<div class="col col2">
 											<img src=common/images/icon/28-complaints.png />
-											<p class="text-white mt-4">Compliants</p>
+											<p class="mt-4">Compliants</p>
 										</div>
 									</div>
 								</div>
@@ -416,13 +416,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
 									</div>
 								</div>
 								<div class="col col2">
@@ -440,13 +433,6 @@
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
 											</div>
 										</div>
 									</div>
@@ -468,13 +454,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
 									</div>
 								</div>
 								<div class="col col4">
@@ -492,13 +471,6 @@
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
 											</div>
 										</div>
 									</div>
@@ -530,13 +502,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
 									</div>
 								</div>
 								<div class="col col2">
@@ -554,13 +519,6 @@
 														<p class="card-title" id="communicating">21</p>
 													</div>
 												</div>
-											</div>
-										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
 											</div>
 										</div>
 									</div>
@@ -582,13 +540,6 @@
 												</div>
 											</div>
 										</div>
-										<div class="card-footer borderRadius">
-
-											<div class="stats">
-												View Details<i class="fa fa-chevron-right view_details"
-													aria-hidden="true"></i>
-											</div>
-										</div>
 									</div>
 								</div>
 							</div>
@@ -600,8 +551,49 @@
 									<div class="card shadow mb-4 bg-transparent">
 										<!-- Card Header - Dropdown -->
 										<div
-											class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-											<h6 class="m-0 font-weight-bold text-white">Live Status</h6>
+											class="card-header">
+										<div class="row">
+											<div class="col-md-4"><h6 class="m-0 font-weight-bold text-grey lineHeight">Live Status</h6></div>
+											<div class="col-md-4">
+											<div class="row">
+												<div class="col-md-6">
+													 <select class="form-control end_date" id="end_date">
+                             <option value="">Select Month</option>
+                             <option value="01">January</option>
+                             <option value="02">February</option>
+                             <option value="03">March</option>
+                             <option value="04">April</option>
+                             <option value="05">May</option>
+                             <option value="06">June</option>
+                             <option value="07">July</option>
+                             <option value="08">August</option>
+                             <option value="09">September</option>
+                             <option value="10">October</option>
+                             <option value="11">November</option>
+                             <option value="12">December</option>
+                             </select>
+												</div>
+												<div class="col-md-6">
+												 
+                             <select class="yrselectdesc form-control start_date" id="start_date">
+                             <option value="">Select Year</option>
+                             </select>
+												</div>
+											</div>
+													
+                             
+                             
+                            
+											</div>
+											<div class="col-md-4">
+												<button type="button" id="view" class="btn btn-primary submit-button btn-raised float-right mr-4">View<div class="ripple-container"></div></button> 
+											</div>
+										</div>
+											
+											
+										
+                             
+                                                         
 										</div>
 										<!-- Card Body -->
 										<div class="card-body">
@@ -668,10 +660,18 @@
 			});
 
 		});
-		$(document).ready(function() {
-			$('[data-toggle="tooltip"]').tooltip();
-		});
+		
 	</script>
+	
+	<script src="common/js/year-select.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(e) {
+                $('.yearselect').yearselect();
+
+                $('.yrselectdesc').yearselect({step: 5, order: 'desc'});
+                $('.yrselectasc').yearselect({order: 'asc'});
+            });
+        </script>
 
 </body>
 

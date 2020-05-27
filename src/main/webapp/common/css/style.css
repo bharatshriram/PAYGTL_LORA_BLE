@@ -34,7 +34,7 @@ th.dt-center, td.dt-center { text-align: center; }
 .admin{display:block}
 .customer{display:none}
 .billingAmount{justify-content: center;}
-.borderRadius{border-radius:6px !important;margin: 5px;background-color: transparent;color:white;}
+.borderRadius{border-radius:6px !important;margin: 5px;background-color: transparent;color:black;}
 .right-block{
  /*  height: 400px; */
 }
@@ -95,7 +95,7 @@ option:first-child
   }
   
   .innerbody{
-    background-image: url(../../common/images/7-BG.jpg); 
+    background-image: url(../../common/images/8-BG-5.jpg); 
     background-size: 100%;
     background-repeat: no-repeat;
     height: 100%;
@@ -116,7 +116,8 @@ option:first-child
     z-index: 2;
     color: #fff;
   }
-  
+  .lineHeight{line-height: 2.6;}
+  #highchart_container1 .highcharts-background{fill: transparent;}
   .container{
   height: 100%;
   align-content: center;
