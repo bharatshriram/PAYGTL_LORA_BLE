@@ -10,7 +10,7 @@ public class ExtraConstants {
 	public static final String fromEmailPassword = "hanbit@123"; 
 	public static final String TataGatewayURL =  "https://data.iot.tatacommunications.com/rest/nodes/";
 	public static final String ContentType = "text/plain";
-	public static final String QueryParams = "?port=2&fcnt=12&confirmed=true&mode=enqueue_on_busy&data_format=base64";
+	public static final String QueryParams = "?port=2&confirmed=true&mode=enqueue_on_busy&data_format=base64";
 	public static final String XM2MOrigin = "CF82BFF84-e6de215b";
 	public static final String XM2MRI = "1100099992222";
 	public static final String Accept = "application/vnd.onem2m-res+json";

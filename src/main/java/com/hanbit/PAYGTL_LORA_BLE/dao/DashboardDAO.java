@@ -123,7 +123,7 @@ public class DashboardDAO {
 					nonCommunicating++;
 					dashboardvo.setDateColor("RED");
 					dashboardvo.setCommunicationStatus("NO");
-				}else if(minutes > 1440 || minutes < noAMRInterval) {
+				}else if(minutes > 1440 && minutes < noAMRInterval) {
 					dashboardvo.setDateColor("ORANGE");
 					dashboardvo.setCommunicationStatus("YES");
 				} else {
