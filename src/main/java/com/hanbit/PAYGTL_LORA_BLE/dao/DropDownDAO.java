@@ -121,6 +121,8 @@ public class DropDownDAO {
 	        	topupdetailsresponsevo.setTariffName(rs.getString("TariffName"));
 	        	topupdetailsresponsevo.setTariff(rs.getFloat("Tariff"));
 	        	topupdetailsresponsevo.setTariffID(rs.getInt("TariffID"));
+	        	topupdetailsresponsevo.setFixedCharges(rs.getInt("FixedCharges"));
+	        	topupdetailsresponsevo.setNoOfMonths(1);
 	                    
 	                    pstmt = con.prepareStatement("SELECT dbl.IoTTimeStamp, dbl.Balance, al.ReconnectionCharges, dbl.Minutes FROM displaybalanceLog AS dbl JOIN alertsettings AS al WHERE CRNNumber = ? ");
 	                    pstmt.setString(1, CRNNumber);
@@ -129,6 +131,7 @@ public class DropDownDAO {
 	                    	topupdetailsresponsevo.setIoTTimeStamp(ExtraMethodsDAO.datetimeformatter(rs1.getString("IoTTimeStamp")));
                         	topupdetailsresponsevo.setCurrentBalance(rs1.getFloat("Balance"));
                         	topupdetailsresponsevo.setReconnectionCharges(rs1.getInt("Minutes") != 0 ? rs1.getInt("ReconnectionCharges") : 0);
+                        	topupdetailsresponsevo.setNoOfMonths(0);
                         	
         					PreparedStatement pstmt2 = con.prepareStatement("SELECT MONTH(TransactionDate) AS previoustopupmonth from topup WHERE Status = 2 and CRNNumber = '"+CRNNumber+"'" + "ORDER BY TransactionID DESC LIMIT 0,1");
         					ResultSet rs2 = pstmt2.executeQuery();
@@ -143,8 +146,6 @@ public class DropDownDAO {
 	        					topupdetailsresponsevo.setIoTTimeStamp("0");
 	                        	topupdetailsresponsevo.setCurrentBalance(0);
 	                        	topupdetailsresponsevo.setReconnectionCharges(0);
-	                        	topupdetailsresponsevo.setNoOfMonths(0);
-	                        	topupdetailsresponsevo.setFixedCharges(rs.getInt("FixedCharges"));
 	                        }
 	            }
 		}
