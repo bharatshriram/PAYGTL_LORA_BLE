@@ -304,7 +304,7 @@ public class DashboardDAO {
 				
 				if(minutes > noAMRInterval) { nonLive++; } else { live++; }
 				if(rs.getInt("SolonideStatus") == 0) { active++; } else { inActive++; }
-				if(rs.getInt("Minutes") != 0) { emergency++; }
+				if(rs.getInt("Balance") <= 0) { emergency++; }
 				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) { lowBattery++; }
 				
 			}

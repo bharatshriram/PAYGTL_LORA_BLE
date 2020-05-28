@@ -303,13 +303,13 @@ public class ExtraMethodsDAO {
 						
 						mailRequestVO.setSubject("No Communication from MIU ID: "+rs.getString("MeterID"));
 						mailRequestVO.setToEmail(rs.getString("Email"));
-						mailRequestVO.setMessage("Dear Admin, \n \n There is no communication from MIU ID: "+rs.getString("MeterID")+" installed at House Number: " + rs.getString("HouseNumber") + "with CRN Number: " + rs.getString("CRNNumber") + ". Kindly look into the issue and resolve it as soon as possible.");
+						mailRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not to date since more than 3 days.");
 						
-						smsRequestVO.setMessage("There is no communication from MIU ID: "+rs.getString("MeterID")+" installed at House Number: " + rs.getString("HouseNumber") + "with CRN Number: " + rs.getString("CRNNumber") + ".");
+						smsRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not to date since more than 3 days.");
 						smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 						
 						sendmail(mailRequestVO);
-						sendsms(smsRequestVO);
+//						sendsms(smsRequestVO);
 						
 					}
 				}
