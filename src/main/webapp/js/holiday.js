@@ -152,7 +152,7 @@ $("div.addevent").html('<button type="button" id="holidayAddd" class="btn btn-ra
 
 
 $("#customerFilter")
-.click(
+.on(
 		function() {
 
 			var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
