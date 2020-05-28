@@ -142,7 +142,7 @@ public class ManagementSettingsBO {
 	public ResponseVO addfeedback(FeedbackRequestVO feedbackRequestVO) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
 		
-		if(feedbackRequestVO.getCRNNumber().isEmpty()){
+		if(feedbackRequestVO.getCRNNumber().isEmpty() || feedbackRequestVO.getFeedback().isEmpty()){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		

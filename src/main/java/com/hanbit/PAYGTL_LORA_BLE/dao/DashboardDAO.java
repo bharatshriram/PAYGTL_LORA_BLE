@@ -97,11 +97,10 @@ public class DashboardDAO {
 				dashboardvo.setMeterSerialNumber(rs.getString("MeterSerialNumber"));
 				dashboardvo.setLastName(rs.getString("LastName"));
 				dashboardvo.setMeterID(rs.getString("MeterID"));
-				// send tariff id/TariffName after fetching from db
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				dashboardvo.setReading(rs.getFloat("Reading"));
-				dashboardvo.setConsumption((dashboardvo.getReading() * perUnitValue));
+				dashboardvo.setConsumption((int) (dashboardvo.getReading() * perUnitValue));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
@@ -164,17 +163,19 @@ public class DashboardDAO {
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
 		double lowBatteryVoltage = 0.0;
+		float perUnitValue = 0.0f;
 		
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
 			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
 				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
@@ -218,6 +219,7 @@ public class DashboardDAO {
 				dashboardvo.setTariff((rs.getFloat("TariffAmount")));
 				dashboardvo.setCRNNumber(rs.getString("CRNNumber"));
 				dashboardvo.setReading(rs.getFloat("Reading"));
+				dashboardvo.setConsumption((int) (dashboardvo.getReading() * perUnitValue));
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
