@@ -646,7 +646,7 @@ public class CommunitySetUpDAO {
 					customervo.setCustomerID(rs.getInt("CustomerID"));
 					customervo.setBlockID(rs.getInt("BlockID"));
 				
-				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?,?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CRNNumber = ?))");
+				pstmt = con.prepareStatement("INSERT INTO updaterequestcustomermeterdetails (BlockID, CustomerID, CRNNumber, FirstName, Email, MobileNumber, ToBeApprovedByID) VALUES (?, ?, ?, ?, ?, ?, (SELECT CreatedByID FROM user WHERE CRNNumber = ?))");
 				pstmt.setInt(1, customervo.getBlockID());
 				pstmt.setInt(2, customervo.getCustomerID());
 				pstmt.setString(3, customervo.getCRNNumber());
