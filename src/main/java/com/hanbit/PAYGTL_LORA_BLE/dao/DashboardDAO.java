@@ -513,14 +513,14 @@ public class DashboardDAO {
 					if (dashboardRequestVO.getLowBattery() == 1) {
 						alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
 						
-//						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					} 
 					
 					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
 						alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
 						alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
-//						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
@@ -529,7 +529,7 @@ public class DashboardDAO {
 					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
 						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
 						
-//						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 //						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
@@ -745,7 +745,7 @@ public class DashboardDAO {
 					message = message.replaceAll("<house>", rs.getString("HouseNumber"));	
 				}
 				
-				mailRequestVO.setMessage(subject.equalsIgnoreCase("Low Balance Alert!!!") ? "Dear Customer, \n \n" : "Dear Admin, \n \n");
+				mailRequestVO.setMessage(subject.equalsIgnoreCase("Low Balance Alert!!!") ? "Dear Customer, \n \n"+message : "Dear Admin, \n \n"+ message);
 				
 				result = extraMethodsDao.sendmail(mailRequestVO);				
 			}
