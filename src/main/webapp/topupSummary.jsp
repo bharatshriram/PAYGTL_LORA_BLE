@@ -62,7 +62,7 @@
         <div class="row mb-4" id="form">
           <div class="col-md-10 m-auto">
             <div class="card">
-                <div class="card-header bg-primary cardHeading">Top Up Summary</div>
+                <div class="card-header bg-primary cardHeading">ReCharge Summary</div>
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
@@ -210,7 +210,7 @@
 			$('body').bootstrapMaterialDesign();
 		});
 	</script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
 	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>

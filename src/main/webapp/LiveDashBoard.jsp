@@ -89,6 +89,7 @@
 									<th>MSN</th>
 									<th>MIU ID</th>
 									<th>Reading</th>
+									<th>Consumption</th>
 									<th>Balance</th>
 									<th>EC</th>
 									<th>Tariff</th>
@@ -116,6 +117,7 @@
 									<th>MSN</th>
 									<th>MIU ID</th>
 									<th>Reading</th>
+									<th>Consumption</th>
 									<th>Balance</th>
 									<th>EC</th>
 									<th>Battery</th>

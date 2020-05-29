@@ -84,7 +84,7 @@ return json.data;
    
 ]
 });
-$("div.headname").html('<h3>Community Managemnent</h3>');
+$("div.headname").html('<h3>Community Management</h3>');
 
 $("div.addevent").html('<button type="button" id="communitypopup"' 
 		+'class="btn btn-raised btn-primary float-right"'

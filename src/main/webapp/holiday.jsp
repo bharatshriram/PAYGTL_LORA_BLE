@@ -348,7 +348,7 @@
 			$('body').bootstrapMaterialDesign();
 		});
 	</script>
-	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->  -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> --> 
 	
 	<script
 		src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
@@ -407,14 +407,6 @@
             var currentMonth = date.getMonth();
             var currentDate = date.getDate();
             var currentYear = date.getFullYear();
-			/* $('#start_date').bootstrapMaterialDatePicker
-			({
-				time: true,
-				clearButton: true,
-				format: 'YYYY-MM-DD HH:mm',
-				 maxDate: new Date(currentYear, currentMonth, currentDate)
-			}); */
-
 			$('#end_date,#end_date_edit').bootstrapMaterialDatePicker({ format: 'YYYY-MM-DD HH:mm',
 				clearButton: true
 				// maxDate: new Date(currentYear, currentMonth, currentDate)
@@ -423,41 +415,6 @@
 				clearButton: true
 				 //maxDate: new Date(currentYear, currentMonth, currentDate)
 				  });
-			/* $('#time').bootstrapMaterialDatePicker
-			({
-				date: false,
-				shortTime: false,
-				format: 'HH:mm'
-			});
-
-			$('#date-format').bootstrapMaterialDatePicker
-			({
-				format: 'dddd DD MMMM YYYY - HH:mm'
-			});
-			$('#date-fr').bootstrapMaterialDatePicker
-			({
-				format: 'DD/MM/YYYY HH:mm',
-				lang: 'en',
-				weekStart: 1, 
-				cancelText : 'ANNULER',
-				nowButton : true,
-				switchOnClick : true
-			});
-
-			$('#date-end').bootstrapMaterialDatePicker
-			({
-				weekStart: 0, format: 'DD/MM/YYYY HH:mm'
-			});
-			$('#date-start').bootstrapMaterialDatePicker
-			({
-				weekStart: 0, format: 'DD/MM/YYYY HH:mm', shortTime : true
-			}).on('change', function(e, date)
-			{
-				$('#date-end').bootstrapMaterialDatePicker('setMinDate', date);
-			});
-
-			$('#min-date').bootstrapMaterialDatePicker({ format : 'DD/MM/YYYY HH:mm', minDate : new Date() }); */
-
 			$.material.init()
 		});
 		</script>

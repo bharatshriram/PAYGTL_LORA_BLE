@@ -7,9 +7,7 @@ $(document)
 					$('#approvalTable')
 							.DataTable(
 									{
-										"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
-												+ "<'row'<'col-sm-12'tr>>"
-												+ "<'row'<'col-sm-12'p<br/>i>>",
+										"dom" : "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 												
 												"language": {
 												      "emptyTable": "No data available in table"
@@ -47,9 +45,6 @@ $(document)
 													"data" : "firstName"
 												},
 												{
-													"data" : "houseNumber"
-												},
-												{
 													"data" : "email"
 													
 												},
@@ -80,13 +75,15 @@ $(document)
 														"className": "dt-center", "targets": "_all"
 													},
 													{
-														targets: 5, 
+														targets: 4, 
 														visible: !(sessionStorage.getItem("roleID") == 5)
 													}],
 
 										"buttons" : [
 												]
-									}).columns.adjust().draw().clear().draw().rows.add().draw();
+									})  
+					
+					$("div.headname").html('<h3>Approval Details</h3>');
 				});
 
 

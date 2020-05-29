@@ -34,13 +34,11 @@
 			
 		<a class="navbar-brand logo_sm
 		 text-white col-md-2 mr-minus15"
-			href="home.jsp"><img class="img-fluid logo"
-			src="common/images/4-raychem.png" alt="logo" style="max-width: 58% !important;"></a>
+			href="home.jsp"></a>
 		<!-- Links -->
 
-
 					<div class="m-auto text-center text-white smart_text">
-					<h4 class="imgheader">  PAY AS YOU GO GAS <img class="img-fluid" src="common/images/gas.png"><img class="img-fluid" src="common/images/icons/lorable.gif" style="max-width: 58% !important;"></h4>
+					<h4 class="imgheader">  PAY AS YOU GO GAS <img class="img-fluid" src="common/images/gas.png"><img class="img-fluid" src="common/images/Webp.net-gifmaker.gif" style="max-width: 58% !important;"></h4>
 					</div>
 
 		<ul class="navbar-nav admindropdown">

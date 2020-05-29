@@ -149,7 +149,7 @@ $(document)
 																	});
 														 $("div.headname").html('<h3>User Consumptions</h3>');
 															//table.ajax.reload()
-														 $("div.totalCount").html('MUI: ' + d.data[0].meterID+ ' CRN Number: '+ d.data[0].CRNNumber);
+														 $("div.totalCount").html('<b>MIU:</b> ' + d.data[0].meterID+ ' <b>CRN Number:</b> '+ d.data[0].CRNNumber);
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
 																 +'class="btn btn-raised btn-primary float-right"'
 																	+'>'

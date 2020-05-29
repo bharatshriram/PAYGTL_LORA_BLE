@@ -78,8 +78,8 @@
 									<th>MIU ID</th>
 									<th>Mobile</th>
 									<th>Email</th>
-									<th>Created UserName</th>
-									<th>Created Role</th>
+									<th>Created By UserName</th>
+									<th>Created By Role</th>
 									<th>Registration Date</th>
 									<th>Action</th>
 									<th>Action</th>
@@ -105,8 +105,8 @@
 									<th>MIU ID</th>
 									<th>Mobile</th>
 									<th>Email</th>
-									<th>Created UserName</th>
-									<th>Created Role</th>
+									<th>Created By UserName</th>
+									<th>Created By Role</th>
 									<th>Registration Date</th>
 									<th>Action</th>
 									<th>Action</th>
@@ -360,7 +360,7 @@
 								<div id="formhouseNoEdit" class="input-group form-group">
 									<label class="bmd-label-floating">House No.</label> <input
 										type="text" class="form-control" name="houseNoEdit"
-										id="houseNoEdit" disabled>
+										id="houseNoEdit">
 								</div>
 							</div>
 							<div class="col-md-6">

@@ -184,7 +184,7 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Total MUI</p>
+																<p class="card-category">Total MIU</p>
 																<p class="card-title" id="adminAMR"></p>
 															</div>
 														</div>
@@ -192,7 +192,7 @@
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats" onClick="redirection(5)">
+													<div class="stats" onClick="redirection(0)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -206,7 +206,7 @@
 												<!-- Card Header - Dropdown -->
 												<div
 													class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-													<h6 class="m-0 font-weight-bold text-white">Live
+													<h6 class="m-0 font-weight-bold text-black">DashBoard
 														Status</h6>
 												</div>
 												<!-- Card Body -->
@@ -326,7 +326,7 @@
 												</div>
 												<div class="card-footer borderRadius">
 
-													<div class="stats">
+													<div class="stats" onClick="redirection(5)">
 														View Details<i class="fa fa-chevron-right view_details"
 															aria-hidden="true"></i>
 													</div>
@@ -347,10 +347,10 @@
 							<div class="row billingAmount">
 								<div class="col-md-12 bg-success text-center">
 									<p class="text-white">
-										Last Bill Amount:<span>0000</span>
+										Last Bill Amount : <span id = "lastBillAmount"></span>
 									</p>
 									<p class="text-white">
-										Last Bill Amount:<span>0000</span>
+										Last Bill Paid on : <span id = "lastBillDate"></span>
 									</p>
 								</div>
 							</div>
@@ -391,7 +391,7 @@
 										</div>
 										<div class="col col2">
 											<img src=common/images/icon/28-complaints.png />
-											<p class="mt-4">Compliants</p>
+											<p class="mt-4">Complaints/FeedBack</p>
 										</div>
 									</div>
 								</div>
@@ -411,7 +411,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">Community</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="community"></p>
 													</div>
 												</div>
 											</div>
@@ -430,7 +430,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">Block</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="block"></p>
 													</div>
 												</div>
 											</div>
@@ -449,7 +449,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">CRN Number</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="CRN_Number"></p>
 													</div>
 												</div>
 											</div>
@@ -467,8 +467,8 @@
 												</div>
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
-														<p class="card-category">Available Status</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-category">Available Credit</p>
+														<p class="card-title" id="balance"></p>
 													</div>
 												</div>
 											</div>
@@ -497,7 +497,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">Valve Status</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="valveStatus"></p>
 													</div>
 												</div>
 											</div>
@@ -516,7 +516,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">Meter Status</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="meterStatus"></p>
 													</div>
 												</div>
 											</div>
@@ -535,7 +535,7 @@
 												<div class="col-7 col-md-8">
 													<div class="numbers text-right">
 														<p class="card-category">Battery Status</p>
-														<p class="card-title" id="communicating">21</p>
+														<p class="card-title" id="batteryStatus"></p>
 													</div>
 												</div>
 											</div>

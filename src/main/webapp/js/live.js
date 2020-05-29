@@ -157,6 +157,10 @@ $(document)
 													"defaultContent": ""
 												},
 												{
+													"data" : "consumption",
+													"defaultContent": ""
+												},
+												{
 													"data" : "balance",
 													"defaultContent": ""
 												},
@@ -425,6 +429,10 @@ $(document)
 																		},
 																		{
 																			"data" : "reading",
+																			"defaultContent": ""
+																		},
+																		{
+																			"data" : "consumption",
 																			"defaultContent": ""
 																		},
 																		{

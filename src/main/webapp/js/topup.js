@@ -289,13 +289,13 @@ $(document).ready(function() {
 		"scrollY" : 324,
 		"scrollX" : true,
 	"ajax" : {
-	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1",
+	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1/0",
 	"type" : "GET",
 	"data" : function(search) {
 	},
 	"complete" : function(json) {
 		console.log(json);
-		$("div.total").html('MUI ID: '+json.responseJSON.data[0].meterID+ ' CRN Number: '+sessionStorage.getItem("ID"));
+		$("div.total").html('<b>MIU ID:</b> '+json.responseJSON.data[0].meterID+ ' <b>CRN Number:</b> '+sessionStorage.getItem("ID"));
 	return json.data;
 	},
 	},
@@ -332,12 +332,14 @@ $(document).ready(function() {
 				+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
 				+ "</a>";
 				
-			}else if(row.Status == "Passed" || row.Status == "Pending...waiting for acknowledge"){
+			}else if(row.Status == "Passed" || row.Status == "Pending"){
 				return "<a onclick='getReceiptTransactionID("
 				+ row.transactionID
 				+ ")'>"
 				+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
 				+ "</a>"
+			}else if( row.Status == "Pending...waiting for acknowledge"){
+				return "---"
 			}
 																
 		}
@@ -397,10 +399,10 @@ $(document).ready(function() {
 	.click(
 			function() {
 
-				var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
+				var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1/0" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
 						$("#filterselectcommunityName").val() == "-1" ? 
-						sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
-					"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
+						sessionStorage.getItem("roleID")+"/0/-1/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val()+"/0":
+					"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1/0"
 						
 				$
 						.ajax({
@@ -469,12 +471,14 @@ $(document).ready(function() {
 																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
 																	+ "</a>";
 																	
-																}else if(row.Status == "Passed" || row.Status == "Pending...waiting for acknowledge"){
+																}else if(row.Status == "Passed" || row.Status == "Pending"){
 																	return "<a onclick='getReceiptTransactionID("
 																	+ row.transactionID
 																	+ ")'>"
 																	+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
 																	+ "</a>"
+																}else if( row.Status == "Pending...waiting for acknowledge"){
+																	return "---"
 																}
 																													
 															}

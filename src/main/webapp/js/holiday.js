@@ -41,7 +41,7 @@ table = $('#holidayTable')
 },
 "complete" : function(json) {
 	console.log(json);
-	$("div.total").html('MUI ID: '+json.responseJSON.data[0].meterID+ ' CRN Number: '+sessionStorage.getItem("ID"));
+	$("div.total").html('<b>MIU ID:</b> '+json.responseJSON.data[0].meterID+ '  <b>CRN Number:</b> '+sessionStorage.getItem("ID"));
 return json.data;
 },
 },
@@ -108,24 +108,24 @@ return json.data;
 ],
 	"buttons" : [
 	{
-		//extend : 'excel',
+		extend : 'excel',
 		footer : 'true',
 		//text : 'Excel',
 		title : 'Vacation',
-		className: 'custom-btn fa fa-file-excel-o'
+	//	className: 'custom-btn fa fa-file-excel-o'
 			
 	},
 
 	{
-		//extend : 'pdf',
+		extend : 'pdf',
 		footer : 'true',
 		exportOptions : {
 			columns : [ 0,1, 2, 3, 4,
 					5, 6, 7, 8, 9,
-					10]
+					10,11]
 		},
 		//text : 'pdf',
-		className: 'custom-btn fa fa-file-pdf-o',
+		//className: 'custom-btn fa fa-file-pdf-o',
 		orientation : 'landscape',
 		title : 'Vacation'
 	},
@@ -152,7 +152,7 @@ $("div.addevent").html('<button type="button" id="holidayAddd" class="btn btn-ra
 
 
 $("#customerFilter")
-.on(
+.click(
 		function() {
 
 			var url = $("#filterselectcommunityName").val() == "-1" ? sessionStorage.getItem("roleID")+"/0/-1" : $("#filterselectBlockBasedonCommunity").val() == "Select Block" ? 
@@ -164,7 +164,7 @@ $("#customerFilter")
 					.ajax({
 						type : "GET",
 						contentType : "application/json",
-						url : "/PAYGTL_LORA_BLE/status/"+url,
+						url : "/PAYGTL_LORA_BLE/vacation/"+url,
 						dataType : "JSON",
 
 						success : function(d) {
@@ -251,16 +251,16 @@ $("#customerFilter")
 													],
 														"buttons" : [
 														{
-															//extend : 'excel',
+															extend : 'excel',
 															footer : 'true',
 															//text : 'Excel',
 															title : 'Vacation',
-															className: 'custom-btn fa fa-file-excel-o'
+															//className: 'custom-btn fa fa-file-excel-o'
 																
 														},
 
 														{
-															//extend : 'pdf',
+															extend : 'pdf',
 															footer : 'true',
 															exportOptions : {
 																columns : [ 0,1, 2, 3, 4,
@@ -268,7 +268,7 @@ $("#customerFilter")
 																		10]
 															},
 															//text : 'pdf',
-															className: 'custom-btn fa fa-file-pdf-o',
+															//className: 'custom-btn fa fa-file-pdf-o',
 															orientation : 'landscape',
 															title : 'Vacation'
 														},

@@ -69,8 +69,6 @@ $(document)
 										data1["year"] = $("#start_date")
 												.val();
 										data1["month"] =  $("#end_date").val() == "" ? 0 : $("#end_date").val();
-
-										alert("D=>"+JSON.stringify(data1));
 										
 										$
 												.ajax({
@@ -92,7 +90,7 @@ $(document)
 														
 														 table = $('#financialTable').DataTable(
 																	{
-																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-3 totalcount'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
+																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-3'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-4 totalcount'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		"responsive" : true,
 																		"serverSide" : false,
 																		"bDestroy" : true,
@@ -143,10 +141,10 @@ $(document)
 																		]
 																	});
 
-														 $("div.headname").html('<h3>User Consumptions</h3>');
+														 $("div.headname").html('<h3>Financial Reports</h3>');
 															//table.ajax.reload()
 														 
-														 $("div.totalcount").html('Total Amount: '+d.totalAmountForSelectedPeriod+ ' Total Units: '+d.totalUnitsForSelectedPeriod);
+														 $("div.totalcount").html('<b>Total Amount: </b>'+d.totalAmountForSelectedPeriod+   '  <b>&nbsp&nbspTotal Units: </b> '+d.totalUnitsForSelectedPeriod);
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
 																 +'class="btn btn-raised btn-primary float-right"'
 																	+'>'

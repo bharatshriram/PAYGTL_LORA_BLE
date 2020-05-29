@@ -55,7 +55,7 @@
         <div class="row mb-4">
           <div class="col-md-10 m-auto">
             <div class="card">
-                <div class="card-header bg-primary cardHeading">Top Up</div>
+                <div class="card-header bg-primary cardHeading">ReCharge</div>
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">

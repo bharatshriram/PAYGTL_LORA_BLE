@@ -724,8 +724,10 @@ $(document)
 										data1["mobileNumber"] = $("#mobileNoEdit").val();
 										data1["email"] = $("#emailEdit").val();
 										data1["CRNNumber"] = $("#CRNEdit").val();
+										data1["houseNumber"] = $("#houseNoEdit").val();
 										if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2 ){
 											data1["meterID"] = $("#amrEdit").val();
+											
 											//data1["tariffID"] = $("#selectTariffNameEdit").val();	
 										}
 										data1["createdByID"] = sessionStorage.getItem("createdByID");
@@ -836,6 +838,9 @@ function getCustomerFormEdit(id) {
 				if(sessionStorage.getItem("roleID") == 3){
 				
 					$('#amrEdit', '#amrEdit')
+					.attr('disabled',
+							true);
+					$('#houseNoEdit')
 					.attr('disabled',
 							true);
 					
