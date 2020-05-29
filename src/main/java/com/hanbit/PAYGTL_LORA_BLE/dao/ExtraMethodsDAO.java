@@ -143,7 +143,7 @@ public class ExtraMethodsDAO {
 	return responses.toString();
 }
 	
-//	@Scheduled(cron="0 0/30 * * * ?")
+//	@Scheduled(cron="0 0 * ? * *")
 	@Scheduled(cron="0 0/5 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
 		
@@ -197,8 +197,8 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-//	@Scheduled(cron="0 0/30 * * * ?")
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0 * ? * *")
+//	@Scheduled(cron="0 0/5 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -206,6 +206,7 @@ public class ExtraMethodsDAO {
 		ResultSet rs = null;
 		
 		try {
+			System.out.println("every 1 hour");
 			con = getConnection();
 			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM command WHERE Status BETWEEN 0 AND 1");
 			rs = pstmt.executeQuery();
@@ -236,7 +237,7 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-//	@Scheduled(cron="0 0/30 * * * ?")
+//	@Scheduled(cron="0 0 * ? * *")
 	@Scheduled(cron="0 0/5 * * * ?") 
 	public void vacationstatusupdatecall() throws SQLException {
 		
@@ -274,7 +275,7 @@ public class ExtraMethodsDAO {
 		}
 	}
 	
-//	@Scheduled(cron="0 0/30 * * * ?")
+//	@Scheduled(cron="0 0 7 * * ?")
 	@Scheduled(cron="0 0 7 ? * TUE,FRI") 
 	public void communicationfailurealert() throws SQLException {
 		

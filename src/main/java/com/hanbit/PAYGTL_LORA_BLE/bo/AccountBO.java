@@ -25,7 +25,7 @@ public class AccountBO {
 		// TODO Auto-generated method stub
 		
 		if(accountdao.validateamount(topupvo)){
-			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND ALARM CREDIT");
+			throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN EMERGENCY CREDIT AND UNIT RATE");
 		}
 		
 		if(accountdao.checktopup(topupvo.getMeterID())) {

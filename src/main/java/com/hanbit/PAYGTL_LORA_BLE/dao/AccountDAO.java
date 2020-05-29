@@ -18,6 +18,7 @@ import java.util.Random;
 import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
+import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
@@ -60,7 +61,7 @@ public class AccountDAO {
 
 	/* TopUp */
 
-	public ResponseVO addtopup(TopUpRequestVO topupvo) throws SQLException {
+	public ResponseVO addtopup(TopUpRequestVO topupvo) throws SQLException, BusinessException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -108,6 +109,12 @@ public class AccountDAO {
 						if(rs2.getInt("Minutes") != 0) {
 							topupvo.setReconnectionCharges(rs2.getInt("ReconnectionCharges"));
 						}
+						
+					}
+					
+					if(topupvo.getAmount() <= topupvo.getFixedCharges() || topupvo.getAmount() <= topupvo.getReconnectionCharges()) {
+						
+						throw new BusinessException("RECHARGE AMOUNT MUST BE GREATER THAN FIXED CHARGES & RECONNECTION CHARGES");
 						
 					}
 					
