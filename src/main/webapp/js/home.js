@@ -145,7 +145,7 @@ $(document)
 			contentType : "application/json",
 			url : "/PAYGTL_LORA_BLE/graph/"
 					+ 0 + "/"
-					+ 0+"/HAN0006",
+					+ 0+"/"+sessionStorage.getItem("ID"),
 			dataType : "JSON",
 
 			success : function(d) {

@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -144,7 +145,7 @@ public class ExtraMethodsDAO {
 }
 	
 //	@Scheduled(cron="0 0 * ? * *")
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0/2 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -154,6 +155,7 @@ public class ExtraMethodsDAO {
 		MailRequestVO mailRequestVO = new MailRequestVO();
 		
 		try {
+			
 			con = getConnection();
 			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web'");
 			rs = pstmt.executeQuery();
@@ -197,8 +199,8 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-	@Scheduled(cron="0 0 * ? * *")
-//	@Scheduled(cron="0 0/5 * * * ?") 
+//	@Scheduled(cron="0 0 * ? * *")
+	@Scheduled(cron="0 0/4 * * * ?") 
 	public void commandstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -206,7 +208,6 @@ public class ExtraMethodsDAO {
 		ResultSet rs = null;
 		
 		try {
-			System.out.println("every 1 hour");
 			con = getConnection();
 			pstmt = con.prepareStatement("SELECT MeterID, TataReferenceNumber FROM command WHERE Status BETWEEN 0 AND 1");
 			rs = pstmt.executeQuery();
@@ -238,7 +239,7 @@ public class ExtraMethodsDAO {
 	}
 	
 //	@Scheduled(cron="0 0 * ? * *")
-	@Scheduled(cron="0 0/5 * * * ?") 
+	@Scheduled(cron="0 0/6 * * * ?") 
 	public void vacationstatusupdatecall() throws SQLException {
 		
 		Connection con = null;
@@ -275,8 +276,8 @@ public class ExtraMethodsDAO {
 		}
 	}
 	
-//	@Scheduled(cron="0 0 7 * * ?")
-	@Scheduled(cron="0 0 7 ? * TUE,FRI") 
+	@Scheduled(cron="0 0 7 ? * *")
+//	@Scheduled(cron="0 0 7 ? * TUE,FRI") 
 	public void communicationfailurealert() throws SQLException {
 		
 		Connection con = null;
@@ -304,9 +305,9 @@ public class ExtraMethodsDAO {
 						
 						mailRequestVO.setSubject("No Communication from MIU ID: "+rs.getString("MeterID"));
 						mailRequestVO.setToEmail(rs.getString("Email"));
-						mailRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not to date since more than 3 days.");
+						mailRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date since more than 3 days.");
 						
-						smsRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not to date since more than 3 days.");
+						smsRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date since more than 3 days.");
 						smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 						
 						sendmail(mailRequestVO);

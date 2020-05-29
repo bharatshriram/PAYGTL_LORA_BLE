@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -625,21 +626,8 @@ public class AccountDAO {
 					if (configurationvo.getCommandType() == 5) {
 
 						LocalDateTime now = LocalDateTime.now();
-
-						String currentday = String.format("%02x", now.getDayOfMonth());
-
-						String currentmonth = String.format("%02x", now.getMonthValue());
-
-						String currentyear = String.format("%02x", now.getYear());
-
-						String currenthour = String.format("%02x", now.getHour());
-
-						String currentminute = String.format("%02x", now.getMinute());
-
-						String currentsecond = String.format("%02x", now.getSecond());
-
-						dataframe = "0A0F00" + serialNumber + "02090041" + currentday + currentmonth
-								+ currentyear + currenthour + currentminute + currentsecond + "0017";
+						
+						dataframe = "0A0F00" + serialNumber + "02090041" + String.format("%02x", now.getDayOfMonth()) + String.format("%02x", now.getMonthValue()) + String.format("%02x", (now.getYear()-2000)) + String.format("%02x", now.getHour()) + String.format("%02x", now.getMinute()) + String.format("%02x", now.getSecond()) + String.format("%02x", (now.getDayOfWeek().getValue()-1)) + "17";
 
 					}
 
@@ -697,7 +685,6 @@ public class AccountDAO {
 						
 					}
 					
-					System.out.println("S.No: "+serialNumber);
 					System.out.println("Frame:- "+dataframe);
 					
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
@@ -705,7 +692,9 @@ public class AccountDAO {
 					
 					restcallvo.setMeterID(configurationvo.getMeterID().toLowerCase());
 					restcallvo.setDataFrame(Encoding.getHexBase644(dataframe));
-
+					
+					System.out.println("64Frame:- "+restcallvo.getDataFrame());
+					
 					TataResponseVO tataResponseVO = gson.fromJson(extramethodsdao.restcallpost(restcallvo), TataResponseVO.class);
 						
 					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");

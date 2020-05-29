@@ -168,7 +168,7 @@ $(document)
 														
 															return "---";
 															
-														}else if(row.status == "Pending" || row.Status == "Pending...waiting for acknowledge"){
+														}else if(row.status == "Pending" || row.status == "Pending...waiting for acknowledge"){
 															
 															return "---";
 															
