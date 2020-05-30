@@ -133,7 +133,7 @@ public class AccountDAO {
 					
 					// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
 					//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
-					String dataFrame = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaAlarmCredit	+ hexaEmergencyCredit + hexaTariff + "17";
+					String dataFrame = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaTariff + hexaEmergencyCredit + hexaAlarmCredit + "17";
 
 					ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 					RestCallVO restcallvo = new RestCallVO();

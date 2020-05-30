@@ -413,7 +413,7 @@ public class DashboardDAO {
 					
 					if(rs.next()) {
 						
-						xAxis.add(i==1 ? "JAN" : i==2 ? "FEB" : i==3 ? "MAR" : i==4 ? "APR" : i==5 ? "MAY" : i==6 ? "JUN" : i==7 ? "JUL" : i==8 ? "AUG" : i==9 ? "SEP" : i==10 ? "OCT" : i==11 ? "NOV" : i==12 ? "DEC" : "");
+						xAxis.add(i==1 ? "JAN-"+year : i==2 ? "FEB-"+year : i==3 ? "MAR-"+year : i==4 ? "APR-"+year : i==5 ? "MAY-"+year : i==6 ? "JUN-"+year : i==7 ? "JUL-"+year : i==8 ? "AUG-"+year : i==9 ? "SEP-"+year : i==10 ? "OCT-"+year : i==11 ? "NOV-"+year : i==12 ? "DEC-"+year : "");
 						yAxis.add(rs.getString("Units") == null ? 0 : rs.getInt("Units"));
 						
 						}
@@ -439,7 +439,7 @@ public class DashboardDAO {
 					
 					if(rs.next()) {
 						
-						xAxis.add(Integer.toString(i));
+						xAxis.add(Integer.toString(i)+"-"+month+"-"+year);
 						yAxis.add(rs.getString("Units") == null ? 0 : rs.getInt("Units"));
 						
 						}
