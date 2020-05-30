@@ -78,6 +78,16 @@
                             <div class="input-group form-group">
                               <label class="bmd-label-floating">FeedBack<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectFeedback" name="selectFeedback">
+                              <option value="-1">Select Feedback</option>
+                              <option value="Bill in Time Not Updated">Bill in Time Not Updated</option>
+                              <option value="InSuffient Pressure">InSuffient Pressure</option>
+                              <option value="Leakages">Leakages</option>
+                              <option value="Meter Not Working">Meter Not Working</option>
+                              <option value="Meter Run Fast">Meter Run Fast</option>
+                              <option value="Mismatch B/W Mechanical & Digital Reading">Mismatch B/W Mechanical & Digital Reading</option>
+                              <option value="New Connection Request">New Connection Request</option>
+                              <option value="Others">Others</option>
+                              <option value="Failure">Failure</option>
                               
                               </select>
                             </div>
@@ -104,6 +114,73 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	
+	<div class="modal fade" id="myFeedback" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" align="center">Edit Community</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="communityEdit">
+						<div class="row">
+							<div class="col-md-6">
+								<div id="formcomunityName" class="input-group form-group">
+									<label class="bmd-label-floating">Name</label> <input
+										type="text" class="form-control" name="communityNameEdit"
+										id="communityNameEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formcomunityAddress" class="input-group form-group">
+									<label class="bmd-label-floating">Address</label> <input
+										type="text" class="form-control" name="communityAddressEdit"
+										id="communityAddressEdit">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div id="formcomunityMobile" class="input-group form-group">
+									<label class="bmd-label-floating">Mobile</label> <input
+										type="text" class="form-control" name="communityMobileEdit"
+										id="communityMobileEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formcomunityEmail" class="input-group form-group">
+									<label class="bmd-label-floating">Email</label> <input
+										type="email" class="form-control" name="communityEmailEdit"
+										id="communityEmailEdit">
+										<input type = "hidden" id="communityIdhidden">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="communityEditsave"
+									type="button" disabled>Update</button>
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-danger btn-raised mr-4"
+									data-dismiss="modal">
+									Close
+									<div class="ripple-container"></div>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 	<jsp:include page="footer.jsp" />
 
 <%} %>

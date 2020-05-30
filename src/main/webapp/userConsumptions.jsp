@@ -69,7 +69,7 @@
                             <div class="input-group form-group">
                               <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
-                              </select>
+                              </select>  
                             </div>
                           </div>
                           <div class="col-md-4">

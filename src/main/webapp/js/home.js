@@ -4,6 +4,8 @@
 $(document)
 		.ready(
 				function() {
+					
+					$("#highchart_container2").hide();
 
   if(sessionStorage.getItem("roleID") != 3){
 	  
@@ -122,6 +124,93 @@ $(document)
 		if(sessionStorage.getItem("roleID") == 3){
 			
 			
+			$(document).on('click', '#view', function () {
+				
+				var month = $("#month").val();
+				var year = $("#start_date").val();
+				
+				$("#highchart_container1").hide();
+				$("#highchart_container2").show();
+				
+				
+				$.ajax({
+					type : "GET",
+					contentType : "application/json",
+					url : "/PAYGTL_LORA_BLE/graph/"
+							+ $("#start_date").val() + "/"
+							+ $("#month").val()+"/"+sessionStorage.getItem("ID"),
+					dataType : "JSON",
+
+					success : function(d) {
+
+						$('#highchart_container2').highcharts(
+								{
+									chart : {
+										type : 'line',
+											backgroundColor: 'transparent'
+									},
+									title : {
+										text : 'Consumption Graph'
+									},
+									subtitle : {
+										text : sessionStorage.getItem("ID")
+									},
+									xAxis : {
+										categories : d.xAxis,
+
+										title : {
+											text : null
+										},
+									},
+									yAxis : {
+										min : 0,
+										title : {
+											text : 'Chart',
+											align : 'high'
+										},
+										labels : {
+											overflow : 'justify'
+										}
+										
+
+									},
+									tooltip : {
+										valueSuffix : ''
+									},
+									plotOptions : {
+										bar : {
+											dataLabels : {
+												enabled : true
+											}
+										}
+									},
+									
+									legend: {
+									    layout: 'vertical',
+									    align: 'right',
+									    verticalAlign: 'top',
+									    x: -40,
+									    y: 100,
+									    floating: true,
+									    borderWidth: 1,
+									    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+									    shadow: true
+									},
+									 
+									credits : {
+										//enabled : false
+									},
+									series : [ {
+										data : d.yAxis ,
+										name : ''
+									} ]
+
+								});
+					}
+				});
+				
+				
+			});
 			
 			 $.getJSON("/PAYGTL_LORA_BLE/dashboard/" +sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 				 $.each(data.data, function(i, item) {
@@ -159,7 +248,7 @@ $(document)
 								text : 'Consumption Graph'
 							},
 							subtitle : {
-								text : 'CRN Number'
+								text : sessionStorage.getItem("ID")
 							},
 							xAxis : {
 								categories : d.xAxis,

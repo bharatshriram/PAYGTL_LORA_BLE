@@ -332,7 +332,7 @@
             $(document).ready(function(e) {
                 $('.yearselect').yearselect();
 
-                $('.yrselectdesc').yearselect({step: 5, order: 'desc'});
+                $('.yrselectdesc').yearselect({step: 1, order: 'desc'});
                 $('.yrselectasc').yearselect({order: 'asc'});
             });
         </script>
