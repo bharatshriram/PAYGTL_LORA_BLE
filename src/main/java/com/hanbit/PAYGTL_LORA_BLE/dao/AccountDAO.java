@@ -447,7 +447,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			con = getConnection();
 			statuslist = new LinkedList<StatusResponseVO>();
 			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.RazorPayOrderID, t.RazorPayPaymentID, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionDate BETWEEN CONCAT(CURDATE() <day>, ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			query = query.replaceAll("<day>", (day==1) ? "" : "- INTERVAL 30 DAY");
@@ -466,6 +466,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				statusvo.setMeterID(rs.getString("MeterID"));
 				statusvo.setAmount(rs.getString("Amount"));
 				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
+				statusvo.setRazorPayOrderID(rs.getString("RazorPayOrderID"));
+				statusvo.setRazorPayPaymentID(rs.getString("RazorPayPaymentID"));
 				statusvo.setPaymentStatus((rs.getInt("PaymentStatus") == 1 ? "PAID" : (rs.getInt("PaymentStatus") == 2) ? "FAILED" : "NOT PAID"));
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));

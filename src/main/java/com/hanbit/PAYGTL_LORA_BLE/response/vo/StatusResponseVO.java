@@ -25,6 +25,8 @@ public class StatusResponseVO {
 	private String transactionDate;
 	private String acknowledgeDate;
 	private String Status;
+	private String razorPayOrderID;
+	private String razorPayPaymentID;
 	private String modeOfPayment;
 	private String paymentStatus;
 	private String transactedByUserName;
@@ -146,5 +148,16 @@ public class StatusResponseVO {
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
 	}
-	
+	public String getRazorPayOrderID() {
+		return razorPayOrderID;
+	}
+	public void setRazorPayOrderID(String razorPayOrderID) {
+		this.razorPayOrderID = razorPayOrderID;
+	}
+	public String getRazorPayPaymentID() {
+		return razorPayPaymentID;
+	}
+	public void setRazorPayPaymentID(String razorPayPaymentID) {
+		this.razorPayPaymentID = razorPayPaymentID;
+	}
 }
