@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.bo.AccountBO;
 import com.hanbit.PAYGTL_LORA_BLE.dao.AccountDAO;
 import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.CheckOutRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
@@ -50,6 +51,21 @@ public class AccountController {
 		try {
 			responsevo = accountbo.addtopup(topupRequestVO);
 		} catch (BusinessException e) {
+			responsevo.setResult("Failure");
+			responsevo.setMessage(e.getMessage());
+		}
+
+		return responsevo;
+	}
+	
+	@RequestMapping(value = "/checkout", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+	public @ResponseBody
+	ResponseVO updatetopup(@RequestBody CheckOutRequestVO checkOutRequestVO) throws ClassNotFoundException,
+			BusinessException, SQLException {
+		ResponseVO responsevo = new ResponseVO();
+		try {
+			responsevo = accountdao.updatetopup(checkOutRequestVO);
+		} catch (Exception e) {
 			responsevo.setResult("Failure");
 			responsevo.setMessage(e.getMessage());
 		}

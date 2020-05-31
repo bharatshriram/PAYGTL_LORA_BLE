@@ -17,12 +17,20 @@ public class TopUpRequestVO {
 	private String cardNumber;
 	private String cardType;
 	private String modeOfPayment;
+	private int paymentStatus;
 	private int status;
 	private int transactedByID;
 	private int transactedByRoleID;
 	private long transactionIDForTata;
 	private int fixedCharges;
 	private int reconnectionCharges;
+	private long transactionID;
+	private String razorPayOrderID;
+	private String razorPayPaymentID;
+	private String razorPaySignature;
+	private float alarmCredit;
+	private float emergencyCredit;
+	private float tariff;
 	
 	public int getAmount() {
 		return amount;
@@ -101,6 +109,54 @@ public class TopUpRequestVO {
 	}
 	public void setReconnectionCharges(int reconnectionCharges) {
 		this.reconnectionCharges = reconnectionCharges;
+	}
+	public long getTransactionID() {
+		return transactionID;
+	}
+	public void setTransactionID(long transactionID) {
+		this.transactionID = transactionID;
+	}
+	public String getRazorPayOrderID() {
+		return razorPayOrderID;
+	}
+	public void setRazorPayOrderID(String razorPayOrderID) {
+		this.razorPayOrderID = razorPayOrderID;
+	}
+	public String getRazorPayPaymentID() {
+		return razorPayPaymentID;
+	}
+	public void setRazorPayPaymentID(String razorPayPaymentID) {
+		this.razorPayPaymentID = razorPayPaymentID;
+	}
+	public String getRazorPaySignature() {
+		return razorPaySignature;
+	}
+	public void setRazorPaySignature(String razorPaySignature) {
+		this.razorPaySignature = razorPaySignature;
+	}
+	public int getPaymentStatus() {
+		return paymentStatus;
+	}
+	public void setPaymentStatus(int paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+	public float getAlarmCredit() {
+		return alarmCredit;
+	}
+	public void setAlarmCredit(float alarmCredit) {
+		this.alarmCredit = alarmCredit;
+	}
+	public float getEmergencyCredit() {
+		return emergencyCredit;
+	}
+	public void setEmergencyCredit(float emergencyCredit) {
+		this.emergencyCredit = emergencyCredit;
+	}
+	public float getTariff() {
+		return tariff;
+	}
+	public void setTariff(float tariff) {
+		this.tariff = tariff;
 	}
 	
 }

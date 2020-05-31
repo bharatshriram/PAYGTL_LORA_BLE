@@ -22,6 +22,7 @@ public class ResponseVO {
 	private String fileName;
 	private String location;
 	private UserDetails userDetails;
+	private CheckoutDetails checkoutDetails;
 	
 	public UserDetails getUserDetails() {
 		return userDetails;
@@ -82,6 +83,12 @@ public class ResponseVO {
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public CheckoutDetails getCheckoutDetails() {
+		return checkoutDetails;
+	}
+	public void setCheckoutDetails(CheckoutDetails checkoutDetails) {
+		this.checkoutDetails = checkoutDetails;
 	}
 	
 }

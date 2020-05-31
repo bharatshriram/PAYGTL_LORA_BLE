@@ -1,5 +1,8 @@
 package com.hanbit.PAYGTL_LORA_BLE.constants;
-
+/**
+ * @author K Vimal Kumar
+ *
+ */
 public class ExtraConstants {
 	
 	public static final String key1 = "Bar12345Bar12345"; // 128 bit key
@@ -19,5 +22,8 @@ public class ExtraConstants {
 	public static final String TataPassword = "Pass@123";
 	public static final String SenderID = "&senderid="+"HANTRI&msg=";
 	public static final String SMSAPI = "https://sms.textmysms.com/app/smsapi/index.php?key=45EBD4E5FA470B&campaign=0&routeid=13&type=text&contacts=";
+	public static final String RZPKeyID = "rzp_test_PK0HJHPshOFmX5";
+	public static final String RZPKeySecret = "cWqzMXyG1fjO50ulhGa4UwT8";
+	public static final String RZPBasicUrl = "https://api.razorpay.com/v1/";
 
 }
