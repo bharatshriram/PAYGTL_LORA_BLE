@@ -5,10 +5,15 @@
 $(document)
 		.ready(
 				function() {
+					
+					$("#selectHouseBasedonBlock").val(sessionStorage.getItem("ID"));
 					$("#userconsumption")
 							.click(
 									function() {
 
+										
+										if(sessionStorage.getItem("roleID") != 3){
+										
 										var selectcommunityName = $(
 												"#selectcommunityName")
 												.val();
@@ -35,7 +40,7 @@ $(document)
 											.alert("Select CRN Number");
 											return false;
 										}
-
+										}
 
 										if ($("#start_date").val() == "null" || $("#start_date").val() == "") {
 

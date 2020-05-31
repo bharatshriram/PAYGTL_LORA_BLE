@@ -10,6 +10,62 @@ $(document)
 					"#CRNNumber")
 					.val(sessionStorage.getItem("ID"))
 					
+					$("#feedbackapproval")
+					.click(
+							function() {
+
+								if ($("#action").val() == "-1") {
+									
+									bootbox
+									.alert("Select Action");
+									return false;
+								}
+								
+								$('#feedbackapproval').prop('disabled', true).addClass('disabled').off( "click" );
+								
+								$
+										.ajax({
+											type : "POST",
+											contentType : "application/json",
+											url : "/PAYGTL_LORA_BLE/feedback/"+$("#feedbackId").val()+"/"+$("#action").val()+"/"+$("#description").val(),
+											dataType : "JSON",
+
+											success : function(
+													data) {
+												/*alert("data"
+														+ JSON
+																.stringify(data));*/
+												if (data.result == "Success") {
+
+													/*alert( "data"
+															+ data.result);*/
+													
+													bootbox.alert(data.Message,
+															function(
+																	result) {
+																	
+														//alert();
+														window.location = "feedbackStatus.jsp";
+														return false
+													});
+													
+													
+
+												} else if(data.result == "Failure"){
+													
+													bootbox.alert(data.Message);
+													return false;
+																//});
+												}else {
+													
+													bootbox.alert(data.Message);
+													return false;
+												}
+											}
+										});
+								return false;
+							});
+					
 					
 					
 					$('#feedbackTable')
@@ -167,3 +223,9 @@ $(document)
 										return false;
 									});
 				});
+
+
+function getFeedback(id,id1) {
+	$("#feedbackId").val(id)
+	$('#filter').modal('show');
+}

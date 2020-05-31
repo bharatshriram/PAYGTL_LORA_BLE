@@ -65,6 +65,7 @@
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
+                    <%if(!user_id.equalsIgnoreCase("3")){ %>
                         <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
@@ -87,12 +88,25 @@
                               </select>
                             </div>
                           </div>
-                          <div class="col-md-4">
+                          
+                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
                               <label class="bmd-label-floating">MIU ID</label>
                               <input type="text" class="form-control" id="AMR_topup" name="AMR_topup" disabled>
                             </div>
                           </div>
+                          
+                          <%} if(user_id.equalsIgnoreCase("3")){%>
+                          
+                           <div class="col-md-4">
+                            <div id="formCRNNumber" class="input-group form-group">
+                              <label class="bmd-label-floating">CRN Number</label>
+                              <input type="text" class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" disabled>
+                            </div>
+                          </div>
+                          
+                          <%} %>
+                         
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
                             <label class="bmd-label-floating">Start Date Time<sup class="imp">*</sup></label> 

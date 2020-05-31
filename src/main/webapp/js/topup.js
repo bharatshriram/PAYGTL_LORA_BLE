@@ -148,6 +148,10 @@ $(document)
 									$("#month_topup").val(data.topupdetails.noOfMonths).trigger("change");
 									$("#formmonth_topup").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 									
+									$('#topup')
+									.attr('disabled',
+											false);
+									
 								});
 								
 							}
@@ -188,6 +192,19 @@ $(document)
 										$(document).on('click', '#topup', function () {
 
 										var data1 = {}
+										
+										var regTopup = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
+										
+										if ($("#recharge_topup").val() ==  "") {
+
+											bootbox.alert("Please Enter Amount");
+											return false;
+										} else {
+											if (!regTopup.test($("#recharge_topup").val())) {
+												bootbox.alert('Enter Valid Amount');
+												return false;
+											}
+										}
 										
 										if(sessionStorage.getItem("roleID") == 3){
 											data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();	

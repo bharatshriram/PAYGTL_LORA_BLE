@@ -63,7 +63,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/icons8-sports-mode-802.png
+																<img src="common/images/icon/active-icon-png-2.png"
 																	style="width: 50px; height: 50px;" />
 															</div>
 														</div>
@@ -93,7 +93,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/consumption.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -115,7 +115,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/nonlive.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -144,7 +144,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/emergency.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -179,7 +179,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/totalamr.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -231,7 +231,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/live.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -261,7 +261,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/daytopup.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -284,7 +284,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/inactive.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -313,7 +313,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icons/gas3.png />
+																<img src=common/images/icon/lowbatery.png />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -405,7 +405,7 @@
 											<div class="row">
 												<div class="col-5 col-md-4">
 													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
+														<img src=common/images/icons/community.png />
 													</div>
 												</div>
 												<div class="col-7 col-md-8">
@@ -424,7 +424,7 @@
 											<div class="row">
 												<div class="col-5 col-md-4">
 													<div class="icon-big text-center icon-warning">
-														<img src=common/images/icons/gas3.png />
+														<img src=common/images/icons/2-block.png />
 													</div>
 												</div>
 												<div class="col-7 col-md-8">
