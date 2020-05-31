@@ -84,6 +84,50 @@
 			</div>
 		</div>
 	</div>
+	
+	
+	<div class="modal fade" id="filter" tabindex="-1" role="dialog"
+		aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Feedback Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+          <div class="col-md-6">
+            <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
+									<label class="bmd-label-floating">Action</label> 
+									<select
+										class="form-control" id="action" name="action">
+									<option value = "-1" >Select Action</option>
+									<option value = "1" >Approved</option>
+									<option value = "2" >Rejected</option>
+									</select>
+									
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
+									<label class="bmd-label-floating">Remark</label> 
+									<input type = "hidden" id=feedbackId>
+									<textarea class="form-control" id="description" name="description"></textarea>
+								</div>
+							</div>
+        </div>
+        <div class="modal-footer m-auto">
+          <button type="button" class="btn btn-primary btn-raised mr-4" id="feedbackapproval">Submit</button>
+          <button type="button" class="btn btn-danger btn-raised mr-4" data-dismiss="modal">Close<div class="ripple-container"></div></button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+  
 	<jsp:include page="footer.jsp" />
 	
 	<%} %>
