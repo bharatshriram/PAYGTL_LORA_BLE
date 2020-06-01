@@ -32,6 +32,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
@@ -53,6 +54,8 @@ public class ExtraMethodsDAO {
 				DataBaseConstants.PASSWORD);
 		return connection;
 	}
+	
+	Gson gson = new Gson();
 	
 	public String sendmail(MailRequestVO mailrequestvo) {
 		
@@ -151,14 +154,18 @@ public class ExtraMethodsDAO {
     
     urlConnection.setRequestProperty("Content-Type", "application/json"); 
     
-	String authHeaderValue = "Basic Auth"	+ (ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret);
+    String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret).getBytes());
+    
+//	String authHeaderValue = "Basic Auth"	+ (ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret);
 
 	urlConnection.setRequestProperty("Authorization", authHeaderValue);
+	
+//	gson.fromJson(restcallresponse, TataResponseVO.class)
 	
 		// Send post request
 		urlConnection.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-		wr.writeBytes(razorPayOrderVO.toString());
+		wr.writeBytes(gson.toJson(razorPayOrderVO, RazorPayOrderVO.class));
 		wr.flush();
 		wr.close();
 	
@@ -187,7 +194,7 @@ public class ExtraMethodsDAO {
 		try {
 			
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, t.PaymentStatus, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web' AND t.TataReferenceNumber != 0");
+			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, t.PaymentStatus, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status IN (0, 1) AND t.Source = 'web' AND t.TataReferenceNumber != 0");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				

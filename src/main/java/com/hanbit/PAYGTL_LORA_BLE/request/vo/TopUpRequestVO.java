@@ -9,7 +9,6 @@ package com.hanbit.PAYGTL_LORA_BLE.request.vo;
  */
 public class TopUpRequestVO {
 	
-	// add parameters based on payment gateway and add columns in db also
 	private String source;
 	private String CRNNumber;
 	private String meterID;

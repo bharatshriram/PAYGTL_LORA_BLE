@@ -82,7 +82,7 @@ public class AccountDAO {
 			if (topUpRequestVO.getSource().equalsIgnoreCase("web")) {
 
 				PreparedStatement pstmt1 = con.prepareStatement(
-						"SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff, CONCAT(cmd.FirstName, cmd.LastName) AS CustomerName, cmd.Email, cmd.MobileNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = '"
+						"SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff, CONCAT(cmd.FirstName, ' ', cmd.LastName) AS CustomerName, cmd.Email, cmd.MobileNumber, cmd.CRNNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = '"
 								+ topUpRequestVO.getCRNNumber() + "'");
 				ResultSet rs1 = pstmt1.executeQuery();
 				if (rs1.next()) {
@@ -157,7 +157,7 @@ public class AccountDAO {
 								checkoutDetails.setOrderID(topUpRequestVO.getRazorPayOrderID());
 								checkoutDetails.setButtonText("Proceed to Pay With Razorpay");
 								checkoutDetails.setName("Hanbit");
-								checkoutDetails.setDescription("Recharge");
+								checkoutDetails.setDescription("Recharge of INR "+ topUpRequestVO.getAmount()+"/- for CRN: "+rs1.getString("CRNNumber")+".");
 								checkoutDetails.setImage(ExtraConstants.HANBITIMAGEURL);
 								checkoutDetails.setCustomerName(rs1.getString("CustomerName"));
 								checkoutDetails.setCustomerEmail(rs1.getString("Email"));
@@ -171,8 +171,9 @@ public class AccountDAO {
 								responsevo.setMessage("Order Created Successfully. Proceed to CheckOut");
 							}
 						} else {
-							responsevo.setResult("Failure");
-							responsevo.setMessage("Order Creation Failed. Please Try After Sometime");
+							
+								responsevo.setResult("Failure");
+								responsevo.setMessage("Order Creation Failed. Please Try After Sometime");
 						}
 					} else {
 						topUpRequestVO.setPaymentStatus(1);
@@ -398,7 +399,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()) {
 			
-		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, RazorPayOrderID, RazorPayPaymentID, RazorPaySignature CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 		ps = con.prepareStatement(sql);
 		
 		ps.setLong(1, topUpRequestVO.getTransactionIDForTata());
@@ -414,9 +415,12 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		ps.setString(11, topUpRequestVO.getModeOfPayment());
 		ps.setInt(12, topUpRequestVO.getPaymentStatus()); 
 		ps.setString(13, topUpRequestVO.getSource());
-		ps.setFloat(14, topUpRequestVO.getTransactedByID());
-		ps.setInt(15, topUpRequestVO.getTransactedByRoleID());
-		ps.setString(16, topUpRequestVO.getCRNNumber());
+		ps.setString(14, topUpRequestVO.getRazorPayOrderID());
+		ps.setString(15, topUpRequestVO.getRazorPayPaymentID());
+		ps.setString(16, topUpRequestVO.getRazorPaySignature());
+		ps.setInt(17, topUpRequestVO.getTransactedByID());
+		ps.setInt(18, topUpRequestVO.getTransactedByRoleID());
+		ps.setString(19, topUpRequestVO.getCRNNumber());
 
 		if (ps.executeUpdate() > 0) {
 			result = "Success";
@@ -1003,13 +1007,11 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT MeterID, Status FROM topup WHERE MeterID = ? order by TransactionID DESC LIMIT 0,1");
+			pstmt = con.prepareStatement("SELECT MeterID, STATUS FROM topup WHERE MeterID = ? AND Status IN (0,1) ORDER BY TransactionID DESC LIMIT 0,1");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				if (rs.getString("Status").equals("0") || rs.getString("Status").equals("1")) {
 					result = true;
-				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
