@@ -1009,7 +1009,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT MeterID, STATUS FROM topup WHERE MeterID = ? AND Status IN (0,1) ORDER BY TransactionID DESC LIMIT 0,1");
+			pstmt = con.prepareStatement("SELECT MeterID, STATUS FROM topup WHERE MeterID = ? AND Status IN (0,1) AND RazorPayPaymentID IS NOT NULL ORDER BY TransactionID DESC LIMIT 0,1");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
