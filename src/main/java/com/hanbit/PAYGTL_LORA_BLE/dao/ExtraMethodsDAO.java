@@ -231,38 +231,38 @@ public class ExtraMethodsDAO {
 						// initiate refund process
 						
 						/*
-						 * String rzpRestCallResponse = razorpaypost(razorPayOrderVO,
-						 * "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
-						 * rs.getInt("Amount"));
-						 * 
-						 * RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
-						 * RazorPayResponseVO.class);
-						 * 
-						 * PreparedStatement pstmt2 = con.
-						 * prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
-						 * + rs.getLong("TransactionID")); pstmt2.setString(1,
-						 * razorPayResponseVO.getId()); pstmt2.setString(2,
-						 * razorPayResponseVO.getStatus()); pstmt2.setString(1,
-						 * razorPayResponseVO.toString());
-						 * 
-						 * if (pstmt2.executeUpdate() > 0) {
-						 * 
-						 * smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
-						 * smsRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
-						 * +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
-						 * );
-						 * 
-						 * // sendsms(smsRequestVO);
-						 * 
-						 * mailRequestVO.setToEmail(rs.getString("Email"));
-						 * mailRequestVO.setSubject("Refund Initiated!!!");
-						 * mailRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
-						 * +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
-						 * );
-						 * 
-						 * sendmail(mailRequestVO);
-						 * 
-						 * }
+						  String rzpRestCallResponse = razorpaypost(razorPayOrderVO,
+						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
+						  rs.getInt("Amount"));
+						  
+						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
+						  RazorPayResponseVO.class);
+						  
+						  PreparedStatement pstmt2 = con.
+						  prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
+						  + rs.getLong("TransactionID")); pstmt2.setString(1,
+						  razorPayResponseVO.getId()); pstmt2.setString(2,
+						  razorPayResponseVO.getStatus()); pstmt2.setString(1,
+						  razorPayResponseVO.toString());
+						  
+						  if (pstmt2.executeUpdate() > 0) {
+						  
+						  smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
+						  smsRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
+						  +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
+						  );
+						  
+						  // sendsms(smsRequestVO);
+						  
+						  mailRequestVO.setToEmail(rs.getString("Email"));
+						  mailRequestVO.setSubject("Refund Initiated!!!");
+						  mailRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
+						  +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
+						  );
+						  
+						  sendmail(mailRequestVO);
+						  
+						  }
 						 */
 						
 					}
