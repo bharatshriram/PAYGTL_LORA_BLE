@@ -326,7 +326,7 @@ public class DashboardDAO {
 			homeResponseVO.setAmr(amr);
 			homeResponseVO.setAmrPercentage(100);
 			
-			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE TransactionDate BETWEEN CONCAT(CURDATE(), ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
+			String query1 = "SELECT SUM(Amount) AS topup FROM topup WHERE Status = 2 AND PaymentStatus = 1 AND TransactionDate BETWEEN CONCAT(CURDATE(), ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
 			pstmt2 = con.prepareStatement(query1.replaceAll("<change>", (roleid == 2 || roleid == 5) ? "AND BlockID = "+id :""));
 			rs2 = pstmt2.executeQuery();
 			if(rs2.next()) { homeResponseVO.setTopup(rs2.getInt("topup")); } else { homeResponseVO.setTopup(0); }

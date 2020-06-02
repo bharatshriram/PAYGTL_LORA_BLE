@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -33,9 +32,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorPayOrderVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
@@ -53,6 +54,8 @@ public class ExtraMethodsDAO {
 				DataBaseConstants.PASSWORD);
 		return connection;
 	}
+	
+	Gson gson = new Gson();
 	
 	public String sendmail(MailRequestVO mailrequestvo) {
 		
@@ -104,7 +107,7 @@ public class ExtraMethodsDAO {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		
-		final String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+		String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 		
 		headers.set("Authorization", authHeaderValue);
 		
@@ -122,7 +125,7 @@ public class ExtraMethodsDAO {
     
     urlConnection.setRequestProperty("Content-Type", ExtraConstants.ContentType); 
     
-	final String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+	String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 
 	urlConnection.setRequestProperty("Authorization", authHeaderValue);
 	
@@ -144,6 +147,40 @@ public class ExtraMethodsDAO {
 	return responses.toString();
 }
 	
+	public String razorpaypost(RazorPayOrderVO razorPayOrderVO) throws IOException {
+		
+	URL url = new URL(ExtraConstants.RZPBasicUrl+"orders");
+    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+    
+    urlConnection.setRequestProperty("Content-Type", "application/json"); 
+    
+    String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret).getBytes());
+    
+//	String authHeaderValue = "Basic Auth"	+ (ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret);
+
+	urlConnection.setRequestProperty("Authorization", authHeaderValue);
+	
+//	gson.fromJson(restcallresponse, TataResponseVO.class)
+	
+		// Send post request
+		urlConnection.setDoOutput(true);
+		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
+		wr.writeBytes(gson.toJson(razorPayOrderVO, RazorPayOrderVO.class));
+		wr.flush();
+		wr.close();
+	
+	BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+	String inputLine;
+	StringBuffer responses = new StringBuffer();
+
+	while ((inputLine = in.readLine()) != null) {
+		responses.append(inputLine);
+	}
+	in.close();
+	return responses.toString();
+}
+	
+	
 //	@Scheduled(cron="0 0 * ? * *")
 	@Scheduled(cron="0 0/2 * * * ?") 
 	public void topupstatusupdatecall() throws SQLException {
@@ -157,7 +194,7 @@ public class ExtraMethodsDAO {
 		try {
 			
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status BETWEEN 0 AND 1 AND t.Source = 'web'");
+			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, t.PaymentStatus, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status IN (0, 1) AND t.Source = 'web' AND t.TataReferenceNumber != 0");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
@@ -174,14 +211,18 @@ public class ExtraMethodsDAO {
 				pstmt1.setLong(2, response.getBody().getId());
 				if(pstmt1.executeUpdate() > 0){
 					
+					if(response.getBody().getTransmissionStatus() >= 3 && rs.getInt("PaymentStatus") == 1) {
+						// initiate refund process
+					}
+					
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
-					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused.");
 					
 //					sendsms(smsRequestVO);
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");
-					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-7 working days. We regret the inconvenience caused.");
+					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused.");
 					
 					sendmail(mailRequestVO);
 					
