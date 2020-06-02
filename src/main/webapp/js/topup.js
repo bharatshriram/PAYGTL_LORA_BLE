@@ -225,6 +225,27 @@ $(document)
 										
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
+									/*	
+										let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+  <input type="hidden" name="key_id" value="rzp_live_Nk0O5VIFz06ZUZ">
+  
+  
+  <input type="hidden" name="name" value="Acme Corp">
+  <input type="hidden" name="description" value=${ $("#AMR_topup").val()}>
+    <input type="hidden" name="amount" value="1">
+  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
+  <input type="hidden" name="prefill[name]" value="Gaurav Kumar">
+  <input type="hidden" name="prefill[contact]" value="9123456780">
+  <input type="hidden" name="prefill[email]" value="gaurav.kumar@example.com">
+  <input type="hidden" name="method" value="card">
+  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
+  
+  <input type="hidden" name="callback_url" value="https://example.com/payment-callback">
+<input type="hidden" name="cancel_url" value="https://example.com/payment-cancel">
+  <button>Submit</button>
+</form>`;
+										
+									console.log("qq==>"+template);*/	
 										$
 												.ajax({
 													type : "POST",
@@ -236,13 +257,13 @@ $(document)
 
 													success : function(
 															data) {
-														/*alert("data"
+														alert("data"
 																+ JSON
-																		.stringify(data));*/
+																		.stringify(data));
 														if (data.result == "Success") {
 
-															/*alert( "data"
-																	+ data.result);*/
+															alert( "data"
+																	+ data.result);
 															
 															bootbox.alert(data.Message,
 																	function(
