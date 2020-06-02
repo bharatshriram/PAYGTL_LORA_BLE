@@ -151,7 +151,7 @@ public class AccountDAO {
 							pstmt4.setString(1, topUpRequestVO.getRazorPayOrderID());
 							if (pstmt4.executeUpdate() > 0) {
 
-								checkoutDetails.setKey(ExtraConstants.RZPKeySecret);
+								checkoutDetails.setKey(ExtraConstants.RZPKeyID);
 								checkoutDetails.setAmount(topUpRequestVO.getAmount() * 100);
 								checkoutDetails.setCurrency("INR");
 								checkoutDetails.setOrderID(topUpRequestVO.getRazorPayOrderID());
@@ -264,14 +264,14 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 			
-			String generated_signature = Signature.calculateRFC2104HMAC(checkOutRequestVO.getRazorPayOrderID() + "|" + checkOutRequestVO.getRazorPayPaymentID(), ExtraConstants.RZPKeySecret);
+			String generated_signature = Signature.calculateRFC2104HMAC(checkOutRequestVO.getRazorpay_order_id() + "|" + checkOutRequestVO.getRazorpay_payment_id(), ExtraConstants.RZPKeySecret);
 
-			if (generated_signature == checkOutRequestVO.getRazorPaySignature()) {
+			if (generated_signature == checkOutRequestVO.getRazorpay_signature()) {
 				
 			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ? AND TransactionID = ?");
 			
-			ps.setString(1, checkOutRequestVO.getRazorPayPaymentID());
-			ps.setString(2, checkOutRequestVO.getRazorPayOrderID());
+			ps.setString(1, checkOutRequestVO.getRazorpay_payment_id());
+			ps.setString(2, checkOutRequestVO.getRazorpay_order_id());
 			ps.setLong(3, checkOutRequestVO.getTransactionID());
 			
 			if (ps.executeUpdate() > 0) {
@@ -453,7 +453,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			
 			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.ModeOfPayment, t.PaymentStatus, t.RazorPayOrderID, t.RazorPayPaymentID, t.RazorPayRefundID, t.RazorPayRefundStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 							"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
-							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionDate BETWEEN CONCAT(CURDATE() <day>, ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') <change>";
+							"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionDate BETWEEN CONCAT(CURDATE() <day>, ' 00:00:00') AND CONCAT(CURDATE(), ' 23:59:59') AND t.PaymentStatus !=0 <change>";
 			query = query.replaceAll("<day>", (day==1) ? "" : "- INTERVAL 30 DAY");
 			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY t.TransactionDate DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " AND t.CommunityID = "+filterCid+" ORDER BY t.TransactionDate DESC" : (roleid == 2 || roleid == 5) ? "AND t.BlockID = "+id+ " ORDER BY t.TransactionDate DESC" : (roleid == 3) ? "AND t.CRNNumber = '"+id+"' ORDER BY t.TransactionDate DESC" :""));
 			rs = pstmt.executeQuery();
