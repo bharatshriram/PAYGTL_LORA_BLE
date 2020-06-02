@@ -507,7 +507,30 @@ public class DashboardDAO {
 					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
 					
 					dashboardRequestVO.setMinutes(DashboardDAO.hexDecimal(sb.substring(40, 44)));
-					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(44, 46)));
+					
+					int tamperTimeStamp = DashboardDAO.hexDecimal(sb.substring(44, 48));
+					int doorOpenTimeStamp = DashboardDAO.hexDecimal(sb.substring(48, 52));
+					
+					if(tamperTimeStamp != 0) {
+						
+						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
+						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+					} else {
+					dashboardRequestVO.setTamperTimeStamp("");
+					}
+					
+					if(doorOpenTimeStamp != 0) {
+						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
+						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 19));
+					} else {
+					dashboardRequestVO.setDoorOpenTimeStamp("");
+					} 
+				  
+					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(52, 54)));
+					
+//					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(44, 46)));
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
 					if (dashboardRequestVO.getLowBattery() == 1) {
@@ -541,10 +564,10 @@ public class DashboardDAO {
 						iot_Timestamp =  rsch.getString("IoTTimeStamp");
 					}
 
-					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
-			        ZoneId.of("Asia/Kolkata");
-			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+					Instant instant2 = Instant.parse(dashboardRequestVO.getTimeStamp());
+			        
+			        LocalDateTime datetime2 = LocalDateTime.ofInstant(instant2, ZoneId.of("Asia/Kolkata"));
+			        dashboardRequestVO.setTimeStamp(datetime2.toString().replaceAll("T", " ").substring(0, 19));
 			        
 					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
 						
@@ -581,7 +604,7 @@ public class DashboardDAO {
 				ResultSet rs = pstmt2.executeQuery();
 				if(rs.next()) {
 					
-					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, TamperTimeStamp, DoorOpenTimeStamp, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
 					pstmt.setFloat(2, dashboardRequestVO.getReading());
@@ -596,12 +619,14 @@ public class DashboardDAO {
 					pstmt.setInt(11, dashboardRequestVO.getValveStatus());
 					pstmt.setInt(12, 0);
 					pstmt.setInt(13, dashboardRequestVO.getTamperStatus());
-					pstmt.setInt(14, dashboardRequestVO.getLowBattery());
-					pstmt.setInt(15, dashboardRequestVO.getVacation());
-					pstmt.setString(16, rs.getString("MeterSerialNumber"));
-					pstmt.setString(17, rs.getString("CRNNumber"));
-					pstmt.setInt(18, dashboardRequestVO.getMinutes());
-					pstmt.setString(19, dashboardRequestVO.getTimeStamp());
+					pstmt.setString(14, dashboardRequestVO.getTamperTimeStamp());
+					pstmt.setString(15, dashboardRequestVO.getDoorOpenTimeStamp());
+					pstmt.setInt(16, dashboardRequestVO.getLowBattery());
+					pstmt.setInt(17, dashboardRequestVO.getVacation());
+					pstmt.setString(18, rs.getString("MeterSerialNumber"));
+					pstmt.setString(19, rs.getString("CRNNumber"));
+					pstmt.setInt(20, dashboardRequestVO.getMinutes());
+					pstmt.setString(21, dashboardRequestVO.getTimeStamp());
 
 					if (pstmt.executeUpdate() > 0) {
 						
@@ -617,7 +642,7 @@ public class DashboardDAO {
 							
 							if(rs1.next()) {
 								
-								pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, LowBattery = ?, Vacation = ?, Minutes = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
+								pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, TamperTimeStamp = ?, DoorOpenTimeStamp = ?,  LowBattery = ?, Vacation = ?, Minutes = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
 								pstmt1.setInt(1, rs2.getInt("ReadingID"));
 								pstmt1.setString(2, dashboardRequestVO.getMeterID());
 								pstmt1.setFloat(3, dashboardRequestVO.getReading());
@@ -632,15 +657,17 @@ public class DashboardDAO {
 								pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
 								pstmt1.setInt(13, 0);// Balance Pending
 								pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-								pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
-								pstmt1.setInt(16, dashboardRequestVO.getVacation());
-								pstmt1.setInt(17, dashboardRequestVO.getMinutes());
-								pstmt1.setString(18, dashboardRequestVO.getTimeStamp());
-								pstmt1.setString(19, dashboardRequestVO.getMeterID());
+								pstmt.setString(15, dashboardRequestVO.getTamperTimeStamp());
+								pstmt.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
+								pstmt1.setInt(17, dashboardRequestVO.getLowBattery());
+								pstmt1.setInt(18, dashboardRequestVO.getVacation());
+								pstmt1.setInt(19, dashboardRequestVO.getMinutes());
+								pstmt1.setString(20, dashboardRequestVO.getTimeStamp());
+								pstmt1.setString(21, dashboardRequestVO.getMeterID());
 								
 							} else {
 								
-									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
+									pstmt1 = con.prepareStatement("INSERT INTO displaybalancelog (MainBalanceLogID, MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, TamperTimeStamp, DoorOpenTimeStamp, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ");
 									pstmt1.setInt(1, rs2.getInt("ReadingID"));
 									pstmt1.setString(2, dashboardRequestVO.getMeterID());
 									pstmt1.setFloat(3, dashboardRequestVO.getReading());
@@ -655,12 +682,14 @@ public class DashboardDAO {
 									pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
 									pstmt1.setInt(13, 0);// Balance Pending
 									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-									pstmt1.setInt(15, dashboardRequestVO.getLowBattery());
-									pstmt1.setInt(16, dashboardRequestVO.getVacation());
-									pstmt1.setString(17, rs.getString("MeterSerialNumber"));
-									pstmt1.setString(18, rs.getString("CRNNumber"));
-									pstmt1.setInt(19, dashboardRequestVO.getMinutes());
-									pstmt1.setString(20, dashboardRequestVO.getTimeStamp());
+									pstmt.setString(15, dashboardRequestVO.getTamperTimeStamp());
+									pstmt.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
+									pstmt1.setInt(17, dashboardRequestVO.getLowBattery());
+									pstmt1.setInt(18, dashboardRequestVO.getVacation());
+									pstmt1.setString(19, rs.getString("MeterSerialNumber"));
+									pstmt1.setString(20, rs.getString("CRNNumber"));
+									pstmt1.setInt(21, dashboardRequestVO.getMinutes());
+									pstmt1.setString(22, dashboardRequestVO.getTimeStamp());
 									
 							}
 							

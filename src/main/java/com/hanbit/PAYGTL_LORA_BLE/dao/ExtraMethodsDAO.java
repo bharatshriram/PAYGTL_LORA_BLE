@@ -39,6 +39,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorPayOrderVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.RazorPayResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
 /**
  * @author K VimaL Kumar
@@ -147,25 +148,28 @@ public class ExtraMethodsDAO {
 	return responses.toString();
 }
 	
-	public String razorpaypost(RazorPayOrderVO razorPayOrderVO) throws IOException {
+	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount) throws IOException {
 		
-	URL url = new URL(ExtraConstants.RZPBasicUrl+"orders");
+	String data = "";
+	URL url = new URL(ExtraConstants.RZPBasicUrl+request);
     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
     
     urlConnection.setRequestProperty("Content-Type", "application/json"); 
     
     String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret).getBytes());
     
-//	String authHeaderValue = "Basic Auth"	+ (ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret);
-
 	urlConnection.setRequestProperty("Authorization", authHeaderValue);
 	
-//	gson.fromJson(restcallresponse, TataResponseVO.class)
+	if(request.equalsIgnoreCase("orders")) {
+	data = gson.toJson(razorPayOrderVO, RazorPayOrderVO.class);
+	} else {
+	data = gson.toJson(amount, String.class);
+	}
 	
 		// Send post request
 		urlConnection.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
-		wr.writeBytes(gson.toJson(razorPayOrderVO, RazorPayOrderVO.class));
+		wr.writeBytes(data);
 		wr.flush();
 		wr.close();
 	
@@ -190,11 +194,12 @@ public class ExtraMethodsDAO {
 		ResultSet rs = null;
 		SMSRequestVO smsRequestVO = new SMSRequestVO();
 		MailRequestVO mailRequestVO = new MailRequestVO();
+		RazorPayOrderVO razorPayOrderVO = new RazorPayOrderVO();
 		
 		try {
 			
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, t.PaymentStatus, cmd.MobileNumber, cmd.Email, cmd.CRNNumber FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status IN (0, 1) AND t.Source = 'web' AND t.TataReferenceNumber != 0");
+			pstmt = con.prepareStatement("SELECT t.MeterID, t.TataReferenceNumber, t.PaymentStatus, cmd.MobileNumber, cmd.Email, cmd.CRNNumber, t.Amount, t.RazorPayPaymentID, t.TransactionID, t.ModeOfPayment FROM topup AS t LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.Status IN (0, 1) AND t.Source = 'web' AND t.TataReferenceNumber != 0");
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				
@@ -211,10 +216,6 @@ public class ExtraMethodsDAO {
 				pstmt1.setLong(2, response.getBody().getId());
 				if(pstmt1.executeUpdate() > 0){
 					
-					if(response.getBody().getTransmissionStatus() >= 3 && rs.getInt("PaymentStatus") == 1) {
-						// initiate refund process
-					}
-					
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused.");
 					
@@ -225,6 +226,46 @@ public class ExtraMethodsDAO {
 					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused.");
 					
 					sendmail(mailRequestVO);
+					
+					if(response.getBody().getTransmissionStatus() >= 3 && rs.getInt("PaymentStatus") == 1 && rs.getString("ModeOfPayment").equalsIgnoreCase("Online")) {
+						// initiate refund process
+						
+						/*
+						  String rzpRestCallResponse = razorpaypost(razorPayOrderVO,
+						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
+						  rs.getInt("Amount"));
+						  
+						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
+						  RazorPayResponseVO.class);
+						  
+						  PreparedStatement pstmt2 = con.
+						  prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
+						  + rs.getLong("TransactionID")); pstmt2.setString(1,
+						  razorPayResponseVO.getId()); pstmt2.setString(2,
+						  razorPayResponseVO.getStatus()); pstmt2.setString(1,
+						  razorPayResponseVO.toString());
+						  
+						  if (pstmt2.executeUpdate() > 0) {
+						  
+						  smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
+						  smsRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
+						  +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
+						  );
+						  
+						  // sendsms(smsRequestVO);
+						  
+						  mailRequestVO.setToEmail(rs.getString("Email"));
+						  mailRequestVO.setSubject("Refund Initiated!!!");
+						  mailRequestVO.setMessage("Your Refund of Amount: "+rs.getInt("Amount")
+						  +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
+						  );
+						  
+						  sendmail(mailRequestVO);
+						  
+						  }
+						 */
+						
+					}
 					
 				}
 

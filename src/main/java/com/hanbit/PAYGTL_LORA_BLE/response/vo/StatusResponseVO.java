@@ -27,6 +27,9 @@ public class StatusResponseVO {
 	private String Status;
 	private String razorPayOrderID;
 	private String razorPayPaymentID;
+	private String RazorPayPaymentStatus;
+	private String razorPayRefundID;
+	private String RazorPayRefundStatus;
 	private String modeOfPayment;
 	private String paymentStatus;
 	private String transactedByUserName;
@@ -160,4 +163,23 @@ public class StatusResponseVO {
 	public void setRazorPayPaymentID(String razorPayPaymentID) {
 		this.razorPayPaymentID = razorPayPaymentID;
 	}
+	public String getRazorPayPaymentStatus() {
+		return RazorPayPaymentStatus;
+	}
+	public void setRazorPayPaymentStatus(String razorPayPaymentStatus) {
+		RazorPayPaymentStatus = razorPayPaymentStatus;
+	}
+	public String getRazorPayRefundID() {
+		return razorPayRefundID;
+	}
+	public void setRazorPayRefundID(String razorPayRefundID) {
+		this.razorPayRefundID = razorPayRefundID;
+	}
+	public String getRazorPayRefundStatus() {
+		return RazorPayRefundStatus;
+	}
+	public void setRazorPayRefundStatus(String razorPayRefundStatus) {
+		RazorPayRefundStatus = razorPayRefundStatus;
+	}
+	
 }
