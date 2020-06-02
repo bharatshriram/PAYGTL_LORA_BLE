@@ -264,43 +264,29 @@ $(document)
 															alert( "data"
 																	+ data.result);
 															
-															bootbox.confirm(
-																	"ARE YOU SURE TO DELEE CUSTOMER",
-																	function(
-																		result) {
-																		
-																		if(result == true){
-																			alert(result);
+															let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+																  <input type="hidden" name="key_id" value=${data.checkoutDetails.key}>
+																  
+																  
+																  <input type="hidden" name="name" value=${data.checkoutDetails.customerName}>
+																  <input type="hidden" name="description" value=${data.checkoutDetails.customerName}>
+																    <input type="hidden" name="amount" value=${data.checkoutDetails.amount}>
+																  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
+																  <input type="hidden" name="prefill[name]" value=${data.checkoutDetails.customerName}>
+																  <input type="hidden" name="prefill[contact]" value=${data.checkoutDetails.mobileNumber}>
+																  <input type="hidden" name="prefill[email]" value=${data.checkoutDetails.customerEmail}>
+																  <input type="hidden" name="method" value="card">
+																  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
+																  <input type="hidden" name="callback_url" value="http://localhost:8080/PAYGTL_LORA_BLE/checkout">
+																<input type="hidden" name="cancel_url" value="http://localhost:8080/PAYGTL_LORA_BLE/customerDetails.jsp">
+																  <button>Submit</button>
+																</form>`;
+																										
+																console.log("qq==>"+template);
 																
-																let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
-																	  <input type="hidden" name="key_id" value=${data.checkoutDetails.key}>
-																	  
-																	  
-																	  <input type="hidden" name="name" value=${data.checkoutDetails.customerName}>
-																	  <input type="hidden" name="description" value=${data.checkoutDetails.customerName}>
-																	    <input type="hidden" name="amount" value=${data.checkoutDetails.amount}>
-																	  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
-																	  <input type="hidden" name="prefill[name]" value=${data.checkoutDetails.customerName}>
-																	  <input type="hidden" name="prefill[contact]" value=${data.checkoutDetails.mobileNumber}>
-																	  <input type="hidden" name="prefill[email]" value=${data.checkoutDetails.customerEmail}>
-																	  <input type="hidden" name="method" value="card">
-																	  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
-																	  <input type="hidden" name="callback_url" value="https://example.com/payment-callback">
-																	<input type="hidden" name="cancel_url" value="https://example.com/payment-cancel">
-																	  <button>Submit</button>
-																	</form>`;
-																											
-																	console.log("qq==>"+template);	
+																document.querySelector("#payOnline").innerHTML = template;
 																
-																		}
-																		else {
-																			bootbox
-																			.alert("Failed");
-																			return false;
-																		}
-															});
-															
-															
+																$('#exampleModal').modal('show');
 
 														} else if(data.result == "Failure"){
 															
