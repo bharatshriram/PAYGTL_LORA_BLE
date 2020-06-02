@@ -127,11 +127,11 @@ $(document)
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Last Name must be more than 2 and less than 30 characters long'
+																message : 'The User Id must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Last Name can only consist of alphabetical and number'
+																message : 'The User Id can only consist of alphabetical and number'
 															}
 														}
 													},

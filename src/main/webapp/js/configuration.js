@@ -233,7 +233,7 @@ $(document)
 						table.buttons( $('a.customButton') ).remove();	
 					}
 					
-					$("div.headname").html('<h3>Configuration</h3>');
+					$("div.headname").html('<h3>Configuration Status</h3>');
 					
 					
 					

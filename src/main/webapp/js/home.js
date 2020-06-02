@@ -49,7 +49,7 @@ $(document)
 								categories : [ 'Active',
 										'In-Active', 'Live',
 										'Non-Live', 'Low Battery',
-										'EC' ],
+										'Emergency Credit' ],
 										labels: {
 							                style: {
 							                    fontWeight: 'bold',
@@ -114,7 +114,7 @@ $(document)
 							                    color: 'black'
 							                }
 							            },
-								name : 'Percentage (%)'
+								name : '(%)'
 							} ]
 
 						});
