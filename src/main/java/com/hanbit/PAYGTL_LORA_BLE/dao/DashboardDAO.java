@@ -507,6 +507,29 @@ public class DashboardDAO {
 					dashboardRequestVO.setEmergencyCredit(Float.intBitsToFloat(k.intValue()));
 					
 					dashboardRequestVO.setMinutes(DashboardDAO.hexDecimal(sb.substring(40, 44)));
+					
+				/*	int tamperTimeStamp = DashboardDAO.hexDecimal(sb.substring(44, 48));
+					int doorOpenTimeStamp = DashboardDAO.hexDecimal(sb.substring(48, 52));
+					
+					if(tamperTimeStamp != 0) {
+						
+						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
+						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+					} else {
+					dashboardRequestVO.setTamperTimeStamp("");
+					}
+					
+					if(doorOpenTimeStamp != 0) {
+						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
+						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 19));
+					} else {
+					dashboardRequestVO.setDoorOpenTimeStamp("");
+					} */
+				  
+//					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(52, 54)));
+					
 					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(44, 46)));
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
@@ -541,10 +564,10 @@ public class DashboardDAO {
 						iot_Timestamp =  rsch.getString("IoTTimeStamp");
 					}
 
-					Instant instant = Instant.parse(dashboardRequestVO.getTimeStamp());
-			        ZoneId.of("Asia/Kolkata");
-			        LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-			        dashboardRequestVO.setTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+					Instant instant2 = Instant.parse(dashboardRequestVO.getTimeStamp());
+			        
+			        LocalDateTime datetime2 = LocalDateTime.ofInstant(instant2, ZoneId.of("Asia/Kolkata"));
+			        dashboardRequestVO.setTimeStamp(datetime2.toString().replaceAll("T", " ").substring(0, 19));
 			        
 					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
 						
