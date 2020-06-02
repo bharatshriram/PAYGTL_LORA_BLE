@@ -218,15 +218,15 @@ $(document)
 										data1["currentBalance"] = $("#currentBalance_topup").val();
 										data1["tariffID"] = $("#tariffID").val();
 										data1["amount"] = $("#recharge_topup").val();
-										data1["modeOfPayment"] = "Cash"	
+										data1["modeOfPayment"] = "Online"	
 										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
 										
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
-									/*	
-										let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+									
+										/*let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
   <input type="hidden" name="key_id" value="rzp_live_Nk0O5VIFz06ZUZ">
   
   
@@ -243,9 +243,8 @@ $(document)
   <input type="hidden" name="callback_url" value="https://example.com/payment-callback">
 <input type="hidden" name="cancel_url" value="https://example.com/payment-cancel">
   <button>Submit</button>
-</form>`;
+</form>`;*/
 										
-									console.log("qq==>"+template);*/	
 										$
 												.ajax({
 													type : "POST",
@@ -265,13 +264,40 @@ $(document)
 															alert( "data"
 																	+ data.result);
 															
-															bootbox.alert(data.Message,
+															bootbox.confirm(
+																	"ARE YOU SURE TO DELEE CUSTOMER",
 																	function(
-																			result) {
-																			
-																//alert();
-																window.location = "topupStatus.jsp";
-																return false
+																		result) {
+																		
+																		if(result == true){
+																			alert(result);
+																
+																let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
+																	  <input type="hidden" name="key_id" value=${data.checkoutDetails.key}>
+																	  
+																	  
+																	  <input type="hidden" name="name" value=${data.checkoutDetails.customerName}>
+																	  <input type="hidden" name="description" value=${data.checkoutDetails.customerName}>
+																	    <input type="hidden" name="amount" value=${data.checkoutDetails.amount}>
+																	  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
+																	  <input type="hidden" name="prefill[name]" value=${data.checkoutDetails.customerName}>
+																	  <input type="hidden" name="prefill[contact]" value=${data.checkoutDetails.mobileNumber}>
+																	  <input type="hidden" name="prefill[email]" value=${data.checkoutDetails.customerEmail}>
+																	  <input type="hidden" name="method" value="card">
+																	  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
+																	  <input type="hidden" name="callback_url" value="https://example.com/payment-callback">
+																	<input type="hidden" name="cancel_url" value="https://example.com/payment-cancel">
+																	  <button>Submit</button>
+																	</form>`;
+																											
+																	console.log("qq==>"+template);	
+																
+																		}
+																		else {
+																			bootbox
+																			.alert("Failed");
+																			return false;
+																		}
 															});
 															
 															
