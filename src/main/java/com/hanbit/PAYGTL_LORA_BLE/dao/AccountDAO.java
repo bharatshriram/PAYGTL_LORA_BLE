@@ -282,22 +282,22 @@ public class AccountDAO {
 				
 				System.out.println(checkOutRequestVO.getRazorpay_signature()+"<==From Ui==>Generate ==> "+generated_signature );
 				
-//			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ? AND TransactionID = ?");
-			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ?");
+			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ? AND TransactionID = ?");
 			
 			ps.setString(1, checkOutRequestVO.getRazorpay_payment_id());
 			ps.setString(2, checkOutRequestVO.getRazorpay_order_id());
-//			ps.setLong(3, checkOutRequestVO.getTransactionID());
+			ps.setLong(3, checkOutRequestVO.getTransactionID());
 			
 			if (ps.executeUpdate() > 0) {
 				
 				PreparedStatement pstmt = con.prepareStatement("SELECT t.TransactionID, t.Amount, t.FixedCharges, t.ReconnectionCharges, tr.Tariff, tr.AlarmCredit, tr.EmergencyCredit FROM topup AS t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.RazorPayOrderID = '"+checkOutRequestVO.getRazorpay_order_id()+"'");
+
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					
 					topUpRequestVO = new TopUpRequestVO();
 					
-					topUpRequestVO.setTransactionID(rs.getLong("TransactionID"));
+					topUpRequestVO.setTransactionID(checkOutRequestVO.getTransactionID());
 					topUpRequestVO.setAmount(rs.getInt("Amount"));
 					topUpRequestVO.setFixedCharges(rs.getInt("FixedCharges"));
 					topUpRequestVO.setReconnectionCharges(rs.getInt("ReconnectionCharges"));
