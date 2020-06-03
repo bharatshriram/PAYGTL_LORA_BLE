@@ -108,9 +108,9 @@ public class ExtraMethodsDAO {
 		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		
-		String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+		final String tataAuthenication = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 		
-		headers.set("Authorization", authHeaderValue);
+		headers.set("Authorization", tataAuthenication);
 		
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		
@@ -126,9 +126,9 @@ public class ExtraMethodsDAO {
     
     urlConnection.setRequestProperty("Content-Type", ExtraConstants.ContentType); 
     
-	String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
+    final String tataAuthenication = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.TataUserName + ':' + ExtraConstants.TataPassword).getBytes());
 
-	urlConnection.setRequestProperty("Authorization", authHeaderValue);
+	urlConnection.setRequestProperty("Authorization", tataAuthenication);
 	
 		// Send post request
 		urlConnection.setDoOutput(true);
@@ -156,7 +156,7 @@ public class ExtraMethodsDAO {
     
     urlConnection.setRequestProperty("Content-Type", "application/json"); 
     
-    String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret).getBytes());
+    final String authHeaderValue = "Basic "	+ Base64.getEncoder().encodeToString((ExtraConstants.RZPKeyID + ':' + ExtraConstants.RZPKeySecret).getBytes());
     
 	urlConnection.setRequestProperty("Authorization", authHeaderValue);
 	
@@ -194,7 +194,6 @@ public class ExtraMethodsDAO {
 		ResultSet rs = null;
 		SMSRequestVO smsRequestVO = new SMSRequestVO();
 		MailRequestVO mailRequestVO = new MailRequestVO();
-		RazorPayOrderVO razorPayOrderVO = new RazorPayOrderVO();
 		
 		try {
 			
@@ -231,7 +230,7 @@ public class ExtraMethodsDAO {
 						// initiate refund process
 						
 						/*
-						  String rzpRestCallResponse = razorpaypost(razorPayOrderVO,
+						  String rzpRestCallResponse = razorpaypost(null,
 						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
 						  rs.getInt("Amount"));
 						  

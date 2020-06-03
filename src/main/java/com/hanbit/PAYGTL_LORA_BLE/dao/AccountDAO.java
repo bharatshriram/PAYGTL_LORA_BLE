@@ -312,7 +312,7 @@ public class AccountDAO {
 				
 				if (ps.executeUpdate() > 0) {
 					responseVO.setResult("Success");
-					responseVO.setMessage("Payment Capture Failed");
+					responseVO.setMessage("Payment Failed");
 					
 				}
 				
