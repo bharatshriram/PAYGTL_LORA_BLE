@@ -26,10 +26,13 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CheckoutDetails;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ConfigurationResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.Notes;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.Prefill;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.RazorPayResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.StatusResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.TataResponseVO;
+import com.hanbit.PAYGTL_LORA_BLE.response.vo.Theme;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encoding;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Signature;
 import com.itextpdf.io.font.FontConstants;
@@ -74,7 +77,10 @@ public class AccountDAO {
 		ExtraMethodsDAO extramethodsdao = new ExtraMethodsDAO();
 		ResponseVO responsevo = new ResponseVO();
 		RazorPayOrderVO razorPayOrderVO = new RazorPayOrderVO(); 
-		CheckoutDetails checkoutDetails = new CheckoutDetails(); 
+		CheckoutDetails checkoutDetails = new CheckoutDetails();
+		Prefill prefill = new Prefill();
+		Notes notes = new Notes();
+		Theme theme = new Theme();
 		
 		try {
 			con = getConnection();
@@ -82,7 +88,7 @@ public class AccountDAO {
 			if (topUpRequestVO.getSource().equalsIgnoreCase("web")) {
 
 				PreparedStatement pstmt1 = con.prepareStatement(
-						"SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff, CONCAT(cmd.FirstName, ' ', cmd.LastName) AS CustomerName, cmd.Email, cmd.MobileNumber, cmd.CRNNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = '"
+						"SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff, CONCAT(cmd.FirstName, ' ', cmd.LastName) AS CustomerName, cmd.Email, cmd.MobileNumber, cmd.CRNNumber, cmd.HouseNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = '"
 								+ topUpRequestVO.getCRNNumber() + "'");
 				ResultSet rs1 = pstmt1.executeQuery();
 				if (rs1.next()) {
@@ -154,15 +160,19 @@ public class AccountDAO {
 								checkoutDetails.setKey(ExtraConstants.RZPKeyID);
 								checkoutDetails.setAmount(topUpRequestVO.getAmount() * 100);
 								checkoutDetails.setCurrency("INR");
-								checkoutDetails.setOrderID(topUpRequestVO.getRazorPayOrderID());
+								checkoutDetails.setOrder_id(topUpRequestVO.getRazorPayOrderID());
 								checkoutDetails.setButtonText("Proceed to Pay With Razorpay");
 								checkoutDetails.setName("Hanbit");
 								checkoutDetails.setDescription("Recharge of INR "+ topUpRequestVO.getAmount()+"/- for CRN: "+rs1.getString("CRNNumber")+".");
 								checkoutDetails.setImage(ExtraConstants.HANBITIMAGEURL);
-								checkoutDetails.setCustomerName(rs1.getString("CustomerName"));
-								checkoutDetails.setCustomerEmail(rs1.getString("Email"));
-								checkoutDetails.setMobileNumber(rs1.getString("MobileNumber"));
-								checkoutDetails.setThemeColor("BLUE");
+								
+								prefill.setName(rs1.getString("CustomerName"));
+								prefill.setEmail(rs1.getString("Email"));
+								prefill.setContact(rs1.getString("MobileNumber"));
+								checkoutDetails.setPrefill(prefill);
+								theme.setColor("BLUE");
+								checkoutDetails.setTheme(theme);
+								notes.setAddress(rs1.getString("HouseNumber"));
 								checkoutDetails.setTransactionID(transactionID);
 
 								responsevo.setCheckoutDetails(checkoutDetails);

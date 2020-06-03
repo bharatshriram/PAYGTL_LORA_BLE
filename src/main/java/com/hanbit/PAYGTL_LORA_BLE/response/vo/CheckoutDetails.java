@@ -12,15 +12,14 @@ public class CheckoutDetails {
 	private String key;
 	private long amount;
 	private String currency;
-	private String orderID;
+	private String order_id;
 	private String buttonText;
 	private String name;
 	private String description;
 	private String image;
-	private String customerName;
-	private String customerEmail;
-	private String mobileNumber;
-	private String themeColor;
+	public Prefill prefill;
+	public Notes notes;
+	public Theme theme;
 	private long transactionID;
 	
 	public String getKey() {
@@ -40,12 +39,6 @@ public class CheckoutDetails {
 	}
 	public void setCurrency(String currency) {
 		this.currency = currency;
-	}
-	public String getOrderID() {
-		return orderID;
-	}
-	public void setOrderID(String orderID) {
-		this.orderID = orderID;
 	}
 	public String getButtonText() {
 		return buttonText;
@@ -71,35 +64,35 @@ public class CheckoutDetails {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public String getCustomerName() {
-		return customerName;
-	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-	public String getCustomerEmail() {
-		return customerEmail;
-	}
-	public void setCustomerEmail(String customerEmail) {
-		this.customerEmail = customerEmail;
-	}
-	public String getMobileNumber() {
-		return mobileNumber;
-	}
-	public void setMobileNumber(String mobileNumber) {
-		this.mobileNumber = mobileNumber;
-	}
-	public String getThemeColor() {
-		return themeColor;
-	}
-	public void setThemeColor(String themeColor) {
-		this.themeColor = themeColor;
-	}
 	public long getTransactionID() {
 		return transactionID;
 	}
 	public void setTransactionID(long transactionID) {
 		this.transactionID = transactionID;
 	}
-
+	public String getOrder_id() {
+		return order_id;
+	}
+	public void setOrder_id(String order_id) {
+		this.order_id = order_id;
+	}
+	public Prefill getPrefill() {
+		return prefill;
+	}
+	public void setPrefill(Prefill prefill) {
+		this.prefill = prefill;
+	}
+	public Notes getNotes() {
+		return notes;
+	}
+	public void setNotes(Notes notes) {
+		this.notes = notes;
+	}
+	public Theme getTheme() {
+		return theme;
+	}
+	public void setTheme(Theme theme) {
+		this.theme = theme;
+	}
+	
 }
