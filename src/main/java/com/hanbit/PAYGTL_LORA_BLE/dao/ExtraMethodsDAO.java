@@ -229,13 +229,12 @@ public class ExtraMethodsDAO {
 					if(response.getBody().getTransmissionStatus() >= 3 && rs.getInt("PaymentStatus") == 1 && rs.getString("ModeOfPayment").equalsIgnoreCase("Online")) {
 						// initiate refund process
 						
-						/*
-						  String rzpRestCallResponse = razorpaypost(null,
+						
+						/*  String rzpRestCallResponse = razorpaypost(null,
 						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
 						  rs.getInt("Amount"));
 						  
-						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
-						  RazorPayResponseVO.class);
+						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
 						  
 						  PreparedStatement pstmt2 = con.
 						  prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
@@ -261,9 +260,8 @@ public class ExtraMethodsDAO {
 						  
 						  sendmail(mailRequestVO);
 						  
-						  }
-						 */
-						
+						  }*/
+						 
 					}
 					
 				}
