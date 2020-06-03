@@ -275,8 +275,12 @@ public class AccountDAO {
 			con = getConnection();
 			
 			String generated_signature = Signature.calculateRFC2104HMAC(checkOutRequestVO.getRazorpay_order_id() + "|" + checkOutRequestVO.getRazorpay_payment_id(), ExtraConstants.RZPKeySecret);
+			
+			System.out.println(checkOutRequestVO.getRazorpay_signature()+"<==From Ui==>Generate ==> "+generated_signature );
 
-			if (generated_signature == checkOutRequestVO.getRazorpay_signature()) {
+			if (generated_signature.equalsIgnoreCase(checkOutRequestVO.getRazorpay_signature())) {
+				
+				System.out.println(checkOutRequestVO.getRazorpay_signature()+"<==From Ui==>Generate ==> "+generated_signature );
 				
 //			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ? AND TransactionID = ?");
 			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ? WHERE RazorPayOrderID = ?");
@@ -287,7 +291,7 @@ public class AccountDAO {
 			
 			if (ps.executeUpdate() > 0) {
 				
-				PreparedStatement pstmt = con.prepareStatement("SELECT t,TransactionID, t.Amount, t.FixedCharges, t.ReconnectionCharges, tr.Tariff, tr.AlarmCredit, tr.EmergencyCredit FROM topup AS t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.RazorPayOrderID = '"+checkOutRequestVO.getRazorpay_order_id()+"'");
+				PreparedStatement pstmt = con.prepareStatement("SELECT t.TransactionID, t.Amount, t.FixedCharges, t.ReconnectionCharges, tr.Tariff, tr.AlarmCredit, tr.EmergencyCredit FROM topup AS t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.RazorPayOrderID = '"+checkOutRequestVO.getRazorpay_order_id()+"'");
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					
