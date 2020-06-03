@@ -111,7 +111,7 @@
 
 								<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Type Of user</label> 
+									<label class="bmd-label-floating select-label">Type Of user</label> 
 									<select
 										class="form-control" id="selecttypeofuser" name="selecttypeofuser" onchange="showCommunitybyTypeuser(this.value);">
 							 			<option value = "-1">Select Type</option>
@@ -123,7 +123,7 @@
 
 							<div class="col-md-6" id = "usercommunityId">
 								<div id ="formcomunityName" class="input-group form-group">
-									<label class="bmd-label-floating">Community Name</label> 
+									<label class="bmd-label-floating select-label">Community Name</label> 
 									<select
 										class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
 						<!--  <option>Select Community</option> --> 
@@ -133,7 +133,7 @@
 							</div>
 							<div class="col-md-6" id = "userblockId">
 								<div id ="formblockName" class="input-group form-group">
-									<label class="bmd-label-floating">Select Block</label> <select
+									<label class="bmd-label-floating select-label">Select Block</label> <select
 										class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity">
 									</select>
 								</div>

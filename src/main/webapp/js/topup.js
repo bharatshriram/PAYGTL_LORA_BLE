@@ -225,26 +225,6 @@ $(document)
 										
 										/*alert("===>"
 												+ JSON.stringify(data1));*/
-									
-										/*let template = `<form method="POST" action="https://api.razorpay.com/v1/checkout/embedded">
-  <input type="hidden" name="key_id" value="rzp_live_Nk0O5VIFz06ZUZ">
-  
-  
-  <input type="hidden" name="name" value="Acme Corp">
-  <input type="hidden" name="description" value=${ $("#AMR_topup").val()}>
-    <input type="hidden" name="amount" value="1">
-  <input type="hidden" name="image" value="https://cdn.razorpay.com/logos/BUVwvgaqVByGp2_large.png">
-  <input type="hidden" name="prefill[name]" value="Gaurav Kumar">
-  <input type="hidden" name="prefill[contact]" value="9123456780">
-  <input type="hidden" name="prefill[email]" value="gaurav.kumar@example.com">
-  <input type="hidden" name="method" value="card">
-  <input type="hidden" name="notes[shipping address]" value="L-16, The Business Centre, 61 Wellfield Road, New Delhi - 110001">
-  
-  <input type="hidden" name="callback_url" value="https://example.com/payment-callback">
-<input type="hidden" name="cancel_url" value="https://example.com/payment-cancel">
-  <button>Submit</button>
-</form>`;*/
-										
 										$
 												.ajax({
 													type : "POST",
@@ -264,8 +244,49 @@ $(document)
 															alert( "data"
 																	+ data.result);
 															
+															sessionStorage.setItem("transactionID",data.checkoutDetails.transactionID);
+															
 															data.checkoutDetails.handler  = function processRazorpayResponse(response){
+																
 																alert(JSON.stringify(response));
+																
+																data2 = {}
+																
+																data2["razorpay_order_id"] =  response.razorpay_order_id
+																data2["razorpay_payment_id"] =  response.razorpay_payment_id
+																data2["razorpay_signature"] =  response.razorpay_signature	
+																
+																data2["transactionID"] =  sessionStorage.getItem("transactionID");
+																
+																
+																$
+																.ajax({
+																	type : "POST",
+																	contentType : "application/json",
+																	url : "/PAYGTL_LORA_BLE/checkout",
+																	data : JSON
+																			.stringify(data2),
+																	dataType : "JSON",
+
+																	success : function(
+																			data) {
+																		alert("data"
+																				+ JSON
+																						.stringify(data));
+																		/*if (data.result == "Success") {*/
+
+																			alert( "data"+ data);
+																			
+																			
+																		/*} else if(data.result == "Failure"){
+																			
+																			bootbox.alert(data.Message)
+																					
+																				return false
+																		}*/
+																	}
+																});
+														return false;
 															};
 															
 															var rzp1 = new Razorpay(data.checkoutDetails);

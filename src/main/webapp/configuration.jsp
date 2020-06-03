@@ -59,14 +59,14 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
                               </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select Block<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Select Block<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity" onchange="showCustomerbyBlock(this.value);">
                               
                               </select>
@@ -74,7 +74,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select CRN<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Select CRN<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
                               </select>
                             </div>
@@ -88,7 +88,7 @@
                           
                           <div class="col-md-4">
                             <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-                              <label class="bmd-label-floating">Command Type<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Command Type<sup class="imp">*</sup></label>
                                <select class="form-control" id="selectcommandType" name="selectcommandType" onchange="showFieldsBasedONCommand(this.value);">
                                <option style = "color: Red" value="-1" selected>Select Command Type</option>
                                 <option value="-1">Select</option>
@@ -110,7 +110,7 @@
                           
                            <div class="col-md-4" id="conftariff" style = "display  : none">
                             <div id="formtariff" class="input-group form-group">
-                              <label class="bmd-label-floating">Tariff<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Tariff<sup class="imp">*</sup></label>
                                <select class="form-control" id="selectTariffName" name="selectTariffName">
                               </select>
                             </div>

@@ -68,14 +68,14 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
                               </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select Block<sup class="blockimp" style="color:red"></sup></label>
+                              <label class="bmd-label-floating select-label">Select Block<sup class="blockimp" style="color:red"></sup></label>
                               <select class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity" onchange="showCustomerbyBlock(this.value);">
                               
                               </select>
@@ -83,7 +83,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select CRN</label>
+                              <label class="bmd-label-floating select-label">Select CRN</label>
                               <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
                               </select>
                             </div>

@@ -69,7 +69,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Community<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label ">Community<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
                               </select>
                             </div>
@@ -84,7 +84,7 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
-                            <label class="bmd-label-floating">Year<sup class="imp">*</sup></label> 
+                            <label class="bmd-label-floating select-label">Year<sup class="imp">*</sup></label> 
                              <select class="yrselectdesc form-control start_date" id="start_date">
                              <option value="">Select Year</option>
                              </select>
@@ -92,7 +92,7 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                               <label class="bmd-label-floating">Month<sup class="imp">*</sup></label> 
+                               <label class="bmd-label-floating select-label">Month<sup class="imp">*</sup></label> 
                              <select class="form-control end_date" id="end_date">
                              <option value="">Select Month</option>
                              <option value="01">January</option>

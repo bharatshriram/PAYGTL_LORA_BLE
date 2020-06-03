@@ -191,7 +191,7 @@
             
             <div class="col-md-6">
               <div class="form-group">
-                <label class="bmd-label-floating">Tamper</label>
+                <label class="bmd-label-floating select-label">Tamper</label>
                 <select class="form-control" id="tamper" name="tamper">
                   <option value="-1">Tamper Type</option>
                   <option value="1">Tamper Detect</option>

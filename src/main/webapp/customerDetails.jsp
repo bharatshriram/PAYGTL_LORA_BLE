@@ -143,7 +143,7 @@
 						<div class="row">
 							<div class="col-md-6">
 								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Community Name</label> 
+									<label class="bmd-label-floating select-label">Community Name</label> 
 									<select
 										class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
 						<!--  <option>Select Community</option> --> 
@@ -157,7 +157,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Select Block</label> <select
+									<label class="bmd-label-floating select-label">Select Block</label> <select
 										class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity">
 						<!-- <option style = "color: Red" value="" disabled selected>Select Block</option> --><!--  <option>Select Community</option> --> 
 									</select>
@@ -231,7 +231,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Tariff Name</label>  <select
+									<label class="bmd-label-floating select-label">Tariff Name</label>  <select
 										class="form-control" id="selectTariffName" name="selectTariffName">
 										<!-- <option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> --> 
 									</select>
@@ -286,7 +286,7 @@
           <div class="row">
           <div class="col-md-6">
             <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Select Community</label> 
+									<label class="bmd-label-floating select-label">Select Community</label> 
 									<select
 										class="form-control" id="filterselectcommunityName" name="filterselectcommunityName" onchange="showBlockbyCommunity(this.value);">
 									</select>
@@ -294,7 +294,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Select Block</label> <select
+									<label class="bmd-label-floating select-label">Select Block</label> <select
 										class="form-control" id="filterselectBlockBasedonCommunity" name="filterselectBlockBasedonCommunity">
 									</select>
 								</div>

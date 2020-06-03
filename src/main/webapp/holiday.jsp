@@ -281,7 +281,7 @@
           <div class="row">
           <div class="col-md-6">
             <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Select Community</label> 
+									<label class="bmd-label-floating select-label">Select Community</label> 
 									<select
 										class="form-control" id="filterselectcommunityName" name="filterselectcommunityName" onchange="showBlockbyCommunity(this.value);">
 									</select>
@@ -289,7 +289,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Select Block</label> <select
+									<label class="bmd-label-floating select-label">Select Block</label> <select
 										class="form-control" id="filterselectBlockBasedonCommunity" name="filterselectBlockBasedonCommunity">
 									</select>
 								</div>

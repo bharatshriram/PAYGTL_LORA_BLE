@@ -100,7 +100,7 @@
           <div class="row">
           <div class="col-md-6">
             <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
-									<label class="bmd-label-floating">Action</label> 
+									<label class="bmd-label-floating select-label">Action</label> 
 									<select
 										class="form-control" id="action" name="action">
 									<option value = "-1" >Select Action</option>

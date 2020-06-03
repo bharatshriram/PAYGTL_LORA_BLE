@@ -76,7 +76,7 @@
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">FeedBack<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">FeedBack<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectFeedback" name="selectFeedback">
                               <option value="-1">Select Feedback</option>
                               <option value="Bill in Time Not Updated">Bill in Time Not Updated</option>
