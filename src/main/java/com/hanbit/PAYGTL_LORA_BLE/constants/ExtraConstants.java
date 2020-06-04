@@ -19,7 +19,7 @@ public class ExtraConstants {
 	public static final String Accept = "application/vnd.onem2m-res+json";
 	public static final String CacheControl = "no-cache";
 	public static final String TataUserName = "nunnahareesh";
-	public static final String TataPassword = "Pass@123";
+	public static final String TataPassword = "Hanbit@2020";
 	public static final String SenderID = "&senderid="+"HANTRI&msg=";
 	public static final String SMSAPI = "https://sms.textmysms.com/app/smsapi/index.php?key=45EBD4E5FA470B&campaign=0&routeid=13&type=text&contacts=";
 	public static final String RZPKeyID = "rzp_test_PK0HJHPshOFmX5";
