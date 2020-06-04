@@ -89,18 +89,6 @@ $(document)
 												    ,bPaginate  : false,
 												    "scrollY" : 300,
 													"scrollX" : true,
-												/*"processing" : true,
-												"serverSide" : true,
-												"bDestroy" : true,
-												"pagging" : true,
-												"bProcessing" : true,
-												"ordering" : true,
-												"order" : [ 0, "desc" ],
-												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-												"pageLength" : "5",
-												"scrollY" : 324,
-												"scrollX" : true,*/
-												
 										"ajax" : {
 											"url" : "/PAYGTL_LORA_BLE/dashboard/"
 													+ sessionStorage
@@ -173,15 +161,22 @@ $(document)
 													"defaultContent": ""
 												},
 												{
-													"data" : "valveStatus"
+														"mData" : "action",
+														"render" : function(data,
+																type, row) {
+															return "<span id=color style = color:"
+																	+ row.valveColor
+																	+ ">"
+																	+ row.valveStatus
+																	+ "</span>"
+														},
+														"defaultContent": ""
 												},
 												{
-													//"data": "timeStamp",
-													
 													"mData" : "action",
 													"render" : function(data,
 															type, row) {
-														return "<span id=color style = color:"
+														return "<span id=color title="+row.tamper +"style = color:"
 																+ row.tamperColor
 																+ ">"
 																+ row.tamperStatus
