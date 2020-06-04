@@ -657,8 +657,8 @@ public class DashboardDAO {
 								pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
 								pstmt1.setInt(13, 0);// Balance Pending
 								pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-								pstmt.setString(15, dashboardRequestVO.getTamperTimeStamp());
-								pstmt.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
+								pstmt1.setString(15, dashboardRequestVO.getTamperTimeStamp());
+								pstmt1.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
 								pstmt1.setInt(17, dashboardRequestVO.getLowBattery());
 								pstmt1.setInt(18, dashboardRequestVO.getVacation());
 								pstmt1.setInt(19, dashboardRequestVO.getMinutes());
@@ -682,8 +682,8 @@ public class DashboardDAO {
 									pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
 									pstmt1.setInt(13, 0);// Balance Pending
 									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
-									pstmt.setString(15, dashboardRequestVO.getTamperTimeStamp());
-									pstmt.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
+									pstmt1.setString(15, dashboardRequestVO.getTamperTimeStamp());
+									pstmt1.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
 									pstmt1.setInt(17, dashboardRequestVO.getLowBattery());
 									pstmt1.setInt(18, dashboardRequestVO.getVacation());
 									pstmt1.setString(19, rs.getString("MeterSerialNumber"));

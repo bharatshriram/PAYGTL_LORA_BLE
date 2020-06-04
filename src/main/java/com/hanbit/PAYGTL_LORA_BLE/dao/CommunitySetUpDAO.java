@@ -718,11 +718,6 @@ public class CommunitySetUpDAO {
 
 				if (pstmt.executeUpdate() > 0) {
 					
-						pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails where CRNNumber = ?");
-						pstmt1.setString(1, customervo.getCRNNumber());
-						
-						if (pstmt1.executeUpdate() >= 0) {
-							
 							pstmt2 = con.prepareStatement("DELETE FROM user WHERE CRNNumber = ?");
 							pstmt2.setString(1, customervo.getCRNNumber());
 
@@ -732,6 +727,12 @@ public class CommunitySetUpDAO {
 								if(pstmt3.executeUpdate() > 0) {
 									responsevo.setResult("Success");
 									responsevo.setMessage("Customer Deleted Successfully");
+									
+									pstmt1 = con.prepareStatement("DELETE FROM updaterequestcustomermeterdetails where CRNNumber = ?");
+									pstmt1.setString(1, customervo.getCRNNumber());
+									
+									pstmt1.executeUpdate();
+										
 								} else {
 									PreparedStatement pstmt4 = con.prepareStatement("DELETE FROM customerdeletemeter where CRNNumber = ?");
 									pstmt4.setString(1, customervo.getCRNNumber());
@@ -744,9 +745,6 @@ public class CommunitySetUpDAO {
 							}
 
 						}
-							
-						}
-						
 				}
 
 		} catch (Exception ex) {
@@ -755,7 +753,6 @@ public class CommunitySetUpDAO {
 			responsevo.setResult("Failure");
 		} finally {
 			pstmt.close();
-			pstmt1.close();
 			con.close();
 		}
 
