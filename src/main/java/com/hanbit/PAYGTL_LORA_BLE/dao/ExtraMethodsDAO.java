@@ -24,6 +24,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -150,6 +151,7 @@ public class ExtraMethodsDAO {
 	
 	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount) throws IOException {
 		
+	JSONObject json = new JSONObject();
 	String data = "";
 	URL url = new URL(ExtraConstants.RZPBasicUrl+request);
     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -163,9 +165,9 @@ public class ExtraMethodsDAO {
 	if(request.equalsIgnoreCase("orders")) {
 	data = gson.toJson(razorPayOrderVO, RazorPayOrderVO.class);
 	} else {
-	data = gson.toJson(amount, String.class);
+		json.put("amount", amount);
+	data = json.toString();
 	}
-	
 		// Send post request
 		urlConnection.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());
@@ -230,9 +232,8 @@ public class ExtraMethodsDAO {
 						// initiate refund process
 						
 						
-						/*  String rzpRestCallResponse = razorpaypost(null,
-						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund",
-						  rs.getInt("Amount"));
+						  String rzpRestCallResponse = razorpaypost(null,
+						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund", (rs.getInt("Amount")*100));
 						  
 						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
 						  
@@ -260,7 +261,7 @@ public class ExtraMethodsDAO {
 						  
 						  sendmail(mailRequestVO);
 						  
-						  }*/
+						  }
 						 
 					}
 					
