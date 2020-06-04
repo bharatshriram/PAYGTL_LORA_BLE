@@ -70,6 +70,8 @@ public class LoginDAO {
 							userDetails.setCRNNumber(resultSet.getString("CRNNumber"));
 							userDetails.setuserName(resultSet.getString("UserName"));
 							userDetails.setCommunity(resultSet.getInt("CommunityID"));
+							userDetails.setCommunityName(resultSet.getString("CommunityName"));
+							userDetails.setBlockName(resultSet.getString("BlockName"));
 							userDetails.setID(resultSet.getInt("ID"));
 
 							responsevo.setUserDetails(userDetails);

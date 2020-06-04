@@ -24,7 +24,7 @@ public class RazorPayResponseVO {
 	public List<Object> notes;
 	public long created_at;
 	
-	public String acquirer_data;
+	public AcquirerData acquirer_data;
 	public String payment_id;
 	public String speed_processed;
 	public String speed_requested;
@@ -101,10 +101,10 @@ public class RazorPayResponseVO {
 	public void setCreated_at(long created_at) {
 		this.created_at = created_at;
 	}
-	public String getAcquirer_data() {
+	public AcquirerData getAcquirer_data() {
 		return acquirer_data;
 	}
-	public void setAcquirer_data(String acquirer_data) {
+	public void setAcquirer_data(AcquirerData acquirer_data) {
 		this.acquirer_data = acquirer_data;
 	}
 	public String getPayment_id() {

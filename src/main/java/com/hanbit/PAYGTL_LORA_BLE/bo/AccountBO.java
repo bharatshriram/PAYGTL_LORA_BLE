@@ -40,7 +40,7 @@ public class AccountBO {
 	public ResponseVO addconfiguration(ConfigurationRequestVO configurationvo) throws BusinessException, SQLException {
 		// TODO Auto-generated method stub
 		ResponseVO responsevo = new ResponseVO();
-			if (accountdao.checkstatus(configurationvo.getMeterID())) {
+			if (accountdao.checkconfigstatus(configurationvo.getMeterID())) {
 				throw new BusinessException("PREVIOUS COMMAND REQUEST IS PENDING");
 			}
 			

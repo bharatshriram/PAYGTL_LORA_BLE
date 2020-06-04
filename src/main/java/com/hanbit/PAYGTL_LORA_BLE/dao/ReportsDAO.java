@@ -330,7 +330,7 @@ public class ReportsDAO {
 			AlarmsResponseVO alarmsResponseVO = null;
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, cmd.CRNNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
-					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.TamperTimeStamp, bl.DoorOpenTimeStamp, bl.LogDate\r\n" + 
+					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.TamperTimeStamp, bl.DoorOpenTimeStamp, bl.IotTimeStamp, bl.LogDate\r\n" + 
 					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? AND (bl.SolonideStatus = 1 OR bl.TamperDetect = 1 OR bl.BatteryVoltage < (SELECT LowBAtteryVoltage FROM alertsettings))";
 				pstmt = con.prepareStatement(query);
