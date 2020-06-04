@@ -530,7 +530,7 @@ function getVacationrFormDelete(vacationID){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE VACATION",
+			"ARE YOU SURE TO DELETE VACATION",
 		function(
 			result) {
 			//	alert(result);

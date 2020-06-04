@@ -176,7 +176,7 @@ $(document)
 													"mData" : "action",
 													"render" : function(data,
 															type, row) {
-														return "<span id=color title="+row.tamper +"style = color:"
+														return "<span id=color title="+row.tamperTimeStamp +"style = color:"
 																+ row.tamperColor
 																+ ">"
 																+ row.tamperStatus
@@ -308,6 +308,25 @@ $(document)
 										return false;
 										}
 									}
+								
+								
+								var reading =/^^\d{7}$/;
+								if($("#reading_from").val() != ""){
+									if (!reading.test($("#reading_from").val())) {
+										bootbox.alert("Invalid Reading From ");
+										return false;
+										}
+									}
+								
+								if($("#reading_to").val() != ""){
+									if (!reading.test($("#reading_to").val())) {
+										bootbox.alert("Invalid Reading To")
+										return false;
+										}
+									}
+								
+								
+								
 								var battery =/^[0-9]{0,3}$/;
 								if($("#battery_from").val() != ""){
 									if (!battery.test($("#battery_from").val())) {
@@ -364,9 +383,9 @@ $(document)
 													.DataTable(
 															{
 																
-																"dom" : "<'row'<'col-sm-4 custombutton'B><'col-sm-2'l><'col-sm-6'f>>"
+																"dom" : "<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-6'f>>"
 																		+ "<'row'<'col-sm-12'tr>>"
-																		+ "<'row'<'col-sm-6 text-white'i><'col-sm-6 text-white'p>>",
+																		+ "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		
 																		"language": {
 																		      "emptyTable": "No data available in table"
@@ -474,9 +493,17 @@ $(document)
 																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "valveStatus",
+																			"mData" : "action",
+																			"render" : function(data,
+																					type, row) {
+																				return "<span id=color style = color:"
+																						+ row.valveColor
+																						+ ">"
+																						+ row.valveStatus
+																						+ "</span>"
+																			},
 																			"defaultContent": ""
-																		},
+																	},
 																		{
 																			"data" : "tariff",
 																			"defaultContent": ""
@@ -487,7 +514,7 @@ $(document)
 																			"mData" : "action",
 																			"render" : function(data,
 																					type, row) {
-																				return "<span id=color style = color:"
+																				return "<span id=color title="+row.tamperTimeStamp +"style = color:"
 																						+ row.tamperColor
 																						+ ">"
 																						+ row.tamperStatus
@@ -538,46 +565,39 @@ $(document)
 																 
 																"buttons" : [
 																	{
-																		//extend : 'excel',
+																		extend : 'excel',
 																		footer : 'true',
 																		//text : 'Excel',
 																		title : 'Dashboard',
-																		className: 'custom-btn fa fa-file-excel-o'
+																	//	className: 'custom-btn fa fa-file-excel-o'
 																			
 																	},
 
 																	{
-																		//extend : 'pdf',
+																		extend : 'pdf',
 																		footer : 'true',
 																		exportOptions : {
 																			columns : [ 0,1, 2, 3, 4,
 																					5, 6, 7, 8, 9,
-																					10, 11, 12,13, 14,15 ]
+																					10, 11, 12,13,14 ]
 																		},
-																		//text : 'pdf',
-																		className: 'custom-btn fa fa-file-pdf-o',
 																		orientation : 'landscape',
 																		title : 'Dashboard',
 																		pageSize: 'LEGAL'
 																	},
 																	{
-														                //text: 'AdvSerach',
-														                action: function ( e, dt, node, config ) {
-														                    alert( 'Button activated' );
-														                },
-														                className: 'customButton fa fa-search-plus ',
-														               
-														                action: function ( e, dt, button, config ) {
-														                    $('.custombutton').attr(
-														                        {
-														                            "data-toggle": "modal",
-														                            "data-target": "#exampleModal"
-														                        }
-														                    );
-														                //    var selected = dt.row( { selected: true } ).data(); 
-														                	$('#exampleModal').modal('show');
-														                }
-														            },
+															               className: 'customButton',
+															               text : "Adv Serach",
+															              // extend : 'ADv',
+															                action: function ( e, dt, button, config ) {
+															                	$('.customButton').attr(
+															                        {
+															                            "data-toggle": "modal",
+															                            "data-target": "#exampleModal"
+															                        }
+															                    );
+															                }
+															            },
 																		{
 															                text: 'Reset',
 															                action: function ( e, dt, node, config ) {

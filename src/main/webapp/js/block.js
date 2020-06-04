@@ -520,7 +520,7 @@ function getBlockFormDelete(blockId){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE BLOCK",
+			"ARE YOU SURE TO DELETE BLOCK",
 		function(
 			result) {
 			//	alert(result);

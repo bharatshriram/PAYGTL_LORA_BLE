@@ -332,6 +332,8 @@ $(document).ready(function() {
 	//alert((sessionStorage.getItem("roleID") == 3) ? [0,1,2,11]:11);
 	//alert(((sessionStorage.getItem("roleID") == 3)) ? (sessionStorage.getItem("roleID") == 3) :(((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))));
 	
+	var filterId = sessionStorage.getItem("filterId") =="day" ? "1" : 0
+	
 	$('#topstatusTable1').hide();
 	table = $('#topstatusTable')
 	.DataTable(
@@ -351,7 +353,7 @@ $(document).ready(function() {
 		"scrollY" : 324,
 		"scrollX" : true,
 	"ajax" : {
-	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1/0",
+	"url":"/PAYGTL_LORA_BLE/status/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1/"+filterId,
 	"type" : "GET",
 	"data" : function(search) {
 	},
@@ -608,7 +610,7 @@ function getDeleteTransactionID(transID){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE RECORD",
+			"ARE YOU SURE TO DELETE RECORD",
 		function(
 			result) {
 			//	alert(result);

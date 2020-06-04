@@ -88,8 +88,8 @@
 									<th>CRN</th>
 									<th>MSN</th>
 									<th>MIU ID</th>
-									<th>Reading</th>
-									<th>Consumption</th>
+									<th>Reading (M<sup>3</sup>)</th>
+									<th>Gas in KG</th>
 									<th>Balance</th>
 									<th>EC</th>
 									<th>Tariff</th>
@@ -116,8 +116,8 @@
 									<th>CRN</th>
 									<th>MSN</th>
 									<th>MIU ID</th>
-									<th>Reading</th>
-									<th>Consumption</th>
+									<th>Reading (M<sup>3</sup>)</th>
+									<th>Gas in KG</th>
 									<th>Balance</th>
 									<th>EC</th>
 									<th>Battery</th>
@@ -166,25 +166,25 @@
             <div class="col-md-6">
               <div class="form-group">
                 <label class="bmd-label-floating">Reading from</label>
-                <input type="text" id="reading_from" name="reading_from" class="form-control" >
+                <input type="text" id="reading_from" name="reading_from" class="form-control" maxlength="7" >
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label class="bmd-label-floating">Reading To</label>
-                <input type="text" id="reading_to" name="reading_to" class="form-control" >
+                <input type="text" id="reading_to" name="reading_to" class="form-control" maxlength="7">
               </div>
             </div>
             
             <div class="col-md-6">
               <div class="form-group">
-                <label class="bmd-label-floating">Battery Voltage From</label>
+                <label class="bmd-label-floating">Battery Percentage From</label>
                 <input type="text" class="form-control input_height" id="battery_from" name="battery_from">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="bmd-label-floating">Battery Voltage To</label>
+                <label class="bmd-label-floating">Battery Percentage To</label>
                 <input type="text" class="form-control input_height" id="battery_to" name="battery_to">
               </div>
             </div>
@@ -194,7 +194,7 @@
                 <label class="bmd-label-floating select-label">Tamper</label>
                 <select class="form-control" id="tamper" name="tamper">
                   <option value="-1">Tamper Type</option>
-                  <option value="1">Tamper Detect</option>
+                  <option value="1">Magnetic Tamper</option>
                   <option value="2">Door Open</option>
                 </select>
               </div>
