@@ -14,14 +14,14 @@ public class RazorPayResponseVO {
 	private String id;
 	private String entity;
 	private int amount;
-	private int amountPaid;
-	private int amountDue;
+	private int amount_paid;
+	private int amount_due;
 	private String currency;
 	private String receipt;
 	private String status;
 	private int attempts;
 	private int payment_capture;
-	private Notes notes;
+	private List<Object> notes;
 	private long created_at;
 	
 	// for refund
@@ -70,17 +70,20 @@ public class RazorPayResponseVO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
-	public int getAmountPaid() {
-		return amountPaid;
+	public int getAmount_paid() {
+		return amount_paid;
 	}
-	public void setAmountPaid(int amountPaid) {
-		this.amountPaid = amountPaid;
+	public void setAmount_paid(int amount_paid) {
+		this.amount_paid = amount_paid;
 	}
-	public int getAmountDue() {
-		return amountDue;
+	public int getAmount_due() {
+		return amount_due;
 	}
-	public void setAmountDue(int amountDue) {
-		this.amountDue = amountDue;
+	public void setAmount_due(int amount_due) {
+		this.amount_due = amount_due;
+	}
+	public void setNotes(List<Object> notes) {
+		this.notes = notes;
 	}
 	public String getCurrency() {
 		return currency;
@@ -111,12 +114,6 @@ public class RazorPayResponseVO {
 	}
 	public void setPayment_capture(int payment_capture) {
 		this.payment_capture = payment_capture;
-	}
-	public Notes getNotes() {
-		return notes;
-	}
-	public void setNotes(Notes notes) {
-		this.notes = notes;
 	}
 	public long getCreated_at() {
 		return created_at;
@@ -255,6 +252,9 @@ public class RazorPayResponseVO {
 	}
 	public void setError_description(Object error_description) {
 		this.error_description = error_description;
+	}
+	public List<Object> getNotes() {
+		return notes;
 	}
 	
 }

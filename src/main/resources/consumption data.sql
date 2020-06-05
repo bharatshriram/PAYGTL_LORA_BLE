@@ -67,7 +67,7 @@ CREATE TABLE `balancelog` (
   `IoTTimeStamp` varchar(80) DEFAULT NULL,
   `LogDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ReadingID`)
-) ENGINE=InnoDB AUTO_INCREMENT=109 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=latin1;
 
 /*Data for the table `balancelog` */
 
@@ -179,7 +179,13 @@ insert  into `balancelog`(`ReadingID`,`MeterID`,`Reading`,`Balance`,`CommunityID
 (105,'70b3d5f830004fb5',131.00,0.00,5,11,15,3.59,20.00,'0.0',3,84,0,2,'1970-01-01 11:30:05','1970-01-01 10:30:40',0,0,'765993','HAN0014',0,'2020-06-04 14:59:59','2020-06-04 15:02:04'),
 (106,'70b3d5f830004fb5',131.00,0.00,5,11,15,3.59,20.00,'0.0',3,1,0,2,'2014-11-14 05:32','2014-11-14 05:36',0,0,'765993','HAN0014',0,'2020-06-04 15:09:59','2020-06-04 16:25:41'),
 (107,'70b3d5f830004fb5',650.00,1490.00,5,11,15,3.59,50.00,'20.0',3,1,0,2,'2020-06-04 22:19','2020-06-04 22:37',0,0,'765993','HAN0014',0,'2020-06-04 17:08:26','2020-06-04 17:31:08'),
-(108,'70b3d5f830004fb5',0.00,20.00,5,11,15,3.59,0.00,'3.081e-42',3,1,0,2,'','2014-11-14 05:37',0,0,'765993','HAN0014',65280,'2020-06-05 12:41:50','2020-06-05 12:47:27');
+(108,'70b3d5f830004fb5',0.00,20.00,5,11,15,3.59,0.00,'3.081e-42',3,1,0,2,'','2014-11-14 05:37',0,0,'765993','HAN0014',65280,'2020-06-05 12:41:50','2020-06-05 12:47:27'),
+(109,'70b3d5f830004fb5',0.00,0.00,5,11,15,3.59,0.00,'0.0',3,1,0,2,'','2014-11-14 05:59',0,0,'765993','HAN0014',0,'2020-06-05 16:17:24','2020-06-05 16:18:10'),
+(110,'70b3d5f830004fb5',0.00,500.00,5,11,15,3.59,50.00,'20.0',3,1,0,2,'','2014-11-14 06:02',0,0,'765993','HAN0014',0,'2020-06-05 16:20:50','2020-06-05 16:21:32'),
+(111,'70b3d5f830004fb5',5.00,500.00,5,11,15,3.59,50.00,'20.0',3,0,0,2,'2014-11-14 06:04','2014-11-14 06:07',0,0,'765993','HAN0014',0,'2020-06-05 16:25:52','2020-06-05 16:27:00'),
+(112,'70b3d5f830004fb5',7.00,150.00,5,11,15,3.59,50.00,'20.0',3,0,0,2,'','2014-11-14 05:40',0,0,'765993','HAN0014',0,'2020-06-05 16:36:52','2020-06-05 16:37:17'),
+(113,'70b3d5f830004fb5',12.00,500.00,5,11,15,3.59,50.00,'20.0',3,1,0,2,'','2020-06-05 22:11',0,0,'765993','HAN0014',0,'2020-06-05 16:41:28','2020-06-05 16:42:37'),
+(114,'70b3d5f830004fb5',12.00,500.00,5,11,15,3.59,50.00,'20.0',3,1,0,2,'','2020-06-05 22:17',0,0,'765993','HAN0014',0,'2020-06-05 16:48:15','2020-06-05 16:52:17');
 
 /*Table structure for table `block` */
 
@@ -226,7 +232,7 @@ CREATE TABLE `command` (
   `CreatedDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `ModifiedDate` datetime DEFAULT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 
 /*Data for the table `command` */
 
@@ -253,7 +259,7 @@ insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`Meter
 (20,1589650989308,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-16 23:13:15','2020-05-16 23:22:00'),
 (21,1589712670324,14,'70b3d5f830004fb4',6,5,'HAN0013','2020-05-17 16:21:10','2020-05-17 16:24:00'),
 (22,1589712916653,14,'70b3d5f830004fb4',40,5,'HAN0013','2020-05-17 16:25:16','2020-05-17 16:28:00'),
-(23,1590564754575,14,'70b3d5f830004fb4',6,1,'HAN0013','2020-05-27 13:02:37','2020-06-05 13:16:11'),
+(23,1590564754575,14,'70b3d5f830004fb4',6,1,'HAN0013','2020-05-27 13:02:37','2020-06-05 17:08:01'),
 (24,1590567899117,15,'70b3d5f830004fb5',6,2,'HAN0014','2020-05-27 13:55:01','2020-05-27 13:55:02'),
 (25,1590568080874,15,'70b3d5f830004fb5',6,5,'HAN0014','2020-05-27 13:58:03','2020-05-27 14:00:01'),
 (26,1590569802587,15,'70b3d5f830004fb5',6,2,'HAN0014','2020-05-27 14:26:45','2020-05-27 14:30:01'),
@@ -269,7 +275,8 @@ insert  into `command`(`TransactionID`,`TataReferenceNumber`,`CustomerID`,`Meter
 (36,1590742479137,15,'70b3d5f830004fb5',0,2,'HAN0014','2020-05-29 14:24:43','2020-05-29 14:28:01'),
 (37,1590742871605,15,'70b3d5f830004fb5',5,5,'HAN0014','2020-05-29 14:31:15','2020-05-29 14:32:04'),
 (38,1590748366961,15,'70b3d5f830004fb5',5,5,'HAN0014','2020-05-29 16:02:51','2020-05-29 16:12:01'),
-(39,1590750318160,15,'70b3d5f830004fb5',5,5,'HAN0014','2020-05-29 16:35:22','2020-06-01 12:12:03');
+(39,1590750318160,15,'70b3d5f830004fb5',5,5,'HAN0014','2020-05-29 16:35:22','2020-06-01 12:12:03'),
+(40,1591353939180,15,'70b3d5f830004fb5',3,2,'HAN0014','2020-06-05 16:15:39','2020-06-05 16:20:19');
 
 /*Table structure for table `community` */
 
@@ -405,7 +412,7 @@ insert  into `displaybalancelog`(`ReadingID`,`MainBalanceLogID`,`MeterID`,`Readi
 (3,61,'70b3d5f830000a68',0.00,1910.00,1,1,6,2.18,10.00,'0.0',3,1,0,0,NULL,NULL,0,0,'4567','HAN0006',0,'2020-05-13 23:11:19','2020-05-27 15:23:48'),
 (4,78,'70b3d5f83000157b',230.00,110.00,5,11,12,3.59,30.00,'50.0',3,0,0,0,NULL,NULL,0,0,'17221006','HAN0012',0,'2020-05-15 23:49:50','2020-05-15 23:50:52'),
 (5,90,'70b3d5f830004fb4',229.00,300.00,5,11,14,3.59,25.00,'50.0',3,1,0,0,NULL,NULL,0,0,'986630','HAN0013',0,'2020-05-27 12:58:24','2020-05-27 12:59:12'),
-(6,108,'70b3d5f830004fb5',0.00,20.00,5,11,15,3.59,0.00,'3.081e-42',3,1,0,2,'','2014-11-14 05:37',0,0,'765993','HAN0014',65280,'2020-06-05 12:41:50','2020-06-05 12:47:27');
+(6,114,'70b3d5f830004fb5',12.00,500.00,5,11,15,3.59,50.00,'20.0',3,1,0,2,'','2020-06-05 22:17',0,0,'765993','HAN0014',0,'2020-06-05 16:48:15','2020-06-05 16:52:18');
 
 /*Table structure for table `feedback` */
 
@@ -567,7 +574,7 @@ CREATE TABLE `topup` (
   `TransactionDate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `AcknowledgeDate` datetime NOT NULL,
   PRIMARY KEY (`TransactionID`)
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 /*Data for the table `topup` */
 
@@ -617,7 +624,12 @@ insert  into `topup`(`TransactionID`,`TataReferenceNumber`,`CommunityID`,`BlockI
 (44,1591341530825,5,11,15,'70b3d5f830004fb5',2,360,2,0,50,'web','Online',1,'order_EyrF0iC6VEzV7j','pay_EyrFArcjwWEu7n','09bd14eab054a79840fb0e1fe9625f5056c969712ab8b39e3e5acf9abbdba269',NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 12:48:34','2020-06-05 12:52:03'),
 (45,1591342299638,5,11,15,'70b3d5f830004fb5',2,300,2,0,50,'web','Online',1,'order_EyrSaYCBmX6Ngs','pay_EyrShvAassmmyD','8900df9a155c6270defe1f030de8b2e96b293a7c0b3aad825ab732e86f95aceb',NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 13:01:26','2020-06-05 13:14:02'),
 (46,1591343073934,5,11,15,'70b3d5f830004fb5',2,450,2,0,50,'web','Online',1,'order_EyrgCOxpe8fOel','pay_EyrgJkG1oUReDZ','8faf76096f07bb4e6fa87b67441d43738d3340a5fb8c2a4ae1c262e0ea005a31',NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 13:14:19','2020-06-05 13:16:00'),
-(47,1591343195030,5,11,15,'70b3d5f830004fb5',2,900,5,0,50,'web','Online',3,'order_EyriNYUh81mR1K','pay_EyriTpy5OqXQ77','3588c66fecc76be241e4865881c4a0814f179e24edfca28fad3afcc3a83ef860',NULL,'rfnd_EyrkAkRUSqHwGK','processed','{\"id\":\"rfnd_EyrkAkRUSqHwGK\",\"entity\":\"refund\",\"amount\":90000,\"currency\":\"INR\",\"payment_id\":\"pay_EyriTpy5OqXQ77\",\"notes\":[],\"receipt\":null,\"acquirer_data\":{\"arn\":null},\"created_at\":1591343286,\"status\":\"processed\",\"speed_processed\":\"normal\",\"speed_requested\":\"normal\"}',18,2,'HAN0014','2020-06-05 13:16:23','2020-06-05 13:18:00');
+(47,1591343195030,5,11,15,'70b3d5f830004fb5',2,900,5,0,50,'web','Online',3,'order_EyriNYUh81mR1K','pay_EyriTpy5OqXQ77','3588c66fecc76be241e4865881c4a0814f179e24edfca28fad3afcc3a83ef860',NULL,'rfnd_EyrkAkRUSqHwGK','processed','{\"id\":\"rfnd_EyrkAkRUSqHwGK\",\"entity\":\"refund\",\"amount\":90000,\"currency\":\"INR\",\"payment_id\":\"pay_EyriTpy5OqXQ77\",\"notes\":[],\"receipt\":null,\"acquirer_data\":{\"arn\":null},\"created_at\":1591343286,\"status\":\"processed\",\"speed_processed\":\"normal\",\"speed_requested\":\"normal\"}',18,2,'HAN0014','2020-06-05 13:16:23','2020-06-05 13:18:00'),
+(48,0,5,11,15,'70b3d5f830004fb5',2,650,0,0,50,'web','Online',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 15:50:18','2020-06-05 15:50:18'),
+(49,0,5,11,15,'70b3d5f830004fb5',2,650,0,0,50,'web','Online',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 15:51:41','2020-06-05 15:51:41'),
+(50,0,5,11,15,'70b3d5f830004fb5',2,650,0,0,50,'web','Online',0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 15:54:08','2020-06-05 15:54:08'),
+(51,1591353223299,5,11,15,'70b3d5f830004fb5',2,650,3,0,50,'web','Online',3,'order_EyuYiwZVGyd3xx','pay_EyuZ1MeWjt15sP','43f6dbbb8f963949bc30cac8c2efc03f2e588375ae74312eee78e858789bc06b',NULL,'rfnd_EyubeUOMc7VQfI','processed','{\"id\":\"rfnd_EyubeUOMc7VQfI\",\"entity\":\"refund\",\"amount\":65000,\"currency\":\"INR\",\"payment_id\":\"pay_EyuZ1MeWjt15sP\",\"notes\":[],\"receipt\":null,\"acquirer_data\":{\"arn\":null},\"created_at\":1591353367,\"status\":\"processed\",\"speed_processed\":\"normal\",\"speed_requested\":\"normal\"}',18,2,'HAN0014','2020-06-05 16:03:20','2020-06-05 16:06:00'),
+(52,1591354135629,5,11,15,'70b3d5f830004fb5',2,500,2,0,0,'web','Online',1,'order_EyuowyRemKydQ8','pay_Eyup5nKuxGRwVG','11e7035ed773bd899a27b6685785f8cb71c796c6edae9f3ec7d3c0ddba3696f1',NULL,NULL,NULL,NULL,18,2,'HAN0014','2020-06-05 16:18:41','2020-06-05 16:22:00');
 
 /*Table structure for table `updaterequestcustomermeterdetails` */
 
