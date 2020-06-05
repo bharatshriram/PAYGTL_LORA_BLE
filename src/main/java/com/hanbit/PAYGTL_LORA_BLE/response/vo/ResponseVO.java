@@ -23,6 +23,7 @@ public class ResponseVO {
 	private String location;
 	private UserDetails userDetails;
 	private CheckoutDetails checkoutDetails;
+	private String paymentMode;
 	
 	public UserDetails getUserDetails() {
 		return userDetails;
@@ -89,6 +90,12 @@ public class ResponseVO {
 	}
 	public void setCheckoutDetails(CheckoutDetails checkoutDetails) {
 		this.checkoutDetails = checkoutDetails;
+	}
+	public String getPaymentMode() {
+		return paymentMode;
+	}
+	public void setPaymentMode(String paymentMode) {
+		this.paymentMode = paymentMode;
 	}
 	
 }

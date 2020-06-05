@@ -149,7 +149,7 @@ public class ExtraMethodsDAO {
 	return responses.toString();
 }
 	
-	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount) throws IOException {
+	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount, String currency) throws IOException {
 		
 	JSONObject json = new JSONObject();
 	String data = "";
@@ -232,17 +232,15 @@ public class ExtraMethodsDAO {
 						// initiate refund process
 						
 						
-						  String rzpRestCallResponse = razorpaypost(null,
-						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund", (rs.getInt("Amount")*100));
+						  String rzpRestCallResponse = razorpaypost(null, "payments/"+rs.getString("RazorPayPaymentID")+"/refund", (rs.getInt("Amount")*100), "");
 						  
 						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
 						  
 						  PreparedStatement pstmt2 = con.
-						  prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
-						  + rs.getLong("TransactionID")); pstmt2.setString(1,
-						  razorPayResponseVO.getId()); pstmt2.setString(2,
-						  razorPayResponseVO.getStatus()); pstmt2.setString(1,
-						  razorPayResponseVO.toString());
+						  prepareStatement("UPDATE topup SET PaymentStatus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "+ rs.getLong("TransactionID"));
+						  pstmt2.setString(1,razorPayResponseVO.getId()); 
+						  pstmt2.setString(2,razorPayResponseVO.getStatus()); 
+						  pstmt2.setString(3,rzpRestCallResponse);
 						  
 						  if (pstmt2.executeUpdate() > 0) {
 						  
@@ -262,7 +260,6 @@ public class ExtraMethodsDAO {
 						  sendmail(mailRequestVO);
 						  
 						  }
-						 
 					}
 					
 				}
@@ -278,6 +275,38 @@ public class ExtraMethodsDAO {
 		}
 		
 	}
+	
+//	@Scheduled(cron="0 0 * ? * *")
+/*	@Scheduled(cron="0 0/4 * * * ?") 
+	public void razorpayPaymentCapture() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT t.PaymentStatus, t.Amount, t.RazorPayPaymentID, t.TransactionID, t.ModeOfPayment FROM topup WHERE t.Status = 2 AND t.Source = 'web' AND t.TataReferenceNumber != 0 AND t.ModeOfPayment = 'Online'");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				
+				String rzpRestCallResponse = razorpaypost(null, "payments/"+rs.getString("RazorPayPaymentID")+"/capture", (rs.getInt("Amount")*100), "INR");
+				  
+				  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
+				  
+				  // insert response in database
+
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		
+	}*/
 	
 //	@Scheduled(cron="0 0 * ? * *")
 	@Scheduled(cron="0 0/4 * * * ?") 

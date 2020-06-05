@@ -145,7 +145,7 @@ public class AccountDAO {
 							razorPayOrderVO.setCurrency("INR");
 							razorPayOrderVO.setPayment_capture(1);
 
-							String rzpRestCallResponse = extramethodsdao.razorpaypost(razorPayOrderVO, "orders", 0);
+							String rzpRestCallResponse = extramethodsdao.razorpaypost(razorPayOrderVO, "orders", 0, "");
 
 							RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
 									RazorPayResponseVO.class);
@@ -170,13 +170,14 @@ public class AccountDAO {
 								prefill.setEmail(rs1.getString("Email"));
 								prefill.setContact(rs1.getString("MobileNumber"));
 								checkoutDetails.setPrefill(prefill);
-								theme.setColor("BLUE");
+								theme.setColor("#125e8c");
 								checkoutDetails.setTheme(theme);
 								notes.setAddress(rs1.getString("HouseNumber"));
 								checkoutDetails.setTransactionID(transactionID);
 
 								responsevo.setCheckoutDetails(checkoutDetails);
-
+								
+								responsevo.setPaymentMode("Online");
 								responsevo.setResult("Success");
 								responsevo.setMessage("Order Created Successfully. Proceed to CheckOut");
 							}
@@ -187,6 +188,7 @@ public class AccountDAO {
 						}
 					} else {
 						topUpRequestVO.setPaymentStatus(1);
+						responsevo.setPaymentMode("Cash");
 						responsevo.setResult(sendPayLoadToTata(topUpRequestVO));
 						responsevo.setMessage("Topup Request Submitted Successfully");
 					}

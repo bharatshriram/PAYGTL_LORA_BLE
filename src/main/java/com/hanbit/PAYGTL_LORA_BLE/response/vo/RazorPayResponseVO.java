@@ -11,23 +11,46 @@ import java.util.List;
  */
 public class RazorPayResponseVO {
 	
-	public String id;
-	public String entity;
-	public int amount;
-	public int amountPaid;
-	public int amountDue;
-	public String currency;
-	public String receipt;
-	public String status;
-	public int attempts;
-	public int payment_capture;
-	public List<Object> notes;
-	public long created_at;
+	private String id;
+	private String entity;
+	private int amount;
+	private int amountPaid;
+	private int amountDue;
+	private String currency;
+	private String receipt;
+	private String status;
+	private int attempts;
+	private int payment_capture;
+	private Notes notes;
+	private long created_at;
 	
-	public AcquirerData acquirer_data;
-	public String payment_id;
-	public String speed_processed;
-	public String speed_requested;
+	// for refund
+	
+	private AcquirerData acquirer_data;
+	private String payment_id;
+	private String speed_processed;
+	private String speed_requested;
+	
+	// for payment capturing
+	
+	private String order_id;
+	private String invoice_id;
+	private Boolean international;
+	private String method;
+	private int amount_refunded;
+	private String refund_status;
+	private Boolean captured;
+	private String description;
+	private String cardId;
+	private String bank;
+	private String wallet;
+	private String vpa;
+	private String email;
+	private String contact;
+	private int fee;
+	private int tax;
+	private String error_code;
+	private Object error_description;
 	
 	public String getId() {
 		return id;
@@ -89,10 +112,10 @@ public class RazorPayResponseVO {
 	public void setPayment_capture(int payment_capture) {
 		this.payment_capture = payment_capture;
 	}
-	public List<Object> getNotes() {
+	public Notes getNotes() {
 		return notes;
 	}
-	public void setNotes(List<Object> notes) {
+	public void setNotes(Notes notes) {
 		this.notes = notes;
 	}
 	public long getCreated_at() {
@@ -125,5 +148,113 @@ public class RazorPayResponseVO {
 	public void setSpeed_requested(String speed_requested) {
 		this.speed_requested = speed_requested;
 	}
-
+	public String getOrder_id() {
+		return order_id;
+	}
+	public void setOrder_id(String order_id) {
+		this.order_id = order_id;
+	}
+	public String getInvoice_id() {
+		return invoice_id;
+	}
+	public void setInvoice_id(String invoice_id) {
+		this.invoice_id = invoice_id;
+	}
+	public Boolean getInternational() {
+		return international;
+	}
+	public void setInternational(Boolean international) {
+		this.international = international;
+	}
+	public String getMethod() {
+		return method;
+	}
+	public void setMethod(String method) {
+		this.method = method;
+	}
+	public int getAmount_refunded() {
+		return amount_refunded;
+	}
+	public void setAmount_refunded(int amount_refunded) {
+		this.amount_refunded = amount_refunded;
+	}
+	public String getRefund_status() {
+		return refund_status;
+	}
+	public void setRefund_status(String refund_status) {
+		this.refund_status = refund_status;
+	}
+	public Boolean getCaptured() {
+		return captured;
+	}
+	public void setCaptured(Boolean captured) {
+		this.captured = captured;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getCardId() {
+		return cardId;
+	}
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getWallet() {
+		return wallet;
+	}
+	public void setWallet(String wallet) {
+		this.wallet = wallet;
+	}
+	public String getVpa() {
+		return vpa;
+	}
+	public void setVpa(String vpa) {
+		this.vpa = vpa;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getContact() {
+		return contact;
+	}
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+	public int getFee() {
+		return fee;
+	}
+	public void setFee(int fee) {
+		this.fee = fee;
+	}
+	public int getTax() {
+		return tax;
+	}
+	public void setTax(int tax) {
+		this.tax = tax;
+	}
+	public String getError_code() {
+		return error_code;
+	}
+	public void setError_code(String error_code) {
+		this.error_code = error_code;
+	}
+	public Object getError_description() {
+		return error_description;
+	}
+	public void setError_description(Object error_description) {
+		this.error_description = error_description;
+	}
+	
 }
