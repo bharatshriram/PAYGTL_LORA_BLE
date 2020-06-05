@@ -116,8 +116,7 @@ public class DashboardDAO {
 				
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
-				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : "---");
-				dashboardvo.setDoorOpenTimeStamp((rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
@@ -231,12 +230,12 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
+				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
 				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
-				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : "---");
-				dashboardvo.setDoorOpenTimeStamp((rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));

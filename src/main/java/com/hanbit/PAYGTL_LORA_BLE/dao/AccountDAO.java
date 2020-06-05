@@ -418,7 +418,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()) {
 			
-		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, RazorPayOrderID, RazorPayPaymentID, RazorPaySignature CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, RazorPayOrderID, RazorPayPaymentID, RazorPaySignature, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 		ps = con.prepareStatement(sql);
 		
 		ps.setLong(1, topUpRequestVO.getTransactionIDForTata());
@@ -489,8 +489,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				statusvo.setMeterID(rs.getString("MeterID"));
 				statusvo.setAmount(rs.getString("Amount"));
 				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
-				statusvo.setRazorPayOrderID(rs.getString("RazorPayOrderID"));
-				statusvo.setRazorPayPaymentID(rs.getString("RazorPayPaymentID"));
+				statusvo.setRazorPayOrderID(rs.getString("ModeOfPayment").equalsIgnoreCase("Cash") ? "---" : rs.getString("RazorPayOrderID"));
+				statusvo.setRazorPayPaymentID(rs.getString("ModeOfPayment").equalsIgnoreCase("Cash") ? "---" : rs.getString("RazorPayPaymentID"));
 				statusvo.setRazorPayRefundID((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundID") : "---"));
 				statusvo.setRazorPayRefundStatus((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundStatus") : "---"));
 				statusvo.setPaymentStatus((rs.getInt("PaymentStatus") == 1 ? "PAID" : (rs.getInt("PaymentStatus") == 2) ? "FAILED" : (rs.getInt("PaymentStatus") == 3) ? "REFUND INITITATED" : "NOT PAID"));

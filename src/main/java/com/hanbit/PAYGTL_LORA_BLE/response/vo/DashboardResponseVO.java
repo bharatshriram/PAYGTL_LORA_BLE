@@ -30,7 +30,6 @@ public class DashboardResponseVO {
 	private String tariffName;
 	private String tamperStatus;
 	private String tamperTimeStamp;
-	private String doorOpenTimeStamp;
 	private String timeStamp;
 	private String dateColor;
 	private String batteryColor;
@@ -312,14 +311,6 @@ public class DashboardResponseVO {
 
 	public void setTamperTimeStamp(String tamperTimeStamp) {
 		this.tamperTimeStamp = tamperTimeStamp;
-	}
-
-	public String getDoorOpenTimeStamp() {
-		return doorOpenTimeStamp;
-	}
-
-	public void setDoorOpenTimeStamp(String doorOpenTimeStamp) {
-		this.doorOpenTimeStamp = doorOpenTimeStamp;
 	}
 
 }
