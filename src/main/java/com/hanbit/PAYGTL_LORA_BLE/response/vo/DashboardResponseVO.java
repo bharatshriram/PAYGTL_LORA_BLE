@@ -29,6 +29,8 @@ public class DashboardResponseVO {
 	private float tariff;
 	private String tariffName;
 	private String tamperStatus;
+	private String tamperTimeStamp;
+	private String doorOpenTimeStamp;
 	private String timeStamp;
 	private String dateColor;
 	private String batteryColor;
@@ -302,6 +304,22 @@ public class DashboardResponseVO {
 
 	public void setLastTopupAmount(int lastTopupAmount) {
 		this.lastTopupAmount = lastTopupAmount;
+	}
+
+	public String getTamperTimeStamp() {
+		return tamperTimeStamp;
+	}
+
+	public void setTamperTimeStamp(String tamperTimeStamp) {
+		this.tamperTimeStamp = tamperTimeStamp;
+	}
+
+	public String getDoorOpenTimeStamp() {
+		return doorOpenTimeStamp;
+	}
+
+	public void setDoorOpenTimeStamp(String doorOpenTimeStamp) {
+		this.doorOpenTimeStamp = doorOpenTimeStamp;
 	}
 
 }

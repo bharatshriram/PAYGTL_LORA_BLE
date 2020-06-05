@@ -276,11 +276,7 @@ public class AccountDAO {
 			
 			String generated_signature = Signature.calculateRFC2104HMAC(checkOutRequestVO.getRazorpay_order_id() + "|" + checkOutRequestVO.getRazorpay_payment_id(), ExtraConstants.RZPKeySecret);
 			
-			System.out.println(checkOutRequestVO.getRazorpay_signature()+"<==From Ui==>Generate ==> "+generated_signature );
-
 			if (generated_signature.equalsIgnoreCase(checkOutRequestVO.getRazorpay_signature())) {
-				
-				System.out.println(checkOutRequestVO.getRazorpay_signature()+"<==From Ui==>Generate ==> "+generated_signature );
 				
 			ps = con.prepareStatement("UPDATE topup SET PaymentStatus = 1, RazorPayPaymentID = ?, RazorPaySignature = ? WHERE RazorPayOrderID = ? AND TransactionID = ?");
 			
@@ -306,6 +302,7 @@ public class AccountDAO {
 					topUpRequestVO.setAlarmCredit(rs.getFloat("AlarmCredit"));
 					topUpRequestVO.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 					topUpRequestVO.setTariff(rs.getFloat("Tariff"));
+					topUpRequestVO.setModeOfPayment("Online");
 					
 					if(sendPayLoadToTata(topUpRequestVO).equalsIgnoreCase("Success")){
 					responseVO.setResult("Success");
@@ -384,7 +381,7 @@ public String sendPayLoadToTata(TopUpRequestVO topUpRequestVO) throws SQLExcepti
 		if(topUpRequestVO.getModeOfPayment().equalsIgnoreCase("Cash")) {
 			result = inserttopup(topUpRequestVO);	
 		} else {
-			PreparedStatement pstmt = con.prepareStatement("UPDATE topup SET TataReferenceNumber = ?, Status = ? WHERE TranasactionID = ?");
+			PreparedStatement pstmt = con.prepareStatement("UPDATE topup SET TataReferenceNumber = ?, Status = ? WHERE TransactionID = ?");
 			pstmt.setLong(1, topUpRequestVO.getTransactionIDForTata());
 			pstmt.setInt(2, topUpRequestVO.getStatus());
 			pstmt.setLong(3, topUpRequestVO.getTransactionID());

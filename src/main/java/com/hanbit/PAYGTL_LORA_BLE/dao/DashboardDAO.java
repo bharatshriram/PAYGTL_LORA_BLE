@@ -71,7 +71,7 @@ public class DashboardDAO {
 			}
 			
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName,cmd.CRNNumber, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, \r\n" + 
-					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.Vacation, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
+					"dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.TariffAmount, dbl.SolonideStatus, dbl.TamperDetect, dbl.Vacation,dbl.TamperTimeStamp, dbl.DoorOpenTimeStamp, dbl.IoTTimeStamp, dbl.LogDate\r\n" + 
 					"FROM displaybalancelog AS dbl LEFT JOIN community AS c ON c.communityID = dbl.CommunityID LEFT JOIN block AS b ON b.BlockID = dbl.BlockID\r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber WHERE 1=1 <change>";
 		
@@ -104,12 +104,20 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
+				
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
+				
 				// change the full battery voltage value accordingly
+				
 				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				
+				// 0 = no tamper 1 = magnetic; 2 = door open
+				
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : "---");
+				dashboardvo.setDoorOpenTimeStamp((rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
@@ -227,6 +235,8 @@ public class DashboardDAO {
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : "---");
+				dashboardvo.setDoorOpenTimeStamp((rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
@@ -486,8 +496,9 @@ public class DashboardDAO {
 		        
 				if (sb.substring(0, 2).equalsIgnoreCase("0A")) {
 					
-					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67
-					//               10             20             30             40   
+					// 0A 00 00 00 83 08 FF 03 00 00 00 00 41 A0 00 00 00 00 00 00 00 00 54 65 46 78 54 65 47 69 01 17
+					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23
+					//               10             20             30             40             50             60   
 					
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(sb.substring(2, 10)));					
 					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);
@@ -508,14 +519,14 @@ public class DashboardDAO {
 					
 					dashboardRequestVO.setMinutes(DashboardDAO.hexDecimal(sb.substring(40, 44)));
 					
-					int tamperTimeStamp = DashboardDAO.hexDecimal(sb.substring(44, 48));
-					int doorOpenTimeStamp = DashboardDAO.hexDecimal(sb.substring(48, 52));
+					int tamperTimeStamp = DashboardDAO.hexDecimal(sb.substring(44, 52));
+					int doorOpenTimeStamp = DashboardDAO.hexDecimal(sb.substring(52, 60));
 					
 					if(tamperTimeStamp != 0) {
 						
 						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
 						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 16));
 					} else {
 					dashboardRequestVO.setTamperTimeStamp("");
 					}
@@ -523,14 +534,13 @@ public class DashboardDAO {
 					if(doorOpenTimeStamp != 0) {
 						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
 						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 19));
+						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 16));
 					} else {
 					dashboardRequestVO.setDoorOpenTimeStamp("");
 					} 
 				  
-					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(52, 54)));
+					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(60, 62)));
 					
-//					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(44, 46)));
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
 					if (dashboardRequestVO.getLowBattery() == 1) {
