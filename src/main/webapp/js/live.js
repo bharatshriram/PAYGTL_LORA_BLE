@@ -11,6 +11,7 @@ $(document)
 					var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 					
 					var filterId =(sessionStorage.getItem("filterId") == null) ? 0 :(sessionStorage.getItem("filterId"));
+					//sessionStorage.remove("filterId");
 					$("#liveTable1").hide();
 					
 					var hCols = [ 3, 4 ];

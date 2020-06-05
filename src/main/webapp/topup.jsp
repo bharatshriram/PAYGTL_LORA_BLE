@@ -60,7 +60,7 @@
                 <form id="topupDetails">
                     <div class="row">
                     
-                    <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("2")){ %>
+                    <%if(user_id.equalsIgnoreCase("1")){ %>
                     
                         <div class="col-md-4">
                             <div class="input-group form-group">
@@ -84,7 +84,32 @@
                               </select>
                             </div>
                           </div>
-                          <%} else if(user_id.equalsIgnoreCase("3")){%>
+                          <%} else if(user_id.equalsIgnoreCase("2")){%>
+                          
+                          <div class="col-md-4">
+								<div id = "formcommunityNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Community Name</label> <input
+										type="text" class="form-control" name="communityNameAdd"
+										id="communityNameAdd" disabled>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div id = "formblockNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Block Name</label> <input
+										type="text" class="form-control" name="blockNameAdd"
+										id="blockNameAdd"  disabled>
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+                            <div class="input-group form-group">
+                              <label class="bmd-label-floating select-label">Select CRN<sup class="imp">*</sup></label>
+                              <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
+                              </select>
+                            </div>
+                          </div>
+                          
+                          <%}else if(user_id.equalsIgnoreCase("3")){%>
                           <div class="col-md-4">
                             <div id="formCRNNumber" class="input-group form-group">
                               <label class="bmd-label-floating">CRN Number</label>
@@ -157,6 +182,20 @@
                               <input type="text" class="form-control" id="recharge_topup" name="recharge_topup">
                             </div>
                           </div>
+                          <%if(!user_id.equalsIgnoreCase("3")){ %>
+                           <div class="col-md-4">
+                            <div class="input-group form-group">
+                              <label class="bmd-label-floating">Payment Mode</label>
+                             <select
+										class="form-control" id="paymentMode" name="paymentMode">
+							 			<option value = "-1">Select Mode</option>
+							 			<option value = "Cash">Cash</option>
+							  			<option value = "Online">Online</option>
+									</select>
+                            </div>
+                          </div>
+                          <%} %>
+                          
                     </div>
                     
                     <div class="row">

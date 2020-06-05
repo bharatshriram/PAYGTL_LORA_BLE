@@ -5,6 +5,13 @@
 $(document)
 		.ready(
 				function() {
+					
+					if(sessionStorage.getItem("roleID") == 2){
+						$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+						$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+						$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+						$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+					}
 										$(document).on('click', '#configuration', function () {
 									    
 										var data1 = {}										

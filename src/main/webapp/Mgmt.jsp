@@ -159,14 +159,14 @@
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">User Password</label> <input
-										type="text" class="form-control" name="userPasswordAdd"
+										type="password" class="form-control" name="userPasswordAdd"
 										id="userPasswordAdd">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Confirm Password</label> <input
-										type="text" class="form-control" name="confirmPasswordAdd"
+										type="password" class="form-control" name="confirmPasswordAdd"
 										id="confirmPasswordAdd">
 								</div>
 							</div>

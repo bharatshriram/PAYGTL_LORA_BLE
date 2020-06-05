@@ -37,11 +37,13 @@ function returnBack(){
 }
 
 function redirection(obj){
-	sessionStorage.setItem("filterId",obj);
+	
 	if(obj == "day"){
+		sessionStorage.setItem("day",obj);
 		window.location = "topupStatus.jsp";
 	}
 	else{
+		sessionStorage.setItem("filterId",obj);
 		window.location = "LiveDashBoard.jsp";
 	}
 	

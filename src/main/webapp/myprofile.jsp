@@ -71,9 +71,10 @@
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-5">xxxxxxx</div>
-                        <div class="col-md-2 change_pwd text-primary"><b style="cursor: pointer;">Change Password</b></div>
+                        <div class="col-md-2 change_pwd text-danger"><b style="cursor: pointer;">Change Password</b></div>
                        
                       </div>
+                      
                       <div class="row p-2 pwd_block">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-9">
@@ -102,8 +103,56 @@
                           </form>
                         </div>
                        </div>
-                 
-                   
+					<div class="row border-bottom p-2">
+                        <div class="col-md-10 text-center text-primary">Community Details</div>
+                      </div>
+                       <div class="row border-bottom p-2">
+                        <div class="col-md-3">Name:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Address:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Email:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Mobile:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-10 text-center text-primary">Block Details</div>
+                          <div class="col-md-2 text-primary" onclick="getBlockFormEdit('')"><b style="cursor: pointer;">Edit</b></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Name:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Location:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Email:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Mobile:</div>
+                        <div class="col-md-5">xxxxxxx</div>
+                      </div>
+                      
                 </div>
               </div>
           </div>
@@ -131,6 +180,7 @@
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
 	<script src="js/profile.js"></script>
+	<script src="js/block.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"

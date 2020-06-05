@@ -6,6 +6,12 @@
 $(document).ready(function() {
 	
 	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
+		if(sessionStorage.getItem("roleID") == 2){
+			$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+			$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+			$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		}
 		$("#blockAddButton").show();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 	}else{
@@ -99,13 +105,10 @@ return json.data;
 
 ],
 "columnDefs" : [ {
-	//orderable : false,
 	targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
-	//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
 },{
-	//orderable : false,
-	//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
-	targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
+	targets : 14, visible: (sessionStorage.getItem("roleID") == 3)
+//(!(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
 },
 {
 	"className": "dt-center", "targets": "_all"
@@ -634,7 +637,7 @@ $(document)
 									});
 							
 												$(document).on('click', '#customerAdd', function () {
-
+													if(sessionStorage.getItem("roleID") != 2){
 												if($("#selectcommunityName").val() == -1 || $("#selectcommunityName").val() == null || $("#selectcommunityName").val() == "Select Community"){
 													bootbox
 													.alert("Select Community Id");
@@ -646,10 +649,13 @@ $(document)
 													.alert("Select Block Id");
 													return false;
 												}
+}			
+												let communityId = sessionStorage.getItem("roleID") == 2 ? sessionStorage.getItem("communityID") : $("#selectcommunityName").val();
+												let blockId = sessionStorage.getItem("roleID") == 2 ? sessionStorage.getItem("ID") : $("#selectBlockBasedonCommunity").val();
 												
 												var data1 = {}
-												data1["communityID"] = $("#selectcommunityName").val();
-												data1["blockID"] = $("#selectBlockBasedonCommunity").val();
+												data1["communityID"] = communityId;
+												data1["blockID"] = blockId;
 												data1["firstName"] = $("#firstNameAdd").val();
 												data1["lastName"] = $("#lastNameAdd").val();
 												data1["houseNumber"] = $("#houseNoAdd").val();

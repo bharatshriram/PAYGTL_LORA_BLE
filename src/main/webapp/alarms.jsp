@@ -84,6 +84,46 @@
 	</div>
 	<jsp:include page="footer.jsp" />
 	
+	
+	<div class="modal fade" id="filter" tabindex="-1" role="dialog"
+		aria-labelledby="filterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Customer Management Filter</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+          <div class="col-md-6">
+            <div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
+									<label class="bmd-label-floating select-label">Select Community</label> 
+									<select
+										class="form-control" id="filterselectcommunityName" name="filterselectcommunityName" onchange="showBlockbyCommunity(this.value);">
+									</select>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="input-group form-group has-feedback has-success bmd-form-group is-filled">
+									<label class="bmd-label-floating select-label">Select Block</label> <select
+										class="form-control" id="filterselectBlockBasedonCommunity" name="filterselectBlockBasedonCommunity">
+									</select>
+								</div>
+							</div>
+        </div>
+        <div class="modal-footer m-auto">
+          <button type="button" class="btn btn-primary btn-raised mr-4" id="customerFilter">Filter</button>
+          <button type="button" class="btn btn-danger btn-raised mr-4" data-dismiss="modal">Close<div class="ripple-container"></div></button>
+          <button type="button" class="btn btn-secondary btn-raised mr-4" id="resetFilter">Reset</button>
+          
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+	
 	<%} %>
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
@@ -100,6 +140,7 @@
 
 	<script src="js/alarms.js"></script>
 	<script src="js/common.js"></script>
+	<script src="js/dropdown.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"

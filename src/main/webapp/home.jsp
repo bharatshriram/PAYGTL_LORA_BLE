@@ -216,7 +216,7 @@
 
 													<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
 													<div id="highchart_container"
-														style="width: 100%; max-width: 800px; margin: 0 auto"></div>
+														style="width: 100%; max-width: 800px; height: 300px; margin: 0 auto"></div>
 												</div>
 											</div>
 										</div>
@@ -350,7 +350,7 @@
 						} else if (user_id.equalsIgnoreCase("3")) {
 					%>>
 					<div class="row customer">
-						<div class="col-md-3">
+						<!-- <div class="col-md-3">
 							<div class="row billingAmount">
 								<div class="col-md-12 bg-success text-center">
 									<p class="text-white">
@@ -403,9 +403,69 @@
 									</div>
 								</div>
 							</div>
+						</div> -->
+						<div class="col-md-3">
+							<div class="row billingAmount">
+								<div class="col-md-12 bg-success text-center">
+									<p class="text-white">
+										Last Bill Amount : <span id = "lastBillAmount"></span>
+									</p>
+									<p class="text-white">
+										Last Bill Paid on : <span id = "lastBillDate"></span>
+									</p>
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-12 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src="common/images/icons/community.png">
+											<p class="card-category mt-2 mb-0">Community</p>
+<p class="card-title" id="community">TestCommunity</p>
+										</div>
+										<div class="col col2">
+											<img src="common/images/icons/2-block.png">
+											<p class="card-category mt-2 mb-0">Block</p>
+<p class="card-title" id="block">DemoBlock</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-12 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src="common/images/icons/gas3.png">
+											<p class="card-category mt-2 mb-0">CRN Number</p>
+														<p class="card-title" id="CRN_Number">HAN0006</p>
+										</div>
+										<div class="col col2">
+											<img src="common/images/icons/gas3.png">
+											<div class="numbers text-center">
+														<p class="card-category mt-2 mb-0">Available Credit</p>
+														<p class="card-title" id="balance">1910</p>
+													</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-4 billingAmount">
+								<div class="col-md-12 text-center">
+									<div class="row mt-4">
+										<div class="col col1">
+											<img src="common/images/icons/gas3.png">
+											<p class="card-category mt-2 mb-0">Valve Status</p>
+														<p class="card-title" id="valveStatus">CLOSED</p>
+										</div>
+										<div class="col col2">
+											
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-9">
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col col1">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
@@ -482,7 +542,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 
 
@@ -491,7 +551,7 @@
 
 
 
-							<div class="row">
+							<!-- <div class="row">
 								<div class="col col1">
 									<div class="card card-stats borderRadius">
 										<div class="card-body cardSpacing">
@@ -549,7 +609,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
+							</div> -->
 
 
 
@@ -609,7 +669,7 @@
 
 											<!-- <div id="chartContainer" style="height: 300px; width: 100%;"></div> -->
 											<div id="highchart_container1"
-												style="height: 250px; width: 100%; max-width: 800px; margin: 0 auto"></div>
+												style="height: 400px; width: 100%; max-width: 800px; margin: 0 auto"></div>
 												
 												<div id="highchart_container2"
 												style="height: 250px; width: 100%; max-width: 800px; margin: 0 auto"></div>

@@ -6,6 +6,20 @@
 
 $(function() {
 	
+	if(sessionStorage.getItem("roleID") == 2){
+		$("#selectHouseBasedonBlock").append("<option>" + "Select CRN" + "</option>");
+		
+		$.getJSON("/PAYGTL_LORA_BLE/customers/" + sessionStorage.getItem("roleID") + "/"
+				+ sessionStorage.getItem("ID")+ "/" + sessionStorage.getItem("ID"), function(data) {
+			var Options = "";
+			$.each(data.dropDownHouses, function(key, value) {
+				Options = Options + "<option value='" + key + "'>" + key
+						+ "</option>";
+			});
+			$('#selectHouseBasedonBlock').append(Options);
+			//$("#selectBlockBasedonCommunity").material_select();
+		});
+	}
 	
 	
 	$.getJSON("/PAYGTL_LORA_BLE/communities/" + sessionStorage.getItem("roleID") + "/"
@@ -87,9 +101,6 @@ function showCustomerbyBlock(blockId){
 }
 
 function showTopupDetails(customerId){
-	
-	
-	
 	
 	$.getJSON("/PAYGTL_LORA_BLE/topupdetails/" + customerId, function(data) {
 		//var Options = "";

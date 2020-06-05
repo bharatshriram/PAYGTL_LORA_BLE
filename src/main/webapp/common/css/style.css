@@ -482,3 +482,10 @@ table.dataTable thead tr th{
 	font-size: 1rem !important;
 	
 }
+
+.pEitFunction{
+	display:block;
+}
+.inputEitFunction{
+	display:none;
+}

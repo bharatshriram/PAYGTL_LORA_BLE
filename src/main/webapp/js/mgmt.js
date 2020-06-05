@@ -119,10 +119,10 @@ $(document)
 										                    }
 													},
 													userIDAdd : {
-														message : 'The Last Name is not valid',
+														message : 'The User ID is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Last Name is required and cannot be empty'
+																message : 'The User ID is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
@@ -136,35 +136,27 @@ $(document)
 														}
 													},
 													userNameAdd : {
-														message : 'The House No. is not valid',
+														message : 'The User Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The House No is required and cannot be empty'
+																message : 'The User Name is required and cannot be empty'
 															}
 														}
 													},
 													userPasswordAdd : {
-														message : 'The Mobile No. is not valid',
+														message : 'The Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Mobile No. is required and cannot be empty'
-															}/*,
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																message : 'The Password is required and cannot be empty'
+															}
 														}
 													},
 													confirmPasswordAdd : {
-														message : 'The Email is not valid',
+														message : 'The Confirm Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Email is required and cannot be empty'
-															}/*,
-															regexp : {
-																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
-															}*/
+																message : 'The Confirm Password is required and cannot be empty'
+															}
 														}
 													}
 												}

@@ -189,7 +189,7 @@ $(document)
 																		]
 																	});
 
-														 $("div.headname").html('<h3>ReCharge Summary Details</h3>');
+														 $("div.headname").html('<h3>ReCharge Summary</h3>');
 															//table.ajax.reload()
 														 
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'

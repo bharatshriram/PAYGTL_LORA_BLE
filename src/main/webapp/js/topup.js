@@ -111,7 +111,14 @@ $(document)
 																message : 'The Recharge Amount can only consist of number'
 															}
 														}
-													}
+													},
+													paymentMode: {
+									                    validators: {
+									                        notEmpty: {
+									                            message: 'Please select your native language.'
+									                        }
+									                    }
+									                },
 												}
 											});
 							}else if(sessionStorage.getItem("roleID") == 3){
@@ -195,6 +202,12 @@ $(document)
 										
 										var regTopup = /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/
 										
+											if ($("#selectHouseBasedonBlock").val() ==  "Select CRN") {
+
+												bootbox.alert("Please Select CRN Number");
+												return false;
+											}
+											
 										if ($("#recharge_topup").val() ==  "") {
 
 											bootbox.alert("Please Enter Amount");
@@ -205,6 +218,13 @@ $(document)
 												return false;
 											}
 										}
+										
+										if ($("#paymentMode").val() ==  "Select Mode") {
+
+											bootbox.alert("Please Select Mode");
+											return false;
+										}
+										
 										
 										if(sessionStorage.getItem("roleID") == 3){
 											data1["CRNNumber"] = $("#selectHouseBasedonBlock").val();	
@@ -218,13 +238,13 @@ $(document)
 										data1["currentBalance"] = $("#currentBalance_topup").val();
 										data1["tariffID"] = $("#tariffID").val();
 										data1["amount"] = $("#recharge_topup").val();
-										data1["modeOfPayment"] = "Online"	
+										data1["modeOfPayment"] = $("#paymentMode").val()	
 										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage.getItem("createdByID");
 										data1["transactedByRoleID"] = sessionStorage.getItem("roleID");
 										
-										/*alert("===>"
-												+ JSON.stringify(data1));*/
+										alert("===>"
+												+ JSON.stringify(data1));
 										$
 												.ajax({
 													type : "POST",
@@ -243,6 +263,19 @@ $(document)
 
 															alert( "data"
 																	+ data.result);
+															
+															if(data.paymentMode="Cash"){
+															
+																bootbox
+																.alert(
+																		data.Message,
+																		function(
+																				result) {
+																			window.location = "topupStatus.jsp";
+																			return false
+																		});
+																
+															}else if(data.paymentMode="Online"){
 															
 															sessionStorage.setItem("transactionID",data.checkoutDetails.transactionID);
 															
@@ -287,6 +320,7 @@ $(document)
 																	}
 																});
 														return false;
+															}
 															};
 															
 															var rzp1 = new Razorpay(data.checkoutDetails);
@@ -319,6 +353,12 @@ $(document)
 $(document).ready(function() {
 	
 	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
+		if(sessionStorage.getItem("roleID") == 2){
+			$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+			$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+			$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		}
 		$("#blockAddButton").show();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>"; 
 	}else if(sessionStorage.getItem("roleID") == 3){
@@ -332,7 +372,7 @@ $(document).ready(function() {
 	//alert((sessionStorage.getItem("roleID") == 3) ? [0,1,2,11]:11);
 	//alert(((sessionStorage.getItem("roleID") == 3)) ? (sessionStorage.getItem("roleID") == 3) :(((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))));
 	
-	var filterId = sessionStorage.getItem("filterId") =="day" ? "1" : 0
+	var filterId = sessionStorage.getItem("day") =="day" ? "1" : 0;
 	
 	$('#topstatusTable1').hide();
 	table = $('#topstatusTable')
@@ -379,13 +419,24 @@ $(document).ready(function() {
 	},{
 	"data" : "alarmCredit"
 	},{
+	"data" : "modeOfPayment"
+	},{
+	"data" : "razorPayOrderID"
+	},{
+	"data" : "razorPayPaymentID"
+	},{
+	"data" : "razorPayRefundID"
+	},{
+	"data" : "RazorPayRefundStatus"
+	}
+	,{
 	"data" : "transactionDate"
 	},{
 	"data" : "transactedByUserName"
 	},{
 	"data" : "transactedByRoleDescription"
 	},{
-	"data" : "Status"
+	"data" : "RazorPayPaymentStatus"
 	},{
 		"mData" : "action",
 		"render" : function(data, type, row) {

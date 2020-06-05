@@ -75,7 +75,7 @@
 									<th>Battery (%)</th>
 									<th>Timeout</th>
 									<th>ReConnection Charge</th>
-									<th>Per Unit Charge</th>
+									<th>Per Unit Value (KG)</th>
 									<th>Date</th>
 									<th>Edit</th>
 								</tr>

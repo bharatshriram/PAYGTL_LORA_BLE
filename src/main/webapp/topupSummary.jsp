@@ -96,14 +96,14 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
-                            <label class="bmd-label-floating">Start Date Time<sup class="imp">*</sup></label> 
+                            <label class="bmd-label-floating">Start Date<sup class="imp">*</sup></label> 
                              <!--  <input type="text" class="form-control datepicker" id="start_date" name="start_date"> -->
                              <input type="text" id="start_date" name="start_date" class="form-control" >
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                              <label class="bmd-label-floating">End Date Time<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating">End Date<sup class="imp">*</sup></label>
                               <input type="text" class="form-control" id="end_date" name="end_date">
                             </div>
                           </div>

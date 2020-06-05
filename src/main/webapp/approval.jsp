@@ -65,7 +65,7 @@
 							style="width: 100%">
 							<thead>
 								<tr>
-									<th>First Name</th>
+									<th>Customer Name</th>
 									<th>Email</th>
 									<th>Mobile Number</th>
 									<th>User ID</th>

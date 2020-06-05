@@ -6,6 +6,13 @@ $(document)
 		.ready(
 				function() {
 					
+					if(sessionStorage.getItem("roleID") == 2){
+						$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+						$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+						$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+						$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+					}
+					
 					$("#selectHouseBasedonBlock").val(sessionStorage.getItem("ID"));
 					$("#userconsumption")
 							.click(
@@ -58,11 +65,11 @@ $(document)
 										
 										
 										var data1 = {}
-										data1["communityID"] = $(
+										/*data1["communityID"] = $(
 												"#selectcommunityName").val();
 										data1["blockID"] = $(
 												"#selectBlockBasedonCommunity")
-												.val();
+												.val();*/
 										data1["CRNNumber"] = $(
 												"#selectHouseBasedonBlock")
 												.val();
@@ -93,7 +100,6 @@ $(document)
 																	{
 																		"dom": "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-5 totalCount'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>",
 																		"responsive" : true,
-																		/*"processing" : true,*/
 																		"serverSide" : false,
 																		"bDestroy" : true,
 																		"bPaginate": true,
@@ -154,6 +160,8 @@ $(document)
 																	});
 														 $("div.headname").html('<h3>User Consumptions</h3>');
 															//table.ajax.reload()
+													//	 if(){}
+														 
 														 $("div.totalCount").html('<b>MIU:</b> ' + d.data[0].meterID+ ' <b>CRN Number:</b> '+ d.data[0].CRNNumber);
 														 $("div.addevent").html('<button id="back" onClick="returnBack()"'
 																 +'class="btn btn-raised btn-primary float-right"'

@@ -36,6 +36,7 @@ table = $('#alertTable')
 },
 "complete" : function(json) {
 	console.log(json);
+	//Object.keys(json).length >0 ? $("")
 return json.data;
 },
 },
@@ -81,6 +82,8 @@ return json.data;
 	"className": "dt-center", "targets": "_all"
 }]
 });
+
+
 
 $("div.headname").html('<h3>Alert Details</h3>');
 

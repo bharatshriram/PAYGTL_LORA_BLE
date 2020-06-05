@@ -57,6 +57,8 @@
                 <div class="card-body scroll right-block">
                 <form id="configurationDetails1">
                     <div class="row">
+                        <%if(user_id.equalsIgnoreCase("1")){ %>
+                    
                         <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
@@ -79,6 +81,32 @@
                               </select>
                             </div>
                           </div>
+                          <%} else if(user_id.equalsIgnoreCase("2")){%>
+                          
+                          <div class="col-md-4">
+								<div id = "formcommunityNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Community Name</label> <input
+										type="text" class="form-control" name="communityNameAdd"
+										id="communityNameAdd" disabled>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div id = "formblockNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Block Name</label> <input
+										type="text" class="form-control" name="blockNameAdd"
+										id="blockNameAdd"  disabled>
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+                            <div class="input-group form-group">
+                              <label class="bmd-label-floating select-label">Select CRN<sup class="imp">*</sup></label>
+                              <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock" onchange="showTopupDetails(this.value);">
+                              </select>
+                            </div>
+                          </div>
+                          
+                          <%}%>
                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
                               <label class="bmd-label-floating">MIU ID</label>
@@ -91,16 +119,15 @@
                               <label class="bmd-label-floating select-label">Command Type<sup class="imp">*</sup></label>
                                <select class="form-control" id="selectcommandType" name="selectcommandType" onchange="showFieldsBasedONCommand(this.value);">
                                <option style = "color: Red" value="-1" selected>Select Command Type</option>
-                                <option value="-1">Select</option>
-                                 <option value="5">RTC</option>
+                                 <option value="5">Set RTC</option>
                                   <option value="3">Clear Meter</option>
                                   <!-- <option value="7">Active Mode</option> -->
                                <!-- <option value="10">Set Weekend</option> -->
                                  <option value="1">Clear Tamper</option>
-                                  <option value="40">Solenoid Open</option>
-                                  <option value="0">Solenoid Close</option>
+                                  <option value="40">Valve Open</option>
+                                  <option value="0">Valve Close</option>
                                                                <!--  <option value="8">Shutdown Mode</option> -->
-                                  <option value="6">Set Default Read</option>
+                                  <option value="6">Set Meter Index</option>
                                   <option value="10">Set Tariff</option>
                                  <!-- <option value="9">Maintenance Mode</option> -->
                               </select>

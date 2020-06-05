@@ -98,9 +98,9 @@ $(document)
 
 															success : function(
 																	data) {
-																/*alert("data"
+																alert("data"
 																		+ JSON
-																				.stringify(data));*/
+																				.stringify(data));
 																if (data.result == "Success") {
 
 																	sessionStorage.setItem("userID",$("#username").val());
@@ -169,6 +169,17 @@ $(document)
 																.setItem(
 																		"mobileNumber",
 																		data.userDetails.mobileNumber);
+																
+																sessionStorage
+																.setItem(
+																		"communityName",
+																		data.userDetails.communityName);
+																
+																
+																sessionStorage
+																.setItem(
+																		"blockName",
+																		data.userDetails.blockName);
 																
 																sessionStorage
 																.setItem(
