@@ -20,6 +20,12 @@ public class TopUpSummaryResponseVO {
 	private int rechargeAmount;
 	private String status;
 	private String modeOfPayment;
+	private String razorPayOrderID;
+	private String razorPayPaymentID;
+	private String RazorPayPaymentStatus;
+	private String razorPayRefundID;
+	private String RazorPayRefundStatus;
+	private String paymentStatus;
 	private String transactedByUserName;
 	private String transactedByRoleDescription;
 	private String dateTime;
@@ -128,6 +134,54 @@ public class TopUpSummaryResponseVO {
 
 	public void setCRNNumber(String cRNNumber) {
 		CRNNumber = cRNNumber;
+	}
+
+	public String getRazorPayOrderID() {
+		return razorPayOrderID;
+	}
+
+	public void setRazorPayOrderID(String razorPayOrderID) {
+		this.razorPayOrderID = razorPayOrderID;
+	}
+
+	public String getRazorPayPaymentID() {
+		return razorPayPaymentID;
+	}
+
+	public void setRazorPayPaymentID(String razorPayPaymentID) {
+		this.razorPayPaymentID = razorPayPaymentID;
+	}
+
+	public String getRazorPayPaymentStatus() {
+		return RazorPayPaymentStatus;
+	}
+
+	public void setRazorPayPaymentStatus(String razorPayPaymentStatus) {
+		RazorPayPaymentStatus = razorPayPaymentStatus;
+	}
+
+	public String getRazorPayRefundID() {
+		return razorPayRefundID;
+	}
+
+	public void setRazorPayRefundID(String razorPayRefundID) {
+		this.razorPayRefundID = razorPayRefundID;
+	}
+
+	public String getRazorPayRefundStatus() {
+		return RazorPayRefundStatus;
+	}
+
+	public void setRazorPayRefundStatus(String razorPayRefundStatus) {
+		RazorPayRefundStatus = razorPayRefundStatus;
+	}
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
 	}
 	
 }
