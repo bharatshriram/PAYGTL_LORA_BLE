@@ -506,7 +506,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			ex.printStackTrace();
 		} finally {
 			pstmt.close();
-			rs.close();
+
+
 			con.close();
 		}
 		return statuslist;
