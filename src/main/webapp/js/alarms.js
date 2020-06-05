@@ -1,7 +1,7 @@
 /**
  * 
  */
-									
+							// community - > CommunityId		
 									$(document).ready(function() {
 										table = $('#alarmTable')
 										.DataTable(
@@ -20,7 +20,7 @@
 										"scrollY" : 324,
 										"scrollX" : true,
 										"ajax" : {
-										"url":"/PAYGTL_LORA_BLE/alarm/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"),
+										"url":"/PAYGTL_LORA_BLE/alarm/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/"+-1,
 										"type" : "GET",
 										"data" : function(search) {
 										},

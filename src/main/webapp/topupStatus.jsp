@@ -100,6 +100,11 @@
 									<th>Amount</th>
 									<th>EC</th>
 									<th>Alarm Credit</th>
+									<th>Mode of Payment</th>
+									<th>Order ID</th>
+									<th>Payment ID</th>
+									<th>Refund ID</th>
+									<th>Refund Status</th>
 									<th>Date</th>
 									<th>By UserName</th>
 									<th>By Role Description</th>
