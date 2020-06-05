@@ -272,6 +272,13 @@
 														</div>
 													</div>
 												</div>
+											<div class="card-footer borderRadius">
+													<div class="stats" onClick="redirection('day')">
+														View Details<i class="fa fa-chevron-right view_details"
+															aria-hidden="true"></i>
+													</div>
+												</div>
+
 											</div>
 										</div>
 									</div>

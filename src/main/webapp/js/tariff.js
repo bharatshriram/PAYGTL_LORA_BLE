@@ -516,7 +516,7 @@ function  getDeleteTraiff(id){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE TARIFF",
+			"ARE YOU SURE TO DELETE TARIFF",
 		function(
 			result) {
 			//	alert(result);

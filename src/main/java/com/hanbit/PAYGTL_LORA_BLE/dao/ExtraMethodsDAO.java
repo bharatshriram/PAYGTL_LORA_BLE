@@ -151,8 +151,8 @@ public class ExtraMethodsDAO {
 	
 	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount) throws IOException {
 		
-	String data = "";
 	JSONObject json = new JSONObject();
+	String data = "";
 	URL url = new URL(ExtraConstants.RZPBasicUrl+request);
     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
     
@@ -168,7 +168,6 @@ public class ExtraMethodsDAO {
 		json.put("amount", amount);
 		data = json.toString();
 	}
-	
 		// Send post request
 		urlConnection.setDoOutput(true);
 		DataOutputStream wr = new DataOutputStream(urlConnection.getOutputStream());

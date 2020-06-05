@@ -859,7 +859,7 @@ function getCustomerFormDelete(CRNNumber){
 	
 	bootbox
 	.confirm(
-			"ARE YOU SURE TO DELEE CUSTOMER",
+			"ARE YOU SURE TO DELETE CUSTOMER",
 		function(
 			result) {
 			//	alert(result);

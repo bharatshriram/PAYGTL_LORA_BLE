@@ -291,7 +291,7 @@ public class CommunitySetUpDAO {
 					mailrequestvo.setToEmail(blockvo.getEmail());
 					mailrequestvo.setUserID(usermanagementvo.getUserID());
 					mailrequestvo.setUserPassword(blockvo.getBlockName() + "@" + blockvo.getMobileNumber().substring(3, 7));
-					mailrequestvo.setSubject("User Credentials For PAYGTL_LORA_BLE Application" + mailrequestvo.getUserID());
+					mailrequestvo.setSubject("User Credentials For PAYGTL_LORA_BLE Application: " + mailrequestvo.getUserID());
 					mailrequestvo.setMessage("Please Save the Credentials for further communications \n"
 							+ " Your UserID is : " + mailrequestvo.getUserID() + "\n Your Password is : " + mailrequestvo.getUserPassword());
 					

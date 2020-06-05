@@ -393,7 +393,6 @@ public String sendPayLoadToTata(TopUpRequestVO topUpRequestVO) throws SQLExcepti
 		
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 		
 		return result;
@@ -487,7 +486,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				statusvo.setRazorPayOrderID(rs.getString("RazorPayOrderID"));
 				statusvo.setRazorPayPaymentID(rs.getString("RazorPayPaymentID"));
 				statusvo.setRazorPayRefundID(rs.getString("RazorPayRefundID"));
-				statusvo.setRazorPayPaymentStatus(rs.getString("RazorPayRefundStatus"));
+				statusvo.setRazorPayRefundStatus(rs.getString("RazorPayRefundStatus"));
 				statusvo.setPaymentStatus((rs.getInt("PaymentStatus") == 1 ? "PAID" : (rs.getInt("PaymentStatus") == 2) ? "FAILED" : (rs.getInt("PaymentStatus") == 3) ? "REFUND INITITATED" : "NOT PAID"));
 				statusvo.setAlarmCredit(rs.getString("AlarmCredit"));
 				statusvo.setEmergencyCredit(rs.getString("EmergencyCredit"));
@@ -984,7 +983,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		return responsevo;
 	}
 
-	public boolean checkstatus(String meterID) throws SQLException {
+	public boolean checkconfigstatus(String meterID) throws SQLException {
 		// TODO Auto-generated method stub
 
 		Connection con = null;
@@ -1023,7 +1022,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT MeterID, STATUS FROM topup WHERE MeterID = ? AND Status IN (0,1) AND RazorPayPaymentID IS NOT NULL AND PaymentStatus != 1 ORDER BY TransactionID DESC LIMIT 0,1");
+			pstmt = con.prepareStatement("SELECT transactionID, MeterID, STATUS FROM topup WHERE MeterID = ? AND STATUS IN (0,1) AND PaymentStatus = 1 AND Source = 'web' AND TataReferenceNumber !=0 ORDER BY TransactionID DESC LIMIT 0,1");
 			pstmt.setString(1, meterID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
