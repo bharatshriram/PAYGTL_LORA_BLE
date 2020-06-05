@@ -38,6 +38,7 @@ import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorPayOrderVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorpayRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.RazorPayResponseVO;
@@ -149,11 +150,14 @@ public class ExtraMethodsDAO {
 	return responses.toString();
 }
 	
-	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, String request, int amount) throws IOException {
+	public String razorpaypost(RazorPayOrderVO razorPayOrderVO, RazorpayRequestVO razorpayRequestVO) throws IOException {
 		
 	JSONObject json = new JSONObject();
 	String data = "";
-	URL url = new URL(ExtraConstants.RZPBasicUrl+request);
+	
+	String restUrl =  razorpayRequestVO.getApi().equalsIgnoreCase("payments") ? ExtraConstants.RZPBasicUrl+razorpayRequestVO.getApi()+"/"+razorpayRequestVO.getId()+"/"+razorpayRequestVO.getExtension() : ExtraConstants.RZPBasicUrl+razorpayRequestVO.getApi();
+		
+	URL url = new URL(restUrl);
     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
     
     urlConnection.setRequestProperty("Content-Type", "application/json"); 
@@ -162,11 +166,17 @@ public class ExtraMethodsDAO {
     
 	urlConnection.setRequestProperty("Authorization", authHeaderValue);
 	
-	if(request.equalsIgnoreCase("orders")) {
+	if(razorpayRequestVO.getApi().equalsIgnoreCase("orders")) {
 	data = gson.toJson(razorPayOrderVO, RazorPayOrderVO.class);
 	} else {
-		json.put("amount", amount);
-	data = json.toString();
+		if(razorpayRequestVO.getExtension().equalsIgnoreCase("refund")) {
+			json.put("amount", razorpayRequestVO.getAmount());	
+		} else {
+			json.put("amount", razorpayRequestVO.getAmount());
+			json.put("currency", razorpayRequestVO.getCurrency());
+		}
+		
+		data = json.toString();
 	}
 		// Send post request
 		urlConnection.setDoOutput(true);
@@ -196,6 +206,7 @@ public class ExtraMethodsDAO {
 		ResultSet rs = null;
 		SMSRequestVO smsRequestVO = new SMSRequestVO();
 		MailRequestVO mailRequestVO = new MailRequestVO();
+		RazorpayRequestVO razorpayRequestVO = new RazorpayRequestVO();
 		
 		try {
 			
@@ -231,18 +242,20 @@ public class ExtraMethodsDAO {
 					if(response.getBody().getTransmissionStatus() >= 3 && rs.getInt("PaymentStatus") == 1 && rs.getString("ModeOfPayment").equalsIgnoreCase("Online")) {
 						// initiate refund process
 						
-						
-						  String rzpRestCallResponse = razorpaypost(null,
-						  "payments/"+rs.getString("RazorPayPaymentID")+"/refund", (rs.getInt("Amount")*100));
+						  razorpayRequestVO.setApi("payments");
+						  razorpayRequestVO.setId(rs.getString("RazorPayPaymentID"));
+						  razorpayRequestVO.setAmount(rs.getInt("Amount")*100);
+						  razorpayRequestVO.setExtension("refund");
+						  
+						  String rzpRestCallResponse = razorpaypost(null, razorpayRequestVO);
 						  
 						  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
 						  
 						  PreparedStatement pstmt2 = con.
-						  prepareStatement("UPDATE topup SET PaymentStaus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "
-						  + rs.getLong("TransactionID")); pstmt2.setString(1,
-						  razorPayResponseVO.getId()); pstmt2.setString(2,
-						  razorPayResponseVO.getStatus()); pstmt2.setString(1,
-						  razorPayResponseVO.toString());
+						  prepareStatement("UPDATE topup SET PaymentStatus = 3, RazorPayRefundID = ?, RazorPayRefundStatus = ?, RazorPayRefundEntity = ? WHERE TransactionID = "+ rs.getLong("TransactionID"));
+						  pstmt2.setString(1,razorPayResponseVO.getId()); 
+						  pstmt2.setString(2,razorPayResponseVO.getStatus()); 
+						  pstmt2.setString(3,rzpRestCallResponse);
 						  
 						  if (pstmt2.executeUpdate() > 0) {
 						  
@@ -262,7 +275,6 @@ public class ExtraMethodsDAO {
 						  sendmail(mailRequestVO);
 						  
 						  }
-						 
 					}
 					
 				}
@@ -278,6 +290,47 @@ public class ExtraMethodsDAO {
 		}
 		
 	}
+	
+//	@Scheduled(cron="0 0 * ? * *")
+/*	@Scheduled(cron="0 0/4 * * * ?") 
+	public void razorpayPaymentCapture() throws SQLException {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		RazorpayRequestVO razorpayRequestVO = new RazorpayRequestVO();
+		
+		try {
+			con = getConnection();
+			pstmt = con.prepareStatement("SELECT PaymentStatus, Amount, RazorPayPaymentID, TransactionID, ModeOfPayment FROM topup WHERE STATUS = 2 AND Source = 'web' AND TataReferenceNumber != 0 AND ModeOfPayment = 'Online' AND PaymentStatus = 1");
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+			
+				razorpayRequestVO.setApi("payments");
+				razorpayRequestVO.setId(rs.getString("RazorPayPaymentID"));
+				razorpayRequestVO.setAmount(rs.getInt("Amount")*100);
+				razorpayRequestVO.setCurrency(ExtraConstants.PaymentCurrency);
+				razorpayRequestVO.setExtension("capture");
+				
+			// change notes variable in RazorPayResponseVO according to capture requirement	
+			
+				String rzpRestCallResponse = razorpaypost(null, razorpayRequestVO);
+				  
+				  RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
+				  
+				  // insert response in database
+
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		} finally {
+			pstmt.close();
+			rs.close();
+			con.close();
+		}
+		
+	}*/
 	
 //	@Scheduled(cron="0 0 * ? * *")
 	@Scheduled(cron="0 0/4 * * * ?") 

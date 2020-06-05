@@ -8,7 +8,7 @@ package com.hanbit.PAYGTL_LORA_BLE.response.vo;
  *
  */
 public class AcquirerData {
-
+	
 	private String rrn;
 
 	public String getRrn() {

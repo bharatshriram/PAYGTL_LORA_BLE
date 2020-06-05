@@ -104,8 +104,11 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
+				
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
+				
 				// change the full battery voltage value accordingly
+				
 				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				
@@ -493,8 +496,9 @@ public class DashboardDAO {
 		        
 				if (sb.substring(0, 2).equalsIgnoreCase("0A")) {
 					
-					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67
-					//               10             20             30             40   
+					// 0A 00 00 00 83 08 FF 03 00 00 00 00 41 A0 00 00 00 00 00 00 00 00 54 65 46 78 54 65 47 69 01 17  live frame
+					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23  count
+					//               10             20             30             40             50             60   
 					
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(sb.substring(2, 10)));					
 					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);
@@ -522,7 +526,7 @@ public class DashboardDAO {
 						
 						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
 						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 19));
+						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 16));
 					} else {
 					dashboardRequestVO.setTamperTimeStamp("");
 					}
@@ -530,14 +534,13 @@ public class DashboardDAO {
 					if(doorOpenTimeStamp != 0) {
 						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
 						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 19));
+						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 16));
 					} else {
 					dashboardRequestVO.setDoorOpenTimeStamp("");
 					} 
 				  
 					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(60, 62)));
 					
-//					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(44, 46)));
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
 					if (dashboardRequestVO.getLowBattery() == 1) {

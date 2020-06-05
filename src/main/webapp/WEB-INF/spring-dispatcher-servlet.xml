@@ -23,4 +23,5 @@
 	<bean id="commandstatusupdatecall" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
 	<bean id="vacationstatusupdatecall" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
 	<bean id="communicationfailurealert" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean>
+	<!-- <bean id="razorpayPaymentCapture" class="com.hanbit.PAYGTL_LORA_BLE.dao.ExtraMethodsDAO"></bean> -->
 </beans>

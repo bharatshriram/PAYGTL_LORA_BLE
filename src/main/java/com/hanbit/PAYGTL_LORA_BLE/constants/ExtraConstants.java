@@ -13,6 +13,7 @@ public class ExtraConstants {
 	public static final String fromEmailPassword = "hanbit@123"; 
 	public static final String TataGatewayURL =  "https://data.iot.tatacommunications.com/rest/nodes/";
 	public static final String ContentType = "text/plain";
+//	public static final String QueryParams = "?port=2&fcnt=12&confirmed=true&mode=enqueue_on_busy&data_format=base64";
 	public static final String QueryParams = "?port=2&confirmed=true&mode=enqueue_on_busy&data_format=base64";
 	public static final String XM2MOrigin = "CF82BFF84-e6de215b";
 	public static final String XM2MRI = "1100099992222";
@@ -25,5 +26,9 @@ public class ExtraConstants {
 	public static final String RZPKeyID = "rzp_test_PK0HJHPshOFmX5";
 	public static final String RZPKeySecret = "cWqzMXyG1fjO50ulhGa4UwT8";
 	public static final String RZPBasicUrl = "https://api.razorpay.com/v1/";
+	public static final String PaymentThemeColor = "#125e8c";
+	public static final String PaymentButtonText = "Proceed to Pay With Razorpay";
+	public static final String PaymentCurrency = "INR";
+	public static final String CompanyName = "HANBIT";
 
 }

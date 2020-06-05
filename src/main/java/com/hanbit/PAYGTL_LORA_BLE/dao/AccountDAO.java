@@ -22,6 +22,7 @@ import com.hanbit.PAYGTL_LORA_BLE.exceptions.BusinessException;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CheckOutRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.ConfigurationRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorPayOrderVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.RazorpayRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.RestCallVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TopUpRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.CheckoutDetails;
@@ -78,6 +79,7 @@ public class AccountDAO {
 		ResponseVO responsevo = new ResponseVO();
 		RazorPayOrderVO razorPayOrderVO = new RazorPayOrderVO(); 
 		CheckoutDetails checkoutDetails = new CheckoutDetails();
+		RazorpayRequestVO razorpayRequestVO = new RazorpayRequestVO();
 		Prefill prefill = new Prefill();
 		Notes notes = new Notes();
 		Theme theme = new Theme();
@@ -144,11 +146,11 @@ public class AccountDAO {
 							razorPayOrderVO.setAmount(topUpRequestVO.getAmount() * 100);
 							razorPayOrderVO.setCurrency("INR");
 							razorPayOrderVO.setPayment_capture(1);
+							
+							razorpayRequestVO.setApi("orders");
+							String rzpRestCallResponse = extramethodsdao.razorpaypost(razorPayOrderVO, razorpayRequestVO);
 
-							String rzpRestCallResponse = extramethodsdao.razorpaypost(razorPayOrderVO, "orders", 0);
-
-							RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse,
-									RazorPayResponseVO.class);
+							RazorPayResponseVO razorPayResponseVO = gson.fromJson(rzpRestCallResponse, RazorPayResponseVO.class);
 
 							topUpRequestVO.setRazorPayOrderID(razorPayResponseVO.getId());
 
@@ -159,10 +161,10 @@ public class AccountDAO {
 
 								checkoutDetails.setKey(ExtraConstants.RZPKeyID);
 								checkoutDetails.setAmount(topUpRequestVO.getAmount() * 100);
-								checkoutDetails.setCurrency("INR");
+								checkoutDetails.setCurrency(ExtraConstants.PaymentCurrency);
 								checkoutDetails.setOrder_id(topUpRequestVO.getRazorPayOrderID());
-								checkoutDetails.setButtonText("Proceed to Pay With Razorpay");
-								checkoutDetails.setName("Hanbit");
+								checkoutDetails.setButtonText(ExtraConstants.PaymentButtonText);
+								checkoutDetails.setName(ExtraConstants.CompanyName);
 								checkoutDetails.setDescription("Recharge of INR "+ topUpRequestVO.getAmount()+"/- for CRN: "+rs1.getString("CRNNumber")+".");
 								checkoutDetails.setImage(ExtraConstants.HANBITIMAGEURL);
 								
@@ -170,13 +172,16 @@ public class AccountDAO {
 								prefill.setEmail(rs1.getString("Email"));
 								prefill.setContact(rs1.getString("MobileNumber"));
 								checkoutDetails.setPrefill(prefill);
-								theme.setColor("BLUE");
+								
+								theme.setColor(ExtraConstants.PaymentThemeColor);
 								checkoutDetails.setTheme(theme);
+								
 								notes.setAddress(rs1.getString("HouseNumber"));
 								checkoutDetails.setTransactionID(transactionID);
 
 								responsevo.setCheckoutDetails(checkoutDetails);
-
+								
+								responsevo.setPaymentMode("Online");
 								responsevo.setResult("Success");
 								responsevo.setMessage("Order Created Successfully. Proceed to CheckOut");
 							}
@@ -187,6 +192,7 @@ public class AccountDAO {
 						}
 					} else {
 						topUpRequestVO.setPaymentStatus(1);
+						responsevo.setPaymentMode("Cash");
 						responsevo.setResult(sendPayLoadToTata(topUpRequestVO));
 						responsevo.setMessage("Topup Request Submitted Successfully");
 					}
