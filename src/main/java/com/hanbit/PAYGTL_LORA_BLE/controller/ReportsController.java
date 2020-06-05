@@ -74,13 +74,13 @@ public class ReportsController {
 	
 	/* Alarms */
 
-	@RequestMapping(value = "/alarm/{roleid}/{id}", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/alarm/{roleid}/{id}/{filterCid}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody
-	AlarmsResponseVO alarmdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id) throws SQLException {
+	AlarmsResponseVO alarmdetails(@PathVariable("roleid") int roleid, @PathVariable("id") int id, @PathVariable("filterCid") int filterCid) throws SQLException {
 
 		AlarmsResponseVO alarmsResponseVO = new AlarmsResponseVO();
 
-		alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id));
+		alarmsResponseVO.setData(reportsdao.getAlarmdetails(roleid, id, filterCid));
 
 		return alarmsResponseVO;
 	}

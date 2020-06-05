@@ -239,7 +239,7 @@ public class ReportsDAO {
 
 	/* Alarms */
 
-	public List<AlarmsResponseVO> getAlarmdetails(int roleid, int id) throws SQLException {
+	public List<AlarmsResponseVO> getAlarmdetails(int roleid, int id, int filterCid) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -262,7 +262,8 @@ public class ReportsDAO {
 			}
 			
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
-			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid==2 || roleid==5) ? "WHERE cmd.BlockID = "+id : " ORDER BY cmd.CustomerID ASC"));
+			
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? " ORDER BY cmd.CustomerID ASC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? "WHERE cmd.CommunityID = "+filterCid+ " ORDER BY cmd.CustomerID ASC" : (roleid==2 || roleid==5) ? "WHERE cmd.BlockID = "+id : " ORDER BY cmd.CustomerID ASC"));
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
