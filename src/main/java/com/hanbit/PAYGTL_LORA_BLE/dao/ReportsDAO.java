@@ -189,7 +189,7 @@ public class ReportsDAO {
 			con = getConnection();
 			topupsummarydetails = new LinkedList<TopUpSummaryResponseVO>();
 			
-			String query = "SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, cmd.CRNNumber, t.Amount, t.Status, t.ModeOfPayment, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
+			String query = "SELECT DISTINCT t.TransactionID, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterID, cmd.CRNNumber, t.Amount, t.Status, t.ModeOfPayment, t.PaymentStatus, t.RazorPayOrderID, t.RazorPayPaymentID, t.RazorPayRefundID, t.RazorPayRefundStatus, t.TransactionDate, t.CreatedByID FROM topup AS t \r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = t.CRNNumber WHERE t.CommunityID = ? AND t.TransactionDate BETWEEN ? AND ? <change>";
 			
 				pstmt = con.prepareStatement(query.replaceAll("<change>", (topupsummaryrequestvo.getBlockID() > 0 && !topupsummaryrequestvo.getCRNNumber().isEmpty()) ? " AND t.CRNNumber = '"+topupsummaryrequestvo.getCRNNumber()+"'" : (topupsummaryrequestvo.getCRNNumber().isEmpty() && topupsummaryrequestvo.getBlockID() > 0) ? " AND t.BlockID = "+topupsummaryrequestvo.getBlockID() : ""));
@@ -211,6 +211,11 @@ public class ReportsDAO {
 					topupsummaryresponsevo.setMeterID(rs.getString("MeterID"));
 					topupsummaryresponsevo.setRechargeAmount(rs.getInt("Amount"));
 					topupsummaryresponsevo.setModeOfPayment(rs.getString("ModeOfPayment"));
+					topupsummaryresponsevo.setRazorPayOrderID(rs.getString("RazorPayOrderID"));
+					topupsummaryresponsevo.setRazorPayPaymentID(rs.getString("RazorPayPaymentID"));
+					topupsummaryresponsevo.setRazorPayRefundID((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundID") : "---"));
+					topupsummaryresponsevo.setRazorPayRefundStatus((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundStatus") : "---"));
+					topupsummaryresponsevo.setPaymentStatus((rs.getInt("PaymentStatus") == 1 ? "PAID" : (rs.getInt("PaymentStatus") == 2) ? "FAILED" : (rs.getInt("PaymentStatus") == 3) ? "REFUND INITITATED" : "NOT PAID"));
 					topupsummaryresponsevo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 					topupsummaryresponsevo.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getString("TransactionDate")));
 					

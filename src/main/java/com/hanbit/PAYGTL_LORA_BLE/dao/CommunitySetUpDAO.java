@@ -18,6 +18,7 @@ import com.hanbit.PAYGTL_LORA_BLE.request.vo.BlockRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CommunityRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.CustomerRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
+import com.hanbit.PAYGTL_LORA_BLE.request.vo.SMSRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.TariffRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.UserManagementRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.BlockResponseVO;
@@ -227,6 +228,7 @@ public class CommunitySetUpDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResponseVO responsevo = new ResponseVO();
+		String communityName = "";
 
 		try {
 			con = getConnection();
@@ -252,10 +254,11 @@ public class CommunitySetUpDAO {
 				pstmt1.setInt(2, blockvo.getCommunityID());
 				ResultSet rs = pstmt1.executeQuery();
 				if(rs.next()) {
+					communityName = rs.getString("CommunityName");
 					usermanagementvo.setBlockID(blockvo.getBlockID());
 					LoginDAO logindao = new LoginDAO();
 					
-					String userID = rs.getString("CommunityName")+blockvo.getBlockName();
+					String userID = blockvo.getBlockName();
 					
 					do {
 						 flag = logindao.checkuserid(userID);
@@ -267,7 +270,7 @@ public class CommunitySetUpDAO {
 					} while (flag == true);
 					
 					if(i<=1) {
-						usermanagementvo.setUserID(rs.getString("CommunityName")+blockvo.getBlockName());	
+						usermanagementvo.setUserID(blockvo.getBlockName());	
 					}else {
 						usermanagementvo.setUserID(userID);
 					}
@@ -285,20 +288,28 @@ public class CommunitySetUpDAO {
 				
 				if(managementsettingsdao.adduser(usermanagementvo).getResult().equalsIgnoreCase("Success")){
 					
-					ExtraMethodsDAO maildao = new ExtraMethodsDAO();
+					ExtraMethodsDAO extraMethodsDAO = new ExtraMethodsDAO();
 					MailRequestVO mailrequestvo = new MailRequestVO();
+					SMSRequestVO smsRequestVO = new SMSRequestVO();
 					
 					mailrequestvo.setToEmail(blockvo.getEmail());
 					mailrequestvo.setUserID(usermanagementvo.getUserID());
 					mailrequestvo.setUserPassword(blockvo.getBlockName() + "@" + blockvo.getMobileNumber().substring(3, 7));
-					mailrequestvo.setSubject("User Credentials For PAYGTL_LORA_BLE Application: " + mailrequestvo.getUserID());
+					mailrequestvo.setSubject("Admin Credentials For " + blockvo.getBlockName()+", "+blockvo.getLocation()+" in "+communityName+".");
 					mailrequestvo.setMessage("Please Save the Credentials for further communications \n"
-							+ " Your UserID is : " + mailrequestvo.getUserID() + "\n Your Password is : " + mailrequestvo.getUserPassword());
+							+ " UserID: " + mailrequestvo.getUserID() + "\n Password: " + mailrequestvo.getUserPassword() + "\n Use URL for login : "+ ExtraConstants.ApplicationURL);
 					
-					if(maildao.sendmail(mailrequestvo).equalsIgnoreCase("Success")) {
+					smsRequestVO.setToMobileNumber(blockvo.getMobileNumber());
+					smsRequestVO.setMessage("Please Save the Credentials for further communications \n" + " UserID: " + mailrequestvo.getUserID() + "\n Password: " + mailrequestvo.getUserPassword()+ "\n Use URL for login : "+ ExtraConstants.ApplicationURL);
+					
+					extraMethodsDAO.sendsms(smsRequestVO);
+					
+					if(extraMethodsDAO.sendmail(mailrequestvo).equalsIgnoreCase("Success")) {
+						extraMethodsDAO.sendsms(smsRequestVO);
 						responsevo.setResult("Success");
 						responsevo.setMessage("Block Added Successfully and Block Admin Credentials have been sent to registered mail");
 					}else {
+						extraMethodsDAO.sendsms(smsRequestVO);
 						responsevo.setResult("Success");
 						responsevo.setMessage("Block Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator");
 					}
@@ -575,22 +586,28 @@ public class CommunitySetUpDAO {
 					
 					if(managementsettingsdao.adduser(usermanagementvo).getResult().equalsIgnoreCase("Success")){
 						
-						ExtraMethodsDAO maildao = new ExtraMethodsDAO();
+						ExtraMethodsDAO extraMethodsDAO = new ExtraMethodsDAO();
 						MailRequestVO mailrequestvo = new MailRequestVO();
+						SMSRequestVO smsRequestVO = new SMSRequestVO();
 						
 						mailrequestvo.setToEmail(customervo.getEmail());
 						mailrequestvo.setUserID(usermanagementvo.getUserID());
 						mailrequestvo.setUserPassword(customervo.getLastName()+"@"+ customervo.getMobileNumber().substring(3, 7));
-						mailrequestvo.setSubject("User Credentials For PAYGTL_LORA_BLE Application" + mailrequestvo.getUserID());
+						mailrequestvo.setSubject("Customer Login for CRN: " + mailrequestvo.getUserID());
 						mailrequestvo.setMessage("Please Save the Credentials for further communications \n"
-								+ " Your UserID is : " + mailrequestvo.getUserID() + "\n Your Password is : " + mailrequestvo.getUserPassword());
+								+ " UserID: " + mailrequestvo.getUserID() + "\n Password: " + mailrequestvo.getUserPassword() + "\n Use URL for login : "+ ExtraConstants.ApplicationURL);
 						
-						String result = maildao.sendmail(mailrequestvo);
+						smsRequestVO.setToMobileNumber(customervo.getMobileNumber());
+						smsRequestVO.setMessage("Please Save the Credentials for further communications \n" + " UserID: " + mailrequestvo.getUserID() + "\n Password: " + mailrequestvo.getUserPassword()+ "\n Use URL for login : "+ ExtraConstants.ApplicationURL);
+						
+						String result = extraMethodsDAO.sendmail(mailrequestvo);
 						
 						if(result.equalsIgnoreCase("Success")) {
+							extraMethodsDAO.sendsms(smsRequestVO);
 							responsevo.setResult("Success");
 							responsevo.setMessage("Customer Added Successfully");
 						}else {
+							extraMethodsDAO.sendsms(smsRequestVO);
 							responsevo.setResult("Success");
 							responsevo.setMessage("Customer Registered Successfully but due to internal server Error Credentials have not been sent to your registered Mail ID. Please Contact Administrator");
 						}

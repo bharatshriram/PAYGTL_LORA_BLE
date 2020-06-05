@@ -30,5 +30,6 @@ public class ExtraConstants {
 	public static final String PaymentButtonText = "Proceed to Pay With Razorpay";
 	public static final String PaymentCurrency = "INR";
 	public static final String CompanyName = "HANBIT";
+	public static final String ApplicationURL = "http://localhost:8080/PAYGTL_LORA_BLE";
 
 }
