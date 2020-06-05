@@ -3,7 +3,12 @@
  */
 $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
-		
+		//if(sessionStorage.getItem("roleID") == 2){
+			$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+			$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+			$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		//}
 		document.querySelector(".blockimp").innerText ="*";
 	}
 	});
@@ -69,6 +74,8 @@ $(document)
 										data1["year"] = $("#start_date")
 												.val();
 										data1["month"] =  $("#end_date").val() == "" ? 0 : $("#end_date").val();
+										
+										alert("A=>"+JSON.stringify(data1));
 										
 										$
 												.ajax({

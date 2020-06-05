@@ -5,6 +5,14 @@
 $(document).ready(function() {
 	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		
+		if(sessionStorage.getItem("roleID") == 2){
+			$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+			$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+			$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		}
+		
+		
 		document.querySelector(".blockimp").innerText ="*";
 	}
 	});
@@ -89,7 +97,7 @@ $(document)
 												.val();
 										data1["toDate"] = $("#end_date").val();
 
-										/*alert("===>" + JSON.stringify(data1));*/
+										alert("===>" + JSON.stringify(data1));
 										$
 												.ajax({
 													type : "POST",

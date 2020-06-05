@@ -67,21 +67,39 @@
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
+                       <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")){ %>
                         <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating select-label ">Community<sup class="imp">*</sup></label>
+                              <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectcommunityName" name="selectcommunityName" onchange="showBlockbyCommunity(this.value);">
                               </select>
                             </div>
                           </div>
                           <div class="col-md-4">
                             <div class="input-group form-group">
-                              <label class="bmd-label-floating">Select Block<sup class="blockimp" style="color:red"></sup></label>
+                              <label class="bmd-label-floating select-label">Select Block<sup class="imp">*</sup></label>
                               <select class="form-control" id="selectBlockBasedonCommunity" name="selectBlockBasedonCommunity" onchange="showCustomerbyBlock(this.value);">
                               
                               </select>
                             </div>
                           </div>
+                          <%} else if(user_id.equalsIgnoreCase("2")  || user_id.equalsIgnoreCase("5")){%>
+                          <div class="col-md-4">
+								<div id = "formcommunityNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Community Name</label> <input
+										type="text" class="form-control" name="communityNameAdd"
+										id="communityNameAdd" disabled>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div id = "formblockNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Block Name</label> <input
+										type="text" class="form-control" name="blockNameAdd"
+										id="blockNameAdd"  disabled>
+								</div>
+							</div>
+                          
+                          <%}%>
                           <div class="col-md-4">
                             <div id="formcurrentBalance_topup" class="input-group form-group">
                             <label class="bmd-label-floating select-label">Year<sup class="imp">*</sup></label> 

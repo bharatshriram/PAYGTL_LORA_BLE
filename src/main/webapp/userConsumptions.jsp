@@ -65,7 +65,7 @@
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
-                      <%if(user_id.equalsIgnoreCase("1")){ %>
+                      <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")){ %>
                         <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
@@ -88,7 +88,7 @@
                               </select>
                             </div>
                           </div>
-                          <%} else if(user_id.equalsIgnoreCase("2")){%>
+                          <%} else if(user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")){%>
                           <div class="col-md-4">
 								<div id = "formcommunityNameAdd" class="input-group form-group">
 									<label class="bmd-label-floating">Community Name</label> <input

@@ -6,7 +6,7 @@ $(document)
 		.ready(
 				function() {
 					
-					if(sessionStorage.getItem("roleID") == 2){
+					if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 						$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
 						$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
 						$("#blockNameAdd").val(sessionStorage.getItem("blockName"));

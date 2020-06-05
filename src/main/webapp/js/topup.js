@@ -352,13 +352,14 @@ $(document)
 
 $(document).ready(function() {
 	
+	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+		$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+		$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+		$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+		$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+	}
+	
 	if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
-		if(sessionStorage.getItem("roleID") == 2){
-			$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
-			$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-			$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
-			$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
-		}
 		$("#blockAddButton").show();
 		var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>"; 
 	}else if(sessionStorage.getItem("roleID") == 3){
@@ -405,38 +406,54 @@ $(document).ready(function() {
 	},
 	"columns" : [
 	 {
-	    	"data" : "communityName"
+	    	"data" : "communityName",
+			"defaultContent": ""
 	 },{
-	"data" : "blockName"
+	"data" : "blockName",
+	"defaultContent": ""
 	},{
-	"data" : "houseNumber"
+	"data" : "houseNumber",
+	"defaultContent": ""
 	},{
-	"data" : "meterID"
+	"data" : "meterID",
+	"defaultContent": ""
 	},{
-	"data" : "amount"
+	"data" : "amount",
+	"defaultContent": ""
 	},{
-	"data" : "emergencyCredit"
+	"data" : "emergencyCredit",
+	"defaultContent": ""
 	},{
-	"data" : "alarmCredit"
+	"data" : "alarmCredit",
+	"defaultContent": ""
 	},{
-	"data" : "modeOfPayment"
+	"data" : "modeOfPayment",
+	"defaultContent": ""
 	},{
-	"data" : "razorPayOrderID"
+	"data" : "razorPayOrderID",
+	"defaultContent": ""
 	},{
-	"data" : "razorPayPaymentID"
+	"data" : "razorPayPaymentID",
+	"defaultContent": ""
 	},{
-	"data" : "razorPayRefundID"
+	"data" : "razorPayRefundID",
+	"defaultContent": ""
 	},{
-	"data" : "RazorPayRefundStatus"
+	"data" : "RazorPayRefundStatus",
+	"defaultContent": ""
 	}
 	,{
-	"data" : "transactionDate"
+	"data" : "transactionDate",
+	"defaultContent": ""
 	},{
-	"data" : "transactedByUserName"
+	"data" : "transactedByUserName",
+	"defaultContent": ""
 	},{
-	"data" : "transactedByRoleDescription"
+	"data" : "transactedByRoleDescription",
+	"defaultContent": ""
 	},{
-	"data" : "RazorPayPaymentStatus"
+	"data" : "Status",
+	"defaultContent": ""
 	},{
 		"mData" : "action",
 		"render" : function(data, type, row) {
@@ -472,7 +489,7 @@ $(document).ready(function() {
 	        footer: 'true',
 	        text: 'Excel',
 	        exportOptions: {
-	            columns: [0,1,2,3,4,5,6,7,8,9,10]
+	            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 	        },
 	        title:'ReCharge Status' 
 	        },
@@ -480,7 +497,7 @@ $(document).ready(function() {
 	        {extend: 'pdf',
 	        footer: 'true',
 	        exportOptions: {
-	            columns: [0,1,2,3,4,5,6,7,8,9,10]
+	        	columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 	        },
 	        text: 'pdf',
 	        orientation: 'landscape',
@@ -555,27 +572,54 @@ $(document).ready(function() {
 													"data" : d.data,
 													"columns" : [
 														 {
-														    	"data" : "communityName"
+														    	"data" : "communityName",
+																"defaultContent": ""
 														 },{
-														"data" : "blockName"
+														"data" : "blockName",
+														"defaultContent": ""
 														},{
-														"data" : "houseNumber"
+														"data" : "houseNumber",
+														"defaultContent": ""
 														},{
-														"data" : "meterID"
+														"data" : "meterID",
+														"defaultContent": ""
 														},{
-														"data" : "amount"
+														"data" : "amount",
+														"defaultContent": ""
 														},{
-														"data" : "emergencyCredit"
+														"data" : "emergencyCredit",
+														"defaultContent": ""
 														},{
-														"data" : "alarmCredit"
+														"data" : "alarmCredit",
+														"defaultContent": ""
 														},{
-														"data" : "transactionDate"
+														"data" : "modeOfPayment",
+														"defaultContent": ""
 														},{
-														"data" : "transactedByUserName"
+														"data" : "razorPayOrderID",
+														"defaultContent": ""
 														},{
-														"data" : "transactedByRoleDescription"
+														"data" : "razorPayPaymentID",
+														"defaultContent": ""
 														},{
-														"data" : "Status"
+														"data" : "razorPayRefundID",
+														"defaultContent": ""
+														},{
+														"data" : "RazorPayRefundStatus",
+														"defaultContent": ""
+														}
+														,{
+														"data" : "transactionDate",
+														"defaultContent": ""
+														},{
+														"data" : "transactedByUserName",
+														"defaultContent": ""
+														},{
+														"data" : "transactedByRoleDescription",
+														"defaultContent": ""
+														},{
+														"data" : "RazorPayPaymentStatus",
+														"defaultContent": ""
 														},{
 															"mData" : "action",
 															"render" : function(data, type, row) {
@@ -610,7 +654,7 @@ $(document).ready(function() {
 														        footer: 'true',
 														        text: 'Excel',
 														        exportOptions: {
-														            columns: [0,1,2,3,4,5,6,7,8,9,10]
+														        	columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 														        },
 														        title:'ReCharge Status' 
 														        },
@@ -618,7 +662,7 @@ $(document).ready(function() {
 														        {extend: 'pdf',
 														        footer: 'true',
 														        exportOptions: {
-														            columns: [0,1,2,3,4,5,6,7,8,9,10]
+														        	columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 														        },
 														        text: 'pdf',
 														        orientation: 'landscape',
