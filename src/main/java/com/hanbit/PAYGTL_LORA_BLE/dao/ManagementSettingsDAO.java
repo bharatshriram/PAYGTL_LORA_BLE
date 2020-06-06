@@ -348,6 +348,8 @@ public class ManagementSettingsDAO {
 				vacationResponseVO.setVacationName(rs.getString("VacationName"));
 				vacationResponseVO.setStartDate(ExtraMethodsDAO.datetimeformatter(rs.getString("StartDate")));
 				vacationResponseVO.setEndDate(ExtraMethodsDAO.datetimeformatter(rs.getString("EndDate")));
+				vacationResponseVO.setStartDateForEdit(rs.getString("StartDate"));
+				vacationResponseVO.setEndDateForEdit(rs.getString("EndDate"));
 				vacationResponseVO.setRegisteredDate(ExtraMethodsDAO.datetimeformatter(rs.getString("RegisteredDate")));
 				vacationResponseVO.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				vacationlist.add(vacationResponseVO);

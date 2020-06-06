@@ -20,6 +20,8 @@ public class VacationResponseVO {
 	private String meterID;
 	private String startDate;
 	private String endDate;
+	private String startDateForEdit;
+	private String endDateForEdit;
 	private String registeredDate;
 	private int vacationID;
 	private String vacationName;
@@ -155,6 +157,22 @@ public class VacationResponseVO {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getStartDateForEdit() {
+		return startDateForEdit;
+	}
+
+	public void setStartDateForEdit(String startDateForEdit) {
+		this.startDateForEdit = startDateForEdit;
+	}
+
+	public String getEndDateForEdit() {
+		return endDateForEdit;
+	}
+
+	public void setEndDateForEdit(String endDateForEdit) {
+		this.endDateForEdit = endDateForEdit;
 	}
 
 }

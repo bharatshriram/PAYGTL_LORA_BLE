@@ -359,7 +359,7 @@ public class ReportsDAO {
 						alarmsResponseVO.setTamper(rs.getInt("TamperDetect") == 1 ? "MAG" : rs.getInt("TamperDetect") == 2 ? "DOOR OPEN" : "NO");
 //						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
 						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getInt("TamperDetect") == 1 ? rs.getString("TamperTimeStamp") : rs.getInt("TamperDetect") == 2 ? rs.getString("DoorOpenTimeStamp") : rs.getString("IotTimeStamp")));
-							
+						
 						alarmsResponseList.add(alarmsResponseVO);
 					}
 					
