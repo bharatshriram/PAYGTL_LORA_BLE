@@ -418,7 +418,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		ResultSet rs = pstmt.executeQuery();
 		if(rs.next()) {
 			
-		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, RazorPayOrderID, RazorPayPaymentID, RazorPaySignature CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+		String sql = "INSERT INTO topup (TataReferenceNumber, CommunityID, BlockID, CustomerID, MeterID, TariffID, Amount, FixedCharges, ReconnectionCharges, Status, ModeOfPayment, PaymentStatus, Source, RazorPayOrderID, RazorPayPaymentID, RazorPaySignature, CreatedByID, CreatedByRoleID, CRNNumber, AcknowledgeDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 		ps = con.prepareStatement(sql);
 		
 		ps.setLong(1, topUpRequestVO.getTransactionIDForTata());

@@ -38,8 +38,10 @@ $(document)
 											return false;
 										}
 
-										if(sessionStorage.getItem("roleID") == 1){
+										if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 4){
 										
+											data1["communityID"] = $("#selectcommunityName").val();
+											
 										if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() != "Select Block") {
 
 											data1["blockID"] = $(
@@ -48,16 +50,10 @@ $(document)
 											data1["blockID"] = "-1";
 										}
 										} else if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
-											if ($("#selectBlockBasedonCommunity").val() == "null" || $("#selectBlockBasedonCommunity").val() == "Select Block") {
-
-												bootbox
-												.alert("Select Block Id");
-												return false;
-												
-											}else {
-												data1["blockID"] = $(
-												"#selectBlockBasedonCommunity").val();
-											}
+											
+											data1["blockID"] = sessionStorage.getItem("ID");
+											
+											data1["communityID"] = sessionStorage.getItem("communityID");
 											
 										}
 										
@@ -87,8 +83,8 @@ $(document)
 										
 										
 									
-										data1["communityID"] = $(
-												"#selectcommunityName").val();
+										/*data1["communityID"] = $(
+												"#selectcommunityName").val();*/
 										
 										
 										/*data1["meterID"] = $("#AMR_topup")
@@ -133,47 +129,72 @@ $(document)
 																		"scrollY" : 324,
 																		"scrollX" : true,
 																		"data" : d.data,
-																		"columns" : [ {
-																			
-																			"data" : "firstName"
-																		},{
-																			
-																			"data" : "lastName"
-																		},{
-																			
-																			"data" : "houseNumber"
-																		}, {
-																			"data" : "meterID"
-																		}, {
-																			"data" : "rechargeAmount"
-																		}, {
-																			"data" : "modeOfPayment"
-																		}, {
-																			"data" : "status"
-																		}, {
-																			"data" : "transactedByUserName"
-																		}, {
-																			"data" : "transactedByRoleDescription"
-																		}, {
-																			"data" : "dateTime"
-																		}, {
-																			"mData" : "action",
-																			"render" : function(data, type, row) {
-																				
-																				/*<button type="button"
-																					class="btn btn-raised btn-primary float-right"
-																					data-toggle="modal" data-target="#exampleModal">
-																					<i class="fa fa-user"></i>
-																				</button>*/
-																			//return "<a href='#communityEditModal' class='teal modal-trigger' data-toggle='modal' data-target='#communityEditModal' id='communityEditModal' onclick='getSocietyFormEdit("+row.communityID+")'><i class='material-icons' style='color:#17e9e9'>edit</i></a>"
-																				
-																				return "<a onclick='getReceiptTransactionID("
-																																			+ row.transactionID
-																																			+ ")'>"
-																																			+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
-																																			+ "</a>"
-																			}
-																		}],
+																		"columns" : [
+																			{
+																			"data" : "houseNumber",
+																			"defaultContent": ""
+																			},{
+																			"data" : "meterID",
+																			"defaultContent": ""
+																			},{
+																			"data" : "firstName",
+																			"defaultContent": ""
+																			},{
+																			"data" : "lastName",
+																			"defaultContent": ""
+																			},{
+																				"data" : "rechargeAmount",
+																				"defaultContent": ""
+																				},{
+																			"data" : "modeOfPayment",
+																			"defaultContent": ""
+																			},{
+																				"data" : "razorPayRefundID",
+																				"defaultContent": ""
+																				},{
+																					"data" : "RazorPayRefundStatus",
+																					"defaultContent": ""
+																					},{
+																						"data" : "status",
+																						"defaultContent": ""
+																						}
+																					,{
+																						"data" : "paymentStatus",
+																						"defaultContent": ""
+																						}
+																					,{
+																						"data" : "dateTime",
+																						"defaultContent": ""
+																						}
+																					
+																			,{
+																			"data" : "transactedByUserName",
+																			"defaultContent": ""
+																			},{
+																			"data" : "transactedByRoleDescription",
+																			"defaultContent": ""
+																			},{
+																				"mData" : "action",
+																				"render" : function(data, type, row) {
+																					if(row.status == "Failed"){
+																						return "<a onclick='getDeleteTransactionID("
+																						+ row.transactionID
+																						+ ")'>"
+																						+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer'>delete</i>"
+																						+ "</a>";
+																						
+																					}else if(row.status == "Passed" || row.status == "Pending"){
+																						return "<a onclick='getReceiptTransactionID("
+																						+ row.transactionID
+																						+ ")'>"
+																						+"<i class='material-icons' style='color:#17e9e9;cursor:pointer'>receipt</i>"
+																						+ "</a>"
+																					}else if( row.status == "Pending...waiting for acknowledge"){
+																						return "---"
+																					}
+																																		
+																				}
+																				}],
 																		"columnDefs" : [ {
 																		"className": "dt-center", "targets": "_all"
 																		}], "buttons": [
@@ -189,7 +210,7 @@ $(document)
 																		        {extend: 'pdf',
 																		        footer: 'true',
 																		        exportOptions: {
-																		            columns: [1,2,3,4,5,6,7,8,9]
+																		            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 																		        },
 																		        text: 'pdf',
 																		        orientation: 'landscape',

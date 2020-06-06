@@ -166,7 +166,7 @@ $(document)
 														"render" : function(data,
 																type, row) {
 															return "<span id=color style = color:"
-																	+ row.valveColor
+																	+ row.valveStatusColor
 																	+ ">"
 																	+ row.valveStatus
 																	+ "</span>"
@@ -177,7 +177,7 @@ $(document)
 													"mData" : "action",
 													"render" : function(data,
 															type, row) {
-														return "<span id=color title="+row.tamperTimeStamp +"style = color:"
+														return "<span id=color title="+row.tamperTimeStamp +" style = color:"
 																+ row.tamperColor
 																+ ">"
 																+ row.tamperStatus
@@ -498,7 +498,7 @@ $(document)
 																			"render" : function(data,
 																					type, row) {
 																				return "<span id=color style = color:"
-																						+ row.valveColor
+																						+ row.valveStatusColor
 																						+ ">"
 																						+ row.valveStatus
 																						+ "</span>"

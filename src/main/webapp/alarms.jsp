@@ -75,6 +75,26 @@
 							<tbody>
 							</tbody>
 						</table>
+						
+						<table id="alarmTable1"
+							class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline collapsed"
+							style="width: 100%">
+							<thead>
+								<tr>
+									<th>Community Name</th>
+									<th>Block Name</th>
+									<th>House No</th>
+									<th>AMR ID</th>
+									<th>Battery</th>
+									<th>Tamper</th>
+									<th>Last Communication Date</th>
+									<th>Difference</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						
 					</div>
 				</div>
 
