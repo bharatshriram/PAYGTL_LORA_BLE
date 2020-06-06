@@ -358,7 +358,7 @@ public class ReportsDAO {
 						alarmsResponseVO.setBatteryVoltage(rs.getString("BatteryVoltage"));
 						alarmsResponseVO.setTamper(rs.getInt("TamperDetect") == 1 ? "MAG" : rs.getInt("TamperDetect") == 2 ? "DOOR OPEN" : "NO");
 //						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
-						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getInt("TamperDetect") == 1 ? rs.getString("TamperTimeStamp") : rs.getInt("TamperDetect") == 2 ? rs.getString("DoorOpenTimeStamp") : rs.getString("IotTimeStamp")));
+						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getInt("TamperDetect") == 1 ? rs.getString("TamperTimeStamp")+":00" : rs.getInt("TamperDetect") == 2 ? rs.getString("DoorOpenTimeStamp")+":00" : rs.getString("IotTimeStamp")));
 							
 						alarmsResponseList.add(alarmsResponseVO);
 					}
