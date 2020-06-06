@@ -489,8 +489,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				statusvo.setMeterID(rs.getString("MeterID"));
 				statusvo.setAmount(rs.getString("Amount"));
 				statusvo.setModeOfPayment(rs.getString("ModeOfPayment"));
-				statusvo.setRazorPayOrderID(rs.getString("RazorPayOrderID"));
-				statusvo.setRazorPayPaymentID(rs.getString("RazorPayPaymentID"));
+				statusvo.setRazorPayOrderID(rs.getString("ModeOfPayment").equalsIgnoreCase("Cash") ? "---" : rs.getString("RazorPayOrderID"));
+				statusvo.setRazorPayPaymentID(rs.getString("ModeOfPayment").equalsIgnoreCase("Cash") ? "---" : rs.getString("RazorPayPaymentID"));
 				statusvo.setRazorPayRefundID((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundID") : "---"));
 				statusvo.setRazorPayRefundStatus((rs.getInt("PaymentStatus") == 3 ? rs.getString("RazorPayRefundStatus") : "---"));
 				statusvo.setPaymentStatus((rs.getInt("PaymentStatus") == 1 ? "PAID" : (rs.getInt("PaymentStatus") == 2) ? "FAILED" : (rs.getInt("PaymentStatus") == 3) ? "REFUND INITITATED" : "NOT PAID"));
