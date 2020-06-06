@@ -66,6 +66,7 @@
                 <div class="card-body scroll right-block">
                 <form id="topupDetails">
                     <div class="row">
+                       <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")){ %>
                         <div class="col-md-4">
                             <div class="input-group form-group">
                               <label class="bmd-label-floating select-label">Community<sup class="imp">*</sup></label>
@@ -88,6 +89,31 @@
                               </select>
                             </div>
                           </div>
+                          <%} else if(user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")){%>
+                          <div class="col-md-4">
+								<div id = "formcommunityNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Community Name</label> <input
+										type="text" class="form-control" name="communityNameAdd"
+										id="communityNameAdd" disabled>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div id = "formblockNameAdd" class="input-group form-group">
+									<label class="bmd-label-floating">Block Name</label> <input
+										type="text" class="form-control" name="blockNameAdd"
+										id="blockNameAdd"  disabled>
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+                            <div class="input-group form-group">
+                              <label class="bmd-label-floating select-label">Select CRN<sup class="imp">*</sup></label>
+                              <select class="form-control" id="selectHouseBasedonBlock" name="selectHouseBasedonBlock"  onchange="showTopupDetails(this.value);">
+                              </select>
+                            </div>
+                          </div>
+                          
+                          <%}%>
                           <div class="col-md-4">
                             <div id="formAMR_topup" class="input-group form-group">
                               <label class="bmd-label-floating">MIU ID</label>
@@ -146,7 +172,9 @@
 									<th>MIU ID</th>
 									<th>Battery</th>
 									<th>Tamper</th>
+									<th>Valve</th>
 									<th>Date</th>
+									<th>Difference</th>
 								</tr>
 							</thead>
 							<tbody>

@@ -37,16 +37,16 @@ $(document)
 											.alert("Select Block Name");
 											return false;
 										}
-										}
 										
-									/*	if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select House") {
+										/*if ($("#end_date").val() == "null" || $("#end_date").val() == "") {
 
 											bootbox
-											.alert("Select House Name");
+											.alert("Select Month");
 											return false;
 										}*/
-
-
+										
+										}
+										
 										if ($("#start_date").val() == "null" || $("#start_date").val() == "") {
 
 											bootbox
@@ -54,18 +54,20 @@ $(document)
 											return false;
 										}
 										
-										/*if ($("#end_date").val() == "null" || $("#end_date").val() == "") {
-
-											bootbox
-											.alert("Select End Date");
-											return false;
-										}*/
-										
-										
 										var data1 = {}
-										data1["communityID"] = $(
-												"#selectcommunityName").val();
-										data1["blockID"] = $("#selectBlockBasedonCommunity").val() == "Select Block" ? 0 : $("#selectBlockBasedonCommunity").val();
+										if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+											
+											data1["communityID"] = sessionStorage.getItem("communityID")
+									data1["blockID"] = sessionStorage.getItem("ID");
+											
+										}else { 
+										
+											data1["communityID"] = $(
+											"#selectcommunityName").val();
+									data1["blockID"] = $("#selectBlockBasedonCommunity").val() == "Select Block" ? 0 : $("#selectBlockBasedonCommunity").val();
+											
+										}
+										
 										/*data1["CRNNumber"] = $(
 												"#selectHouseBasedonBlock")
 												.val();
@@ -74,8 +76,6 @@ $(document)
 										data1["year"] = $("#start_date")
 												.val();
 										data1["month"] =  $("#end_date").val() == "" ? 0 : $("#end_date").val();
-										
-										alert("A=>"+JSON.stringify(data1));
 										
 										$
 												.ajax({

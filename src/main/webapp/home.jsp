@@ -623,6 +623,13 @@
 											<div class="col-md-4"><h6 class="m-0 font-weight-bold text-grey lineHeight">Live Status</h6></div>
 											<div class="col-md-4">
 											<div class="row">
+											<div class="col-md-6">
+												 
+                             <select class="yrselectdesc form-control start_date" id="start_date">
+                             <option value="">Select Year</option>
+                             </select>
+												</div>
+												
 												<div class="col-md-6">
 													 <select class="form-control month" id="month">
                              <option value="0">Select Month</option>
@@ -640,12 +647,7 @@
                              <option value="12">December</option>
                              </select>
 												</div>
-												<div class="col-md-6">
-												 
-                             <select class="yrselectdesc form-control start_date" id="start_date">
-                             <option value="">Select Year</option>
-                             </select>
-												</div>
+												
 											</div>
 													
                              
@@ -672,7 +674,7 @@
 												style="height: 400px; width: 100%; max-width: 800px; margin: 0 auto"></div>
 												
 												<div id="highchart_container2"
-												style="height: 250px; width: 100%; max-width: 800px; margin: 0 auto"></div>
+												style="height: 400px; width: 100%; max-width: 800px; margin: 0 auto"></div>
 										</div>
 									</div>
 								</div>

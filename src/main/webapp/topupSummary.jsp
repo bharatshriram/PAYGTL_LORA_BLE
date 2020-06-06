@@ -165,16 +165,19 @@
 							style="width: 100%">
 							<thead>
 								<tr>
+									<th>House No</th>
+									<th>MIU ID</th>
 									<th>First Name</th>
 									<th>Last Name</th>
-									<th>House No.</th>
-									<th>Meter ID</th>
 									<th>Amount</th>
-									<th>Payment Mode</th>
-									<th>Status</th>
-									<th>By User Name</th>
-									<th>By Role Des.</th>
-									<th>Date Time</th>
+									<th>Mode of Payment</th>
+									<th>Refund ID</th>
+									<th>Refund Status</th>
+									<th>Command Status</th>
+									<th>Payment Status</th>
+									<th>Date</th>
+									<th>By UserName</th>
+									<th>By Role Description</th>
 									<th>Action</th>
 								</tr>
 							</thead>

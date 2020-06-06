@@ -3,6 +3,16 @@
  */
 							// community - > CommunityId		
 									$(document).ready(function() {
+										
+										if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+											$("#communityNameAdd").val(sessionStorage.getItem("communityName"));
+											$("#formcommunityNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+											$("#blockNameAdd").val(sessionStorage.getItem("blockName"));
+											$("#formblockNameAdd").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+										}
+										
+										$("#alarmTable1").hide();
+										
 										table = $('#alarmTable')
 										.DataTable(
 										{
@@ -87,6 +97,9 @@
 										]
 										});
 										 $("div.headname").html('<h3>Alarms Details</h3>');
+										 
+										 (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 5) ? $(".customButton").remove() : ""
+											 
 										});
 									
 									
@@ -198,10 +211,12 @@
 																											"scrollY" : 324,
 																											"scrollX" : true,
 																											"data" : d.data,
-																											"columns" : [ {
-																										    	"data" : "communityName"
+																											"columns" : [  {
+																										    	"data" : "communityName",
+																										    	"defaultContent": ""
 																											 },{
-																											"data" : "blockName"
+																											"data" : "blockName",
+																									    	"defaultContent": ""
 																											},{
 																												"mData" : "action",
 																												"render" : function(data, type, row) {
@@ -210,15 +225,23 @@
 																															'title='+row.blockName+'>' 
 																													+row.houseNumber +
 																													 '</div>';
-																												}
+																												},
+																										    	"defaultContent": ""
 																												},{
-																											"data" : "meterID"
+																											"data" : "meterID",
+																									    	"defaultContent": ""
 																											},{
-																											"data" : "batteryVoltage"
+																											"data" : "batteryVoltage",
+																									    	"defaultContent": ""
 																											},{
-																											"data" : "tamper"
+																											"data" : "tamper",
+																									    	"defaultContent": ""
 																											},{
-																											"data" : "dateTime"
+																											"data" : "dateTime",
+																									    	"defaultContent": ""
+																											},{
+																											"data" : "difference",
+																									    	"defaultContent": ""
 																											}
 																											],
 																											"columnDefs" : [ {
@@ -275,22 +298,22 @@
 																			.ajax({
 																				type : "GET",
 																				contentType : "application/json",
-																				url : "/PAYGTL_LORA_BLE/alarmreports/"+url,
+																				url : "/PAYGTL_LORA_BLE//alarm/"+url,
 																				dataType : "JSON",
 
 																				success : function(d) {
 																					
 																					//if (data.result == "Success") {
-																					$('#customerTable').dataTable()._fnAjaxUpdate();
+																					$('#alarmTable').dataTable()._fnAjaxUpdate();
 																					//$("#form").hide();
 																					//$("#tablereport").show();
 																						console.log(JSON.stringify(d));
-																						$("#customerTable_wrapper").hide();
+																						$("#alarmTable_wrapper").hide();
 																						$("#filter").modal("hide");
-																						$("#customerTable1").show();
+																						$("#alarmTable1").show();
 																						var dom1 = "<'row'<'col-sm-4 headname'><'col-sm-2'><'col-sm-1'><'col-sm-2'f>>" +"<'row'<'col-sm-4'B><'col-sm-2'l><'col-sm-2'><'col-sm-2'><'col-sm-1 addevent'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-6 text-black'i><'col-sm-6 text-black'p>>";
 																						var hCols = [ 3, 4 ];
-																						table = $('#customerTable1')
+																						table = $('#alarmTable1')
 																						.DataTable(
 																								{
 																									
@@ -310,67 +333,66 @@
 																										"scrollX" : false,
 																										"data" : d.data,
 																										"columns" : [
-																								{
-																								"data" : "communityName"
-																								},{
-																								"data" : "blockName"
-																								},{
-																								"data" : "CRNNumber"
-																								},{
-																								"data" : "firstName"
-																								},{
-																								"data" : "lastName"
-																								},{
-																								"data" : "houseNumber"
-																								},{
-																								"data" : "meterSerialNumber"
-																								},{
-																								"data" : "meterID"
-																								},{
-																								"data" : "mobileNumber"
-																								},{
-																								"data" : "email"
-																								},{
-																								"data" : "createdByUserName"
-																								},{
-																								"data" : "createdByRoleDescription"
-																								},{
-																								"data" : "date"
-																								}
-																								,{
-																									"mData" : "action",
-																									"render" : function(data, type, row) {
-																										
-																										return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
-																									}
-																									},{
-																										"mData" : "action",
-																										"render" : function(data, type, row) {
-																											
-																											return "<a href=# id=CustomerEdit data-toggle=modal data-target=#myCustomerEdit onclick='getCustomerFormEdit(\""
-																																										+ row.CRNNumber
-																																										+ "\")'>"
-																																										+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																																										+ "</a>"
-																										}
-																										}
-
-
+																											 {
+																											    	"data" : "communityName"
+																											 },{
+																											"data" : "blockName"
+																											},{
+																												"mData" : "action",
+																												"render" : function(data, type, row) {
+																													
+																													return '<div class=btn btn-secondary data-toggle="tooltip" data-placement=top ' +
+																															'title='+row.blockName+'>' 
+																													+row.houseNumber +
+																													 '</div>';
+																												}
+																												},{
+																											"data" : "meterID"
+																											},{
+																											"data" : "batteryVoltage"
+																											},{
+																											"data" : "tamper"
+																											},{
+																											"data" : "dateTime"
+																											},{
+																											"data" : "difference"
+																											}
 
 																								],
 																								"columnDefs" : [ {
 																									//orderable : false,
-																									targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
+																									//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
 																									//targets : 14, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))),
 																								},{
 																									//orderable : false,
 																									//targets : 13, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 3) || !(sessionStorage.getItem("roleID") == 4))),
-																									targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
+//																									/targets : 14, visible: ( !(sessionStorage.getItem("roleID") == 1) && (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4))))
 																								},
 																								{
 																									"className": "dt-center", "targets": "_all"
 																								}], "buttons": [
 																									{
+																										extend : 'excel',
+																										footer : 'true',
+																										//text : 'Excel',
+																										title : 'Dashboard',
+																									//	className: 'custom-btn fa fa-file-excel-o'
+																											
+																									},
+
+																									{
+																										extend : 'pdf',
+																										footer : 'true',
+																										exportOptions : {
+																											columns : [ 0,1, 2, 3, 4,
+																													5, 6, 7, 8, 9,
+																													10, 11, 12,13,14 ]
+																										},
+																										orientation : 'landscape',
+																										title : 'Dashboard',
+																										pageSize: 'LEGAL'
+																									},
+																							            {
 																						                text: 'Reset',
 																						                action: function ( e, dt, node, config ) {
 																						                    alert( 'Button activated' );
@@ -379,12 +401,12 @@
 																						               
 																						                action: function ( e, dt, button, config ) {
 																						                   
-																						                	window.location = "customerDetails.jsp"
+																						                	window.location = "alarms.jsp"
 																						                }
 																						            }
 																								]
 																								})
-																								$("div.headname").html('<h3>Customer Managemnent</h3>');
+																								$("div.headname").html('<h3>Alarms Details</h3>');
 																				}
 																			});
 																	return false;
