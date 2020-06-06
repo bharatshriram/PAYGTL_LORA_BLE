@@ -88,7 +88,17 @@ return json.data;
 																	
 																	
 	}
-	}
+	},{
+		"mData" : "action",
+		"render" : function(data, type, row) {
+			
+			return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
+																		+ row.vacationID
+																		+ ")'>"
+																		+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																		+ "</a>"
+		}
+		}
 
 
 
@@ -99,7 +109,7 @@ return json.data;
 },
 {
 	//orderable : false,
-	targets :  [0,1,2,3,4], visible: !(sessionStorage.getItem("roleID") == 3) 
+	targets :  [0,1,2,3,4,5,7], visible: !(sessionStorage.getItem("roleID") == 3) 
 	
 },
 {

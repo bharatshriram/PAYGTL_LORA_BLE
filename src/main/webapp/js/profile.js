@@ -192,3 +192,35 @@ $(document)
 								});
 							});
 						});
+
+
+
+
+
+function getBlock(){
+	$.getJSON("/PAYGTL_LORA_BLE/block/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+		$.each(data.data, function(i, item) {
+			if (sessionStorage.getItem("ID") == item.blockID) {
+				
+				$('#communityNameEdit').val(item.communityName).trigger("change");
+				$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#blockNameEdit').val(item.blockName).trigger("change");
+				$("#formblockName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#blockLocationEdit').val(item.Location).trigger("change");
+				$("#formblocklocation").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			    $('#blockMobileEdit').val(item.mobile).trigger("change");
+				$("#formblockMobile").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$('#blockEmailEdit').val(item.email).trigger("change");
+				$("#formblockEmail").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				$("#blockIdhidden").val(item.blockID);
+			
+				$('#blockEditsave')
+				.attr('disabled',
+						false);
+				
+			} else {
+			}
+		});
+		$('#myBlockEdit').modal('show');
+	});
+}

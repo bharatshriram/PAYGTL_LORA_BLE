@@ -53,6 +53,7 @@
             <div class="card">
                 <div class="card-header bg-primary cardHeading">Profile</div>
                 <div class="card-body scroll right-block">
+                <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("3")){ %>
                    <div class="row border-bottom p-2">
                        <div class="col-md-3">Name:</div>
                         <div class="col-md-9" id="profileName"></div>
@@ -66,8 +67,8 @@
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Mobile:</div>
                         <div class="col-md-9" id="mobile"></div>
-                        
                       </div>
+                      <%} %>
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-5">xxxxxxx</div>
@@ -103,6 +104,11 @@
                           </form>
                         </div>
                        </div>
+                       
+                       <%if(user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")){ %>
+                    	   
+                       
+                       
 					<div class="row border-bottom p-2">
                         <div class="col-md-10 text-center text-primary">Community Details</div>
                       </div>
@@ -128,31 +134,37 @@
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-10 text-center text-primary">Block Details</div>
-                          <div class="col-md-2 text-primary" data-toggle="modal" data-target="#myBlockEdit"><b style="cursor: pointer;">Edit</b></div>
+                         <% if(user_id.equalsIgnoreCase("2")){%>
+                          <div class="col-md-2 text-primary" onClick= "getBlock()"><b style="cursor: pointer;">Edit</b></div>
+                          <%}%>
                       </div>
                       
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Name:</div>
-                        <div class="col-md-5 blockNameEdit" id="blockNameEdit"></div>
+                        <div class="col-md-5 blockNameEdit"></div>
                       </div>
                       
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Location:</div>
-                        <div class="col-md-5 blockLocationEdit"  id="blockLocationEdit"></div>
+                        <div class="col-md-5 blockLocationEdit"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Email:</div>
-                        <div class="col-md-5 blockEmailEdit" id="blockEmailEdit"></div>
+                        <div class="col-md-5 blockEmailEdit"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Mobile:</div>
-                        <div class="col-md-5 blockMobileEdit" id="blockMobileEdit"></div>
+                        <div class="col-md-5 blockMobileEdit"></div>
                       </div>
+                      <%} else if(user_id.equalsIgnoreCase("3")){%>
                       
+                      
+                      
+                      <% }%>
                 </div>
               </div>
           </div>
