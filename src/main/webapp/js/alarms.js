@@ -69,17 +69,21 @@
 											//targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 											"className": "dt-center", "targets": "_all"
 										}], "buttons": [
-											{extend: 'excel',
+											{
+												//extend: 'excel',
 										        footer: 'true',
-										        text: 'Excel',
+										        //text: 'Excel',
+										        className : 'custom-btn fa fa-file-excel-o',
 										        title:'Statistics'  },
 										         
-										        {extend: 'pdf',
+										        {
+										        	//extend: 'pdf',
 										        footer: 'true',
 										        exportOptions: {
 										            columns: [0,1,2,3,4,5,6]
 										        },
-										        text: 'pdf',
+										       // text: 'pdf',
+										        className : 'custom-btn fa fa-file-pdf-o',
 										        orientation: 'landscape',
 										        title:'Statistics'  },
 										        {
@@ -119,6 +123,12 @@
 																.click(
 																		function() {
 
+																			var data1 = {}
+																			
+																			if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 4){
+																				
+																			
+																			
 																			var selectcommunityName = $(
 																					"#selectcommunityName")
 																					.val();
@@ -137,6 +147,18 @@
 																				bootbox
 																				.alert("Select Block Name");
 																				return false;
+																			}
+																			
+																			data1["communityID"] = $(
+																			"#selectcommunityName").val();
+																			data1["blockID"] = $(
+																			"#selectBlockBasedonCommunity")
+																			.val();
+																			
+																			}
+																			if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
+																				data1["communityID"] = sessionStorage.getItem("communityID");
+																		data1["blockID"] = sessionStorage.getItem("ID")
 																			}
 																			
 																			if ($("#selectHouseBasedonBlock").val() == "null" || $("#selectHouseBasedonBlock").val() == "Select CRN") {
@@ -162,12 +184,6 @@
 																			}
 																			
 																			
-																			var data1 = {}
-																			data1["communityID"] = $(
-																					"#selectcommunityName").val();
-																			data1["blockID"] = $(
-																					"#selectBlockBasedonCommunity")
-																					.val();
 																			data1["CRNNumber"] = $(
 																					"#selectHouseBasedonBlock")
 																					.val();
@@ -177,6 +193,7 @@
 																					.val();
 																			data1["toDate"] = $("#end_date").val();
 
+																			alert(JSON.stringify(data1));
 																			
 																			$
 																					.ajax({
@@ -248,21 +265,21 @@
 																												//targets : 11, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 																												"className": "dt-center", "targets": "_all"
 																											}], "buttons": [
-																												   /* 'csvHtml5',
-																												'excelHtml5',
-																											'pdfHtml5'*/
-																												
-																												{extend: 'excel',
+																												{
+																													//extend: 'excel',
 																											        footer: 'true',
-																											        text: 'Excel',
+																											        //text: 'Excel',
+																											        className : 'custom-btn fa fa-file-excel-o',
 																											        title:'Alarm Report'  },
 																											         
-																											        {extend: 'pdf',
+																											        {
+																											        	//extend: 'pdf',
 																											        footer: 'true',
 																											        exportOptions: {
 																											            columns: [0,1,2,3,4,5,6]
 																											        },
-																											        text: 'pdf',
+																											      //  text: 'pdf',
+																											        className : 'custom-btn fa fa-file-pdf-o',
 																											        orientation: 'landscape',
 																											        title:'Alarm Report'  }
 																											]
@@ -372,22 +389,23 @@
 																									"className": "dt-center", "targets": "_all"
 																								}], "buttons": [
 																									{
-																										extend : 'excel',
+																										//extend : 'excel',
 																										footer : 'true',
 																										//text : 'Excel',
 																										title : 'Dashboard',
-																									//	className: 'custom-btn fa fa-file-excel-o'
+																										className: 'custom-btn fa fa-file-excel-o'
 																											
 																									},
 
 																									{
-																										extend : 'pdf',
+																										//extend : 'pdf',
 																										footer : 'true',
 																										exportOptions : {
 																											columns : [ 0,1, 2, 3, 4,
 																													5, 6, 7, 8, 9,
 																													10, 11, 12,13,14 ]
 																										},
+																										className: 'custom-btn fa fa-file-pdf-o',
 																										orientation : 'landscape',
 																										title : 'Dashboard',
 																										pageSize: 'LEGAL'

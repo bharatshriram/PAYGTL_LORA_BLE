@@ -169,4 +169,26 @@ $(document)
 							
 							
 							
+							
+							$.getJSON("/PAYGTL_LORA_BLE/community/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+								$.each(data.data, function(i, item) {
+									//if (session.Storage("") == item.communityID) {
+									document.querySelector('#communityName').innerText = item.communityName;
+									document.querySelector('#communityEmail').innerText = item.email;
+									document.querySelector('#communityMobile').innerText = item.mobileNumber;
+									document.querySelector('#communityAddress').innerText = item.address;
+								});
+							});
+							
+							
+							$.getJSON("/PAYGTL_LORA_BLE/block/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+								$.each(data.data, function(i, item) {
+									document.querySelector('.blockNameEdit').innerText = item.blockName;
+									document.querySelector('.blockLocationEdit').innerText = item.Location;
+									document.querySelector('.blockMobileEdit').innerText = item.mobile;
+									document.querySelector('.blockEmailEdit').innerText = item.email;
+									document.querySelector(".blockIdhidden").innerText = item.blockID;
+									
+								});
+							});
 						});

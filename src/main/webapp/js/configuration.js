@@ -202,22 +202,24 @@ $(document)
 										}],
 										"buttons" : [
 										{
-											extend : 'excel',
+											//extend : 'excel',
 											footer : 'true',
-											text : 'Excel',
+											//text : 'Excel',
 											exportOptions : {
 												columns : [ 0, 1, 2, 3 ]
 											},
+											className: 'custom-btn fa fa-file-excel-o',
 											title : 'Configuration Status'
 										},
 
 										{
-											extend : 'pdf',
+											//extend : 'pdf',
+											className: 'custom-btn fa fa-file-pdf-o',
 											footer : 'true',
 											exportOptions : {
 												columns : [ 0, 1, 2, 3 ]
 											},
-											text : 'pdf',
+											//text : 'pdf',
 											orientation : 'landscape',
 											title : 'Configuration Status'
 										},
@@ -336,22 +338,24 @@ $(document)
 																}],
 																"buttons" : [
 																{
-																	extend : 'excel',
+																	//extend : 'excel',
 																	footer : 'true',
-																	text : 'Excel',
+																	//text : 'Excel',
 																	exportOptions : {
 																		columns : [ 0, 1, 2, 3 ]
 																	},
+																	className: 'custom-btn fa fa-file-excel-o',
 																	title : 'Configuration Status'
 																},
 
 																{
-																	extend : 'pdf',
+																	//extend : 'pdf',
 																	footer : 'true',
 																	exportOptions : {
 																		columns : [ 0, 1, 2, 3 ]
 																	},
-																	text : 'pdf',
+																	className: 'custom-btn fa fa-file-pdf-o',
+																	//text : 'pdf',
 																	orientation : 'landscape',
 																	title : 'Configuration Status'
 																},
@@ -393,7 +397,7 @@ $(document)
 
 function getDeleteTransactionID(transID){
 	
-	alert(transID);
+	//alert(transID);
 	
 	bootbox
 	.confirm(

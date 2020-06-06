@@ -184,7 +184,6 @@ $(document)
 											dataType : "JSON",
 											success : function(data) {
 												
-												alert(data.result);
 												if (data.result == "Success") {
 													alert(data.result);
 													$('#societyAdd').prop('disabled', true).addClass('disabled').off( "click" );
@@ -272,7 +271,6 @@ $(document)
 											success : function(data) {
 
 												if (data.result == "Success") {
-													alert(data.result);
 													$('#buildingAdd')
 															.prop(
 																	'disabled',

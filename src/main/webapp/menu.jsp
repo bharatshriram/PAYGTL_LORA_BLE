@@ -84,7 +84,11 @@
                     <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
     				<li><a href="alarmReport.jsp" title="Alarm Report"><img src=common/images/icons/3-alarmreport.png /><span class="nav-label">Alarms Report</span></a></li>
     				<li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
-    				<li><a href="feedbackStatus.jsp" title="Feedback"><img src=common/images/icons/4-vacation.png /><span class="nav-label">FeedBack Status</span></a></li>
+    				<%if(user_id.equalsIgnoreCase("2")){ %>
+                <li><a href="feedbackStatus.jsp" title="Feedback"><img src=common/images/icons/4-vacation.png /><span class="nav-label">FeedBack Status</span></a></li>
+                <%}%>
+    				
+    				
                 <!-- <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active"> <i
                       class="fa fa-th-large"></i> <span class="nav-label"> Reports </span> <span
                       class="fa fa-chevron-left float-right"></span> </a>

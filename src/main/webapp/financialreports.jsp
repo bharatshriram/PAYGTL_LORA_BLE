@@ -110,7 +110,7 @@
                           </div>
                           <div class="col-md-4">
                             <div id="formdateTime_topup" class="input-group form-group">
-                               <label class="bmd-label-floating select-label">Month<sup class="imp">*</sup></label> 
+                               <label class="bmd-label-floating select-label">Month</label> 
                              <select class="form-control end_date" id="end_date">
                              <option value="">Select Month</option>
                              <option value="01">January</option>

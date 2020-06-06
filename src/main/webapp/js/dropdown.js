@@ -6,7 +6,7 @@
 
 $(function() {
 	
-	if(sessionStorage.getItem("roleID") == 2){
+	if(sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 		$("#selectHouseBasedonBlock").append("<option>" + "Select CRN" + "</option>");
 		
 		$.getJSON("/PAYGTL_LORA_BLE/customers/" + sessionStorage.getItem("roleID") + "/"

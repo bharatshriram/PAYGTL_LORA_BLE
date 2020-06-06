@@ -48,22 +48,3 @@ function redirection(obj){
 	}
 	
 }
-
- /*$(document).ready(function () {
-  //if($(window).width()<768){
-		alert("check");
-       $('.left').addClass('moblieclass');
-	   $('.button-left').click(function () {
-		   var w = $(window).width();
-		   alert("#"+w);
-		   if($(window).width()<768){
-			   alert("#");
-	    $('.left ').removeClass('fliph');
-        $('.left').addClass('moblieclassActive');
-		}else{
-			alert("i");
-		}
-	   
-    }); 
-   
-});*/

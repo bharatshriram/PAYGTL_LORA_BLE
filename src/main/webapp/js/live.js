@@ -255,15 +255,15 @@ $(document)
 
 										"buttons" : [
 												{
-													extend : 'excel',
+													//extend : 'excel',
 													footer : 'true',
 													//text : 'Excel',
 													title : 'Dashboard',
-													//className: 'custom-btn fa fa-file-excel-o'
+													className: 'custom-btn fa fa-file-excel-o'
 												},
 
 												{
-													extend : 'pdf',
+													//extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
@@ -272,6 +272,7 @@ $(document)
 													},
 													orientation : 'landscape',
 													title : 'Dashboard',
+													className: 'custom-btn fa fa-file-pdf-o',
 													pageSize: 'LEGAL'
 												},
 												{
@@ -566,16 +567,16 @@ $(document)
 																 
 																"buttons" : [
 																	{
-																		extend : 'excel',
+																	//	extend : 'excel',
 																		footer : 'true',
 																		//text : 'Excel',
 																		title : 'Dashboard',
-																	//	className: 'custom-btn fa fa-file-excel-o'
+																		className: 'custom-btn fa fa-file-excel-o'
 																			
 																	},
 
 																	{
-																		extend : 'pdf',
+																		//extend : 'pdf',
 																		footer : 'true',
 																		exportOptions : {
 																			columns : [ 0,1, 2, 3, 4,
@@ -584,8 +585,10 @@ $(document)
 																		},
 																		orientation : 'landscape',
 																		title : 'Dashboard',
-																		pageSize: 'LEGAL'
+																		pageSize: 'LEGAL',
+																			className: 'custom-btn fa fa-file-pdf-o'
 																	},
+																	
 																	{
 															               className: 'customButton',
 															               text : "Adv Serach",

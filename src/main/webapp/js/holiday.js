@@ -108,16 +108,16 @@ return json.data;
 ],
 	"buttons" : [
 	{
-		extend : 'excel',
+		//extend : 'excel',
 		footer : 'true',
 		//text : 'Excel',
 		title : 'Vacation',
-	//	className: 'custom-btn fa fa-file-excel-o'
+	className: 'custom-btn fa fa-file-excel-o'
 			
 	},
 
 	{
-		extend : 'pdf',
+		//extend : 'pdf',
 		footer : 'true',
 		exportOptions : {
 			columns : [ 0,1, 2, 3, 4,
@@ -125,7 +125,7 @@ return json.data;
 					10,11]
 		},
 		//text : 'pdf',
-		//className: 'custom-btn fa fa-file-pdf-o',
+		className: 'custom-btn fa fa-file-pdf-o',
 		orientation : 'landscape',
 		title : 'Vacation'
 	},
@@ -251,16 +251,16 @@ $("#customerFilter")
 													],
 														"buttons" : [
 														{
-															extend : 'excel',
+															//extend : 'excel',
 															footer : 'true',
 															//text : 'Excel',
 															title : 'Vacation',
-															//className: 'custom-btn fa fa-file-excel-o'
+															className: 'custom-btn fa fa-file-excel-o'
 																
 														},
 
 														{
-															extend : 'pdf',
+															//extend : 'pdf',
 															footer : 'true',
 															exportOptions : {
 																columns : [ 0,1, 2, 3, 4,
@@ -268,7 +268,7 @@ $("#customerFilter")
 																		10]
 															},
 															//text : 'pdf',
-															//className: 'custom-btn fa fa-file-pdf-o',
+															className: 'custom-btn fa fa-file-pdf-o',
 															orientation : 'landscape',
 															title : 'Vacation'
 														},
@@ -461,9 +461,6 @@ $(document)
 
 													success : function(
 															data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
 														if (data.result == "Success") {
 
 															/*alert( "data"
