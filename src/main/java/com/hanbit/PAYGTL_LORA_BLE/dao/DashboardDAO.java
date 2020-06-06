@@ -524,16 +524,16 @@ public class DashboardDAO {
 					if(tamperTimeStamp != 0) {
 						
 						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
-						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setTamperTimeStamp(datetime.toString().replaceAll("T", " ").substring(0, 16));
+//						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setTamperTimeStamp(instant.toString().replaceAll("T", " ").substring(0, 19));
 					} else {
 					dashboardRequestVO.setTamperTimeStamp("");
 					}
 					
 					if(doorOpenTimeStamp != 0) {
 						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
-						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
-						  dashboardRequestVO.setDoorOpenTimeStamp(datetime1.toString().replaceAll("T", " ").substring(0, 16));
+//						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
+						  dashboardRequestVO.setDoorOpenTimeStamp(instant1.toString().replaceAll("T", " ").substring(0, 19));
 					} else {
 					dashboardRequestVO.setDoorOpenTimeStamp("");
 					} 
