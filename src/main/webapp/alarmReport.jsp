@@ -172,7 +172,6 @@
 									<th>MIU ID</th>
 									<th>Battery</th>
 									<th>Tamper</th>
-									<th>Valve</th>
 									<th>Date</th>
 									<th>Difference</th>
 								</tr>

@@ -88,7 +88,17 @@ return json.data;
 																	
 																	
 	}
-	}
+	},{
+		"mData" : "action",
+		"render" : function(data, type, row) {
+			
+			return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
+																		+ row.vacationID
+																		+ ")'>"
+																		+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																		+ "</a>"
+		}
+		}
 
 
 
@@ -99,7 +109,7 @@ return json.data;
 },
 {
 	//orderable : false,
-	targets :  [0,1,2,3,4], visible: !(sessionStorage.getItem("roleID") == 3) 
+	targets :  [0,1,2,3,4,5,7], visible: !(sessionStorage.getItem("roleID") == 3) 
 	
 },
 {
@@ -108,16 +118,16 @@ return json.data;
 ],
 	"buttons" : [
 	{
-		extend : 'excel',
+		//extend : 'excel',
 		footer : 'true',
 		//text : 'Excel',
 		title : 'Vacation',
-	//	className: 'custom-btn fa fa-file-excel-o'
+	className: 'custom-btn fa fa-file-excel-o'
 			
 	},
 
 	{
-		extend : 'pdf',
+		//extend : 'pdf',
 		footer : 'true',
 		exportOptions : {
 			columns : [ 0,1, 2, 3, 4,
@@ -125,7 +135,7 @@ return json.data;
 					10,11]
 		},
 		//text : 'pdf',
-		//className: 'custom-btn fa fa-file-pdf-o',
+		className: 'custom-btn fa fa-file-pdf-o',
 		orientation : 'landscape',
 		title : 'Vacation'
 	},
@@ -251,16 +261,16 @@ $("#customerFilter")
 													],
 														"buttons" : [
 														{
-															extend : 'excel',
+															//extend : 'excel',
 															footer : 'true',
 															//text : 'Excel',
 															title : 'Vacation',
-															//className: 'custom-btn fa fa-file-excel-o'
+															className: 'custom-btn fa fa-file-excel-o'
 																
 														},
 
 														{
-															extend : 'pdf',
+															//extend : 'pdf',
 															footer : 'true',
 															exportOptions : {
 																columns : [ 0,1, 2, 3, 4,
@@ -268,7 +278,7 @@ $("#customerFilter")
 																		10]
 															},
 															//text : 'pdf',
-															//className: 'custom-btn fa fa-file-pdf-o',
+															className: 'custom-btn fa fa-file-pdf-o',
 															orientation : 'landscape',
 															title : 'Vacation'
 														},
@@ -461,9 +471,6 @@ $(document)
 
 													success : function(
 															data) {
-														alert("data"
-																+ JSON
-																		.stringify(data));
 														if (data.result == "Success") {
 
 															/*alert( "data"

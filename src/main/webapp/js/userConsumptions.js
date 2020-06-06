@@ -143,17 +143,22 @@ $(document)
 																			'excelHtml5',
 																		'pdfHtml5'*/
 																			
-																			{extend: 'excel',
+																			{
+																				//extend: 'excel',
 																		        footer: 'true',
-																		        text: 'Excel',
-																		        title:'User Consumption Report'  },
+																		        //text: 'Excel',
+																		        className: 'custom-btn fa fa-file-excel-o',
+																		        title:'User Consumption Report'  
+																		        	},
 																		         
-																		        {extend: 'pdf',
+																		        {
+																		        //extend: 'pdf',
 																		        footer: 'true',
+																		        className: 'custom-btn fa fa-file-pdf-o',
 																		        exportOptions: {
 																		            columns: [0,1,2,3,4,5,6,7,8]
 																		        },
-																		        text: 'pdf',
+																		        //text: 'pdf',
 																		        orientation: 'landscape',
 																		        title:'User Consumption Report'  }
 																		]

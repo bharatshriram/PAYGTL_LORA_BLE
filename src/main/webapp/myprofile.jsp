@@ -53,6 +53,7 @@
             <div class="card">
                 <div class="card-header bg-primary cardHeading">Profile</div>
                 <div class="card-body scroll right-block">
+                <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("3")){ %>
                    <div class="row border-bottom p-2">
                        <div class="col-md-3">Name:</div>
                         <div class="col-md-9" id="profileName"></div>
@@ -66,8 +67,8 @@
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Mobile:</div>
                         <div class="col-md-9" id="mobile"></div>
-                        
                       </div>
+                      <%} %>
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Password:</div>
                         <div class="col-md-5">xxxxxxx</div>
@@ -103,56 +104,67 @@
                           </form>
                         </div>
                        </div>
+                       
+                       <%if(user_id.equalsIgnoreCase("2") || user_id.equalsIgnoreCase("5")){ %>
+                    	   
+                       
+                       
 					<div class="row border-bottom p-2">
                         <div class="col-md-10 text-center text-primary">Community Details</div>
                       </div>
                        <div class="row border-bottom p-2">
                         <div class="col-md-3">Name:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5" id= "communityName"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Address:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5" id= "communityAddress"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Email:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5" id= "communityEmail"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Mobile:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5" id= "communityMobile"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-10 text-center text-primary">Block Details</div>
-                          <div class="col-md-2 text-primary" onclick="getBlockFormEdit('')"><b style="cursor: pointer;">Edit</b></div>
+                         <% if(user_id.equalsIgnoreCase("2")){%>
+                          <div class="col-md-2 text-primary" onClick= "getBlock()"><b style="cursor: pointer;">Edit</b></div>
+                          <%}%>
                       </div>
                       
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Name:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5 blockNameEdit"></div>
                       </div>
                       
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Location:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5 blockLocationEdit"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Email:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5 blockEmailEdit"></div>
                       </div>
                       
                       <div class="row border-bottom p-2">
                         <div class="col-md-3">Mobile:</div>
-                        <div class="col-md-5">xxxxxxx</div>
+                        <div class="col-md-5 blockMobileEdit"></div>
                       </div>
+                      <%} else if(user_id.equalsIgnoreCase("3")){%>
                       
+                      
+                      
+                      <% }%>
                 </div>
               </div>
           </div>
@@ -164,6 +176,82 @@
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" />
+	
+	<div class="modal fade" id="myBlockEdit" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" align="center">Edit Block</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="blockEdit">
+						<div class="row">
+							<div class="col-md-6">
+								<div id="formcomunityName" class="input-group form-group">
+									<label class="bmd-label-floating">Community</label> <input
+										type="text" class="communityNameEdit form-control " name="communityNameEdit"
+										id="communityNameEdit" disabled>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formblockName" class="input-group form-group">
+									<label class="bmd-label-floating">Block Name</label> <input
+										type="text" class="blockNameEdit form-control" name="blockNameEdit"
+										id="blockNameEdit">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div id="formblocklocation" class="input-group form-group">
+									<label class="bmd-label-floating">Location</label> <input
+										type="text" class="blockLocationEdit form-control" name="blockLocationEdit"
+										id="blockLocationEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formblockMobile" class="input-group form-group">
+									<label class="bmd-label-floating">Mobile Number</label> <input
+										type="text" class="blockMobileEdit form-control" name="blockMobileEdit"
+										id="blockMobileEdit">
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div id="formblockEmail" class="input-group form-group">
+									<label class="bmd-label-floating">Email</label> <input
+										type="email" class="blockEmailEdit form-control" name="blockEmailEdit"
+										id="blockEmailEdit">
+										
+										 <input
+										type="hidden" id="blockIdhidden">
+										
+								</div>
+							</div>
+							<div class="col-md-6">
+							</div>
+
+							<div class="col-md-6">
+									<button class="btn btn-secondary submit-button"
+									 value="Save!" id="blockEditsave"
+									type="button" disabled>Update</button>
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-danger btn-raised mr-4"
+									data-dismiss="modal">
+									Close
+									<div class="ripple-container"></div>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 <%} %>
 

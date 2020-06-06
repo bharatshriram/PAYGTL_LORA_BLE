@@ -92,6 +92,7 @@
 									<th>Registration Date</th>
 									<th>Status</th>
 									<th>Action</th>
+									<th>Action</th>
 								</tr>
 							</thead>
 							<tbody>

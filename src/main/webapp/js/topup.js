@@ -298,8 +298,13 @@ $(document)
 												.val();
 										data1["amount"] = $("#recharge_topup")
 												.val();
+										if(sessionStorage.getItem("roleID") == 3){
+											data1["modeOfPayment"] = "Online";
+										}
+										else if(sessionStorage.getItem("roleID") == 1 || sessionStorage.getItem("roleID") == 2){
 										data1["modeOfPayment"] = $(
 												"#paymentMode").val()
+										}
 										data1["source"] = "web"
 										data1["transactedByID"] = sessionStorage
 												.getItem("createdByID");
@@ -610,20 +615,21 @@ $(document)
 												} ],
 										"buttons" : [
 												{
-													extend : 'excel',
+													//extend : 'excel',
 													footer : 'true',
-													text : 'Excel',
+													//text : 'Excel',
 													exportOptions : {
 														columns : [ 0, 1, 2, 3,
 																4, 5, 6, 7, 8,
 																9, 10, 11, 12,
 																13, 14, 15 ]
 													},
+													className: 'custom-btn fa fa-file-excel-o',
 													title : 'ReCharge Status'
 												},
 
 												{
-													extend : 'pdf',
+													//extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0, 1, 2, 3,
@@ -631,7 +637,8 @@ $(document)
 																9, 10, 11, 12,
 																13, 14, 15 ]
 													},
-													text : 'pdf',
+													className: 'custom-btn fa fa-file-pdf-o',
+													//text : 'pdf',
 													orientation : 'landscape',
 													title : 'ReCharge Status',
 													pageSize : 'LEGAL'
@@ -857,9 +864,10 @@ $(document)
 																					} ],
 																			"buttons" : [
 																					{
-																						extend : 'excel',
+																						//extend : 'excel',
 																						footer : 'true',
-																						text : 'Excel',
+																						//text : 'Excel',
+																						className: 'custom-btn fa fa-file-excel-o',
 																						exportOptions : {
 																							columns : [
 																									0,
@@ -883,8 +891,9 @@ $(document)
 																					},
 
 																					{
-																						extend : 'pdf',
+																						//extend : 'pdf',
 																						footer : 'true',
+																						className: 'custom-btn fa fa-file-excel-o',
 																						exportOptions : {
 																							columns : [
 																									0,
@@ -904,7 +913,7 @@ $(document)
 																									14,
 																									15 ]
 																						},
-																						text : 'pdf',
+																						//text : 'pdf',
 																						orientation : 'landscape',
 																						title : 'ReCharge Status',
 																						pageSize : 'LEGAL'
