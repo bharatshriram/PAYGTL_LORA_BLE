@@ -328,9 +328,9 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			vacationlist = new LinkedList<VacationResponseVO>();
 
-			String query = "SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Status, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID WHERE v.Mode = ('add' or 'edit') <change>";
+			String query = "SELECT v.VacationID, v.VacationName, c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber, v.StartDate, v.EndDate, v.Source, v.Status, v.Mode, v.RegisteredDate FROM Vacation AS V LEFT JOIN community AS C ON c.CommunityID = v.CommunityID LEFT JOIN block AS b ON b.blockID = v.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CustomerID = v.CustomerID <change>";
 							
-			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY v.VacationID DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " AND v.CommunityID = "+filterCid+" ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? " AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? " AND v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
+			pstmt = con.prepareStatement(query.replaceAll("<change>", ((roleid == 1 || roleid == 4) && (filterCid == -1)) ? "ORDER BY v.VacationID DESC" : ((roleid == 1 || roleid == 4) && (filterCid != -1)) ? " WHERE v.CommunityID = "+filterCid+" ORDER BY v.VacationID DESC" : (roleid == 2 || roleid == 5) ? " AND v.BlockID = "+id+ " ORDER BY v.VacationID DESC" : (roleid == 3) ? " WHERE v.CRNNumber = '"+id+ "' ORDER BY v.VacationID DESC" :""));
 			
 			rs = pstmt.executeQuery();
 			
@@ -350,6 +350,7 @@ public class ManagementSettingsDAO {
 				vacationResponseVO.setEndDate(ExtraMethodsDAO.datetimeformatter(rs.getString("EndDate")));
 				vacationResponseVO.setStartDateForEdit(rs.getString("StartDate"));
 				vacationResponseVO.setEndDateForEdit(rs.getString("EndDate"));
+				vacationResponseVO.setMode(rs.getString("Mode"));
 				vacationResponseVO.setRegisteredDate(ExtraMethodsDAO.datetimeformatter(rs.getString("RegisteredDate")));
 				vacationResponseVO.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				vacationlist.add(vacationResponseVO);
@@ -599,7 +600,7 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			pstmt = con.prepareStatement("SELECT MeterID, VacationName FROM vacation WHERE VacationID = " + vacationID);
+			pstmt = con.prepareStatement("SELECT MeterID, StartDate, EndDate, VacationName FROM vacation WHERE VacationID = " + vacationID);
 			ResultSet rs = pstmt.executeQuery();
 
 			if (rs.next()) {
@@ -627,8 +628,8 @@ public class ManagementSettingsDAO {
 
 					vacationRequestVO.setTransactionIDForTata(tataResponseVO.getId());
 					vacationRequestVO.setStatus(tataResponseVO.getTransmissionStatus());
-					vacationRequestVO.setStartDateTime("0000-00-00 00:00:00");
-					vacationRequestVO.setEndDateTime("0000-00-00 00:00:00");
+					vacationRequestVO.setStartDateTime(rs.getString("StartDate"));
+					vacationRequestVO.setEndDateTime(rs.getString("EndDate"));
 
 					if (updatevacation(vacationRequestVO).equalsIgnoreCase("Success")) {
 						responsevo.setResult("Success");
@@ -640,8 +641,8 @@ public class ManagementSettingsDAO {
 				} else {
 					vacationRequestVO.setTransactionIDForTata(0);
 					vacationRequestVO.setStatus(2);
-					vacationRequestVO.setStartDateTime("0000-00-00 00:00:00");
-					vacationRequestVO.setEndDateTime("0000-00-00 00:00:00");
+					vacationRequestVO.setStartDateTime(rs.getString("StartDate"));
+					vacationRequestVO.setEndDateTime(rs.getString("EndDate"));
 					if (updatevacation(vacationRequestVO).equalsIgnoreCase("Success")) {
 						responsevo.setResult("Success");
 						responsevo.setMessage("Vacation Delete request Inserted Successfully");
