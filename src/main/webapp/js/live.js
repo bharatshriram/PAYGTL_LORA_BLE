@@ -255,24 +255,24 @@ $(document)
 
 										"buttons" : [
 												{
-													//extend : 'excel',
+													extend : 'excel',
 													footer : 'true',
 													//text : 'Excel',
 													title : 'Dashboard',
-													className: 'custom-btn fa fa-file-excel-o'
+													//className: 'custom-btn fa fa-file-excel-o'
 												},
 
 												{
-													//extend : 'pdf',
+													extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0,1, 2, 3, 4,
 																5, 6, 7, 8, 9,
-																10, 11, 12,13,14 ]
+																10, 11, 12,13,14,15 ]
 													},
 													orientation : 'landscape',
 													title : 'Dashboard',
-													className: 'custom-btn fa fa-file-pdf-o',
+													//className: 'custom-btn fa fa-file-pdf-o',
 													pageSize: 'LEGAL'
 												},
 												{
@@ -288,7 +288,11 @@ $(document)
 									                    );
 									                }
 									            }
-												]
+												],
+										 initComplete: function() {
+											   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+											   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+											  }
 
 									}).columns.adjust();
 					$("div.headname").html('<h3>Customer Details</h3>');
@@ -567,16 +571,16 @@ $(document)
 																 
 																"buttons" : [
 																	{
-																	//	extend : 'excel',
+																		extend : 'excel',
 																		footer : 'true',
 																		//text : 'Excel',
 																		title : 'Dashboard',
-																		className: 'custom-btn fa fa-file-excel-o'
+																	//	className: 'custom-btn fa fa-file-excel-o'
 																			
 																	},
 
 																	{
-																		//extend : 'pdf',
+																		extend : 'pdf',
 																		footer : 'true',
 																		exportOptions : {
 																			columns : [ 0,1, 2, 3, 4,
@@ -586,7 +590,7 @@ $(document)
 																		orientation : 'landscape',
 																		title : 'Dashboard',
 																		pageSize: 'LEGAL',
-																			className: 'custom-btn fa fa-file-pdf-o'
+																		//	className: 'custom-btn fa fa-file-pdf-o'
 																	},
 																	
 																	{
@@ -614,7 +618,11 @@ $(document)
 															                	window.location = "LiveDashBoard.jsp"
 															                }
 															            }
-																		]
+																		],
+																		 initComplete: function() {
+																			   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																			   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																			  }
 
 															})
 											}

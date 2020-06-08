@@ -143,13 +143,18 @@
 							</div>
 							
 
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<button class="btn btn-secondary submit-button"
 									 value="Save!" id="blockAdd"
 									type="button" disabled>Save</button>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
@@ -220,13 +225,18 @@
 							<div class="col-md-6">
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-4">
 									<button class="btn btn-secondary submit-button"
 									 value="Save!" id="blockEditsave"
 									type="button" disabled>Update</button>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close

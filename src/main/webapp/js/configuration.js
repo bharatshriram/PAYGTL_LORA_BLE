@@ -202,19 +202,19 @@ $(document)
 										}],
 										"buttons" : [
 										{
-											//extend : 'excel',
+											extend : 'excel',
 											footer : 'true',
 											//text : 'Excel',
 											exportOptions : {
 												columns : [ 0, 1, 2, 3 ]
 											},
-											className: 'custom-btn fa fa-file-excel-o',
+											//className: 'custom-btn fa fa-file-excel-o',
 											title : 'Configuration Status'
 										},
 
 										{
-											//extend : 'pdf',
-											className: 'custom-btn fa fa-file-pdf-o',
+											extend : 'pdf',
+											//className: 'custom-btn fa fa-file-pdf-o',
 											footer : 'true',
 											exportOptions : {
 												columns : [ 0, 1, 2, 3 ]
@@ -235,7 +235,11 @@ $(document)
 									                    }
 									                );
 									            }
-									        } ]
+									        } ],
+											 initComplete: function() {
+												   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+												   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+												  }
 
 									});
 					if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
@@ -338,23 +342,23 @@ $(document)
 																}],
 																"buttons" : [
 																{
-																	//extend : 'excel',
+																	extend : 'excel',
 																	footer : 'true',
 																	//text : 'Excel',
 																	exportOptions : {
 																		columns : [ 0, 1, 2, 3 ]
 																	},
-																	className: 'custom-btn fa fa-file-excel-o',
+																	//className: 'custom-btn fa fa-file-excel-o',
 																	title : 'Configuration Status'
 																},
 
 																{
-																	//extend : 'pdf',
+																	extend : 'pdf',
 																	footer : 'true',
 																	exportOptions : {
 																		columns : [ 0, 1, 2, 3 ]
 																	},
-																	className: 'custom-btn fa fa-file-pdf-o',
+																	//className: 'custom-btn fa fa-file-pdf-o',
 																	//text : 'pdf',
 																	orientation : 'landscape',
 																	title : 'Configuration Status'
@@ -370,7 +374,11 @@ $(document)
 													                   
 													                	window.location = "configurationStatus.jsp"
 													                }
-													            } ]
+													            } ],
+																 initComplete: function() {
+																	   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																	   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																	  }
 
 															});
 													if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){

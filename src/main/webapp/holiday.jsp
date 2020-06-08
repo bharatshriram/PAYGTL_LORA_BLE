@@ -89,9 +89,9 @@
 									<th>MIU ID</th>
 									<th>Start Date</th>
 									<th>End Date</th>
+									<th>Mode</th>
 									<th>Registration Date</th>
 									<th>Status</th>
-									<th>Action</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -114,6 +114,7 @@
 									<th>MIU ID</th>
 									<th>Start Date</th>
 									<th>End Date</th>
+									<th>Mode</th>
 									<th>Registration Date</th>
 									<th>Status</th>
 									<th>Action</th>
@@ -183,13 +184,18 @@
 								</div>
 							</div>
 							
-							<div class="col-md-6">
+							<div class="col-md-4">
 									<button class="btn btn-secondary submit-button"
 									 value="Save!" id="holidayAdd"
 									type="button">Save</button>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
@@ -248,14 +254,19 @@
 								</div>
 							</div>
 							
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<input class="btn btn-success submit-button"
 									 value="Save!" id="holidayEditsave"
 									type="button" />
 							</div>
 
-							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>

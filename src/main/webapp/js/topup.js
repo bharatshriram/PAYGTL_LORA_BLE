@@ -615,7 +615,7 @@ $(document)
 												} ],
 										"buttons" : [
 												{
-													//extend : 'excel',
+													extend : 'excel',
 													footer : 'true',
 													//text : 'Excel',
 													exportOptions : {
@@ -624,12 +624,12 @@ $(document)
 																9, 10, 11, 12,
 																13, 14, 15 ]
 													},
-													className: 'custom-btn fa fa-file-excel-o',
+													//className: 'custom-btn fa fa-file-excel-o',
 													title : 'ReCharge Status'
 												},
 
 												{
-													//extend : 'pdf',
+													extend : 'pdf',
 													footer : 'true',
 													exportOptions : {
 														columns : [ 0, 1, 2, 3,
@@ -637,7 +637,7 @@ $(document)
 																9, 10, 11, 12,
 																13, 14, 15 ]
 													},
-													className: 'custom-btn fa fa-file-pdf-o',
+													//className: 'custom-btn fa fa-file-pdf-o',
 													//text : 'pdf',
 													orientation : 'landscape',
 													title : 'ReCharge Status',
@@ -656,7 +656,11 @@ $(document)
 																			"data-target" : "#filter"
 																		});
 													}
-												} ]
+												} ],
+												 initComplete: function() {
+													   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+													   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+													  }
 									});
 
 					if (sessionStorage.getItem("roleID") == 3
@@ -864,10 +868,10 @@ $(document)
 																					} ],
 																			"buttons" : [
 																					{
-																						//extend : 'excel',
+																						extend : 'excel',
 																						footer : 'true',
 																						//text : 'Excel',
-																						className: 'custom-btn fa fa-file-excel-o',
+																						//className: 'custom-btn fa fa-file-excel-o',
 																						exportOptions : {
 																							columns : [
 																									0,
@@ -891,9 +895,9 @@ $(document)
 																					},
 
 																					{
-																						//extend : 'pdf',
+																						extend : 'pdf',
 																						footer : 'true',
-																						className: 'custom-btn fa fa-file-excel-o',
+																						//className: 'custom-btn fa fa-file-excel-o',
 																						exportOptions : {
 																							columns : [
 																									0,
@@ -937,7 +941,11 @@ $(document)
 
 																							window.location = "topupStatus.jsp"
 																						}
-																					} ]
+																					} ],
+																					 initComplete: function() {
+																						   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																						   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																						  }
 																		});
 														if (sessionStorage
 																.getItem("roleID") == 3) {

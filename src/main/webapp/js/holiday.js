@@ -67,6 +67,8 @@ return json.data;
 },{
 "data" : "endDate"
 },{
+"data" : "mode"
+},{
 "data" : "registeredDate"
 },{
 "data" : "status"
@@ -75,30 +77,27 @@ return json.data;
 	"mData" : "action",
 	"render" : function(data, type, row) {
 		
-		return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
-																	+ row.vacationID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																	+ "</a>"
-																	+"<a onclick='getVacationrFormDelete("
-																	+ row.vacationID
-																	+ ")'>"
-																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
-																	+ "</a>"
-																	
-																	
-	}
-	},{
-		"mData" : "action",
-		"render" : function(data, type, row) {
-			
+		if((row.mode == "add" || row.mode == "edit") && row.status == "Passed"){
 			return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
-																		+ row.vacationID
-																		+ ")'>"
-																		+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																		+ "</a>"
-		}
-		}
+			+ row.vacationID
+			+ ")'>"
+			+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+			+ "</a>"
+			+"<a onclick='getVacationrFormDelete("
+			+ row.vacationID
+			+ ")'>"
+			+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
+			+ "</a>"
+		} else if(row.mode == "delete" || row.status == "Passed"){
+			return "---";
+		}else if(row.mode == "delete" || row.status == "Passed"){
+			return "---"
+																	
+	}else{
+		return "---"
+	}
+		
+	}}
 
 ],
 "columnDefs" : [ {
@@ -116,24 +115,29 @@ return json.data;
 ],
 	"buttons" : [
 	{
-		//extend : 'excel',
-		footer : 'true',
-		//text : 'Excel',
-		title : 'Vacation',
-	className: 'custom-btn fa fa-file-excel-o'
-			
-	},
-
-	{
-		//extend : 'pdf',
+		extend : 'excel',
 		footer : 'true',
 		exportOptions : {
 			columns : [ 0,1, 2, 3, 4,
 					5, 6, 7, 8, 9,
-					10,11]
+					10,11,12]
+		},
+		//text : 'Excel',
+		title : 'Vacation',
+	//className: 'custom-btn fa fa-file-excel-o'
+			
+	},
+
+	{
+		extend : 'pdf',
+		footer : 'true',
+		exportOptions : {
+			columns : [ 0,1, 2, 3, 4,
+					5, 6, 7, 8, 9,
+					10,11,12]
 		},
 		//text : 'pdf',
-		className: 'custom-btn fa fa-file-pdf-o',
+		//className: 'custom-btn fa fa-file-pdf-o',
 		orientation : 'landscape',
 		title : 'Vacation'
 	},
@@ -149,7 +153,11 @@ return json.data;
              );
          }
      }
-	]
+	],
+	 initComplete: function() {
+		   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+		   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+		  }
 });
 if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 	table.buttons( $('a.customButton') ).remove();	
@@ -203,55 +211,64 @@ $("#customerFilter")
 												"data" : d.data,
 												"columns" : [
 													{
-													"data" : "communityName"
-													},{
-													"data" : "blockName"
-													},{
-													"data" : "firstName"
-													},{
-													"data" : "lastName"
-													},{
-													"data" : "houseNumber"
-													},{
-													"data" : "CRNNumber"
-													},{
-													"data" : "vacationName"
-													},{
-													"data" : "meterID"
-													},{
-													"data" : "startDate"
-													},{
-													"data" : "endDate"
-													},{
-													"data" : "registeredDate"
-													},{
-													"data" : "status"
-													}
-													,{
-														"mData" : "action",
-														"render" : function(data, type, row) {
-															
-															return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
-																														+ row.vacationID
-																														+ ")'>"
-																														+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
-																														+ "</a>"
-																														+"<a onclick='getVacationrFormDelete("
-																														+ row.vacationID
-																														+ ")'>"
-																														+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
-																														+ "</a>"
-																														
-																														
+														"data" : "communityName"
+														},{
+														"data" : "blockName"
+														},{
+														"data" : "firstName"
+														},{
+														"data" : "lastName"
+														},{
+														"data" : "houseNumber"
+														},{
+														"data" : "CRNNumber"
+														},{
+														"data" : "vacationName"
+														},{
+														"data" : "meterID"
+														},{
+														"data" : "startDate"
+														},{
+														"data" : "endDate"
+														},{
+														"data" : "mode"
+														},{
+														"data" : "registeredDate"
+														},{
+														"data" : "status"
 														}
-														}
+														,{
+															"mData" : "action",
+															"render" : function(data, type, row) {
+																
+																if(row.mode == "add" || row.mode == "edit" && row.status == "Passed"){
+																	return "<a href=# id=HolidayEdit data-toggle=modal data-target=#myHolidayEdit onclick='getHolidayFormEdit("
+																	+ row.vacationID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9'>edit</i>"
+																	+ "</a>"
+																	+"<a onclick='getVacationrFormDelete("
+																	+ row.vacationID
+																	+ ")'>"
+																	+ "<i class='material-icons' style='color:#17e9e9;cursor:pointer;'>delete</i>"
+																	+ "</a>"
+																} else if(row.mode == "delete" || row.status == "Passed"){
+																	return "---";
+																}else if(row.mode == "delete" || row.status == "Passed"){
+																	return "---"
+																															
+															}
+															}}
 
-
-
-													],
+														],
 													"columnDefs" : [ {
 														//orderable : false,
 														targets : 12, visible:  (sessionStorage.getItem("roleID") == 3)
+													},
+													{
+														//orderable : false,
+														targets :  [0,1,2,3,4,5,7], visible: !(sessionStorage.getItem("roleID") == 3) 
+														
 													},
 													{
 														
@@ -259,24 +276,24 @@ $("#customerFilter")
 													],
 														"buttons" : [
 														{
-															//extend : 'excel',
+															extend : 'excel',
 															footer : 'true',
 															//text : 'Excel',
 															title : 'Vacation',
-															className: 'custom-btn fa fa-file-excel-o'
+															//className: 'custom-btn fa fa-file-excel-o'
 																
 														},
 
 														{
-															//extend : 'pdf',
+															extend : 'pdf',
 															footer : 'true',
 															exportOptions : {
 																columns : [ 0,1, 2, 3, 4,
 																		5, 6, 7, 8, 9,
-																		10]
+																		10,11,12,13]
 															},
 															//text : 'pdf',
-															className: 'custom-btn fa fa-file-pdf-o',
+															//className: 'custom-btn fa fa-file-pdf-o',
 															orientation : 'landscape',
 															title : 'Vacation'
 														},
@@ -292,7 +309,11 @@ $("#customerFilter")
 											                	window.location = "holiday.jsp"
 											                }
 											            }
-														]
+														],
+														 initComplete: function() {
+															   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+															   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+															  }
 													});
 										if(sessionStorage.getItem("roleID") == 3 || sessionStorage.getItem("roleID") == 2 || sessionStorage.getItem("roleID") == 5){
 									table.buttons( $('a.customButton') ).remove();	

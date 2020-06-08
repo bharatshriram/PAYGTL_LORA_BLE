@@ -24,6 +24,17 @@ $(document).ready(function () {
 		//alert(pageURL.split('LORA_BLE/')[1]);
 		let  url = pageURL.split('LORA_BLE/')[1].split("?")[0] =="LoginAction.jsp"?"home.jsp":pageURL.split('LORA_BLE/')[1];
 		document.querySelector("a[href='"+url+"']").className = "active";
+		
+		
+		$(".resetFilter")
+		.click(
+				function() {
+					 //$("input:text").val("");
+					    $('input:text').not(':disabled').val('');
+
+				});	
+		
+		
     });
 
 $(window).on('load', function() { 
@@ -48,3 +59,5 @@ function redirection(obj){
 	}
 	
 }
+
+

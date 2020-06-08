@@ -136,9 +136,12 @@
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-11">
                             <button type="button" id="alarmReport" class="btn btn-primary submit-button btn-raised float-right mr-4">Submit<div class="ripple-container"></div></button>
                         </div>
+                         <div class="col-md-1">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
                     </div>
                     </form>
                 </div>

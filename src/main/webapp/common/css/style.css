@@ -489,3 +489,10 @@ table.dataTable thead tr th{
 .inputEitFunction{
 	display:none;
 }
+a:hover {
+text-decoration: none !important;
+}
+
+.resetFilter{
+	float : right !important;
+}

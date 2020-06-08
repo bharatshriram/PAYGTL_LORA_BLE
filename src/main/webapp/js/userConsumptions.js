@@ -144,24 +144,28 @@ $(document)
 																		'pdfHtml5'*/
 																			
 																			{
-																				//extend: 'excel',
+																				extend: 'excel',
 																		        footer: 'true',
 																		        //text: 'Excel',
-																		        className: 'custom-btn fa fa-file-excel-o',
+																		        //className: 'custom-btn fa fa-file-excel-o',
 																		        title:'User Consumption Report'  
 																		        	},
 																		         
 																		        {
-																		        //extend: 'pdf',
+																		        extend: 'pdf',
 																		        footer: 'true',
-																		        className: 'custom-btn fa fa-file-pdf-o',
+																		        //className: 'custom-btn fa fa-file-pdf-o',
 																		        exportOptions: {
 																		            columns: [0,1,2,3,4,5,6,7,8]
 																		        },
 																		        //text: 'pdf',
 																		        orientation: 'landscape',
 																		        title:'User Consumption Report'  }
-																		]
+																		],
+																		 initComplete: function() {
+																			   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																			   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																			  }
 																	});
 														 $("div.headname").html('<h3>User Consumptions</h3>');
 															//table.ajax.reload()

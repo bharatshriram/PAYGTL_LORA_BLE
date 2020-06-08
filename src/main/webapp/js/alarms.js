@@ -70,20 +70,20 @@
 											"className": "dt-center", "targets": "_all"
 										}], "buttons": [
 											{
-												//extend: 'excel',
+												extend: 'excel',
 										        footer: 'true',
 										        //text: 'Excel',
-										        className : 'custom-btn fa fa-file-excel-o',
+										        //className : 'custom-btn fa fa-file-excel-o',
 										        title:'Statistics'  },
 										         
 										        {
-										        	//extend: 'pdf',
+										        extend: 'pdf',
 										        footer: 'true',
 										        exportOptions: {
 										            columns: [0,1,2,3,4,5,6]
 										        },
 										       // text: 'pdf',
-										        className : 'custom-btn fa fa-file-pdf-o',
+										        //className : 'custom-btn fa fa-file-pdf-o',
 										        orientation: 'landscape',
 										        title:'Statistics'  },
 										        {
@@ -98,7 +98,11 @@
 										                 );
 										             }
 										         }
-										]
+										],
+										 initComplete: function() {
+											   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+											   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+											  }
 										});
 										 $("div.headname").html('<h3>Alarms Details</h3>');
 										 
@@ -266,23 +270,27 @@
 																												"className": "dt-center", "targets": "_all"
 																											}], "buttons": [
 																												{
-																													//extend: 'excel',
+																													extend: 'excel',
 																											        footer: 'true',
 																											        //text: 'Excel',
-																											        className : 'custom-btn fa fa-file-excel-o',
+																											        //className : 'custom-btn fa fa-file-excel-o',
 																											        title:'Alarm Report'  },
 																											         
 																											        {
-																											        	//extend: 'pdf',
+																											        	extend: 'pdf',
 																											        footer: 'true',
 																											        exportOptions: {
 																											            columns: [0,1,2,3,4,5,6]
 																											        },
 																											      //  text: 'pdf',
-																											        className : 'custom-btn fa fa-file-pdf-o',
+																											        //className : 'custom-btn fa fa-file-pdf-o',
 																											        orientation: 'landscape',
 																											        title:'Alarm Report'  }
-																											]
+																											],
+																											 initComplete: function() {
+																												   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																												   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																												  }
 																										});
 
 																							 $("div.headname").html('<h3>Alarms Reports</h3>');
@@ -389,23 +397,23 @@
 																									"className": "dt-center", "targets": "_all"
 																								}], "buttons": [
 																									{
-																										//extend : 'excel',
+																										extend : 'excel',
 																										footer : 'true',
 																										//text : 'Excel',
 																										title : 'Dashboard',
-																										className: 'custom-btn fa fa-file-excel-o'
+																									//	className: 'custom-btn fa fa-file-excel-o'
 																											
 																									},
 
 																									{
-																										//extend : 'pdf',
+																										extend : 'pdf',
 																										footer : 'true',
 																										exportOptions : {
 																											columns : [ 0,1, 2, 3, 4,
 																													5, 6, 7, 8, 9,
 																													10, 11, 12,13,14 ]
 																										},
-																										className: 'custom-btn fa fa-file-pdf-o',
+																										//className: 'custom-btn fa fa-file-pdf-o',
 																										orientation : 'landscape',
 																										title : 'Dashboard',
 																										pageSize: 'LEGAL'
@@ -422,7 +430,11 @@
 																						                	window.location = "alarms.jsp"
 																						                }
 																						            }
-																								]
+																								],
+																								 initComplete: function() {
+																									   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																									   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																									  }
 																								})
 																								$("div.headname").html('<h3>Alarms Details</h3>');
 																				}

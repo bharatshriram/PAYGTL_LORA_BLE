@@ -202,23 +202,27 @@ $(document)
 																		'pdfHtml5'*/
 																			
 																			{
-																				//extend: 'excel',
-																				className: 'custom-btn fa fa-file-excel-o',
+																				extend: 'excel',
+																				//className: 'custom-btn fa fa-file-excel-o',
 																		        footer: 'true',
 																		        //text: 'Excel',
 																		        title:'ReCharge Summary'  },
 																		         
 																		        {
-																		        	//extend: 'pdf',
+																		        extend: 'pdf',
 																		        footer: 'true',
-																		        className: 'custom-btn fa fa-file-pdf-o',
+																		        //className: 'custom-btn fa fa-file-pdf-o',
 																		        exportOptions: {
 																		            columns: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
 																		        },
 																		        //text: 'pdf',
 																		        orientation: 'landscape',
 																		        title:'ReCharge Summary'  }
-																		]
+																		],
+																		 initComplete: function() {
+																			   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																			   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																			  }
 																	});
 
 														 $("div.headname").html('<h3>ReCharge Summary</h3>');
