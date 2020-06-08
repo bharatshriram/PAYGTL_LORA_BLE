@@ -198,7 +198,7 @@ public class AccountDAO {
 					}
 				}
 			} else {
-
+				topUpRequestVO.setTransactionIDForTata(0);
 				if (inserttopup(topUpRequestVO).equalsIgnoreCase("Success")) {
 					responsevo.setResult("Success");
 					responsevo.setMessage("Topup Request Inserted Successfully");

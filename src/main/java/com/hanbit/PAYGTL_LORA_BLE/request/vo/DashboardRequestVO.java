@@ -23,7 +23,7 @@ public class DashboardRequestVO {
 	private int minutes;
 	private int vacation;
 	private String timeStamp;
-	private String TamperTimeStamp;
+	private String tamperTimeStamp;
 	private String doorOpenTimeStamp;
 	
 	public String getMeterID() {
@@ -111,10 +111,10 @@ public class DashboardRequestVO {
 		this.vacation = vacation;
 	}
 	public String getTamperTimeStamp() {
-		return TamperTimeStamp;
+		return tamperTimeStamp;
 	}
 	public void setTamperTimeStamp(String tamperTimeStamp) {
-		TamperTimeStamp = tamperTimeStamp;
+		this.tamperTimeStamp = tamperTimeStamp;
 	}
 	public String getDoorOpenTimeStamp() {
 		return doorOpenTimeStamp;
