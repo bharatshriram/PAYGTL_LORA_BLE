@@ -764,9 +764,9 @@ $(document)
 															bootbox.alert(data.Message,
 																	function(
 																			result) {
-																			
+																location.reload();		
 																//alert();
-																window.location = "customerDetails.jsp";
+																//window.location = "customerDetails.jsp";
 																return false
 															});
 														} else if(data.result == "Failure" && data.Message == undefined){

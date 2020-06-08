@@ -191,6 +191,31 @@ $(document)
 									
 								});
 							});
+							
+							
+							$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
+								$.each(data.data, function(i, item) {
+									document.querySelector('.communityNameEdit').innerText = item.communityName;
+									document.querySelector('.blockNameEdit').innerText = item.blockName;
+									document.querySelector('.firstNameEdit').innerText = item.firstName;
+									document.querySelector('.lastNameEdit').innerText = item.lastName;
+									document.querySelector(".CRNEdit").innerText = item.CRNNumber;
+									
+									
+									document.querySelector('.houseNoEdit').innerText = item.houseNumber;
+									document.querySelector('.amrEdit').innerText = item.meterID	;
+									document.querySelector('.meterSerialEdit').innerText = item.meterSerialNumber;
+									document.querySelector('.mobileNoEdit').innerText = item.mobileNumber;
+									document.querySelector(".emailEdit").innerText = item.email;
+									
+									document.querySelector('.createdUserNameEdit').innerText = item.createdByUserName;
+									document.querySelector('.createdRoleEdit').innerText = item.createdByRoleDescription;
+									document.querySelector(".registrationDateEdit").innerText = item.date;
+								});
+							});
+							
+							
+							
 						});
 
 
@@ -222,5 +247,72 @@ function getBlock(){
 			}
 		});
 		$('#myBlockEdit').modal('show');
+	});
+}
+
+
+
+function getCustomer(){
+	$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
+		$.each(data.data, function(i, item) {
+			if (sessionStorage.getItem("ID") == item.CRNNumber) {
+				
+				$('#communityNameEdit').val(item.communityName).trigger("change");
+				$("#formcommunityNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#blockNameEdit').val(item.blockName).trigger("change");
+				$("#formblockNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#firstNameEdit').val(item.firstName).trigger("change");
+				$("#formfirstNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#lastNameEdit').val(item.lastName).trigger("change");
+				$("#formlastNameEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				$('#houseNoEdit').val(item.houseNumber).trigger("change");
+				$("#formhouseNoEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#mobileNoEdit').val(item.mobileNumber).trigger("change");
+				$("#formmobileNoEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#emailEdit').val(item.email).trigger("change");
+				$("#formemailEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#meterSerialEdit').val(item.meterSerialNumber).trigger("change");
+				$("#formmeterSerialEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				
+				$('#amrEdit').val(item.meterID).trigger("change");
+				$("#formamrEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+				
+				if(sessionStorage.getItem("roleID") == 3){
+					$('#amrEdit')
+					.attr('disabled',
+							true);
+				}
+				$('#CRNEdit').val(item.CRNNumber).trigger("change");
+				$("#formCRNEdit").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled")
+			    
+				$("#customerIdhidden").val(item.CRNNumber);
+			
+				$('#customerEditsave')
+				.attr('disabled',
+						false);
+				if(sessionStorage.getItem("roleID") == 3){
+				
+					$('#amrEdit', '#amrEdit')
+					.attr('disabled',
+							true);
+					$('#houseNoEdit')
+					.attr('disabled',
+							true);
+					
+				}
+			} 
+		});
+		$('#myCustomerEdit').modal('show');
 	});
 }

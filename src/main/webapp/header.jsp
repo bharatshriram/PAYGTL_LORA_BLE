@@ -44,7 +44,7 @@
 		<ul class="navbar-nav admindropdown">
 			<!-- Dropdown -->
 			<li class="nav-item dropdown"><a
-				class="nav-link dropdown-toggle text-white icon" href="#" id="navbardrop" 
+				class=" dropdown-toggle text-white icon" href="#" id="navbardrop" 
 				data-toggle="dropdown">
 				 </a>
 				<div class="dropdown-menu  dropdown-menu-right">

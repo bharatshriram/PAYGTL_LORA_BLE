@@ -53,7 +53,7 @@
             <div class="card">
                 <div class="card-header bg-primary cardHeading">Profile</div>
                 <div class="card-body scroll right-block">
-                <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4") || user_id.equalsIgnoreCase("3")){ %>
+                <%if(user_id.equalsIgnoreCase("1") || user_id.equalsIgnoreCase("4")){ %>
                    <div class="row border-bottom p-2">
                        <div class="col-md-3">Name:</div>
                         <div class="col-md-9" id="profileName"></div>
@@ -162,8 +162,83 @@
                       </div>
                       <%} else if(user_id.equalsIgnoreCase("3")){%>
                       
+					<div class="row border-bottom p-2">
+                        <div class="col-md-10 text-center text-primary">Customer Details</div>
+					<% if(user_id.equalsIgnoreCase("3")){%>
+                          <div class="col-md-2 text-primary" onClick= "getCustomer()"><b style="cursor: pointer;">Edit</b></div>
+                          <%}%>
+                      </div>
                       
                       
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Community Name:</div>
+                        <div class="col-md-5 communityNameEdit"></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Block Name:</div>
+                        <div class="col-md-5 blockNameEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">First Name:</div>
+                        <div class="col-md-5 firstNameEdit"></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Last Name:</div>
+                        <div class="col-md-5 lastNameEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">CRN Number:</div>
+                        <div class="col-md-5 CRNEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">House No:</div>
+                        <div class="col-md-5 houseNoEdit"></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">MIU:</div>
+                        <div class="col-md-5 amrEdit"></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">MSN:</div>
+                        <div class="col-md-5 meterSerialEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Mobile:</div>
+                        <div class="col-md-5 mobileNoEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Email:</div>
+                        <div class="col-md-5 emailEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Created By UserName:</div>
+                        <div class="col-md-5 createdUserNameEdit"></div>
+                      </div>
+                      
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Created By Role:</div>
+                        <div class="col-md-5 createdRoleEdit"></div>
+                      </div>
+                      
+                      <div class="row border-bottom p-2">
+                        <div class="col-md-3">Registration Date:</div>
+                        <div class="col-md-5 registrationDateEdit"></div>
+                      </div>
                       <% }%>
                 </div>
               </div>
@@ -176,7 +251,7 @@
 		</div>
 	</div>
 	<jsp:include page="footer.jsp" />
-	
+	<%if(user_id.equalsIgnoreCase("2")){ %>
 	<div class="modal fade" id="myBlockEdit" role="dialog">
 		<div class="modal-dialog">
 
@@ -253,7 +328,137 @@
 		</div>
 	</div>
 
-<%} %>
+
+<%} else if(user_id.equalsIgnoreCase("3")){ %>
+
+<div class="modal fade" id="myCustomerEdit" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" align="center">Edit Customer</h4>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<form id="customerEdit">
+						<div class="row">
+							<div class="col-md-6">
+								<div id="formcommunityNameEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Community</label> 
+									 <input
+										type="text" class="form-control" name="communityNameEdit"
+										id="communityNameEdit" disabled>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formblockNameEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Block</label> <input
+										type="text" class="form-control" name="blockNameEdit"
+										id="blockNameEdit" disabled>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div id="formfirstNameEdit" class="input-group form-group">
+									<label class="bmd-label-floating">First Name</label> <input
+										type="text" class="form-control" name="firstNameEdit"
+										id="firstNameEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formlastNameEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Last Name</label> <input
+										type="text" class="form-control" name="lastNameEdit"
+										id="lastNameEdit" disabled>
+								</div>
+							</div>
+							
+							
+							
+							<div class="col-md-6">
+								<div id="formhouseNoEdit" class="input-group form-group">
+									<label class="bmd-label-floating">House No.</label> <input
+										type="text" class="form-control" name="houseNoEdit"
+										id="houseNoEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formmobileNoEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Mobile No</label> <input
+										type="text" class="form-control" name="mobileNoEdit"
+										id="mobileNoEdit">
+								</div>
+							</div>
+							
+							
+							
+							
+							<div class="col-md-6">
+								<div id="formemailEdit" class="input-group form-group">
+									<label class="bmd-label-floating">Email</label> <input
+										type="email" class="form-control" name="emailEdit"
+										id="emailEdit">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div id="formmeterSerialEdit" class="input-group form-group">
+									<label class="bmd-label-floating">MSN</label> <input
+										type="text" class="form-control" name="meterSerialEdit"
+										id="meterSerialEdit" disabled>
+								</div>
+							</div>
+							
+							
+							
+							
+							<div class="col-md-6">
+								<div id="formamrEdit" class="input-group form-group">
+									<label class="bmd-label-floating">MIU ID</label> <input
+										type="text" class="form-control" name="amrEdit"
+										id="amrEdit">
+								</div>
+							</div>
+							<!-- <div class="col-md-6">
+								<div class="input-group form-group">
+									<label class="bmd-label-floating">Tariff Name</label>  <select
+										class="form-control" id="selectTariffNameEdit" name="selectTariffNameEdit">
+										<option style = "color: Red" value="" disabled selected>Select Tariff</option> --><!--  <option>Select Community</option> 
+									</select>
+								</div>
+							</div> -->
+							
+							
+							<div class="col-md-6">
+								<div id="formCRNEdit" class="input-group form-group">
+									<label class="bmd-label-floating">CRN Number</label> <input
+										type="text" class="form-control" name="CRNEdit"
+										id="CRNEdit" disabled>
+										<input type = "hidden" id="customerIdhidden" />
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<input class="btn btn-success submit-button"
+									 value="Update" id="customerEditsave"
+									type="button" disabled />
+							</div>
+
+							<div class="col-md-6">
+								<button type="button" class="btn btn-secondary btn-raised mr-4"
+									data-dismiss="modal">
+									Close
+									<div class="ripple-container"></div>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+<%} }%>
 
 	<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -269,6 +474,7 @@
 
 	<script src="js/profile.js"></script>
 	<script src="js/block.js"></script>
+	<script src="js/customer.js"></script>
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 	<script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js"
 		integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
