@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$("#holidayTable1").hide();
 table = $('#holidayTable')
 .DataTable(
-{//'Pfrtip'
+{
 	"dom": dom1,
 	"responsive" : true,
 	/*"processing" : true,*/
@@ -99,8 +99,6 @@ return json.data;
 																		+ "</a>"
 		}
 		}
-
-
 
 ],
 "columnDefs" : [ {

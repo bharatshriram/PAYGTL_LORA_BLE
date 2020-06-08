@@ -458,8 +458,8 @@ $(document)
 																	function(
 																			result) {
 																			
-																//alert();
-																window.location = "blockDetails.jsp";
+															location.reload();
+															//	window.location = "blockDetails.jsp";
 																return false;
 															});
 															
