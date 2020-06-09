@@ -198,17 +198,21 @@ $(document)
 									document.querySelector('.firstNameEdit').innerText = item.firstName;
 									document.querySelector('.lastNameEdit').innerText = item.lastName;
 									document.querySelector(".CRNEdit").innerText = item.CRNNumber;
-									
-									
 									document.querySelector('.houseNoEdit').innerText = item.houseNumber;
 									document.querySelector('.amrEdit').innerText = item.meterID	;
 									document.querySelector('.meterSerialEdit').innerText = item.meterSerialNumber;
 									document.querySelector('.mobileNoEdit').innerText = item.mobileNumber;
 									document.querySelector(".emailEdit").innerText = item.email;
-									
 									document.querySelector('.createdUserNameEdit').innerText = item.createdByUserName;
 									document.querySelector('.createdRoleEdit').innerText = item.createdByRoleDescription;
 									document.querySelector(".registrationDateEdit").innerText = item.date;
+									
+									document.querySelector(".community").innerText = item.communityName;
+							    	  document.querySelector(".block").innerText = item.blockName;
+							    	  document.querySelector(".CRN_Number").innerText = item.CRNNumber;
+							    	  document.querySelector(".balance").innerText = item.balance;
+							    	  document.querySelector(".valveStatus").innerText = item.valveStatus;
+									
 								});
 							});
 							}

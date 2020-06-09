@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%
+		<%
           session.removeAttribute("user_id");
 
           session.invalidate();
