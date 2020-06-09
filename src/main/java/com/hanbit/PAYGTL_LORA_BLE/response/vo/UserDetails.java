@@ -24,6 +24,7 @@ public class UserDetails {
 	private int pendingTransactionID;
 	private String blockName;
 	private String meterID;
+	private String dataFrame;
 	
 	public String getCommunityName() {
 		return communityName;
@@ -124,5 +125,11 @@ public class UserDetails {
 	}
 	public void setMeterID(String meterID) {
 		this.meterID = meterID;
+	}
+	public String getDataFrame() {
+		return dataFrame;
+	}
+	public void setDataFrame(String dataFrame) {
+		this.dataFrame = dataFrame;
 	}
 }

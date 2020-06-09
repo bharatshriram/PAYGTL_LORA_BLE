@@ -61,6 +61,11 @@ public class LoginDAO {
 					if (loginvo.getPassword().equals(resultSet.getString("UserPassword"))) {
 
 						if (loginvo.getSource().equalsIgnoreCase("web")) {
+							
+							if(resultSet.getInt("RoleID") == 6) {
+								
+								throw new BusinessException("USER NOT AUTHORIZED TO LOGIN");
+							}
 
 							userDetails.setRoleID(resultSet.getInt("RoleID"));
 							userDetails.setBlockID(resultSet.getInt("BlockID"));
@@ -80,9 +85,8 @@ public class LoginDAO {
 
 						} else {
 
-							if (resultSet.getInt("RoleID") != 3 && loginvo.getSource().equalsIgnoreCase("mobile")) {
-								throw new BusinessException("USER NOT AUTHORIZED TO LOGIN");
-							} else {
+							if (resultSet.getInt("RoleID") == 3 && loginvo.getSource().equalsIgnoreCase("mobile")) {
+								
 								userDetails.setRoleID(resultSet.getInt("RoleID"));
 								userDetails.setBlockID(resultSet.getInt("BlockID"));
 								userDetails.setEmail((userDetails.getRoleID() == 2 || userDetails.getRoleID() == 5)
@@ -102,18 +106,31 @@ public class LoginDAO {
 								userDetails.setID(resultSet.getInt("ID"));
 								if (userDetails.getCRNNumber() != null) {
 									pstmt1 = con.prepareStatement(
-											"SELECT TransactionID, CommandType from command WHERE CRNNumber = ? and Status = 0");
+											"SELECT TransactionID, CommandType, DataFrame from command WHERE CRNNumber = ? and Status = 0");
 									pstmt1.setInt(1, userDetails.getCustomerID());
 									resultSet1 = pstmt1.executeQuery();
 									if (resultSet1.next()) {
 										userDetails.setPendingCommandType(resultSet1.getInt("CommandType"));
 										userDetails.setPendingTransactionID(resultSet1.getInt("TransactionID"));
+										userDetails.setDataFrame(resultSet1.getString("DataFrame"));
+									} else {
+										userDetails.setPendingCommandType(-1);
+										userDetails.setPendingTransactionID(-1);
 									}
 								}
 
 								responsevo.setUserDetails(userDetails);
 								responsevo.setResult("Success");
 								responsevo.setMessage("Successfully Logged In");
+								
+							} else if (resultSet.getInt("RoleID") == 6 && loginvo.getSource().equalsIgnoreCase("mobile")) {
+								
+								responsevo.setResult("Success");
+								responsevo.setMessage("Successfully Logged In");
+							
+							} else {
+								throw new BusinessException("USER NOT AUTHORIZED TO LOGIN");
+								
 							}
 
 						}

@@ -15,6 +15,7 @@ public class ConfigurationResponseVO {
 	private String commandType;
 	private String modifiedDate;
 	private String status;
+	private String value;
 	private List<ConfigurationResponseVO> data;
 	private int transactionID;
 	
@@ -54,4 +55,11 @@ public class ConfigurationResponseVO {
 	public void setData(List<ConfigurationResponseVO> data) {
 		this.data = data;
 	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
+	}
+	
 }

@@ -834,7 +834,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			con = getConnection();
 			configurationdetailslist = new LinkedList<ConfigurationResponseVO>();
 
-			String query = "SELECT cmd.TransactionID, cmd.CRNNumber, cmd.MeterID, cmd.CommandType, cmd.ModifiedDate, cmd.Status FROM command AS cmd \r\n" + 
+			String query = "SELECT cmd.TransactionID, cmd.CRNNumber, cmd.MeterID, cmd.CommandType, cmd.ModifiedDate, cmd.Status, cmd.Value FROM command AS cmd \r\n" + 
 					"LEFT JOIN customermeterdetails AS cm ON cm.CRNNumber = cmd.CRNNumber\r\n" + 
 					"LEFT JOIN community AS c ON cm.CommunityID = c.CommunityID\r\n" + 
 					"LEFT JOIN block AS b ON cm.BlockID = b.blockID <change>";
@@ -847,7 +847,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			while (rs.next()) {
 				configurationvo = new ConfigurationResponseVO();
 				configurationvo.setMeterID(rs.getString("MeterID"));
-				configurationvo.setCommandType((rs.getInt("CommandType") == 40) ? "Solenoid Open" : (rs.getInt("CommandType") == 0) ? "Solenoid Close" : (rs.getInt("CommandType") == 3) ? "Clear Meter" : (rs.getInt("CommandType") == 1) ? "Clear Tamper" : (rs.getInt("CommandType") == 5) ? "RTC" : (rs.getInt("CommandType") == 6) ? "Set Default Read" : (rs.getInt("CommandType") == 10) ? "Set Tariff" : "");
+				configurationvo.setCommandType((rs.getInt("CommandType") == 40) ? "Valve Open" : (rs.getInt("CommandType") == 0) ? "Valve Close" : (rs.getInt("CommandType") == 3) ? "Clear Meter" : (rs.getInt("CommandType") == 1) ? "Clear Tamper" : (rs.getInt("CommandType") == 5) ? "Set RTC" : (rs.getInt("CommandType") == 6) ? "Set Meter Index" : (rs.getInt("CommandType") == 10) ? "Set Tariff" : "");
+				configurationvo.setValue((rs.getInt("CommandType") == 6) || (rs.getInt("CommandType") == 10) ? rs.getString("Value"): "---");
 				configurationvo.setModifiedDate(ExtraMethodsDAO.datetimeformatter(rs.getString("ModifiedDate")));
 				configurationvo.setStatus((rs.getInt("Status") == 0) ? "Pending...waiting for acknowledge" : (rs.getInt("Status") == 1) ? "Pending" : (rs.getInt("Status") == 2) ? "Passed" :"Failed");
 				configurationvo.setTransactionID(rs.getInt("TransactionID"));
@@ -873,13 +874,14 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		Random randomNumber = new Random();
 		String dataframe = "";
 		ResponseVO responsevo = new ResponseVO();
+		float value = 0;
 
 		try {
 				con = getConnection();
 				
 					String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 					
-					/* RTC */
+					/* Set RTC */
 					
 					if (configurationvo.getCommandType() == 5) {
 
@@ -903,20 +905,26 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 
 						dataframe = "0A0900" + serialNumber + "020300200117";
 					}
+					
+					/* Valve Open */
 
 					else if (configurationvo.getCommandType() == 40) {
 
 						dataframe = "0A0900" + serialNumber + "020301200017";
 					}
+					
+					/* Valve Close */
 
 					else if (configurationvo.getCommandType() == 0) {
 
 						dataframe = "0A0900" + serialNumber + "020301200117";
 					}
 
-					// Set Default Read
+					// Set Meter Index
 
 					else if (configurationvo.getCommandType() == 6) {
+							
+							value = configurationvo.getDefaultReading();
 						
 							String defaultSetHexa = String.format("%08x", configurationvo.getDefaultReading());
 
@@ -931,7 +939,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 						PreparedStatement pstmt1 = con.prepareStatement("SELECT Tariff FROM tariff WHERE TariffID = "+configurationvo.getTariffID());
 						ResultSet rs1 = pstmt1.executeQuery();
 						if(rs1.next()) {
-
+						value =  rs1.getFloat("Tariff");
 						String tariffHexa = Float.toHexString(rs1.getFloat("Tariff")).toUpperCase();
 						dataframe = "0A0C00" + serialNumber + "02070123" + tariffHexa + "17";
 						}
@@ -963,13 +971,15 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 						configurationvo.setMeterID(rs1.getString("MeterID"));
 					}
 					
-					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, Status, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, NOW())");
+					ps = con.prepareStatement("INSERT INTO command (TataReferenceNumber, CustomerID, MeterID, CommandType, DataFrame, Value, Status, CRNNumber, ModifiedDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
 					ps.setLong(1, tataResponseVO.getId());
 					ps.setInt(2, configurationvo.getCustomerID());
 					ps.setString(3, configurationvo.getMeterID());
 					ps.setInt(4, configurationvo.getCommandType());
-					ps.setInt(5, tataResponseVO.getTransmissionStatus());
-					ps.setString(6, configurationvo.getCRNNumber());
+					ps.setString(5, dataframe);
+					ps.setFloat(6, value);
+					ps.setInt(7, tataResponseVO.getTransmissionStatus());
+					ps.setString(8, configurationvo.getCRNNumber());
 
 					if (ps.executeUpdate() > 0) {
 						responsevo.setResult("Success");
