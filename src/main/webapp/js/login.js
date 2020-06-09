@@ -110,6 +110,16 @@ $(document)
 																						"SuperAdmin");
 																		
 																		sessionStorage
+																		.setItem(
+																				"email",
+																				data.userDetails.email);
+																		
+																		sessionStorage
+																		.setItem(
+																				"mobileNumber",
+																				data.userDetails.mobileNumber);		
+																		
+																		sessionStorage
 																				.setItem(
 																						"createdByID",
 																						data.userDetails.ID);

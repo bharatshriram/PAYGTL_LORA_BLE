@@ -214,6 +214,7 @@ $(document)
 			
 			 $.getJSON("/PAYGTL_LORA_BLE/dashboard/" +sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 				 $.each(data.data, function(i, item) {
+					 alert();
 		    	  document.querySelector("#lastBillAmount").innerText = item.lastTopupAmount;
 		    	  document.querySelector("#lastBillDate").innerText = item.lastRechargeDate;
 		    	  document.querySelector("#community").innerText = item.communityName;
@@ -225,8 +226,26 @@ $(document)
 		    	  document.querySelector("#batteryStatus").innerText = item.battery;
 				
 				 });
+				 if(data.data.length == 0){
+					 document.querySelector(".balance").innerText = "---";
+			    	 document.querySelector(".valveStatus").innerText = "---";
+			    	 document.querySelector("#lastBillAmount").innerText = "---";
+			    	  document.querySelector("#lastBillDate").innerText = "---";
+				 }
+				 
 				});
 			 
+			 
+			 $.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
+					$.each(data.data, function(i, item) {
+						
+							document.querySelector(".community").innerText = item.communityName;
+				    	  document.querySelector(".block").innerText = item.blockName;
+				    	  document.querySelector(".CRN_Number").innerText = item.CRNNumber;
+				    	  
+						
+					});
+				});
 			 
 		
 		$.ajax({

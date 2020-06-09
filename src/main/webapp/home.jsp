@@ -63,7 +63,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src="common/images/icon/active-icon-png-2.png"
+																<img src="common/images/icon/active.gif"
 																	style="width: 50px; height: 50px;" />
 															</div>
 														</div>
@@ -115,7 +115,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icon/nonlive.png />
+																<img src=common/images/icon/nonlive.gif />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -231,7 +231,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icon/live.png />
+																<img src=common/images/icon/1live.gif />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -291,7 +291,7 @@
 													<div class="row">
 														<div class="col-5 col-md-4">
 															<div class="icon-big text-center icon-warning">
-																<img src=common/images/icon/inactive.png />
+																<img src=common/images/icon/inactive.gif />
 															</div>
 														</div>
 														<div class="col-7 col-md-8">
@@ -421,12 +421,12 @@
 										<div class="col col1">
 											<img src="common/images/icons/community.png">
 											<p class="card-category mt-2 mb-0">Community</p>
-<p class="card-title" id="community">TestCommunity</p>
+<p class="card-title community" id="community"></p>
 										</div>
 										<div class="col col2">
 											<img src="common/images/icons/2-block.png">
 											<p class="card-category mt-2 mb-0">Block</p>
-<p class="card-title" id="block">DemoBlock</p>
+<p class="card-title block" id="block"></p>
 										</div>
 									</div>
 								</div>
@@ -437,13 +437,13 @@
 										<div class="col col1">
 											<img src="common/images/icons/gas3.png">
 											<p class="card-category mt-2 mb-0">CRN Number</p>
-														<p class="card-title" id="CRN_Number">HAN0006</p>
+														<p class="card-title CRN_Number" id="CRN_Number"></p>
 										</div>
 										<div class="col col2">
 											<img src="common/images/icons/gas3.png">
 											<div class="numbers text-center">
 														<p class="card-category mt-2 mb-0">Available Credit</p>
-														<p class="card-title" id="balance">1910</p>
+														<p class="card-title balance" id="balance"></p>
 													</div>
 										</div>
 									</div>
@@ -455,7 +455,7 @@
 										<div class="col col1">
 											<img src="common/images/icons/gas3.png">
 											<p class="card-category mt-2 mb-0">Valve Status</p>
-														<p class="card-title" id="valveStatus">CLOSED</p>
+														<p class="card-title valveStatus" id="valveStatus"></p>
 										</div>
 										<div class="col col2">
 											

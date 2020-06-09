@@ -21,7 +21,7 @@
 	%>
 <!--Header Start-->
  <!-- bg-info -->
-	<nav class="navbar navbar-expand-lg fixed-top background pl-4 p-0 navheader">
+	<nav class="navbar navbar-expand-lg fixed-top bg-info pl-4 p-0 navheader">
 		<div class="float-left mt-2">
 			<!-- <a href="#" class="button-left text-white"><span
 				class="fa fa-fw fa-bars "></span></a> -->
@@ -31,7 +31,7 @@
 		<a class="navbar-brand logo_sm
 		 text-white col-md-1 mr-minus15"
 			href="home.jsp"><img class="img-fluid logo"
-			src="common/images/hanbit1.png" alt="logo" style="max-width: 140% !important;"></a>
+			src="common/images/1-hanbit.png" alt="logo" style="max-width: 140% !important;"></a>
 			
 		<a class="navbar-brand logo_sm
 		 text-white col-md-2 mr-minus15"
@@ -39,7 +39,7 @@
 		<!-- Links -->
 
 					<div class="m-auto text-center text-white smart_text">
-					<h4 class="imgheader">  PAY AS YOU GO - GAS <img class="img-fluid" src="common/images/gas.png"><img class="img-fluid" src="common/images/Webp.net-gifmaker.gif" style="max-width: 58% !important;"></h4>
+					<h4 class="imgheader">  PAY AS YOU GO - GAS <img class="img-fluid" src="common/images/gas.png"><img class="img-fluid" src="common/images/icon/lorawan-ble.gif" style="max-width: 58% !important;"></h4>
 					</div>
 
 		<ul class="navbar-nav admindropdown">
