@@ -87,7 +87,7 @@ public class AccountDAO {
 		try {
 			con = getConnection();
 
-			if (topUpRequestVO.getSource().equalsIgnoreCase("web")) {
+//			if (topUpRequestVO.getSource().equalsIgnoreCase("web")) {
 
 				PreparedStatement pstmt1 = con.prepareStatement(
 						"SELECT tr.EmergencyCredit, tr.AlarmCredit, tr.FixedCharges, tr.TariffID, tr.Tariff, CONCAT(cmd.FirstName, ' ', cmd.LastName) AS CustomerName, cmd.Email, cmd.MobileNumber, cmd.CRNNumber, cmd.HouseNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = '"
@@ -197,7 +197,7 @@ public class AccountDAO {
 						responsevo.setMessage("Topup Request Submitted Successfully");
 					}
 				}
-			} else {
+			/*} else {
 				topUpRequestVO.setTransactionIDForTata(0);
 				if (inserttopup(topUpRequestVO).equalsIgnoreCase("Success")) {
 					responsevo.setResult("Success");
@@ -207,7 +207,7 @@ public class AccountDAO {
 					responsevo.setMessage("Topup Request Insertion Failed");
 				}
 
-			}
+			}*/
 				
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -253,8 +253,9 @@ public class AccountDAO {
 
 			if (ps.executeUpdate() > 0) {
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT TransactionID FROM topup WHERE TataReferenceNumber = 0 AND CRNNumber = ? AND ModeOfPayment = 'Online' AND STATUS = 0 AND PaymentStatus = 0 ORDER BY TransactionID DESC LIMIT 0,1");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT TransactionID FROM topup WHERE TataReferenceNumber = 0 AND CRNNumber = ? AND Source = ?, ModeOfPayment = 'Online' AND STATUS = 0 AND PaymentStatus = 0 ORDER BY TransactionID DESC LIMIT 0,1");
 				pstmt1.setString(1, topUpRequestVO.getCRNNumber());
+				pstmt1.setString(2, topUpRequestVO.getSource());
 				ResultSet rs1 = pstmt1.executeQuery();
 				if(rs1.next()) {
 					transactionID = rs1.getLong("TransactionID");
@@ -293,7 +294,7 @@ public class AccountDAO {
 			
 			if (ps.executeUpdate() > 0) {
 				
-				PreparedStatement pstmt = con.prepareStatement("SELECT t.TransactionID, t.MeterID, t.Amount, t.FixedCharges, t.ReconnectionCharges, tr.Tariff, tr.AlarmCredit, tr.EmergencyCredit FROM topup AS t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.RazorPayOrderID = '"+checkOutRequestVO.getRazorpay_order_id()+"' AND t.TransactionID = "+checkOutRequestVO.getTransactionID());
+				PreparedStatement pstmt = con.prepareStatement("SELECT t.TransactionID, t.MeterID, t.Amount, t.Source, t.FixedCharges, t.ReconnectionCharges, tr.Tariff, tr.AlarmCredit, tr.EmergencyCredit FROM topup AS t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.RazorPayOrderID = '"+checkOutRequestVO.getRazorpay_order_id()+"' AND t.TransactionID = "+checkOutRequestVO.getTransactionID());
 
 				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
@@ -310,13 +311,19 @@ public class AccountDAO {
 					topUpRequestVO.setTariff(rs.getFloat("Tariff"));
 					topUpRequestVO.setModeOfPayment("Online");
 					
-					if(sendPayLoadToTata(topUpRequestVO).equalsIgnoreCase("Success")){
-					responseVO.setResult("Success");
-					responseVO.setMessage("Payment Captured & Topup Request Submitted Successfully");
+					if(rs.getString("Source").equalsIgnoreCase("Mobile")) {
+						responseVO.setResult("Success");
+						responseVO.setMessage("Payment Captured Successfully");
 					} else {
-						responseVO.setResult("Failure");
-						responseVO.setMessage("Payment Captured but Topup Request Submission Failed. Deducted Amount will be Refunded in 14 Days");
+						if(sendPayLoadToTata(topUpRequestVO).equalsIgnoreCase("Success")){
+							responseVO.setResult("Success");
+							responseVO.setMessage("Payment Captured & Topup Request Submitted Successfully");
+							} else {
+								responseVO.setResult("Failure");
+								responseVO.setMessage("Payment Captured but Topup Request Submission Failed. Deducted Amount will be Refunded in 14 Days");
+							}	
 					}
+					
 				}
 				
 			}
@@ -563,7 +570,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 		try {
 			con = getConnection();
 			
-			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.FixedCharges, t.ReconnectionCharges, t.ModeOfPayment, t.PaymentStatus, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
+			String query = "SELECT 	DISTINCT t.TransactionID, c.CommunityName, b.BlockName, cmd.FirstName, cmd.HouseNumber, cmd.CreatedByID, cmd.LastName, cmd.CRNNumber, t.MeterID, t.Amount, tr.AlarmCredit, tr.EmergencyCredit, t.Status, t.FixedCharges, t.ReconnectionCharges, t.ModeOfPayment, t.PaymentStatus, t.RazorPayOrderID, t.RazorPayPaymentID, t.TransactionDate, t.AcknowledgeDate FROM topup AS t \r\n" + 
 					"LEFT JOIN community AS c ON t.CommunityID = c.CommunityID LEFT JOIN block AS b ON t.BlockID = b.BlockID LEFT JOIN tariff AS tr ON tr.TariffID = t.tariffID \r\n" + 
 					"LEFT JOIN customermeterdetails AS cmd ON t.CRNNumber = cmd.CRNNumber WHERE t.TransactionID = "+transactionID;
 	
@@ -695,7 +702,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				datatable.startNewRow();
 				
 				Cell cell5 = new Cell();
-				cell5.add("Amount Updated to Device After Deductions: ");
+				cell5.add("Amount Updated to Device After Deductions (if any): ");
 				cell5.setTextAlignment(TextAlignment.CENTER);
 				
 				Cell finalAmount = new Cell();
@@ -754,9 +761,31 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				datatable.addCell(acknowledgeDate);
 				datatable.startNewRow();
 				
+				Cell cell10 = new Cell();
+				cell10.add("Order ID: ");
+				cell10.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell OrderID = new Cell();
+				OrderID.add(rs.getString("RazorPayOrderID"));
+				OrderID.setTextAlignment(TextAlignment.CENTER);				
+				
+				datatable.addCell(cell10);
+				datatable.addCell(OrderID);
+				datatable.startNewRow();
+				
+				Cell cell11 = new Cell();
+				cell11.add("Payment ID: ");
+				cell11.setTextAlignment(TextAlignment.CENTER);
+				
+				Cell PaymentID = new Cell();
+				PaymentID.add(rs.getString("RazorPayPaymentID"));
+				PaymentID.setTextAlignment(TextAlignment.CENTER);				
+				
+				datatable.addCell(cell11);
+				datatable.addCell(PaymentID);
+				datatable.startNewRow();
+				
 				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
-				document.add(newLine);
-				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
