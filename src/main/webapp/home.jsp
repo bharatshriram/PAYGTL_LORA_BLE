@@ -184,7 +184,7 @@
 														</div>
 														<div class="col-7 col-md-8">
 															<div class="numbers text-right">
-																<p class="card-category">Total MIU</p>
+																<p class="card-category">Total Meters</p>
 																<p class="card-title" id="adminAMR"></p>
 															</div>
 														</div>
@@ -408,10 +408,10 @@
 							<div class="row billingAmount">
 								<div class="col-md-12 bg-success text-center">
 									<p class="text-white">
-										Last Bill Amount : <span id = "lastBillAmount"></span>
+										Last ReCharge Amount : <span id = "lastBillAmount"></span>
 									</p>
 									<p class="text-white">
-										Last Bill Paid on : <span id = "lastBillDate"></span>
+										Last ReCharge Date : <span id = "lastBillDate"></span>
 									</p>
 								</div>
 							</div>

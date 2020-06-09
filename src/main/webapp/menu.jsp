@@ -33,23 +33,23 @@
 				%>	
                 
                 
-                <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community Management</span></a> </li>
-				<li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block Management</span></a> </li>
-				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
+                <li> <a href="communityDetails.jsp" title="Community Management"><img src=common/images/icons/community.png /> <span class="nav-label">Community Management</span></a> </li>
+				<li> <a href="blockDetails.jsp" title="Block Management"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block Management</span></a> </li>
+				<li> <a href="customerDetails.jsp" title="Customer Management"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
 				<li> <a href="tariff.jsp" title="Tariff"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>                
-                <li> <a href="alert.jsp" title="Alert"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts Configuration</span></a> </li>
+                <li> <a href="alert.jsp" title="Alerts Configuration"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts Configuration</span></a> </li>
                 <%if(user_id.equalsIgnoreCase("1")){ %>
-                <li> <a href="configuration.jsp" title="Configuration"><img src=common/images/icons/configuration.png /> <span class="nav-label">Meter Commands </span></a> </li>
+                <li> <a href="configuration.jsp" title="Meter Commands"><img src=common/images/icons/configuration.png /> <span class="nav-label">Meter Commands </span></a> </li>
                 <%}%>
-                <li> <a href="configurationStatus.jsp" title="Configuration Status"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Meter Commands Status</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
+                <li> <a href="configurationStatus.jsp" title="Meter Commands Status"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Meter Commands Status</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp" title="Customer Details"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
                   <%if(user_id.equalsIgnoreCase("1")){ %>
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
+                <li> <a href="topup.jsp" title="ReCharge"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="ReCharge Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
                 <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
                 <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
-                <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed active"><i
+                <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed"><i
                       class="fa fa-table"></i> <span class="nav-label">Reports</span><span
                       class="fa fa-chevron-left float-right"></span></a>
                   <ul class="sub-menu collapse" id="tables">
@@ -71,21 +71,21 @@
  				<li> <a href="approval.jsp" title="List Approval"><img src=common/images/icons/listofapproval.png /> <span class="nav-label">List Of Approval</span></a> </li>
  				<!--  <li> <a href="communityDetails.jsp" title="Community"><img src=common/images/icons/community.png /> <span class="nav-label">Community Management</span></a> </li>
 				<li> <a href="blockDetails.jsp" title="Block"><img src=common/images/icons/2-block.png /> <span class="nav-label">Block Management</span></a> </li> -->
-				<li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
+				<li> <a href="customerDetails.jsp" title="Customer Management"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer Management</span></a> </li>
 				<li> <a href="tariff.jsp" title="Tariff"><img src=common/images/icons/tariff.png /> <span class="nav-label">Tariff</span></a> </li>                
-                <li> <a href="alert.jsp" title="Alert"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts Configuration</span></a> </li>
+                <li> <a href="alert.jsp" title="Alert Configuration"><img src=common/images/icons/alerts.png /> <span class="nav-label">Alerts Configuration</span></a> </li>
                <%if(user_id.equalsIgnoreCase("2")){ %>
                 <li> <a href="configuration.jsp" title="Configuration"><img src=common/images/icons/configuration.png /> <span class="nav-label">Meter Commands </span></a> </li>
                 <%}%>
                 <li> <a href="configurationStatus.jsp" title="Configuration Status"><img src=common/images/icons/configurationdetails1.png /> <span class="nav-label">Meter Commands Status</span></a> </li>
-                <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
+                <li> <a href="LiveDashBoard.jsp" title="Customer Details"><img src=common/images/icons/dashboard.png /> <span class="nav-label">Customer Details</span></a> </li>
                   <%if(user_id.equalsIgnoreCase("2")){ %>
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
+                <li> <a href="topup.jsp" title="ReCharge"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="ReCharge Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
     			<li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
                    <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
-                   <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed active"><i
+                   <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed"><i
                       class="fa fa-table"></i> <span class="nav-label">Reports</span><span
                       class="fa fa-chevron-left float-right"></span></a>
                   <ul class="sub-menu collapse" id="tables">
@@ -103,12 +103,10 @@
                 <!-- <li> <a href="customerDetails.jsp" title="Customer"><img src=common/images/icons/customer.png /> <span class="nav-label">Customer</span></a> </li> -->
 <li class=""><a href="userConsumptions.jsp" title="User Consumption"><img src=common/images/icons/userconsumption.png /><span class="nav-label">User Consumptions</span></a></li>
 <!--                 <li> <a href="LiveDashBoard.jsp" title="Dashboard"><img src=common/images/icons/dashboard.png /> <span class="nav-label">DashBoard</span></a> </li> -->
-                <li> <a href="topup.jsp" title="Topup"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
-                <li> <a href="topupStatus.jsp" title="Topup Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
+                <li> <a href="topup.jsp" title="ReCharge"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
+                <li> <a href="topupStatus.jsp" title="ReCharge Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
                 
                 <li><a href="feedback.jsp" title="Feedback"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Feedback/Compliant</span></a></li>
-                
-                <li><a href="myprofile.jsp" title="Profile"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Profile</span></a></li>
                 
                 <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
                 <% } %>
