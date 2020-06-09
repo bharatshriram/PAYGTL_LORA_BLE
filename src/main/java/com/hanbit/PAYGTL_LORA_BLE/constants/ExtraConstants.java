@@ -21,8 +21,8 @@ public class ExtraConstants {
 	public static final String CacheControl = "no-cache";
 	public static final String TataUserName = "nunnahareesh";
 	public static final String TataPassword = "Hanbit@2020";
-	public static final String SenderID = "&senderid="+"HANTRI&msg=";
-	public static final String SMSAPI = "https://sms.textmysms.com/app/smsapi/index.php?key=45EBD4E5FA470B&campaign=0&routeid=13&type=text&contacts=";
+	public static final String SenderID = "&senderid="+"HANBIT&msg=";
+	public static final String SMSAPI = "https://sms.textmysms.com/app/smsapi/index.php?key=55EDE4350AF3B7&campaign=0&routeid=13&type=text&contacts=";
 	public static final String RZPKeyID = "rzp_test_PK0HJHPshOFmX5";
 	public static final String RZPKeySecret = "cWqzMXyG1fjO50ulhGa4UwT8";
 	public static final String RZPBasicUrl = "https://api.razorpay.com/v1/";
