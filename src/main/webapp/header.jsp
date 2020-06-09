@@ -20,10 +20,11 @@
 		}
 	%>
 <!--Header Start-->
-	<nav class="navbar navbar-expand-lg fixed-top bg-info pl-4 p-0 navheader">
+ <!-- bg-info -->
+	<nav class="navbar navbar-expand-lg fixed-top background pl-4 p-0 navheader">
 		<div class="float-left mt-2">
-			<a href="#" class="button-left text-white"><span
-				class="fa fa-fw fa-bars "></span></a>
+			<!-- <a href="#" class="button-left text-white"><span
+				class="fa fa-fw fa-bars "></span></a> -->
 		</div>
 
 		<!-- Brand -->

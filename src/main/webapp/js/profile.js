@@ -168,8 +168,7 @@ $(document)
 									});
 							
 							
-							
-							
+							if(sessionStorage.getItem("roleID") == 2){
 							$.getJSON("/PAYGTL_LORA_BLE/community/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
 								$.each(data.data, function(i, item) {
 									//if (session.Storage("") == item.communityID) {
@@ -191,8 +190,7 @@ $(document)
 									
 								});
 							});
-							
-							
+							}else if(sessionStorage.getItem("roleID") == 3){
 							$.getJSON("/PAYGTL_LORA_BLE/customer/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 								$.each(data.data, function(i, item) {
 									document.querySelector('.communityNameEdit').innerText = item.communityName;
@@ -213,9 +211,7 @@ $(document)
 									document.querySelector(".registrationDateEdit").innerText = item.date;
 								});
 							});
-							
-							
-							
+							}
 						});
 
 

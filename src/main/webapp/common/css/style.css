@@ -496,3 +496,7 @@ text-decoration: none !important;
 .resetFilter{
 	float : right !important;
 }
+
+.background{
+	background-color: #0d9cdc!important;
+}

@@ -308,13 +308,18 @@
 							<div class="col-md-6">
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-4">
 									<button class="btn btn-secondary submit-button"
 									 value="Save!" id="blockEditsave"
 									type="button" disabled>Update</button>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
@@ -438,14 +443,19 @@
 								</div>
 							</div>
 
-							<div class="col-md-6">
+							<div class="col-md-4">
 								<input class="btn btn-success submit-button"
 									 value="Update" id="customerEditsave"
 									type="button" disabled />
 							</div>
 
-							<div class="col-md-6">
-								<button type="button" class="btn btn-secondary btn-raised mr-4"
+							<div class="col-md-3">
+								<button type="button" class="btn btn-secondary btn-raised mr-3 resetFilter" id="resetFilter">Reset</button>
+							</div>
+
+
+							<div class="col-md-4">
+								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
@@ -472,6 +482,7 @@
 	<script type="text/javascript"
 		src="//cdn.jsdelivr.net/jquery.bootstrapvalidator/0.5.0/js/bootstrapValidator.min.js"></script>
 
+<script src="js/common.js"></script>
 	<script src="js/profile.js"></script>
 	<script src="js/block.js"></script>
 	<script src="js/customer.js"></script>
