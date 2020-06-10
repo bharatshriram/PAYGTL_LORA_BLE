@@ -195,13 +195,17 @@
 							</div>
 
 
-							<div class="col-md-4">
+							<div class="col-md-5">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
 								</button>
 							</div>
+						</div>
+						
+						<div class="col-md-12">
+								<h6>Note<sup class="imp">*: -</sup>Only One Vacation will be stored in the MIU. Any new add/edit/delete will override previous one</h6>
 						</div>
 					</form>
 
@@ -265,13 +269,16 @@
 							</div>
 
 
-							<div class="col-md-4">
+							<div class="col-md-5">
 								<button type="button" class="btn btn-danger btn-raised mr-4"
 									data-dismiss="modal">
 									Close
 									<div class="ripple-container"></div>
 								</button>
 							</div>
+							<div class="col-md-12">
+								<h6>Note<sup class="imp">*: -</sup>Only One Vacation will be stored in the MIU. Any new add/edit/delete will override previous one</h6>
+						</div>
 						</div>
 					</form>
 				</div>

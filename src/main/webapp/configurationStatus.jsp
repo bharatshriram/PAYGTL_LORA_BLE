@@ -72,6 +72,7 @@
 								<tr>
 									<th>MIU ID</th>
 									<th>Command Type</th>
+									<th>Value</th>
 									<th>Date</th>
 									<th>Status</th>
 									<th>Action</th> 
@@ -88,6 +89,7 @@
 								<tr>
 									<th>MIU ID</th>
 									<th>Command Type</th>
+									<th>Value</th>
 									<th>Date</th>
 									<th>Status</th>
 									<th>Action</th> 

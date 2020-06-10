@@ -159,6 +159,8 @@ $(document)
 												},
 												{
 													"data" : "commandType"
+												},{
+													"data" : "value"
 												},
 												{
 													"data" : "modifiedDate"
@@ -195,7 +197,7 @@ $(document)
 												} ],
 										"columnDefs" : [ {
 										//	orderable : false,
-											targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+											targets :5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 										},
 										{
 											"className": "dt-center", "targets": "_all"
@@ -206,7 +208,7 @@ $(document)
 											footer : 'true',
 											//text : 'Excel',
 											exportOptions : {
-												columns : [ 0, 1, 2, 3 ]
+												columns : [ 0, 1, 2, 3, 4 ]
 											},
 											//className: 'custom-btn fa fa-file-excel-o',
 											title : 'Configuration Status'
@@ -217,7 +219,7 @@ $(document)
 											//className: 'custom-btn fa fa-file-pdf-o',
 											footer : 'true',
 											exportOptions : {
-												columns : [ 0, 1, 2, 3 ]
+												columns : [ 0, 1, 2, 3,4 ]
 											},
 											//text : 'pdf',
 											orientation : 'landscape',
@@ -299,6 +301,8 @@ $(document)
 																		},
 																		{
 																			"data" : "commandType"
+																		},{
+																			"data" : "value"
 																		},
 																		{
 																			"data" : "modifiedDate"
@@ -335,7 +339,7 @@ $(document)
 																		} ],
 																"columnDefs" : [ {
 																//	orderable : false,
-																	targets : 4, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
+																	targets : 5, visible:  (((sessionStorage.getItem("roleID") == 1) || (sessionStorage.getItem("roleID") == 2) || (sessionStorage.getItem("roleID") == 3)) && (!(sessionStorage.getItem("roleID") == 5) || !(sessionStorage.getItem("roleID") == 4)))
 																},
 																{
 																	"className": "dt-center", "targets": "_all"
@@ -346,7 +350,7 @@ $(document)
 																	footer : 'true',
 																	//text : 'Excel',
 																	exportOptions : {
-																		columns : [ 0, 1, 2, 3 ]
+																		columns : [ 0, 1, 2, 3,4 ]
 																	},
 																	//className: 'custom-btn fa fa-file-excel-o',
 																	title : 'Configuration Status'
@@ -356,7 +360,7 @@ $(document)
 																	extend : 'pdf',
 																	footer : 'true',
 																	exportOptions : {
-																		columns : [ 0, 1, 2, 3 ]
+																		columns : [ 0, 1, 2, 3,4 ]
 																	},
 																	//className: 'custom-btn fa fa-file-pdf-o',
 																	//text : 'pdf',
