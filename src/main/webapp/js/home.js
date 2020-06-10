@@ -214,7 +214,7 @@ $(document)
 			
 			 $.getJSON("/PAYGTL_LORA_BLE/dashboard/" +sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 				 $.each(data.data, function(i, item) {
-					 alert();
+//					 alert();
 		    	  document.querySelector("#lastBillAmount").innerText = item.lastTopupAmount;
 		    	  document.querySelector("#lastBillDate").innerText = item.lastRechargeDate;
 		    	  document.querySelector("#community").innerText = item.communityName;
