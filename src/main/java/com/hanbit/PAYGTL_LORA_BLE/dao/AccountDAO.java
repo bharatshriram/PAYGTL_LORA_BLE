@@ -373,8 +373,6 @@ public String sendPayLoadToTata(TopUpRequestVO topUpRequestVO) throws SQLExcepti
 		
 		String serialNumber = String.format("%04x", randomNumber.nextInt(65000));
 		
-		// 0A18000001020C0023  41200000  41200000  41200000   41200000           17
-		//                    credit    lowcredit--Alarm EmgCredit lowemgcredit--TAriff
 		String dataFrame = "0A1800" + serialNumber + "020C0023" + hexaAmount + hexaTariff + hexaEmergencyCredit + hexaAlarmCredit + "17";
 
 		restcallvo.setDataFrame(Encoding.getHexBase644(dataFrame));
