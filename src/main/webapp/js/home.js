@@ -285,8 +285,8 @@ $(document)
 								labels : {
 									overflow : 'justify'
 								},
-								min : 0,
-								max : 100
+								min : 0
+								
 
 							},
 							tooltip : {
