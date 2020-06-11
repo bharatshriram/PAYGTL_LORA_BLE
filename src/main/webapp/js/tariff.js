@@ -107,84 +107,84 @@ $(document)
 												},
 												fields : {
 													tariffNameAdd : {
-														message : 'The Name is not valid',
+														message : 'Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Name is required and cannot be empty'
+																message : 'Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Name must be more than 4 and less than 30 characters long'
+																message : 'Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z ]*$/,
-																message : 'The Name can only consist of alphabet'
+																message : 'Name can only consist of alphabet'
 															}
 														}
 													},
 													tariffRateAdd : {
-														message : 'The Rate is not valid',
+														message : 'Rate is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Rate is required and cannot be empty'
+																message : 'Rate is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Rate must be more than 2 and less than 30 characters long'
+																message : 'Rate must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Rate can only consist of alphabetical and number'
+																message : 'Rate can only consist of alphabetical and number'
 															}
 														}
 													},
 													emergencyCreditAdd : {
-														message : 'The Emergency Credit is not valid',
+														message : 'Emergency Credit is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Emergency Credit is required and cannot be empty'
+																message : 'Emergency Credit is required and cannot be empty'
 															},stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Emergency Credit must be more than 2 and less than 30 characters long'
+																message : 'Emergency Credit must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Emergency Credit can only consist of number'
+																message : 'Emergency Credit can only consist of number'
 															}
 														}
 													},
 													alarmCreditAdd : {
-														message : 'The Alaram Credit is not valid',
+														message : 'Alaram Credit is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Alaram Credit is required and cannot be empty'
+																message : 'Alaram Credit is required and cannot be empty'
 															},stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Alaram Credit must be more than 2 and less than 30 characters long'
+																message : 'Alaram Credit must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Alarm Credit can only consist of number'
+																message : 'Alarm Credit can only consist of number'
 															}
 														}
 													},
 													fixedChargeAdd : {
-														message : 'The Fixed Charge is not valid',
+														message : 'Fixed Charge is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Fixed Charge is required and cannot be empty'
+																message : 'Fixed Charge is required and cannot be empty'
 															},stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The Fixed Charge must be more than 2 and less than 30 characters long'
+																message : 'Fixed Charge must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Fixed Charge can only consist of number'
+																message : 'Fixed Charge can only consist of number'
 															}
 														}
 													}
@@ -204,84 +204,84 @@ $(document)
 										},
 										fields : {
 											tariffNameEdit : {
-												message : 'The Name is not valid',
+												message : 'Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Name is required and cannot be empty'
+														message : 'Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The Name must be more than 4 and less than 30 characters long'
+														message : 'Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z ]*$/,
-														message : 'The Name can only consist of alphabet'
+														message : 'Name can only consist of alphabet'
 													}
 												}
 											},
 											tariffRateEdit : {
-												message : 'The Rate is not valid',
+												message : 'Rate is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Rate is required and cannot be empty'
+														message : 'Rate is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Rate must be more than 2 and less than 30 characters long'
+														message : 'Rate must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Rate can only consist of alphabetical and number'
+														message : 'Rate can only consist of alphabetical and number'
 													}
 												}
 											},
 											emergencyCreditEdit : {
-												message : 'The Emergency Credit is not valid',
+												message : 'Emergency Credit is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Emergency Credit is required and cannot be empty'
+														message : 'Emergency Credit is required and cannot be empty'
 													},stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Emergency Credit must be more than 2 and less than 30 characters long'
+														message : 'Emergency Credit must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Emergency Credit can only consist of number'
+														message : 'Emergency Credit can only consist of number'
 													}
 												}
 											},
 											alarmCreditEdit : {
-												message : 'The Alaram Credit is not valid',
+												message : 'Alaram Credit is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Alaram Credit is required and cannot be empty'
+														message : 'Alaram Credit is required and cannot be empty'
 													},stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Alaram Credit must be more than 2 and less than 30 characters long'
+														message : 'Alaram Credit must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Alarm Credit can only consist of number'
+														message : 'Alarm Credit can only consist of number'
 													}
 												}
 											},
 											fixedChargeEdit : {
-												message : 'The Fixed Charge is not valid',
+												message : 'Fixed Charge is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Fixed Charge is required and cannot be empty'
+														message : 'Fixed Charge is required and cannot be empty'
 													},stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Fixed Charge must be more than 2 and less than 30 characters long'
+														message : 'Fixed Charge must be more than 2 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Fixed Charge can only consist of number'
+														message : 'Fixed Charge can only consist of number'
 													}
 												}
 											}

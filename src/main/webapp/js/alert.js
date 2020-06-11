@@ -113,68 +113,68 @@ $(document)
 												},
 												fields : {
 													noamrintervalAdd : {
-														message : 'The No AMR Interval is not valid',
+														message : 'No AMR Interval is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The No AMR Interval is required and cannot be empty'
+																message : 'No AMR Interval is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The No AMR Interval be more than 2 and less than 30 characters long'
+																message : 'No AMR Interval be more than 2 and less than 30 characters long'
 															}
 														}
 													},
 													lowbatteryvoltageAdd : {
-														message : 'The Low Battery Voltage is not valid',
+														message : 'Low Battery Voltage is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Low Battery Voltage is required and cannot be empty'
+																message : 'Low Battery Voltage is required and cannot be empty'
 															},
 															stringLength : {
 																min : 1,
 																max : 3,
-																message : 'The Low Battery Voltage must be more than 1 and less than 3 characters long'
+																message : 'Low Battery Voltage must be more than 1 and less than 3 characters long'
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The Low Battery Voltage can only consist of alphabetical and number'
+																message : 'Low Battery Voltage can only consist of alphabetical and number'
 															}
 														}
 													},
 													rechargetimeoutAdd : {
-														message : 'The Recharge Timeout is not valid',
+														message : 'Recharge Timeout is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Recharge Timeout is required and cannot be empty'
+																message : 'Recharge Timeout is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The Recharge Timeout can only consist of number'
+																message : 'Recharge Timeout can only consist of number'
 															}
 														}
 													},
 													reconnectionAdd : {
-														message : 'The ReConnection Charge is not valid',
+														message : 'ReConnection Charge is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The ReConnection Charge is required and cannot be empty'
+																message : 'ReConnection Charge is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'The ReConnection Charge can only consist of number'
+																message : 'ReConnection Charge can only consist of number'
 															}
 														}
 													},
 													perUnitAdd : {
-														message : 'The Per Unit Charge is not valid',
+														message : 'Per Unit Charge is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Per Unit Charge is required and cannot be empty'
+																message : 'Per Unit Charge is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-																message : 'The Per Unit Charge can only consist of number'
+																message : 'Per Unit Charge can only consist of number'
 															}
 														}
 													}
@@ -194,61 +194,61 @@ $(document)
 										},
 										fields : {
 											noamrintervalEdit : {
-												message : 'The No AMR Interval is not valid',
+												message : 'No AMR Interval is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The No AMR Interval is required and cannot be empty'
+														message : 'No AMR Interval is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The No AMR Interval be more than 6 and less than 30 characters long'
+														message : 'No AMR Interval be more than 6 and less than 30 characters long'
 													}
 												}
 											},
 											lowbatteryvoltageEdit1 : {
-												message : 'The Low Battery Voltage is not valid',
+												message : 'Low Battery Voltage is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Low Battery Voltage is required and cannot be empty'
+														message : 'Low Battery Voltage is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'The Low Battery Voltage must be more than 6 and less than 30 characters long'
+														message : 'Low Battery Voltage must be more than 6 and less than 30 characters long'
 													}
 													
 												}
 											},
 											rechargetimeoutEdit1 : {
-												message : 'The Recharge Timeout is not valid',
+												message : 'Recharge Timeout is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Recharge Timeout is required and cannot be empty'
+														message : 'Recharge Timeout is required and cannot be empty'
 													}
 												}
 											},
 											connectionEdit1 : {
-												message : 'The ReConnection Charge is not valid',
+												message : 'ReConnection Charge is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The ReConnection Charge is required and cannot be empty'
+														message : 'ReConnection Charge is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /^[0-9]+$/,
-														message : 'The ReConnection Charge can only consist of number'
+														message : 'ReConnection Charge can only consist of number'
 													}
 												}
 											},
 											perUnitEdit1 : {
-												message : 'The Per Unit Charge is not valid',
+												message : 'Per Unit Charge is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Per Unit Charge is required and cannot be empty'
+														message : 'Per Unit Charge is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-														message : 'The Per Unit Charge can only consist of number'
+														message : 'Per Unit Charge can only consist of number'
 													}
 												}
 											}

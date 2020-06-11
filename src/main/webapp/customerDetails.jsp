@@ -32,7 +32,6 @@
 		String user_id = (String) session.getAttribute("roleID");
 
 		if (user_id == null) {
-			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
 		}else {
 	%>

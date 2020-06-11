@@ -119,43 +119,43 @@ $(document)
 										                    }
 													},
 													userIDAdd : {
-														message : 'The User ID is not valid',
+														message : 'User ID is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The User ID is required and cannot be empty'
+																message : 'User ID is required and cannot be empty'
 															},
 															stringLength : {
 																min : 2,
 																max : 30,
-																message : 'The User Id must be more than 2 and less than 30 characters long'
+																message : 'User Id must be more than 2 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The User Id can only consist of alphabetical and number'
+																message : 'User Id can only consist of alphabetical and number'
 															}
 														}
 													},
 													userNameAdd : {
-														message : 'The User Name is not valid',
+														message : 'User Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The User Name is required and cannot be empty'
+																message : 'User Name is required and cannot be empty'
 															}
 														}
 													},
 													userPasswordAdd : {
-														message : 'The Password is not valid',
+														message : 'Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Password is required and cannot be empty'
+																message : 'Password is required and cannot be empty'
 															}
 														}
 													},
 													confirmPasswordAdd : {
-														message : 'The Confirm Password is not valid',
+														message : 'Confirm Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Confirm Password is required and cannot be empty'
+																message : 'Confirm Password is required and cannot be empty'
 															}
 														}
 													}

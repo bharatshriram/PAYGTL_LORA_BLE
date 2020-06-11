@@ -43,72 +43,72 @@ $(document)
 												},
 
 												AMR_topup : {
-													message : 'The MIU ID is not valid',
+													message : 'MIU ID is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The MIU ID is required and cannot be empty'
+															message : 'MIU ID is required and cannot be empty'
 														}
 													}
 												},
 												currentBalance_topup : {
-													message : 'The Current Balance is not valid',
+													message : 'Current Balance is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Current Balance is required and cannot be empty'
+															message : 'Current Balance is required and cannot be empty'
 														},
 														stringLength : {
 															min : 2,
 															max : 30,
-															message : 'The Last Name must be more than 2 and less than 30 characters long'
+															message : 'Last Name must be more than 2 and less than 30 characters long'
 														}
 													}
 												},
 												dateTime_topup : {
-													message : 'The Date Time is not valid',
+													message : 'Date Time is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Date Time is required and cannot be empty'
+															message : 'Date Time is required and cannot be empty'
 														}
 													}
 												},
 												unit_topup : {
-													message : 'The Unit Rate is not valid',
+													message : 'Unit Rate is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Unit Rate is required and cannot be empty'
+															message : 'Unit Rate is required and cannot be empty'
 														}
 													}
 												},
 												emergency_topup : {
-													message : 'The Emergency Credit is not valid',
+													message : 'Emergency Credit is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Emergency Credit is required and cannot be empty'
+															message : 'Emergency Credit is required and cannot be empty'
 														}
 													}
 												},
 												alarm_topup : {
-													message : 'The Alarm Topup No. is not valid',
+													message : 'Alarm Topup No. is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Alarm Topup No. is required and cannot be empty'
+															message : 'Alarm Topup No. is required and cannot be empty'
 														}
 													}
 												},
 												recharge_topup : {
-													message : 'The Recharge Amount is not valid',
+													message : 'Recharge Amount is not valid',
 													validators : {
 														notEmpty : {
-															message : 'The Recharge Amount is required and cannot be empty'
+															message : 'Recharge Amount is required and cannot be empty'
 														},
 														stringLength : {
 															min : 2,
 															max : 10,
-															message : 'The Recharge Amount must be more than 2 and less than 10 characters long'
+															message : 'Recharge Amount must be more than 2 and less than 10 characters long'
 														},
 														regexp : {
 															regexp : /[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?$/,
-															message : 'The Recharge Amount can only consist of number'
+															message : 'Recharge Amount can only consist of number'
 														}
 													}
 												},

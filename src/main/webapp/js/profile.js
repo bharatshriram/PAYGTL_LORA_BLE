@@ -16,56 +16,56 @@ $(document)
 												fields : {
 													
 													oldpassword : {
-														message : 'The Old Password is not valid',
+														message : 'Old Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Old Password is required and cannot be empty'
+																message : 'Old Password is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Old Password must be more than 4 and less than 30 characters long'
+																message : 'Old Password must be more than 4 and less than 30 characters long'
 															}
 														}
 													},
 													newpassword : {
-														message : 'The Old Password is not valid',
+														message : 'Old Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Old Password is required and cannot be empty'
+																message : 'Old Password is required and cannot be empty'
 															},
 															stringLength : {
 																min : 6,
 																max : 30,
-																message : 'The Old Password must be more than 6 and less than 30 characters long'
+																message : 'Old Password must be more than 6 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,30}$/,
-																message : 'The New Password can only consist which contain at least one numeric digit, one Special Symbol, one uppercase and one lowercase letter'
+																message : 'New Password can only consist which contain at least one numeric digit, one Special Symbol, one uppercase and one lowercase letter'
 															},
 															 identical: {
 											                        field: 'confirmpassword',
-											                        message: 'The password and its confirm are not the same'
+											                        message: 'password and its confirm are not same'
 											                    }
 														}
 													},
 													confirmpassword : {
-														message : 'The Old Password is not valid',
+														message : 'Old Password is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Old Password is required and cannot be empty'
+																message : 'Old Password is required and cannot be empty'
 															},
 															stringLength : {
 																min : 6,
 																max : 30,
-																message : 'The Old Password must be more than 6 and less than 30 characters long'
+																message : 'Old Password must be more than 6 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{6,30}$/,
-																message : 'The Confirm Password can only consist which contain at least one numeric digit, one Special Symbol, one uppercase and one lowercase letter'
+																message : 'Confirm Password can only consist which contain at least one numeric digit, one Special Symbol, one uppercase and one lowercase letter'
 															}, identical: {
 										                        field: 'newpassword',
-										                        message: 'The password and its confirm are not the same'
+										                        message: 'password and its confirm are not same'
 										                    }
 														}
 													}

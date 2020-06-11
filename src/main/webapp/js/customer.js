@@ -160,103 +160,103 @@ $(document)
 												fields : {
 													
 													firstNameAdd : {
-														message : 'The First Name is not valid',
+														message : 'First Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The First Name is required and cannot be empty'
+																message : 'First Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The First Name must be more than 4 and less than 30 characters long'
+																message : 'First Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-																message : 'The First Name can only consist of Alphanumaric'
+																message : 'First Name can only consist of Alphanumaric'
 															}
 														}
 													},
 													lastNameAdd : {
-														message : 'The Last Name is not valid',
+														message : 'Last Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Last Name is required and cannot be empty'
+																message : 'Last Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Last Name must be more than 4 and less than 30 characters long'
+																message : 'Last Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-																message : 'The Last Name can only consist of Alphanumaric'
+																message : 'Last Name can only consist of Alphanumaric'
 															}
 														}
 													},
 													houseNoAdd : {
-														message : 'The House No. is not valid',
+														message : 'House No. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The House No is required and cannot be empty'
+																message : 'House No is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The House No must be more than 4 and less than 30 characters long'
+																message : 'House No must be more than 4 and less than 30 characters long'
 															}
 														}
 													},
 													mobileNoAdd : {
-														message : 'The Mobile No. is not valid',
+														message : 'Mobile No. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Mobile No. is required and cannot be empty'
+																message : 'Mobile No. is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]{10}$/,
-																message : 'The Mobile No. can only consist of number'
+																message : 'Mobile No. can only consist of number'
 															}
 														}
 													},
 													emailAdd : {
-														message : 'The Email is not valid',
+														message : 'Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Email is required and cannot be empty'
+																message : 'Email is required and cannot be empty'
 															}
 														}
 													},
 													meterSerialAdd : {
-														message : 'The MSN is not valid',
+														message : 'MSN is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The MSN is required and cannot be empty'
+																message : 'MSN is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 15,
-																message : 'The MSN must be more than 4 and less than 15 characters long'
+																message : 'MSN must be more than 4 and less than 15 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-																message : 'The MSN can only consist of Alphanumaric and Could not start with zero'
+																message : 'MSN can only consist of Alphanumaric and Could not start with zero'
 															}
 														}
 													},
 													amrAdd : {
-														message : 'The MIU ID. is not valid',
+														message : 'MIU ID. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The MIU ID is required and cannot be empty'
+																message : 'MIU ID is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 16,
-																message : 'The MIU ID must be more than 4 and less than 16 characters long'
+																message : 'MIU ID must be more than 4 and less than 16 characters long'
 															},
 															regexp : {
 																regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-																message : 'The MIU ID can only consist of Alphanumaric and Could not start with zero'
+																message : 'MIU ID can only consist of Alphanumaric and Could not start with zero'
 															}
 														}
 													},
@@ -269,19 +269,19 @@ $(document)
 									                    }
 									                },
 									                CRNAdd : {
-														message : 'The CRN No. is not valid',
+														message : 'CRN No. is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The CRN No. is required and cannot be empty'
+																message : 'CRN No. is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The CRN No. must be more than 4 and less than 30 characters long'
+																message : 'CRN No. must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z][a-zA-Z0-9.,$;]+$/,
-																message : 'The CRN No. can only consist of Alphanumaric'
+																message : 'CRN No. can only consist of Alphanumaric'
 															}
 														}
 													}
@@ -302,107 +302,107 @@ $(document)
 										fields : {
 											
 											firstNameEdit : {
-												message : 'The First Name is not valid',
+												message : 'First Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The First Name is required and cannot be empty'
+														message : 'First Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The First Name must be more than 4 and less than 30 characters long'
+														message : 'First Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-														message : 'The First Name can only consist of Alphanumaric'
+														message : 'First Name can only consist of Alphanumaric'
 													}
 												}
 											},
 											lastNameEdit : {
-												message : 'The Last Name is not valid',
+												message : 'Last Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Last Name is required and cannot be empty'
+														message : 'Last Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The Last Name must be more than 4 and less than 30 characters long'
+														message : 'Last Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-														message : 'The First Name can only consist of Alphanumaric'
+														message : 'First Name can only consist of Alphanumaric'
 													}
 												}
 											},
 											houseNoEdit : {
-												message : 'The House No. is not valid',
+												message : 'House No. is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The House No is required and cannot be empty'
+														message : 'House No is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The House No. must be more than 4 and less than 30 characters long'
+														message : 'House No. must be more than 4 and less than 30 characters long'
 													}
 												}
 											},
 											mobileNoEdit: {
-												message : 'The Mobile No. is not valid',
+												message : 'Mobile No. is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Mobile No. is required and cannot be empty'
+														message : 'Mobile No. is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /^[0-9]{10}$/,
-														message : 'The Mobile No. can only consist of number'
+														message : 'Mobile No. can only consist of number'
 													}
 												}
 											},
 											emailEdit : {
-												message : 'The Email is not valid',
+												message : 'Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Email is required and cannot be empty'
+														message : 'Email is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														message : 'Community Address can only consist of alphabetical and number'
 													}*/
 												}
 											},
 											meterSerialEdit : {
-												message : 'The MSN is not valid',
+												message : 'MSN is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The MSN is required and cannot be empty'
+														message : 'MSN is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 15,
-														message : 'The MSN must be more than 4 and less than 15 characters long'
+														message : 'MSN must be more than 4 and less than 15 characters long'
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-														message : 'The MSN can only consist of Alphanumaric and Could not start with zero'
+														message : 'MSN can only consist of Alphanumaric and Could not start with zero'
 													}
 												}
 											},
 											amrEdit : {
-												message : 'The MIU ID is not valid',
+												message : 'MIU ID is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The MIU ID is required and cannot be empty'
+														message : 'MIU ID is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 16,
-														message : 'The MIU ID must be more than 4 and less than 16 characters long'
+														message : 'MIU ID must be more than 4 and less than 16 characters long'
 													},
 													regexp : {
 														regexp : /^[^0][a-zA-Z0-9.,$; ]+$/,
-														message : 'The MIU ID can only consist of Alphanumaric and Could not start with zero'
+														message : 'MIU ID can only consist of Alphanumaric and Could not start with zero'
 													}
 												}
 											},
@@ -415,19 +415,19 @@ $(document)
 							                    }
 							                },*/
 							                CRNEdit : {
-												message : 'The CRN No. is not valid',
+												message : 'CRN No. is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The CRN No. is required and cannot be empty'
+														message : 'CRN No. is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The CRN No. must be more than 4 and less than 30 characters long'
+														message : 'CRN No. must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z][a-zA-Z0-9.,$;]+$/,
-														message : 'The CRN No. can only consist of Alphanumaric'
+														message : 'CRN No. can only consist of Alphanumaric'
 													}
 												}
 											}

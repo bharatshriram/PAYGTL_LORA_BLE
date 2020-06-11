@@ -132,60 +132,60 @@ $(document)
 									                    }
 									                },*/
 													blockNameAdd : {
-														message : 'The Block Name is not valid',
+														message : 'Block Name is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Block Name is required and cannot be empty'
+																message : 'Block Name is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Block Name must be more than 4 and less than 30 characters long'
+																message : 'Block Name must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-																message : 'The Block Name can only consist of Alphanumaric'
+																message : 'Block Name can only consist of Alphanumaric'
 															}
 														}
 													},
 													blockLocationAdd : {
-														message : 'The Location is not valid',
+														message : 'Location is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Location is required and cannot be empty'
+																message : 'Location is required and cannot be empty'
 															},
 															stringLength : {
 																min : 4,
 																max : 30,
-																message : 'The Locaton must be more than 4 and less than 30 characters long'
+																message : 'Locaton must be more than 4 and less than 30 characters long'
 															},
 															regexp : {
 																regexp : /^[a-zA-Z ]+$/,
-																message : 'The Location can only consist of alphabetical'
+																message : 'Location can only consist of alphabetical'
 															}
 														}
 													},
 													blockMobileAdd : {
-														message : 'The Mobile is not valid',
+														message : 'Mobile is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Mobile is required and cannot be empty'
+																message : 'Mobile is required and cannot be empty'
 															},
 															regexp : {
 																regexp : /^[0-9]{10}$/,
-																message : 'The Mobile can only consist of number'
+																message : 'Mobile can only consist of number'
 															}
 														}
 													},
 													blockEmailAdd : {
-														message : 'The Email is not valid',
+														message : 'Email is not valid',
 														validators : {
 															notEmpty : {
-																message : 'The Email is required and cannot be empty'
+																message : 'Email is required and cannot be empty'
 															}/*,
 															regexp : {
 																regexp : /^[a-zA-Z0-9]+$/,
-																message : 'The Community Address can only consist of alphabetical and number'
+																message : 'Community Address can only consist of alphabetical and number'
 															}*/
 														}
 													}
@@ -205,60 +205,60 @@ $(document)
 										},
 										fields : {
 											blockNameEdit : {
-												message : 'The Block Name is not valid',
+												message : 'Block Name is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Block Name is required and cannot be empty'
+														message : 'Block Name is required and cannot be empty'
 													},
 													stringLength : {
 														min : 4,
 														max : 30,
-														message : 'The Block Name must be more than 4 and less than 30 characters long'
+														message : 'Block Name must be more than 4 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z][a-zA-Z0-9.,$; ]+$/,
-														message : 'The Block Name can only consist of Alphanumaric'
+														message : 'Block Name can only consist of Alphanumaric'
 													}
 												}
 											},
 											blockLocationEdit : {
-												message : 'The Location is not valid',
+												message : 'Location is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Location is required and cannot be empty'
+														message : 'Location is required and cannot be empty'
 													},
 													stringLength : {
 														min : 6,
 														max : 30,
-														message : 'The Location must be more than 6 and less than 30 characters long'
+														message : 'Location must be more than 6 and less than 30 characters long'
 													},
 													regexp : {
 														regexp : /^[a-zA-Z ]+$/,
-														message : 'The Location can only consist of alphabetical'
+														message : 'Location can only consist of alphabetical'
 													}
 												}
 											},
 											blockMobileEdit : {
-												message : 'The Mobile is not valid',
+												message : 'Mobile is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Mobile is required and cannot be empty'
+														message : 'Mobile is required and cannot be empty'
 													},
 													regexp : {
 														regexp : /^\d{10}$/,
-														message : 'The Mobile can only consist of number'
+														message : 'Mobile can only consist of number'
 													}
 												}
 											},
 											blockEmailEdit : {
-												message : 'The Email is not valid',
+												message : 'Email is not valid',
 												validators : {
 													notEmpty : {
-														message : 'The Email is required and cannot be empty'
+														message : 'Email is required and cannot be empty'
 													}/*,
 													regexp : {
 														regexp : /^[a-zA-Z0-9]+$/,
-														message : 'The Community Address can only consist of alphabetical and number'
+														message : 'Community Address can only consist of alphabetical and number'
 													}*/
 												}
 											}

@@ -36,7 +36,6 @@
 
 	<%
 		if (user_id == null) {
-			System.out.println("response.sendRedirect=>"+user_id);
 			response.sendRedirect("login.jsp");
 		}else {
 	%>
