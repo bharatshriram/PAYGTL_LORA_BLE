@@ -104,7 +104,7 @@ public class ExtraMethodsDAO {
 		
 	}
 	
-	public ResponseEntity<TataResponseVO> restcallget(RestCallVO restcallvo) throws IOException {
+	public ResponseEntity<TataResponseVO> tataget(RestCallVO restcallvo) throws IOException {
 		
 	
 		RestTemplate restTemplate = new RestTemplate();
@@ -121,7 +121,7 @@ public class ExtraMethodsDAO {
 		return response;
 	}
 
-	public String restcallpost(RestCallVO restcallvo) throws IOException {
+	public String tatapost(RestCallVO restcallvo) throws IOException {
 	
 	URL url = new URL(ExtraConstants.TataGatewayURL+restcallvo.getMeterID().toLowerCase()+"/payloads/dl"+ExtraConstants.QueryParams);
     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -220,7 +220,7 @@ public class ExtraMethodsDAO {
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
 				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
 				
-				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
+				ResponseEntity<TataResponseVO> response = tataget(restcallvo);
 				
 				PreparedStatement pstmt1 = con.prepareStatement("UPDATE topup SET Status = ?, AcknowledgeDate= NOW() WHERE TataReferenceNumber = ?");
 
@@ -231,7 +231,7 @@ public class ExtraMethodsDAO {
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+"). Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused.");
 					
-//					sendsms(smsRequestVO);
+					sendsms(smsRequestVO);
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");
@@ -264,7 +264,7 @@ public class ExtraMethodsDAO {
 						  +"/- is initiated and will be credited to your original mode of payment in 5-10 working days. We regret the inconvenience caused."
 						  );
 						  
-						  // sendsms(smsRequestVO);
+						   sendsms(smsRequestVO);
 						  
 						  mailRequestVO.setToEmail(rs.getString("Email"));
 						  mailRequestVO.setSubject("Refund Initiated!!!");
@@ -351,7 +351,7 @@ public class ExtraMethodsDAO {
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
 				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
 				
-				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
+				ResponseEntity<TataResponseVO> response = tataget(restcallvo);
 				
 				PreparedStatement pstmt1 = con.prepareStatement("UPDATE command SET Status = ?, ModifiedDate= NOW() WHERE TataReferenceNumber = ?");
 
@@ -390,7 +390,7 @@ public class ExtraMethodsDAO {
 				restcallvo.setMeterID(rs.getString("MeterID").toLowerCase());
 				restcallvo.setTataTransactionID(rs.getString("TataReferenceNumber"));
 				
-				ResponseEntity<TataResponseVO> response = restcallget(restcallvo);
+				ResponseEntity<TataResponseVO> response = tataget(restcallvo);
 				
 				PreparedStatement pstmt1 = con.prepareStatement("UPDATE vacation SET Status = ?, ModifiedDate= NOW() WHERE TataReferenceNumber = ?");
 
@@ -438,13 +438,13 @@ public class ExtraMethodsDAO {
 						
 						mailRequestVO.setSubject("No Communication from MIU ID: "+rs.getString("MeterID"));
 						mailRequestVO.setToEmail(rs.getString("Email"));
-						mailRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date since more than 3 days.");
+						mailRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date for more than 3 days.");
 						
-						smsRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date since more than 3 days.");
+						smsRequestVO.setMessage("Dear Admin, \n \n CRNNumber: "+rs.getString("CRNNumber")+ " is not up to date for more than 3 days.");
 						smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
 						
 						sendmail(mailRequestVO);
-//						sendsms(smsRequestVO);
+						sendsms(smsRequestVO);
 						
 					}
 				}

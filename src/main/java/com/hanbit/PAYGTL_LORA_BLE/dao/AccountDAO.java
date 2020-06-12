@@ -382,7 +382,7 @@ public String sendPayLoadToTata(TopUpRequestVO topUpRequestVO) throws SQLExcepti
 		
 //		sending payload to tata gateway
 		
-		String restcallresponse = extramethodsdao.restcallpost(restcallvo);
+		String restcallresponse = extramethodsdao.tatapost(restcallvo);
 		
 		TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
 		
@@ -959,7 +959,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 					
 					System.out.println("64Frame:- "+restcallvo.getDataFrame());
 					
-					TataResponseVO tataResponseVO = gson.fromJson(extramethodsdao.restcallpost(restcallvo), TataResponseVO.class);
+					TataResponseVO tataResponseVO = gson.fromJson(extramethodsdao.tatapost(restcallvo), TataResponseVO.class);
 						
 					PreparedStatement pstmt1 = con.prepareStatement("SELECT CustomerID, MeterID FROM customermeterdetails WHERE CRNNumber = ?");
 					pstmt1.setString(1, configurationvo.getCRNNumber());

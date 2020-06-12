@@ -408,7 +408,7 @@ public class ManagementSettingsDAO {
 						restcallvo.setDataFrame(Encoding.getHexBase644(dataframe));
 						restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
 
-						String restcallresponse = extramethodsdao.restcallpost(restcallvo);
+						String restcallresponse = extramethodsdao.tatapost(restcallvo);
 						
 						TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
 						
@@ -524,7 +524,7 @@ public class ManagementSettingsDAO {
 					restcallvo.setDataFrame(dataframe);
 					restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
 
-					String restcallresponse = extramethodsdao.restcallpost(restcallvo);
+					String restcallresponse = extramethodsdao.tatapost(restcallvo);
 
 					TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
 
@@ -622,7 +622,7 @@ public class ManagementSettingsDAO {
 					restcallvo.setMeterID(vacationRequestVO.getMeterID().toLowerCase());
 					restcallvo.setDataFrame(Encoding.getHexBase644(dataframe));
 
-					String restcallresponse = extramethodsdao.restcallpost(restcallvo);
+					String restcallresponse = extramethodsdao.tatapost(restcallvo);
 
 					TataResponseVO tataResponseVO = gson.fromJson(restcallresponse, TataResponseVO.class);
 
