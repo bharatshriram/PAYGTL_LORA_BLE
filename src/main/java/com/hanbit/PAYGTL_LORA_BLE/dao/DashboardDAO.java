@@ -524,7 +524,6 @@ public class DashboardDAO {
 					if(tamperTimeStamp != 0) {
 						
 						Instant instant = Instant.ofEpochSecond(tamperTimeStamp);
-//						  LocalDateTime datetime = LocalDateTime.ofInstant(instant, ZoneId.of("Asia/Kolkata"));
 						  dashboardRequestVO.setTamperTimeStamp(instant.toString().replaceAll("T", " ").substring(0, 19));
 					} else {
 					dashboardRequestVO.setTamperTimeStamp("");
@@ -532,7 +531,6 @@ public class DashboardDAO {
 					
 					if(doorOpenTimeStamp != 0) {
 						Instant instant1 = Instant.ofEpochSecond(doorOpenTimeStamp);
-//						  LocalDateTime datetime1 = LocalDateTime.ofInstant(instant1, ZoneId.of("Asia/Kolkata"));
 						  dashboardRequestVO.setDoorOpenTimeStamp(instant1.toString().replaceAll("T", " ").substring(0, 19));
 					} else {
 					dashboardRequestVO.setDoorOpenTimeStamp("");
@@ -546,14 +544,14 @@ public class DashboardDAO {
 						alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
 						
 						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-//						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					} 
 					
 					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
 						alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
 						alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
 						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-//						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					// change low balance alert after discussion with team
@@ -562,7 +560,7 @@ public class DashboardDAO {
 						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
 						
 						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-//						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 					}
 
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
@@ -604,6 +602,7 @@ public class DashboardDAO {
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
 		String result = "Failure";
+		String alertMessage = "";
 		
 		try {
 			con = getConnection();
@@ -706,6 +705,29 @@ public class DashboardDAO {
 						
 						pstmt1.executeUpdate();
 						result = "Success";
+						
+						if (dashboardRequestVO.getLowBattery() == 1) {
+							alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
+							
+							sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+							sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						} 
+						
+						if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
+							alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
+							alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
+							sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+							sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						}
+
+						// change low balance alert after discussion with team
+						
+						if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
+							alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
+							
+							sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+							sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+						}
 					}
 					
 				}
