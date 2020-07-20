@@ -155,18 +155,23 @@ $(document)
 										},
 										"columns" : [
 												{
-													"data" : "meterID"
+													"data" : "meterID",
+													"defaultContent": ""
 												},
 												{
-													"data" : "commandType"
+													"data" : "commandType",
+													"defaultContent": ""
 												},{
-													"data" : "value"
+													"data" : "value",
+													"defaultContent": ""
 												},
 												{
-													"data" : "modifiedDate"
+													"data" : "modifiedDate",
+													"defaultContent": ""
 												},
 												{
-													"data" : "status"
+													"data" : "status",
+													"defaultContent": ""
 												},
 												{
 													"mData" : "action",
@@ -297,18 +302,23 @@ $(document)
 																	"data" : d.data,
 																	"columns" : [
 																		{
-																			"data" : "meterID"
+																			"data" : "meterID",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "commandType"
+																			"data" : "commandType",
+																			"defaultContent": ""
 																		},{
-																			"data" : "value"
+																			"data" : "value",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "modifiedDate"
+																			"data" : "modifiedDate",
+																			"defaultContent": ""
 																		},
 																		{
-																			"data" : "status"
+																			"data" : "status",
+																			"defaultContent": ""
 																		},
 																		{
 																			"mData" : "action",
