@@ -253,7 +253,7 @@ public class AccountDAO {
 
 			if (ps.executeUpdate() > 0) {
 				
-				PreparedStatement pstmt1 = con.prepareStatement("SELECT TransactionID FROM topup WHERE TataReferenceNumber = 0 AND CRNNumber = ? AND Source = ?, ModeOfPayment = 'Online' AND STATUS = 0 AND PaymentStatus = 0 ORDER BY TransactionID DESC LIMIT 0,1");
+				PreparedStatement pstmt1 = con.prepareStatement("SELECT TransactionID FROM topup WHERE TataReferenceNumber = 0 AND CRNNumber = ? AND Source = ? AND ModeOfPayment = 'Online' AND STATUS = 0 AND PaymentStatus = 0 ORDER BY TransactionID DESC LIMIT 0,1");
 				pstmt1.setString(1, topUpRequestVO.getCRNNumber());
 				pstmt1.setString(2, topUpRequestVO.getSource());
 				ResultSet rs1 = pstmt1.executeQuery();
@@ -989,7 +989,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 			responsevo.setMessage("INTERNAL SERVER ERROR");
 			responsevo.setResult("Failure");
 		} finally {
-			ps.close();
+		//	ps.close();
 			con.close();
 		}
 

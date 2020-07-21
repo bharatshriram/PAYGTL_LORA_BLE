@@ -23,8 +23,8 @@ public class ExtraConstants {
 	public static final String TataPassword = "Hanbit@2020";
 	public static final String SenderID = "&senderid="+"BLKSMS&msg=";
 	public static final String SMSAPI = "https://sms.textmysms.com/app/smsapi/index.php?key=55EDE4350AF3B7&campaign=0&routeid=13&type=text&contacts=";
-	public static final String RZPKeyID = "rzp_test_PK0HJHPshOFmX5";
-	public static final String RZPKeySecret = "cWqzMXyG1fjO50ulhGa4UwT8";
+	public static final String RZPKeyID = "rzp_live_pB0wVRoGXV6NFM";
+	public static final String RZPKeySecret = "8kzrJbkhOv8jddM8sksi7h9p";
 	public static final String RZPBasicUrl = "https://api.razorpay.com/v1/";
 	public static final String PaymentThemeColor = "#125e8c";
 	public static final String PaymentButtonText = "Proceed to Pay With Razorpay";
