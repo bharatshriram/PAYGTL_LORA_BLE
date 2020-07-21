@@ -138,9 +138,11 @@ function showTopupDetails(customerId){
 
 function showCommunitybyTypeuser(id){
 	
-	if(id=="Super")
+	if(id=="Super"){
 		$("#usercommunityId,#userblockId").hide();
-		else if(id =="Admin")
+	$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+	$("#formblockName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
+	}else if(id =="Admin")
 		{
 		$("#formcomunityName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");
 		$("#formblockName").addClass("input-group form-group has-feedback has-success bmd-form-group is-filled");

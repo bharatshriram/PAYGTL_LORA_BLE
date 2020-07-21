@@ -33,47 +33,11 @@ $(document)
 											            }
 											        }
 											        },
-												/*"pagingType" : 'full_numbers',*/
-												/*"responsive" : true,
-												"processing" : true,
-												"serverSide" : true,
-												"bDestroy" : true,
-												"bPaginate": true,
-												"pagging" : true,
-												"bProcessing" : true,
-												"ordering" : true,*/
-												/*"processing" : true,
-												"serverSide" : true,
-												"bDestroy" : true,
-												"pagging" : true,
-												"bProcessing" : true,
-												"ordering" : true,
-												"order" : [ 0, "desc" ],
-												"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-												"pageLength" : 5,
-												"scrollY" : 324,
-												"scrollX" : true,	
-												 "deferRender": true,*/
 												"language": {
 												      "emptyTable": "No data available in table"
 												    },
 												 
-												/* "responsive" : true,
-													"processing" : true,
-													"serverSide" : true,
-													"bDestroy" : true,
-													"bPaginate": true,
-													"pagging" : true,
-													"bProcessing" : true,
-													"ordering" : true,
-													"order" : [ 0, "desc" ],
-													"lengthMenu" : [ 5, 10, 25, 30, 50, 75 ],
-													"pageLength" : 5,
-													"scrollY" : 324,
-													"scrollX" : true,*/
-												    
-/*												    destroy: true,
-*/												    processing: true,
+												    processing: true,
 												    serverSide: false,
 												    fixedColumns    : true
 												    ,autoWidth  : true
@@ -104,6 +68,8 @@ $(document)
 												return json.data;
 											},
 										},
+										
+										
 										"columns" : [
 											
 												{
@@ -292,9 +258,14 @@ $(document)
 										 initComplete: function() {
 											   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
 											   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
-											  }
+											//   alert( 'Rows '+$('#liveTable').DataTable().rows( 'tr' ).count()+' are selected' );
+										 }
 
 									}).columns.adjust();
+					
+					
+					
+					
 					$("div.headname").html('<h3>Customer Details</h3>');
 					
 					if(sessionStorage.getItem("filterId") != null ){

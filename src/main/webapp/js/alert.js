@@ -35,8 +35,11 @@ table = $('#alertTable')
 "data" : function(search) {
 },
 "complete" : function(json) {
-	console.log(json);
+	console.log(JSON.stringify(json.responseText)+"json.data"+json);
+	var json_data = JSON.parse(JSON.stringify(json.responseText));
 	//Object.keys(json).length >0 ? $("")
+	console.log(JSON.stringify(json_data.data));
+	//console.log(Object.keys(json_data.data[0]).length);
 return json.data;
 },
 },
@@ -80,8 +83,21 @@ return json.data;
 },
 {
 	"className": "dt-center", "targets": "_all"
-}]
+}
+
+],
+initComplete: function() {
+	   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+	   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+	   if($('#alertTable').DataTable().rows( 'tr' ).count() >= 1){
+		   $("#alertAddbutton").remove();
+	   }
+}
+
+
 });
+
+
 
 
 
