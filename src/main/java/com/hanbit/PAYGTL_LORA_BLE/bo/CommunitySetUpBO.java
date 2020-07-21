@@ -260,6 +260,10 @@ public class CommunitySetUpBO {
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		
+		if(tariffvo.getEmergencyCredit() < tariffvo.getTariff()) {
+			throw new BusinessException("EMERGENCY CREDIT MUST BE GREATER THAN TARIFF AMOUNT");
+		}
+		
 		if(communitysetupdao.checktariffamount(tariffvo.getTariff())) {
 			throw new BusinessException("TARIFF AMOUNT ALREADY EXISTS");
 		}
@@ -272,6 +276,10 @@ public class CommunitySetUpBO {
 		
 		if(tariffvo.getTariff()==0 || tariffvo.getAlarmCredit()==0 || tariffvo.getEmergencyCredit()==0 || tariffvo.getFixedCharges()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
+		}
+		
+		if(tariffvo.getEmergencyCredit() < tariffvo.getTariff()) {
+			throw new BusinessException("EMERGENCY CREDIT MUST BE GREATER THAN TARIFF AMOUNT");
 		}
 		
 		return communitysetupdao.edittariff(tariffvo);

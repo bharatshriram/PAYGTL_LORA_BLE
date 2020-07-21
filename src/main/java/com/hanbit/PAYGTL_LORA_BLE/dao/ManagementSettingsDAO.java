@@ -224,7 +224,7 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			ps = con.prepareStatement("INSERT INTO alertsettings (NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, Active, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, 1, NOW(), NOW())");
+			ps = con.prepareStatement("INSERT INTO alertsettings (NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
 			ps.setInt(1, alertvo.getNoAMRInterval());
 			ps.setFloat(2, alertvo.getLowBatteryVoltage());
 			ps.setInt(3, alertvo.getTimeOut());

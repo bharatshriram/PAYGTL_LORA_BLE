@@ -937,8 +937,8 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 						PreparedStatement pstmt1 = con.prepareStatement("SELECT Tariff FROM tariff WHERE TariffID = "+configurationvo.getTariffID());
 						ResultSet rs1 = pstmt1.executeQuery();
 						if(rs1.next()) {
-						value =  rs1.getFloat("Tariff");
-						String tariffHexa = Float.toHexString(rs1.getFloat("Tariff")).toUpperCase();
+						value =  rs1.getFloat("Tariff");					
+						String tariffHexa = Integer.toHexString(Float.floatToIntBits(rs1.getFloat("Tariff"))).toUpperCase();
 						dataframe = "0A0C00" + serialNumber + "02070123" + tariffHexa + "17";
 						}
 						
