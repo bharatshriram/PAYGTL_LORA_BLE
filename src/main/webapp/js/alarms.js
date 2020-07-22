@@ -74,7 +74,7 @@
 										        footer: 'true',
 										        //text: 'Excel',
 										        //className : 'custom-btn fa fa-file-excel-o',
-										        title:'Statistics'  },
+										        title:'Alarm Details'  },
 										         
 										        {
 										        extend: 'pdf',
@@ -85,7 +85,7 @@
 										       // text: 'pdf',
 										        //className : 'custom-btn fa fa-file-pdf-o',
 										        orientation: 'landscape',
-										        title:'Statistics'  },
+										        title:'Alarm Details'  },
 										        {
 										            className: 'customButton',
 										            text : "Filter",
