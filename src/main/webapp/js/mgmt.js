@@ -99,14 +99,14 @@ $(document)
 													selecttypeofuser: {
 									                    validators: {
 									                        notEmpty: {
-									                            message: 'Please select your native language.'
+									                            message: 'Please select type of User.'
 									                        }
 									                    }
 									                },
 									                selectcommunityName: {
 									                    validators: {
 									                        notEmpty: {
-									                            message: 'Please select your native language.'
+									                            message: 'Please select Community.'
 									                        }
 									                    }
 									                },
@@ -114,7 +114,7 @@ $(document)
 									                selectBlockBasedonCommunity : {
 									                	 validators: {
 										                        notEmpty: {
-										                            message: 'Please select your native language.'
+										                            message: 'Please select Block.'
 										                        }
 										                    }
 													},
@@ -210,11 +210,11 @@ $(document)
 												
 											
 												
-												if($("#selecttypeofuser").val() == "Super"){
+												if($("#selecttypeofuser").val() == "4"){
 													
 													
 													
-												}else if(($("#selecttypeofuser").val() == "Admin")) {
+												}else if(($("#selecttypeofuser").val() == "5")) {
 													
 													if ($("#selectcommunityName").val() == "-1") {
 														
@@ -249,9 +249,10 @@ $(document)
 												data1["userName"] = $("#userNameAdd").val();
 												data1["userPassword"] = $("#userPasswordAdd").val();
 												data1["confirmPassword"] = $("#confirmPasswordAdd").val();
+												data1["roleID"] = $("#selecttypeofuser").val();
 												data1["createdByID"] = sessionStorage.getItem("createdByID");
 												data1["loggedInUserID"] = sessionStorage.getItem("userID");
-												data1["roleID"] = sessionStorage.getItem("roleID");
+												data1["loggedInRoleID"] = sessionStorage.getItem("roleID");
 												
 												$
 														.ajax({

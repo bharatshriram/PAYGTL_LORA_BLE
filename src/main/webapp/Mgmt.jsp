@@ -114,8 +114,8 @@
 									<select
 										class="form-control" id="selecttypeofuser" name="selecttypeofuser" onchange="showCommunitybyTypeuser(this.value);">
 							 			<option value = "-1">Select Type</option>
-							 			<option value = "Super">Super Admin Supervisor</option>
-							  			<option value = "Admin">Admin Supervisor</option>
+							 			<option value = "4">Super Admin Supervisor</option>
+							  			<option value = "5">Admin Supervisor</option>
 									</select>
 								</div>
 							</div>
