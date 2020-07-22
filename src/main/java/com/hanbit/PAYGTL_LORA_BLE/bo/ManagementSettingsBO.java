@@ -39,7 +39,8 @@ public class ManagementSettingsBO {
 			
 			if(usermanagementvo.getCommunityID()<=0 || usermanagementvo.getBlockID()<=0 ||usermanagementvo.getUserID().isEmpty() || usermanagementvo.getUserPassword().isEmpty() || usermanagementvo.getConfirmPassword().isEmpty()){
 				throw new BusinessException("ALL FIELDS ARE MANDATORY");
-			}			
+			}
+			
 		}
 		
 		if(!usermanagementvo.getUserPassword().contentEquals((usermanagementvo.getConfirmPassword()))){
