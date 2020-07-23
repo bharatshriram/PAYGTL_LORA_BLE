@@ -276,7 +276,7 @@ $(document)
 
 										if (sessionStorage.getItem("roleID") == 3) {
 											data1["CRNNumber"] = $(
-													"#selectHouseBasedonBlock")
+													"#CustomerCRNNumber")
 													.val();
 										} else {
 											data1["communityID"] = $(
@@ -666,8 +666,11 @@ $(document)
 					if (sessionStorage.getItem("roleID") == 3
 							|| sessionStorage.getItem("roleID") == 2
 							|| sessionStorage.getItem("roleID") == 5) {
+						if(sessionStorage.getItem("roleID") == 3){
+							
+						}else{
 						table.buttons($('a.customButton')).remove();
-					}
+					}}
 					$("div.headname").html('<h3>ReCharge Status</h3>');
 					// $("div.total").html('MUI ID: '+data.meterID+ ' Total
 					// Units: '+data.meterID);

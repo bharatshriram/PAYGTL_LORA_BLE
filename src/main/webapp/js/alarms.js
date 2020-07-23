@@ -197,7 +197,6 @@
 																					.val();
 																			data1["toDate"] = $("#end_date").val();
 
-																			alert(JSON.stringify(data1));
 																			
 																			$
 																					.ajax({

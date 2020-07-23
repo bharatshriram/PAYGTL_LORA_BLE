@@ -529,18 +529,17 @@ $(document)
 
 function getHolidayFormEdit(id) {
 
-//	 alert(id);
-
-	$.getJSON("/PAYGTL_LORA_BLE/vacation/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID"), function(data) {
+	$.getJSON("/PAYGTL_LORA_BLE/vacation/"+sessionStorage.getItem("roleID")+"/"+sessionStorage.getItem("ID")+"/-1", function(data) {
 		$.each(data.data, function(i, item) {
 			if (id == item.vacationID) {
 				$('#CRNNumberEdit').val(item.CRNNumber).trigger("change");
 				
 				$('#vacationEdit').val(item.vacationName).trigger("change");
+				var myDate = new Date();
+				var startDate = myDate.getFullYear() + "-" + (myDate.getMonth()+1) + "-" + myDate.getDate();
+				$('#start_date_edit').val(startDate).trigger("change");
 				
-				$('#start_date_edit').val(item.startDate).trigger("change");
-				
-				$('#end_date_edit').val(item.endDate).trigger("change");
+				$('#end_date_edit').val(startDate).trigger("change");
 			    
 				$("#vacationID").val(item.vacationID);
 			
