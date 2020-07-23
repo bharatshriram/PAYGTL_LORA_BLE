@@ -33,5 +33,6 @@ public class ExtraConstants {
 	public static final String PaymentCurrency = "INR";
 	public static final String CompanyName = "HANBIT";
 	public static final String ApplicationURL = "http://183.82.122.196:8080/PAYGTL_LORA_BLE";
+	public static final int LowBatteryAlertCount  = 2;
 
 }
