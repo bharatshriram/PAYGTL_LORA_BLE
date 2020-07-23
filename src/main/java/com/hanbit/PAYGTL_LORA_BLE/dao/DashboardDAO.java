@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
+import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
@@ -479,6 +480,8 @@ public class DashboardDAO {
 
 		String alertMessage = "";
 		
+		dashboardRequestVO.setSource("Lora");
+		
 		try {
 			
 			con = getConnection();
@@ -540,7 +543,7 @@ public class DashboardDAO {
 					
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
-					if (dashboardRequestVO.getLowBattery() == 1) {
+					/*if (dashboardRequestVO.getLowBattery() == 1) {
 						alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
 						
 						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
@@ -556,12 +559,12 @@ public class DashboardDAO {
 
 					// change low balance alert after discussion with team
 					
-					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
+					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBatteryAlertCount)) {
 						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
 						
 						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
-					}
+					}*/
 
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
@@ -728,6 +731,7 @@ public class DashboardDAO {
 							sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 							sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 						}
+						
 					}
 					
 				}

@@ -25,6 +25,7 @@ public class DashboardRequestVO {
 	private String timeStamp;
 	private String tamperTimeStamp;
 	private String doorOpenTimeStamp;
+	private String source; 
 	
 	public String getMeterID() {
 		return meterID;
@@ -121,6 +122,12 @@ public class DashboardRequestVO {
 	}
 	public void setDoorOpenTimeStamp(String doorOpenTimeStamp) {
 		this.doorOpenTimeStamp = doorOpenTimeStamp;
+	}
+	public String getSource() {
+		return source;
+	}
+	public void setSource(String source) {
+		this.source = source;
 	}
 	
 }
