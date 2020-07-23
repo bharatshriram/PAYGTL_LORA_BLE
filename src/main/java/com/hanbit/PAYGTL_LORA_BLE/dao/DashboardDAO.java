@@ -53,7 +53,7 @@ public class DashboardDAO {
 		List<DashboardResponseVO> dashboard_list = null;
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
-		double lowBatteryVoltage = 0.0;
+		int lowBatteryVoltage = 0;
 		float perUnitValue = 0.0f;
 		
 		
@@ -67,7 +67,7 @@ public class DashboardDAO {
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getDouble("LowBatteryVoltage");
+				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
@@ -110,8 +110,9 @@ public class DashboardDAO {
 				
 				// change the full battery voltage value accordingly
 				
-				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
-				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+//				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
+				dashboardvo.setBattery(rs.getInt("BatteryVoltage"));
+				dashboardvo.setBatteryColor((rs.getInt("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				
 				// 0 = no tamper 1 = magnetic; 2 = door open
 				
@@ -170,7 +171,7 @@ public class DashboardDAO {
 		List<DashboardResponseVO> dashboard_list = null;
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
-		double lowBatteryVoltage = 0.0;
+		int lowBatteryVoltage = 0;
 		float perUnitValue = 0.0f;
 		
 		try {
@@ -182,7 +183,7 @@ public class DashboardDAO {
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
@@ -205,7 +206,7 @@ public class DashboardDAO {
 					stringBuilder.append(" AND dbl.Reading BETWEEN " + (filtervo.getReadingFrom() != 0 ? filtervo.getReadingFrom() : 0) + " AND " + (filtervo.getReadingTo() != 0 ? filtervo.getReadingTo() : 9999999));
 				}
 				if(filtervo.getBatteryVoltageFrom() != 0 || filtervo.getBatteryVoltageFrom() != 0) {
-					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? ((filtervo.getBatteryVoltageFrom()*3.5)/100) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? ((filtervo.getBatteryVoltageTo()*3.5)/100) : 10));
+					stringBuilder.append(" AND dbl.BatteryVoltage BETWEEN " + (filtervo.getBatteryVoltageFrom() != 0 ? (filtervo.getBatteryVoltageFrom()) : 0) + " AND " + (filtervo.getBatteryVoltageTo() != 0 ? (filtervo.getBatteryVoltageTo()) : 100));
 				}
 				if(filtervo.getTamperType() > 0) {
 					stringBuilder.append(" AND dbl.TamperDetect = " + filtervo.getTamperType());
@@ -232,8 +233,9 @@ public class DashboardDAO {
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");	
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
-				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
-				dashboardvo.setBatteryColor((rs.getFloat("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+//				dashboardvo.setBattery((int)((rs.getInt("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
+				dashboardvo.setBattery(rs.getInt("BatteryVoltage"));
+				dashboardvo.setBatteryColor((rs.getInt("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
 				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
@@ -299,7 +301,7 @@ public class DashboardDAO {
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 			}
 			
 			String query = "SELECT DISTINCT cmd.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.SolonideStatus, dbl.TamperDetect, dbl.Minutes, dbl.IoTTimeStamp, dbl.LogDate FROM displaybalancelog AS dbl LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
@@ -317,7 +319,7 @@ public class DashboardDAO {
 				if(minutes > noAMRInterval) { nonLive++; } else { live++; }
 				if(rs.getInt("SolonideStatus") == 0) { active++; } else { inActive++; }
 				if(rs.getInt("Balance") <= 0) { emergency++; }
-				if(rs.getFloat("BatteryVoltage") < lowBatteryVoltage) { lowBattery++; }
+				if(rs.getInt("BatteryVoltage") < lowBatteryVoltage) { lowBattery++; }
 				
 			}
 			
@@ -504,10 +506,10 @@ public class DashboardDAO {
 					
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(sb.substring(2, 10)));					
 					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);
-					// 0 = no tamper 1 = magnetic; 2 = door open
+					// 0 = no tamper 1 = magnetic; 2 = door open; 3 = both
 					dashboardRequestVO.setTamperStatus(sb.substring(10, 12).equalsIgnoreCase("04") ? 1: sb.substring(10, 12).equalsIgnoreCase("08") ? 2: 0);
 					dashboardRequestVO.setVacation(sb.substring(10, 12).equalsIgnoreCase("10") ? 1: 0);
-					dashboardRequestVO.setBatteryVoltage((float) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
+					dashboardRequestVO.setBatteryVoltage((int) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
 					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(sb.substring(14, 16)));
 
 					Long i = Long.parseLong(sb.substring(16, 24), 16);
@@ -540,7 +542,7 @@ public class DashboardDAO {
 					} 
 				  
 					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(60, 62)));
-					
+					dashboardRequestVO.setCreditStatus(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBalanceAlertCount) ? 1 : 0);
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
 					
 					/*if (dashboardRequestVO.getLowBattery() == 1) {
@@ -559,13 +561,14 @@ public class DashboardDAO {
 
 					// change low balance alert after discussion with team
 					
-					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBatteryAlertCount)) {
+					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBalanceAlertCount)) {
+						
 						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
 						
 						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
 						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
 					}*/
-
+					
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
 					rsch = pstmt.executeQuery();
@@ -604,6 +607,8 @@ public class DashboardDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt1 = null;
+		PreparedStatement ps = null;
+		ResultSet resultSet = null;
 		String result = "Failure";
 		String alertMessage = "";
 		
@@ -628,7 +633,7 @@ public class DashboardDAO {
 					pstmt.setFloat(9, dashboardRequestVO.getEmergencyCredit());
 					pstmt.setInt(10, dashboardRequestVO.getMeterType());
 					pstmt.setInt(11, dashboardRequestVO.getValveStatus());
-					pstmt.setInt(12, 0);
+					pstmt.setInt(12, dashboardRequestVO.getCreditStatus());
 					pstmt.setInt(13, dashboardRequestVO.getTamperStatus());
 					pstmt.setString(14, dashboardRequestVO.getTamperTimeStamp());
 					pstmt.setString(15, dashboardRequestVO.getDoorOpenTimeStamp());
@@ -666,7 +671,7 @@ public class DashboardDAO {
 								pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
 								pstmt1.setInt(11, dashboardRequestVO.getMeterType());
 								pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
-								pstmt1.setInt(13, 0);// Balance Pending
+								pstmt1.setInt(13, dashboardRequestVO.getCreditStatus());
 								pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
 								pstmt1.setString(15, dashboardRequestVO.getTamperTimeStamp());
 								pstmt1.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
@@ -691,7 +696,7 @@ public class DashboardDAO {
 									pstmt1.setFloat(10, dashboardRequestVO.getEmergencyCredit());
 									pstmt1.setInt(11, dashboardRequestVO.getMeterType());
 									pstmt1.setInt(12, dashboardRequestVO.getValveStatus());
-									pstmt1.setInt(13, 0);// Balance Pending
+									pstmt1.setInt(13, dashboardRequestVO.getCreditStatus());
 									pstmt1.setInt(14, dashboardRequestVO.getTamperStatus());
 									pstmt1.setString(15, dashboardRequestVO.getTamperTimeStamp());
 									pstmt1.setString(16, dashboardRequestVO.getDoorOpenTimeStamp());
@@ -709,27 +714,52 @@ public class DashboardDAO {
 						pstmt1.executeUpdate();
 						result = "Success";
 						
+						String query = "SELECT IoTTimeStamp, MeterID, TamperDetect, LowBattery, CreditStatus FROM balancelog WHERE MeterID = ? AND CRNNumber = ? AND <condition> AND IoTTimeStamp BETWEEN (CONCAT(CURDATE(), ' 00:00:00')) AND NOW() ORDER BY IoTTimeStamp DESC";
+						
 						if (dashboardRequestVO.getLowBattery() == 1) {
-							alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
 							
-							sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-							sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+							ps = con.prepareStatement(query.replaceAll("<condition>", dashboardRequestVO.getLowBattery() == 1 ? "LowBattery = 1" : ""));
+							ps.setString(1, dashboardRequestVO.getMeterID());
+							ps.setString(2, rs.getString("CRNNumber"));
+							resultSet = ps.executeQuery(); 
+							
+							if(resultSet.getFetchSize() == 1) {
+								alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
+								
+								sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+								sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+							}
 						} 
 						
-						if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
-							alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
-							alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
-							sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-							sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+						if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2 || dashboardRequestVO.getTamperStatus() == 3) {
+							
+							ps = con.prepareStatement(query.replaceAll("<condition>", dashboardRequestVO.getTamperStatus() == 1 ? "TamperDetect = 1" : dashboardRequestVO.getTamperStatus() == 2 ? "TamperDetect = 2" : dashboardRequestVO.getTamperStatus() == 3 ? "TamperDetect = 3" : ""));
+							ps.setString(1, dashboardRequestVO.getMeterID());
+							ps.setString(2, rs.getString("CRNNumber"));
+							resultSet = ps.executeQuery(); 
+							if(resultSet.getFetchSize() == 1) {
+								alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
+								alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : dashboardRequestVO.getTamperStatus() == 3 ? "Magnetic & Door Open" : "");
+								sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+								sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
+							}
 						}
 
 						// change low balance alert after discussion with team
 						
-						if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * 2)) {
-							alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
+						if(dashboardRequestVO.getCreditStatus() == 1) {
 							
-							sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-							sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
+							ps = con.prepareStatement(query.replaceAll("<condition>", dashboardRequestVO.getCreditStatus() == 1 ? "CreditStatus = 1" : ""));
+							ps.setString(1, dashboardRequestVO.getMeterID());
+							ps.setString(2, rs.getString("CRNNumber"));
+							resultSet = ps.executeQuery(); 
+							if(resultSet.getFetchSize() == 1) {
+								alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
+								
+								sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
+								sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());								
+							}
+							
 						}
 						
 					}

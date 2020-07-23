@@ -152,7 +152,7 @@ public class ReportsDAO {
 					userconsumptionreportsresponsevo.setMeterID(rs.getString("MeterID"));
 					userconsumptionreportsresponsevo.setReading(rs.getFloat("Reading"));
 					userconsumptionreportsresponsevo.setBalance(rs.getFloat("Balance"));
-					userconsumptionreportsresponsevo.setBattery(rs.getFloat("BatteryVoltage"));
+					userconsumptionreportsresponsevo.setBattery(rs.getInt("BatteryVoltage"));
 					userconsumptionreportsresponsevo.setTariff(rs.getFloat("TariffAmount"));
 					userconsumptionreportsresponsevo.setEmergencyCredit(rs.getFloat("Emergencycredit"));
 					userconsumptionreportsresponsevo.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
@@ -250,7 +250,7 @@ public class ReportsDAO {
 		ResultSet rs = null;
 		List<AlarmsResponseVO> alarmsResponseList = null;
 		int noAMRInterval = 0;
-		double lowBatteryVoltage = 0.0;
+		int lowBatteryVoltage = 0;
 		
 		try {
 
@@ -263,7 +263,7 @@ public class ReportsDAO {
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getFloat("LowBatteryVoltage");
+				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 			}
 			
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
@@ -292,7 +292,7 @@ public class ReportsDAO {
 						ResultSet rs3 = pstmt3.executeQuery();
 						if(rs3.next()) {
 							alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs3.getString("IotTimeStamp")));
-							if(rs3.getInt("LowBattery")==1 || rs3.getFloat("BatteryVoltage") < lowBatteryVoltage) {
+							if(rs3.getInt("LowBattery")==1 || rs3.getInt("BatteryVoltage") < lowBatteryVoltage) {
 								alarmsResponseVO.setBatteryVoltage(rs3.getString("BatteryVoltage"));	
 							}else {
 								alarmsResponseVO.setBatteryVoltage("---");
