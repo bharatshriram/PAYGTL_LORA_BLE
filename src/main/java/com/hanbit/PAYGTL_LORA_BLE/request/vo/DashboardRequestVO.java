@@ -13,8 +13,8 @@ public class DashboardRequestVO {
 	private float reading;
 	private float balance;
 	private float tariffAmount;
-	private float  emergencyCredit;
-	private float batteryVoltage;
+	private float emergencyCredit;
+	private int batteryVoltage;
 	private int meterType;
 	private int tamperStatus;
 	private int valveStatus;
@@ -39,10 +39,10 @@ public class DashboardRequestVO {
 	public void setReading(float reading) {
 		this.reading = reading;
 	}
-	public float getBatteryVoltage() {
+	public int getBatteryVoltage() {
 		return batteryVoltage;
 	}
-	public void setBatteryVoltage(float batteryVoltage) {
+	public void setBatteryVoltage(int batteryVoltage) {
 		this.batteryVoltage = batteryVoltage;
 	}
 	public int getMeterType() {
