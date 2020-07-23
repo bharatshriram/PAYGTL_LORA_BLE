@@ -341,8 +341,8 @@ public class ReportsDAO {
 					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? AND (bl.TamperDetect = 1 OR bl.BatteryVoltage < (SELECT LowBAtteryVoltage FROM alertsettings))";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, alarmRequestVO.getCRNNumber());
-				pstmt.setString(2, alarmRequestVO.getFromDate());
-				pstmt.setString(3,alarmRequestVO.getToDate());
+				pstmt.setString(2, alarmRequestVO.getFromDate()+ ":01");
+				pstmt.setString(3,alarmRequestVO.getToDate()+ ":59");
 
 			rs = pstmt.executeQuery();
 			

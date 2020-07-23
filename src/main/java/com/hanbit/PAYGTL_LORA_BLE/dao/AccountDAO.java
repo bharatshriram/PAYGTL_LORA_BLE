@@ -1093,11 +1093,13 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 
 		try {
 			con = getConnection();
-			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.Tariff, tr.TariffID, t.CustomerID FROM topup as t LEFT JOIN tariff AS tr ON tr.TariffID = t.TariffID WHERE t.CRNNumber = ?");
+			pstmt = con.prepareStatement("SELECT tr.EmergencyCredit, tr.Tariff, tr.TariffID, cmd.CRNNumber FROM customermeterdetails as cmd LEFT JOIN tariff AS tr ON tr.TariffID = cmd.TariffID WHERE cmd.CRNNumber = ?");
 			pstmt.setString(1, topupvo.getCRNNumber());
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
+				System.out.println(rs.getFloat("Tariff")+"==>@@@==>"+rs.getFloat("EmergencyCredit"));
 				if(topupvo.getAmount() < rs.getFloat("EmergencyCredit") || topupvo.getAmount() < rs.getFloat("Tariff"))
+					
 					result = true;
 			}
 		} catch (Exception ex) {
