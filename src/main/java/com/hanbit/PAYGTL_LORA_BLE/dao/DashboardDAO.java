@@ -116,9 +116,9 @@ public class DashboardDAO {
 				
 				// 0 = no tamper 1 = magnetic; 2 = door open
 				
-				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" : (rs.getInt("TamperDetect") == 3) ? "MAG;"+"DOOR OPEN" : "NO");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
-				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : (rs.getInt("TamperDetect") == 3) ? rs.getString("TamperTimeStamp") +";"+ rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
 				dashboardvo.setVacationColor(rs.getInt("Vacation") == 1 ? "ORANGE" : "BLACK");
 				dashboardvo.setTimeStamp(ExtraMethodsDAO.datetimeformatter(rs.getString("IoTTimeStamp")));
@@ -236,7 +236,8 @@ public class DashboardDAO {
 //				dashboardvo.setBattery((int)((rs.getInt("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBattery(rs.getInt("BatteryVoltage"));
 				dashboardvo.setBatteryColor((rs.getInt("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
-				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" :"NO");
+				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" : (rs.getInt("TamperDetect") == 3) ? "MAG;"+"DOOR OPEN" : "NO");
+				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : (rs.getInt("TamperDetect") == 3) ? rs.getString("TamperTimeStamp") +";"+ rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
 				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setVacationStatus(rs.getInt("Vacation") == 1 ? "YES" : "NO");
@@ -480,8 +481,6 @@ public class DashboardDAO {
 		
 		final char[] DIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
 
-		String alertMessage = "";
-		
 		dashboardRequestVO.setSource("Lora");
 		
 		try {
@@ -545,30 +544,6 @@ public class DashboardDAO {
 					dashboardRequestVO.setValveStatus(DashboardDAO.hexDecimal(sb.substring(60, 62)));
 					dashboardRequestVO.setCreditStatus(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBalanceAlertCount) ? 1 : 0);
 					dashboardRequestVO.setTimeStamp(tataRequestVO.getTimestamp());
-					
-					/*if (dashboardRequestVO.getLowBattery() == 1) {
-						alertMessage = "The Battery in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block> is low.";
-						
-						sendalertmail("Low Battery Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
-					} 
-					
-					if (dashboardRequestVO.getTamperStatus() == 1 || dashboardRequestVO.getTamperStatus() == 2) {
-						alertMessage = "There is a <tamper> Tamper in Meter with CRN: <CRN>, at H.No: <house>, Community Name: <community>, Block Name: <block>.";
-						alertMessage = alertMessage.replaceAll("<tamper>", dashboardRequestVO.getTamperStatus() == 2 ? "Door Open" : dashboardRequestVO.getTamperStatus() == 1 ? "Magnetic" : "");
-						sendalertmail("Tamper Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(0, alertMessage, dashboardRequestVO.getMeterID());
-					}
-
-					// change low balance alert after discussion with team
-					
-					if(dashboardRequestVO.getBalance() < (dashboardRequestVO.getTariffAmount() * ExtraConstants.LowBalanceAlertCount)) {
-						
-						alertMessage = "Balance in your Meter with CRN: <CRN> is low. Please Recharge again.";
-						
-						sendalertmail("Low Balance Alert!!!", alertMessage, dashboardRequestVO.getMeterID());
-						sendalertsms(1, alertMessage, dashboardRequestVO.getMeterID());
-					}*/
 					
 					pstmt = con.prepareStatement("SELECT IoTTimeStamp, MeterID FROM balancelog WHERE MeterID = ? order by IoTTimeStamp DESC LIMIT 0,1");
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
@@ -763,8 +738,6 @@ public class DashboardDAO {
 							}
 						}
 
-						// change low balance alert after discussion with team
-						
 						if(dashboardRequestVO.getCreditStatus() == 1) {
 							
 							ps = con.prepareStatement(query.replaceAll("<condition>", dashboardRequestVO.getCreditStatus() == 1 ? "CreditStatus = 1" : ""));

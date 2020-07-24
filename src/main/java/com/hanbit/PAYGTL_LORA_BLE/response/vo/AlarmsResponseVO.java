@@ -18,6 +18,7 @@ public class AlarmsResponseVO {
 	private String meterID;
 	private String dateTime;
 	private String tamper;
+	private String tamperTimeStamp;
 	private String batteryVoltage;
 	private long difference;
 	private String solonideStatus;
@@ -89,6 +90,12 @@ public class AlarmsResponseVO {
 	}
 	public void setSolonideStatus(String solonideStatus) {
 		this.solonideStatus = solonideStatus;
+	}
+	public String getTamperTimeStamp() {
+		return tamperTimeStamp;
+	}
+	public void setTamperTimeStamp(String tamperTimeStamp) {
+		this.tamperTimeStamp = tamperTimeStamp;
 	}
 	
 }

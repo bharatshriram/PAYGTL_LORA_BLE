@@ -356,7 +356,8 @@ public class ReportsDAO {
 						alarmsResponseVO.setCRNNumber(rs.getString("CRNNumber"));
 						alarmsResponseVO.setMeterID(rs.getString("MeterID"));
 						alarmsResponseVO.setBatteryVoltage(rs.getString("BatteryVoltage"));
-						alarmsResponseVO.setTamper(rs.getInt("TamperDetect") == 1 ? "MAG" : rs.getInt("TamperDetect") == 2 ? "DOOR OPEN" : "NO");
+						alarmsResponseVO.setTamper((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" : (rs.getInt("TamperDetect") == 3) ? "MAG;"+"DOOR OPEN" : "NO");
+						alarmsResponseVO.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : (rs.getInt("TamperDetect") == 3) ? rs.getString("TamperTimeStamp") +";"+ rs.getString("DoorOpenTimeStamp") : "---");
 //						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
 						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getInt("TamperDetect") == 1 ? rs.getString("TamperTimeStamp")+":00" : rs.getInt("TamperDetect") == 2 ? rs.getString("DoorOpenTimeStamp")+":00" : rs.getString("IotTimeStamp")));
 						
