@@ -464,7 +464,6 @@ public class ExtraMethodsDAO {
 	
 	public static String datetimeformatter(String dateTime) throws ParseException {
 		
-		System.out.println("dateTime==>"+dateTime);
 		SimpleDateFormat IOTFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat clientFormat = new SimpleDateFormat("MM:dd:yyyy,HH:mm:ss");
 		
