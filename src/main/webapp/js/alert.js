@@ -142,19 +142,19 @@ $(document)
 														}
 													},
 													lowbatteryvoltageAdd : {
-														message : 'Low Battery Voltage is not valid',
+														message : 'Low Battery (%) is not valid',
 														validators : {
 															notEmpty : {
-																message : 'Low Battery Voltage is required and cannot be empty'
+																message : 'Low Battery (%) is required and cannot be empty'
 															},
 															stringLength : {
 																min : 1,
 																max : 3,
-																message : 'Low Battery Voltage must be more than 1 and less than 3 characters long'
+																message : 'Low Battery (%) must be more than 1 and less than 3 characters long'
 															},
 															regexp : {
 																regexp : /^[0-9]+$/,
-																message : 'Low Battery Voltage can only consist of alphabetical and number'
+																message : 'Low Battery (%) can only consist of alphabetical and number'
 															}
 														}
 													},
@@ -223,15 +223,15 @@ $(document)
 												}
 											},
 											lowbatteryvoltageEdit1 : {
-												message : 'Low Battery Voltage is not valid',
+												message : 'Low Battery (%) is not valid',
 												validators : {
 													notEmpty : {
-														message : 'Low Battery Voltage is required and cannot be empty'
+														message : 'Low Battery (%) is required and cannot be empty'
 													},
 													stringLength : {
 														min : 2,
 														max : 30,
-														message : 'Low Battery Voltage must be more than 6 and less than 30 characters long'
+														message : 'Low Battery (%) must be more than 6 and less than 30 characters long'
 													}
 													
 												}

@@ -65,7 +65,7 @@
 									<th>Block Name</th>
 									<th>House No</th>
 									<th>AMR ID</th>
-									<th>Battery</th>
+									<th>Battery (%)</th>
 									<th>Tamper</th>
 									<th>Last Communication Date</th>
 									<th>Difference</th>
@@ -84,7 +84,7 @@
 									<th>Block Name</th>
 									<th>House No</th>
 									<th>AMR ID</th>
-									<th>Battery</th>
+									<th>Battery (%)</th>
 									<th>Tamper</th>
 									<th>Last Communication Date</th>
 									<th>Difference</th>

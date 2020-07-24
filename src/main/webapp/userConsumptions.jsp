@@ -177,7 +177,7 @@
 									<th>MIU ID</th>
 									<th>Reading</th>
 									<th>Balance</th>
-									<th>Battery</th>
+									<th>Battery (%)</th>
 									<th>Tariff</th>
 									<th>Alarm Credit</th>
 									<th>Emergency Credit</th>

@@ -307,14 +307,14 @@ $(document)
 								var battery =/^[0-9]{0,3}$/;
 								if($("#battery_from").val() != ""){
 									if (!battery.test($("#battery_from").val())) {
-										bootbox.alert("Invalid Battery Percentage From ");
+										bootbox.alert("Invalid Battery (%) From ");
 										return false;
 										}
 									}
 								
 								if($("#battery_to").val() != ""){
 									if (!battery.test($("#battery_to").val())) {
-										bootbox.alert("Invalid Battery Percentage To")
+										bootbox.alert("Invalid Battery (%) To")
 										return false;
 										}
 									}

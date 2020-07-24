@@ -46,7 +46,7 @@
                 <li> <a href="topup.jsp" title="ReCharge"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
                 <li> <a href="topupStatus.jsp" title="ReCharge Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
-                <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
+                <!-- <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li> -->
                 <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
                 <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed"><i
                       class="fa fa-table"></i> <span class="nav-label">Reports</span><span
@@ -82,7 +82,7 @@
                 <li> <a href="topup.jsp" title="ReCharge"><img src=common/images/icons/topup.png /> <span class="nav-label">ReCharge</span></a> </li>
                 <%}%>
                 <li> <a href="topupStatus.jsp" title="ReCharge Status"><img src=common/images/icons/toopupdetailss.png /> <span class="nav-label">ReCharge Status</span></a> </li>
-    			<li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li>
+    			<!-- <li><a href="alarms.jsp" title="Alarm"><img src=common/images/icons/alarm.png /><span class="nav-label">Alarms</span></a></li> -->
                    <li><a href="holiday.jsp" title="Vacation"><img src=common/images/icons/4-vacation.png /><span class="nav-label">Vacation</span></a></li>
                    <li> <a href="#" data-toggle="collapse" data-target="#tables" class="collapsed"><i
                       class="fa fa-table"></i> <span class="nav-label">Reports</span><span

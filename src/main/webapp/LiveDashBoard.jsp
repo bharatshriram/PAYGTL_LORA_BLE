@@ -94,7 +94,7 @@
 									<th>Tariff</th>
 									<th>Valve</th>
 									<th>Tamper</th>
-									<th>Battery</th>
+									<th>Battery (%)</th>
 									<th>Vacation</th>
 									<th>Date</th>
 								</tr>
@@ -119,7 +119,7 @@
 									<th>Gas in KG</th>
 									<th>Balance</th>
 									<th>EC</th>
-									<th>Battery</th>
+									<th>Battery (%) </th>
 									<th>Valve</th>
 									<th>Tariff</th>
 									<th>Tamper</th>
@@ -177,13 +177,13 @@
             
             <div class="col-md-6">
               <div class="form-group">
-                <label class="bmd-label-floating">Battery Percentage From</label>
+                <label class="bmd-label-floating">Battery (%) From</label>
                 <input type="text" class="form-control input_height" id="battery_from" name="battery_from">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                <label class="bmd-label-floating">Battery Percentage To</label>
+                <label class="bmd-label-floating">Battery (%) To</label>
                 <input type="text" class="form-control input_height" id="battery_to" name="battery_to">
               </div>
             </div>

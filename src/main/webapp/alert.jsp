@@ -116,7 +116,7 @@
 							</div>
 							<div class="col-md-6">
 								<div class="input-group form-group">
-									<label class="bmd-label-floating">Low Battery Voltage</label> <input
+									<label class="bmd-label-floating">Low Battery (%)</label> <input
 										type="text" class="form-control" name="lowbatteryvoltageAdd"
 										id="lowbatteryvoltageAdd">
 								</div>
@@ -203,7 +203,7 @@
 							</div>
 							<div class="col-md-6">
 								<div id="formlowbatteryvoltageEdit" class="input-group form-group">
-									<label class="bmd-label-floating">Low Battery Voltage</label> <input
+									<label class="bmd-label-floating">Low Battery (%)</label> <input
 										type="text" class="form-control" name="lowbatteryvoltageEdit1"
 										id="lowbatteryvoltageEdit1">
 								</div>

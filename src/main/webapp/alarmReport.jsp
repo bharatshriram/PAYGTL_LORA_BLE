@@ -172,7 +172,7 @@
 									<th>Block Name</th>
 									<th>House No</th>
 									<th>MIU ID</th>
-									<th>Battery</th>
+									<th>Battery (%)</th>
 									<th>Tamper</th>
 									<th>Date</th>
 									<th>Difference</th>
