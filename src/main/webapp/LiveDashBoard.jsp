@@ -195,6 +195,7 @@
                   <option value="-1">Tamper Type</option>
                   <option value="1">Magnetic Tamper</option>
                   <option value="2">Door Open</option>
+                  <option value="3">MAG - Door </option>
                 </select>
               </div>
             </div>

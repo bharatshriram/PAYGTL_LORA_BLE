@@ -22,6 +22,7 @@ public class AlarmsResponseVO {
 	private String batteryVoltage;
 	private long difference;
 	private String solonideStatus;
+	private String batteryColor;
 	
 	private List<AlarmsResponseVO> data;
 	
@@ -97,5 +98,12 @@ public class AlarmsResponseVO {
 	public void setTamperTimeStamp(String tamperTimeStamp) {
 		this.tamperTimeStamp = tamperTimeStamp;
 	}
+	public String getBatteryColor() {
+		return batteryColor;
+	}
+	public void setBatteryColor(String batteryColor) {
+		this.batteryColor = batteryColor;
+	}
+
 	
 }

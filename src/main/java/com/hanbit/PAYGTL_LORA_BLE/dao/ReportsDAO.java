@@ -338,7 +338,7 @@ public class ReportsDAO {
 			String query = "SELECT DISTINCT c.CommunityName, b.BlockName, cmd.FirstName, cmd.LastName, cmd.HouseNumber, cmd.MeterSerialNumber, cmd.CRNNumber, bl.ReadingID, bl.EmergencyCredit, \r\n" + 
 					"bl.MeterID, bl.Reading, bl.Balance, bl.BatteryVoltage, bl.TariffAmount, bl.SolonideStatus, bl.TamperDetect, bl.TamperTimeStamp, bl.DoorOpenTimeStamp, bl.LowBattery, bl.IotTimeStamp, bl.LogDate\r\n" + 
 					"FROM balancelog AS bl LEFT JOIN community AS c ON c.communityID = bl.CommunityID LEFT JOIN block AS b ON b.BlockID = bl.BlockID\r\n" + 
-					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? AND (bl.TamperDetect IN (1, 2) OR bl.LowBattery = 1)";
+					"LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = bl.CRNNumber WHERE bl.CRNNumber = ? AND bl.IoTTimeStamp BETWEEN ? AND ? AND (bl.TamperDetect IN (1, 2, 3) OR bl.LowBattery = 1)";
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, alarmRequestVO.getCRNNumber());
 				pstmt.setString(2, alarmRequestVO.getFromDate() + " :00.001");
@@ -360,7 +360,7 @@ public class ReportsDAO {
 						alarmsResponseVO.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : (rs.getInt("TamperDetect") == 3) ? rs.getString("TamperTimeStamp") +";"+ rs.getString("DoorOpenTimeStamp") : "---");
 //						alarmsResponseVO.setSolonideStatus(rs.getInt("SolonideStatus") == 1 ? "CLOSED" : "OPEN");
 						alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs.getInt("TamperDetect") == 1 ? rs.getString("TamperTimeStamp")+":00" : rs.getInt("TamperDetect") == 2 ? rs.getString("DoorOpenTimeStamp")+":00" : rs.getString("IotTimeStamp")));
-						
+						alarmsResponseVO.setBatteryColor((rs.getInt("LowBattery") == 1 ) ? "RED" : "GREEN");
 						alarmsResponseList.add(alarmsResponseVO);
 					}
 					
