@@ -512,14 +512,9 @@ public class DashboardDAO {
 					String statusByte = new BigInteger(sb.substring(10, 12), 16).toString(2);
 					statusByte = String.format("%0"+ (8 - statusByte.length() )+"d%s",0 ,statusByte); 
 					
-					
-					
 					dashboardRequestVO.setLowBattery(statusByte.charAt(6) == 49 ? 1 : 0);
 					dashboardRequestVO.setVacation(statusByte.charAt(3) == 49 ? 1 : 0);
 					dashboardRequestVO.setTamperStatus(statusByte.charAt(5) == 49 ? 1 : statusByte.charAt(4) == 49 ? 2 : (statusByte.charAt(4) == 49 && statusByte.charAt(5) == 49) ? 3 : 0);
-//					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);					
-//					dashboardRequestVO.setTamperStatus(sb.substring(10, 12).equalsIgnoreCase("04") ? 1: sb.substring(10, 12).equalsIgnoreCase("08") ? 2: sb.substring(10, 12).equalsIgnoreCase("0C") ? 3: 0);
-//					dashboardRequestVO.setVacation(sb.substring(10, 12).equalsIgnoreCase("10") ? 1: 0);
 //					dashboardRequestVO.setBatteryVoltage((int) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
 					dashboardRequestVO.setBatteryVoltage((int) ((DashboardDAO.hexDecimal(sb.substring(12, 14)))));
 					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(sb.substring(14, 16)));
