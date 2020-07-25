@@ -464,11 +464,10 @@ public class ExtraMethodsDAO {
 	
 	public static String datetimeformatter(String dateTime) throws ParseException {
 		
-		/*SimpleDateFormat IOTFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		SimpleDateFormat clientFormat = new SimpleDateFormat("MM:dd:yyyy,HH:mm:ss");*/
+		SimpleDateFormat IOTFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat clientFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		
-		//return clientFormat.format(IOTFormat.parse(dateTime));
-		return dateTime;
+		return clientFormat.format(IOTFormat.parse(dateTime));
 	}
 
 }
