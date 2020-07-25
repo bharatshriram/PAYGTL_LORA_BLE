@@ -516,7 +516,7 @@ public class DashboardDAO {
 					
 					dashboardRequestVO.setLowBattery(statusByte.charAt(6) == 49 ? 1 : 0);
 					dashboardRequestVO.setVacation(statusByte.charAt(3) == 49 ? 1 : 0);
-					dashboardRequestVO.setTamperStatus(statusByte.charAt(5) == 49 ? 1 : statusByte.charAt(4) == 49 ? 2 : (statusByte.charAt(4) == 49 && statusByte.charAt(5) == 49) ? 3 : 0);
+					dashboardRequestVO.setTamperStatus((statusByte.charAt(4) == 49 && statusByte.charAt(5) == 49) ? 3 : statusByte.charAt(4) == 49 ? 2 : statusByte.charAt(5) == 49 ? 1 : 0);
 //					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);					
 //					dashboardRequestVO.setTamperStatus(sb.substring(10, 12).equalsIgnoreCase("04") ? 1: sb.substring(10, 12).equalsIgnoreCase("08") ? 2: sb.substring(10, 12).equalsIgnoreCase("0C") ? 3: 0);
 //					dashboardRequestVO.setVacation(sb.substring(10, 12).equalsIgnoreCase("10") ? 1: 0);
