@@ -466,8 +466,6 @@ public class ExtraMethodsDAO {
 		
 		SimpleDateFormat IOTFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		SimpleDateFormat clientFormat = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-		
 		return clientFormat.format(IOTFormat.parse(dateTime));
 	}
-
 }
