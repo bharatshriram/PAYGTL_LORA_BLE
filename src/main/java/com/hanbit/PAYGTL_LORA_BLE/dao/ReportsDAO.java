@@ -250,7 +250,6 @@ public class ReportsDAO {
 		ResultSet rs = null;
 		List<AlarmsResponseVO> alarmsResponseList = null;
 		int noAMRInterval = 0;
-		int lowBatteryVoltage = 0;
 		
 		try {
 
@@ -258,12 +257,11 @@ public class ReportsDAO {
 			alarmsResponseList = new LinkedList<AlarmsResponseVO>();
 			AlarmsResponseVO alarmsResponseVO = null;
 			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut FROM alertsettings");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, TimeOut FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 			}
 			
 			String query = "SELECT c.CommunityName, b.BlockName, cmd.HouseNumber, cmd.FirstName, cmd.LastName, cmd.MeterID, cmd.CRNNumber FROM customermeterdetails AS cmd LEFT JOIN community AS C on c.communityID = cmd.CommunityID LEFT JOIN block AS b on b.BlockID = cmd.BlockID <change>";
@@ -292,7 +290,7 @@ public class ReportsDAO {
 						ResultSet rs3 = pstmt3.executeQuery();
 						if(rs3.next()) {
 							alarmsResponseVO.setDateTime(ExtraMethodsDAO.datetimeformatter(rs3.getString("IotTimeStamp")));
-							if(rs3.getInt("LowBattery")==1 || rs3.getInt("BatteryVoltage") < lowBatteryVoltage) {
+							if(rs3.getInt("LowBattery")==1) {
 								alarmsResponseVO.setBatteryVoltage(rs3.getString("BatteryVoltage"));	
 							}else {
 								alarmsResponseVO.setBatteryVoltage("---");
