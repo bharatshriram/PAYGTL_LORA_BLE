@@ -62,7 +62,7 @@ public class ManagementSettingsBO {
 		
 		ResponseVO responsevo = new ResponseVO();
 		
-		if(alertvo.getNoAMRInterval()==0 || alertvo.getLowBatteryVoltage()==0 || alertvo.getTimeOut()==0){
+		if(alertvo.getNoAMRInterval()==0 || alertvo.getTimeOut()==0){
 			throw new BusinessException("ALL FIELDS ARE MANDATORY");
 		}
 		

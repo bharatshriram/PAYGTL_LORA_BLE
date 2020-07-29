@@ -106,12 +106,7 @@ public class DashboardDAO {
 				dashboardvo.setBalance(rs.getFloat("Balance"));
 				dashboardvo.setEmergencyCredit(rs.getFloat("EmergencyCredit"));
 				dashboardvo.setValveStatus((rs.getInt("SolonideStatus") == 0) ? "OPEN" : (rs.getInt("SolonideStatus") == 1) ? "CLOSED" : "");
-				
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
-				
-				// change the full battery voltage value accordingly
-				
-//				dashboardvo.setBattery((int)((rs.getFloat("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBattery(rs.getInt("BatteryVoltage"));
 				dashboardvo.setBatteryColor((rs.getInt("LowBattery") == 1 ) ? "RED" : "GREEN");
 				
@@ -172,19 +167,17 @@ public class DashboardDAO {
 		List<DashboardResponseVO> dashboard_list = null;
 		DashboardResponseVO dashboardvo = null;
 		int noAMRInterval = 0;
-		int lowBatteryVoltage = 0;
 		float perUnitValue = 0.0f;
 		
 		try {
 			con = getConnection();
 			dashboard_list = new LinkedList<DashboardResponseVO>();
 			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue FROM alertsettings");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, TimeOut, PerUnitValue FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 				perUnitValue = rs1.getFloat("PerUnitValue");
 			}
 			
@@ -236,7 +229,7 @@ public class DashboardDAO {
 				dashboardvo.setValveStatusColor((rs.getInt("SolonideStatus") == 0) ? "GREEN" : (rs.getInt("SolonideStatus") == 1) ? "RED" : "");
 //				dashboardvo.setBattery((int)((rs.getInt("BatteryVoltage"))*(100/3.5) > 100 ? 100 : (rs.getFloat("BatteryVoltage"))*(100/3.5)));
 				dashboardvo.setBattery(rs.getInt("BatteryVoltage"));
-				dashboardvo.setBatteryColor((rs.getInt("BatteryVoltage") < lowBatteryVoltage) ? "RED" : "GREEN");
+				dashboardvo.setBatteryColor((rs.getInt("LowBattery") == 1 ) ? "RED" : "GREEN");
 				dashboardvo.setTamperStatus((rs.getInt("TamperDetect") == 0) ? "NO" : (rs.getInt("TamperDetect") == 1) ? "MAG" : (rs.getInt("TamperDetect") == 2) ? "DOOR OPEN" : (rs.getInt("TamperDetect") == 3) ? "MAG;"+"DOOR OPEN" : "NO");
 				dashboardvo.setTamperTimeStamp((rs.getInt("TamperDetect") == 1) ? rs.getString("TamperTimeStamp") : (rs.getInt("TamperDetect") == 2) ? rs.getString("DoorOpenTimeStamp") : (rs.getInt("TamperDetect") == 3) ? rs.getString("TamperTimeStamp") +";"+ rs.getString("DoorOpenTimeStamp") : "---");
 				dashboardvo.setTamperColor((rs.getInt("TamperDetect") == 0) ? "GREEN" : "RED");
@@ -248,14 +241,18 @@ public class DashboardDAO {
 				Date currentDateTime = new Date();
 				
 				long minutes = TimeUnit.MILLISECONDS.toMinutes(currentDateTime.getTime() - (rs.getTimestamp("IoTTimeStamp")).getTime());
-
+				
 				if(minutes > noAMRInterval) {
 					dashboardvo.setDateColor("RED");
 					dashboardvo.setCommunicationStatus("NO");
-				}else {
+				}else if(minutes > 1440 && minutes < noAMRInterval) {
+					dashboardvo.setDateColor("ORANGE");
+					dashboardvo.setCommunicationStatus("YES");
+				} else {
 					dashboardvo.setDateColor("GREEN");
 					dashboardvo.setCommunicationStatus("YES");
 				}
+
 				dashboard_list.add(dashboardvo);
 			}
 		}
@@ -284,7 +281,6 @@ public class DashboardDAO {
 		
 		HomeResponseVO homeResponseVO = null;
 		int noAMRInterval = 0;
-		double lowBatteryVoltage = 0.0;
 		int nonLive = 0;
 		int live = 0;
 		int active = 0;
@@ -298,12 +294,11 @@ public class DashboardDAO {
 			con = getConnection();
 			homeResponseVO = new HomeResponseVO();
 			
-			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval, LowBatteryVoltage FROM alertsettings");
+			PreparedStatement pstmt1 = con.prepareStatement("SELECT NoAMRInterval FROM alertsettings");
 			ResultSet rs1 = pstmt1.executeQuery();
 			if(rs1.next()) {
 				
 				noAMRInterval = rs1.getInt("NoAMRInterval");
-				lowBatteryVoltage = rs1.getInt("LowBatteryVoltage");
 			}
 			
 			String query = "SELECT DISTINCT cmd.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.SolonideStatus, dbl.TamperDetect, dbl.Minutes, dbl.IoTTimeStamp, dbl.LogDate FROM displaybalancelog AS dbl LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
@@ -321,7 +316,7 @@ public class DashboardDAO {
 				if(minutes > noAMRInterval) { nonLive++; } else { live++; }
 				if(rs.getInt("SolonideStatus") == 0) { active++; } else { inActive++; }
 				if(rs.getInt("Balance") <= 0) { emergency++; }
-				if(rs.getInt("BatteryVoltage") < lowBatteryVoltage) { lowBattery++; }
+				if(rs.getInt("LowBattery") == 1) { lowBattery++; }
 				
 			}
 			
@@ -512,14 +507,9 @@ public class DashboardDAO {
 					String statusByte = new BigInteger(sb.substring(10, 12), 16).toString(2);
 					statusByte = String.format("%0"+ (8 - statusByte.length() )+"d%s",0 ,statusByte); 
 					
-					
-					
 					dashboardRequestVO.setLowBattery(statusByte.charAt(6) == 49 ? 1 : 0);
 					dashboardRequestVO.setVacation(statusByte.charAt(3) == 49 ? 1 : 0);
 					dashboardRequestVO.setTamperStatus((statusByte.charAt(4) == 49 && statusByte.charAt(5) == 49) ? 3 : statusByte.charAt(4) == 49 ? 2 : statusByte.charAt(5) == 49 ? 1 : 0);
-//					dashboardRequestVO.setLowBattery(sb.substring(10, 12).equalsIgnoreCase("02") ? 1: 0);					
-//					dashboardRequestVO.setTamperStatus(sb.substring(10, 12).equalsIgnoreCase("04") ? 1: sb.substring(10, 12).equalsIgnoreCase("08") ? 2: sb.substring(10, 12).equalsIgnoreCase("0C") ? 3: 0);
-//					dashboardRequestVO.setVacation(sb.substring(10, 12).equalsIgnoreCase("10") ? 1: 0);
 //					dashboardRequestVO.setBatteryVoltage((int) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
 					dashboardRequestVO.setBatteryVoltage((int) ((DashboardDAO.hexDecimal(sb.substring(12, 14)))));
 					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(sb.substring(14, 16)));
