@@ -49,6 +49,8 @@ public class LoginDAO {
 
 		try {
 			con = getConnection();
+			
+			System.out.println("-->"+con);
 			pstmt = con.prepareStatement(
 					"SELECT u.ID, u.UserID, u.UserName, u.UserPassword, u.RoleID, cmd.MeterID, u.CommunityID, c.CommunityName, u.BlockID, u.CustomerID, u.CRNNumber, b.BlockName, b.Email AS bemail, b.MobileNumber AS bmobile, cmd.MobileNumber AS cmobile, cmd.Email AS cemail FROM USER AS u LEFT JOIN community AS c ON c.CommunityID = u.CommunityID LEFT JOIN block AS b ON b.BlockID = u.BlockID LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = u.CRNNumber WHERE u.UserID = ? AND u.UserPassword = ?");
 			pstmt.setString(1, loginvo.getUserID());
