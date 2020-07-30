@@ -22,7 +22,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserDetails;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
 
 /**
- * @author K VimaL Kumar
+ * @author K VimaL Kumar 
  * 
  */
 public class LoginDAO {
