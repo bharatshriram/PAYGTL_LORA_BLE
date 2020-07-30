@@ -11,7 +11,7 @@ public class TataRequestVO {
 	
 	private boolean confirmed;
 	private String cr_used;
-	private String devEUI;
+	private String deveui;
 	private String dataFrame;
 	private String data_format;
 	private boolean decrypted;
@@ -26,7 +26,7 @@ public class TataRequestVO {
 	private String session_id;
 	private int sf_used;
 	private int snr;
-	private int time_on_air_ms;
+	private double time_on_air_ms;
 	private String timestamp;
 	
 	public boolean isConfirmed() {
@@ -125,10 +125,11 @@ public class TataRequestVO {
 	public void setSnr(int snr) {
 		this.snr = snr;
 	}
-	public int getTime_on_air_ms() {
+	
+	public double getTime_on_air_ms() {
 		return time_on_air_ms;
 	}
-	public void setTime_on_air_ms(int time_on_air_ms) {
+	public void setTime_on_air_ms(double time_on_air_ms) {
 		this.time_on_air_ms = time_on_air_ms;
 	}
 	public String getTimestamp() {
@@ -136,12 +137,14 @@ public class TataRequestVO {
 	}
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
-	}
-	public String getDevEUI() {
-		return devEUI;
-	}
-	public void setDevEUI(String devEUI) {
-		this.devEUI = devEUI;
-	}
+	
 
+}
+	
+	public String getDeveui() {
+		return deveui;
+	}
+	public void setDeveui(String deveui) {
+		this.deveui = deveui;
+	}	
 }

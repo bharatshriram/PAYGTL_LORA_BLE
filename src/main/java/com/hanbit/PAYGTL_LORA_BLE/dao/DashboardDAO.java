@@ -3,7 +3,12 @@
  */
 package com.hanbit.PAYGTL_LORA_BLE.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,8 +24,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Logger;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.constants.DataBaseConstants;
 import com.hanbit.PAYGTL_LORA_BLE.constants.ExtraConstants;
+import com.hanbit.PAYGTL_LORA_BLE.controller.DashboardController;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.MailRequestVO;
@@ -31,11 +42,16 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.GraphResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.HomeResponseVO;
 import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 /**
  * @author k VimaL Kumar
  * 
  */
 public class DashboardDAO {
+	
+	private static final Logger logger = Logger.getLogger(DashboardDAO.class);
 
 	public static Connection getConnection() throws ClassNotFoundException,
 			SQLException {
@@ -301,7 +317,7 @@ public class DashboardDAO {
 				noAMRInterval = rs1.getInt("NoAMRInterval");
 			}
 			
-			String query = "SELECT DISTINCT cmd.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, dbl.MeterID, dbl.Reading, dbl.Balance, dbl.BatteryVoltage, dbl.SolonideStatus, dbl.TamperDetect, dbl.Minutes, dbl.IoTTimeStamp, dbl.LogDate FROM displaybalancelog AS dbl LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
+			String query = "SELECT DISTINCT cmd.CRNNumber, dbl.ReadingID, dbl.MainBalanceLogID, dbl.EmergencyCredit, dbl.MeterID, dbl.Reading, dbl.Balance, dbl.LowBattery, dbl.SolonideStatus, dbl.TamperDetect, dbl.Minutes, dbl.IoTTimeStamp, dbl.LogDate FROM displaybalancelog AS dbl LEFT JOIN customermeterdetails AS cmd ON cmd.CRNNumber = dbl.CRNNumber <change>";
 
 			pstmt = con.prepareStatement(query.replaceAll("<change>", (roleid == 1 || roleid == 4) ? "ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 2 || roleid == 5) ? "WHERE dbl.BlockID = "+id+ " ORDER BY dbl.IoTTimeStamp DESC" : (roleid == 3) ? "WHERE dbl.CRNNumber = '"+id+"'":""));
 			rs = pstmt.executeQuery();
@@ -483,7 +499,9 @@ public class DashboardDAO {
 			
 			con = getConnection();
 			
-				dashboardRequestVO.setMeterID(tataRequestVO.getDevEUI());
+			logger.debug( tataRequestVO.getDeveui());
+			
+				dashboardRequestVO.setMeterID(tataRequestVO.getDeveui());
 				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
 
 				StringBuffer sb = new StringBuffer(decoded.length * 2);
@@ -514,6 +532,8 @@ public class DashboardDAO {
 					dashboardRequestVO.setBatteryVoltage((int) ((DashboardDAO.hexDecimal(sb.substring(12, 14)))));
 					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(sb.substring(14, 16)));
 
+					logger.debug( dashboardRequestVO.toString());
+					
 					Long i = Long.parseLong(sb.substring(16, 24), 16);
 					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
 					
@@ -559,10 +579,12 @@ public class DashboardDAO {
 			        
 			        LocalDateTime datetime2 = LocalDateTime.ofInstant(instant2, ZoneId.of("Asia/Kolkata"));
 			        dashboardRequestVO.setTimeStamp(datetime2.toString().replaceAll("T", " ").substring(0, 19));
-			        
+			        logger.debug( dashboardRequestVO.toString());
 					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
 						
 						responsevo.setResult(insertdashboard(dashboardRequestVO));
+						
+						logger.debug( dashboardRequestVO.getBalance());
 				
 				} else {
 
@@ -576,7 +598,7 @@ public class DashboardDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		logger.debug( dashboardRequestVO.getBatteryVoltage());
 		return responsevo;
 	}
 
@@ -865,5 +887,102 @@ public class DashboardDAO {
 
 		return val;
 	}
+
+	public ResponseVO getGETDashboarddetails() throws IOException, ParseException {
+		// TODO Auto-generated method stub
+		
+		// String url = "http://168.87.87.213:8080/davc/m2m/HPE_IoT/" +
+		// meterID.toLowerCase() + "/default?ty=4&lim=100";
+		/*String url = "https://data.iot.tatacommunications.com/rest/nodes/70b3d5f830004fb7/payloads/ul?limit=1&sort_by_timestamp=desc";  
+				//"" + meterID.toLowerCase() + "/default/latest";
+		// System.out.println("" + url);
+
+		URL obj = new URL(url);
+
+		HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+
+		Gson g = new Gson();
+		
+		// optional default is GET
+		connection.setRequestMethod("GET");
+
+		// add request header
+		connection.setRequestProperty("Content-Type", "application/vnd.onem2m-res+json;ty=4"); // or any other
+																								// mime
+																								// type
+		connection.setRequestProperty("X-M2M-Origin", "CF82BFF84-e6de215b");// other any other
+		connection.setRequestProperty("X-M2M-RI", "1100099992222");
+
+		connection.setRequestProperty("Accept", "application/vnd.onem2m-res+json"); // or any other mime type
+		connection.setRequestProperty("Cache-Control", "no-cache");// other any other
+
+		final String user = "nunnahareesh";
+		final String password = "Hanbit@2020";
+
+		final String authHeaderValue = "Basic "
+				+ Base64.getEncoder().encodeToString((user + ':' + password).getBytes());
+
+		connection.setRequestProperty("Authorization", authHeaderValue);
+
+		int responseCode = connection.getResponseCode();
+
+		String ResponseCode = Integer.toString(responseCode);
+
+		// System.out.println("\nSending 'GET' request to URL : " + url);
+		// System.out.println("Response Code : " + responseCode);
+
+		if (ResponseCode.equalsIgnoreCase("200")) {
+
+			// System.out.println("In If 404 responseCode" + responseCode);
+
+			BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+			String inputLine;
+
+			StringBuffer response = new StringBuffer();
+
+			while ((inputLine = in.readLine()) != null) {
+
+				response.append(inputLine);
+
+			}
+			
+			JSONObject obj1=new JSONObject();
+			obj1.put("jsonResponse",response.toString());
+
+			in.close();
+
+			// print result
+			String str = g.toJson(response);
+			JSONObject objects =null;
+			StringBuffer b = new StringBuffer();
+			 System.out.println(response.toString().length()); 
+			 
+			 JSONObject object = new JSONObject(obj1);
+			 JSONArray getArray = new JSONArray(obj1);
+			 
+			 JSONArray jsonArray=new JSONArray();
+			 JSONObject jsonData = (JSONObject) jsonArray.get(1);
+	            if(jsonArray!=null && jsonArray.length()>0){
+	                for (int i = 0; i < jsonArray.length(); i++) {
+	                    JSONArray childJsonArray=jsonArray.optJSONArray(i);
+	                    if(childJsonArray!=null && childJsonArray.length()>0){
+	                        for (int j = 0; j < childJsonArray.length(); j++) {
+	                            System.out.println(childJsonArray.optString(j));
+	                        }
+	                    }
+	                }
+	            }
+			
+			
+		System.out.println(objects);*/
+		///TataRequestVO t = g.fromJson(objects.toString(), TataRequestVO.class);
+	
+	//	System.out.println(""+t.getDataFrame());
+		
+		
+		
+		return null;
+		}
 
 }
