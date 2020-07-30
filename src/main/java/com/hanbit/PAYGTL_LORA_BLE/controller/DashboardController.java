@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -85,17 +84,6 @@ public class DashboardController {
 	public @ResponseBody
 	ResponseVO postDashboardDetails(HttpEntity<String> httpEntity) {
 
-		
-		
-		//logs debug message
-				if(logger.isDebugEnabled()){
-					logger.debug("getWelcome is executed!");
-				}
-
-				//logs exception
-				
-				
-		
 		DashboardDAO dashboarddao = new DashboardDAO();
 		ResponseVO responsevo = new ResponseVO();
 		
@@ -103,12 +91,10 @@ public class DashboardController {
 		
 		String json = httpEntity.getBody( );
 		
-		logger.debug( json);
+		logger.debug(json);
 		
+		TataRequestVO tataRequestVO = gson.fromJson(json, TataRequestVO.class);
 		
-		TataRequestVO tataRequestVO
-        = gson.fromJson(json, 
-        		TataRequestVO.class); 
 		try {
 			responsevo = dashboarddao.postDashboarddetails(tataRequestVO);
 		} catch (Exception ex) {

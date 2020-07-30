@@ -258,12 +258,12 @@ $(document).ready(
 
 function getReceiptTransactionID(transID){
 	bootbox
-	.confirm(
-			"ARE YOU SURE TO DOWNLOAD RECEIPT",
+	.confirm("ARE YOU SURE TO DOWNLOAD RECEIPT",
 		function(
 			result) {
 			//	alert(result);
-				window.open("/PAYGTL_LORA_BLE/status/print/" + transID);
+//				window.open("/PAYGTL_LORA_BLE/status/print/" + transID);
+				window.open("http://183.82.122.196:8080/PAYGTL_LORA_BLE/status/print/" + transID);
 				/*if(result == true){
 					$.ajax({
 						type : "GET",
