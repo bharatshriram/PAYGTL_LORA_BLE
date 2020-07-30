@@ -188,13 +188,12 @@ public class ManagementSettingsDAO {
 			con = getConnection();
 			AlertResponseVO alertvo = null;
 			alert_settings_list = new LinkedList<AlertResponseVO>();
-			pstmt = con.prepareStatement("SELECT AlertID, NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, ModifiedDate FROM alertsettings");
+			pstmt = con.prepareStatement("SELECT AlertID, NoAMRInterval, TimeOut, PerUnitValue, ReconnectionCharges, ModifiedDate FROM alertsettings");
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				alertvo = new AlertResponseVO();
 				alertvo.setNoAMRInterval((rs.getString("NoAMRInterval")));
-				alertvo.setLowBatteryVoltage(rs.getString("LowBatteryVoltage"));
 				alertvo.setTimeOut(rs.getString("TimeOut"));
 				alertvo.setPerUnitValue(rs.getFloat("PerUnitValue"));
 				alertvo.setReconnectionCharges(rs.getInt("ReconnectionCharges"));
@@ -224,12 +223,11 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			ps = con.prepareStatement("INSERT INTO alertsettings (NoAMRInterval, LowBatteryVoltage, TimeOut, PerUnitValue, ReconnectionCharges, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
+			ps = con.prepareStatement("INSERT INTO alertsettings (NoAMRInterval, TimeOut, PerUnitValue, ReconnectionCharges, RegisteredDate, ModifiedDate) VALUES (?, ?, ?, ?, NOW(), NOW())");
 			ps.setInt(1, alertvo.getNoAMRInterval());
-			ps.setFloat(2, alertvo.getLowBatteryVoltage());
-			ps.setInt(3, alertvo.getTimeOut());
-			ps.setFloat(4, alertvo.getPerUnitValue());
-			ps.setInt(5, alertvo.getReconnectionCharges());
+			ps.setInt(2, alertvo.getTimeOut());
+			ps.setFloat(3, alertvo.getPerUnitValue());
+			ps.setInt(4, alertvo.getReconnectionCharges());
 
 			if (ps.executeUpdate() > 0) {
 				responsevo.setResult("Success");
@@ -258,13 +256,12 @@ public class ManagementSettingsDAO {
 		try {
 			con = getConnection();
 
-			ps = con.prepareStatement("UPDATE alertsettings SET NoAMRInterval = ?, LowBatteryVoltage = ?, TimeOut = ?, PerUnitValue = ?, ReconnectionCharges = ?, ModifiedDate = NOW() WHERE AlertID = ?");
+			ps = con.prepareStatement("UPDATE alertsettings SET NoAMRInterval = ?, TimeOut = ?, PerUnitValue = ?, ReconnectionCharges = ?, ModifiedDate = NOW() WHERE AlertID = ?");
 			ps.setInt(1, alertvo.getNoAMRInterval());
-			ps.setFloat(2, alertvo.getLowBatteryVoltage());
-			ps.setInt(3, alertvo.getTimeOut());
-			ps.setFloat(4, alertvo.getPerUnitValue());
-			ps.setInt(5, alertvo.getReconnectionCharges());
-			ps.setInt(6, alertvo.getAlertID());
+			ps.setInt(2, alertvo.getTimeOut());
+			ps.setFloat(3, alertvo.getPerUnitValue());
+			ps.setInt(4, alertvo.getReconnectionCharges());
+			ps.setInt(5, alertvo.getAlertID());
 
 			if (ps.executeUpdate() > 0) {
 				responsevo.setResult("Success");

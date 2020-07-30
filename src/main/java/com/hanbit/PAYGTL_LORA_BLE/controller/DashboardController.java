@@ -5,6 +5,8 @@ package com.hanbit.PAYGTL_LORA_BLE.controller;
 
 import java.sql.SQLException;
 
+import org.apache.log4j.Logger;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.hanbit.PAYGTL_LORA_BLE.dao.DashboardDAO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.DashboardRequestVO;
 import com.hanbit.PAYGTL_LORA_BLE.request.vo.FilterVO;
@@ -30,6 +33,9 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.ResponseVO;
 @Controller
 public class DashboardController {
 
+	private static final Logger logger = Logger.getLogger(DashboardController.class);
+	
+	
 	@RequestMapping(value = "/dashboard/{roleid}/{id}/{filter}", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody DashboardResponseVO dashboarddetails(@PathVariable("roleid") int roleid, @PathVariable("id") String id, @PathVariable("filter") int filter) throws SQLException {
 
@@ -76,18 +82,44 @@ public class DashboardController {
 	
 	@RequestMapping(value = "/inputdata", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
-	ResponseVO postDashboardDetails(@RequestBody TataRequestVO tataRequestVO) {
+	ResponseVO postDashboardDetails(HttpEntity<String> httpEntity) {
+
+		DashboardDAO dashboarddao = new DashboardDAO();
+		ResponseVO responsevo = new ResponseVO();
+		
+		Gson gson = new Gson();
+		
+		String json = httpEntity.getBody( );
+		
+		logger.debug(json);
+		
+		TataRequestVO tataRequestVO = gson.fromJson(json, TataRequestVO.class);
+		
+		try {
+			responsevo = dashboarddao.postDashboarddetails(tataRequestVO);
+		} catch (Exception ex) {
+			logger.error("This is Error message", ex);
+			ex.printStackTrace();
+		}
+		return responsevo;
+	}
+	
+	
+	@RequestMapping(value = "/GET", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody
+	ResponseVO getDashboardDetails() {
 
 		DashboardDAO dashboarddao = new DashboardDAO();
 		ResponseVO responsevo = new ResponseVO();
 
 		try {
-			responsevo = dashboarddao.postDashboarddetails(tataRequestVO);
+			responsevo = dashboarddao.getGETDashboarddetails();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		return responsevo;
 	}
+	
 	
 	@RequestMapping(value = "/datafrommobile", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
 	public @ResponseBody
