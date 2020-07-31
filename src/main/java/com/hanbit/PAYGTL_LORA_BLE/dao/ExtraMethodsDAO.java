@@ -229,11 +229,11 @@ public class ExtraMethodsDAO {
 				if(pstmt1.executeUpdate() > 0){
 					
 					smsRequestVO.setToMobileNumber(rs.getString("MobileNumber"));
-					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : response.getBody().getTransmissionStatus() > 2 && rs.getString("ModeOfPayment").equalsIgnoreCase("Online") ? "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+". Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused." : "");
+					smsRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : response.getBody().getTransmissionStatus() > 2 ? "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+". Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused." : "");
 					
 					mailRequestVO.setToEmail(rs.getString("Email"));
 					mailRequestVO.setSubject("Recharge Status!!!");
-					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : response.getBody().getTransmissionStatus() > 2 && rs.getString("ModeOfPayment").equalsIgnoreCase("Online") ? "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+". Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused." : "");
+					mailRequestVO.setMessage(response.getBody().getTransmissionStatus() == 2 ? "Thank You for Recharging your CRN: "+ rs.getString("CRNNumber")+". Your request has been processed successfully." : response.getBody().getTransmissionStatus() > 2 ? "Your Recharge request has failed to reach the CRN: "+ rs.getString("CRNNumber")+". Kindly retry after sometime. Deducted Amount will be refunded in 5-10 working days. We regret the inconvenience caused." : "");
 					
 					if(response.getBody().getTransmissionStatus() >= 2) {
 						sendsms(smsRequestVO);

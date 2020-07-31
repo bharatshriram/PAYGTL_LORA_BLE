@@ -22,7 +22,7 @@ import com.hanbit.PAYGTL_LORA_BLE.response.vo.UserDetails;
 import com.hanbit.PAYGTL_LORA_BLE.utils.Encryptor;
 
 /**
- * @author K VimaL Kumar
+ * @author K VimaL Kumar 
  * 
  */
 public class LoginDAO {
@@ -109,7 +109,7 @@ public class LoginDAO {
 								if (userDetails.getCRNNumber() != null) {
 									pstmt1 = con.prepareStatement(
 											"SELECT TransactionID, CommandType, DataFrame from command WHERE CRNNumber = ? and Status = 0");
-									pstmt1.setInt(1, userDetails.getCustomerID());
+									pstmt1.setString(1, userDetails.getCRNNumber());
 									resultSet1 = pstmt1.executeQuery();
 									if (resultSet1.next()) {
 										userDetails.setPendingCommandType(resultSet1.getInt("CommandType"));
