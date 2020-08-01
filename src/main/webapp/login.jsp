@@ -1,22 +1,25 @@
 \<html lang="en">
 <head>
+	
+<title>Login</title>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/ico" href="common/images/hanbit1.ico">
+<link rel="shortcut icon" type="image/x-icon" href="common/images/hanbit1.ico" />
+<link id="avast_os_ext_custom_font"
+	href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css"
+	rel="stylesheet" type="text/css">
+	
+
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.8.1/css/mdb.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link rel="stylesheet" href="common/css/style.css">
-	
-<style type="text/css">
 
-</style>
-
-
-<title>Login</title>
-<link id="avast_os_ext_custom_font"
-	href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css"
-	rel="stylesheet" type="text/css">
+        
+        
 </head>
 <body class="login" data-gr-c-s-loaded="true">
 	<div class="container">
