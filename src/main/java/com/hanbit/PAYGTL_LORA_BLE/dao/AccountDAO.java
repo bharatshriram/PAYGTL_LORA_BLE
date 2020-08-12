@@ -589,6 +589,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				Document document = new Document(pdfDocument);
 				Paragraph newLine = new Paragraph("\n");
 				Paragraph head = new Paragraph("Receipt");
+				Paragraph disclaimer = new Paragraph(ExtraConstants.Disclaimer);
 				Paragraph copyRight = new Paragraph("------------------------------------All  rights reserved by HANBIT ® Hyderabad-----------------------------------");
 				PdfFont font = new PdfFontFactory().createFont(FontConstants.TIMES_BOLD);
 
@@ -787,7 +788,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				datatable.startNewRow();
 				
 				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
-				document.add(newLine);
+				document.add(disclaimer.setHorizontalAlignment(HorizontalAlignment.CENTER).setFont(font));	
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);
