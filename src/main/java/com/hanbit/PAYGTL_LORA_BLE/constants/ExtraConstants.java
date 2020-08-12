@@ -7,10 +7,12 @@ public class ExtraConstants {
 	
 	public static final String key1 = "Bar12345Bar12345"; // 128 bit key
 	public static final String key2 = "ThisIsASecretKet";
-	//public static final String HANBITIMAGEURL="http://localhost:8080/PAYGTL_LORA_BLE/common/images/hanbit1.png";
-	public static final String HANBITIMAGEURL="http://183.82.122.196:8080/PAYGTL_LORA_BLE/common/images/hanbit1.png";
-	//public static final String CLIENTIMAGEURL="http://localhost:8080/PAYGTL_LORA_BLE/common/images/raychem.png";
-	public static final String CLIENTIMAGEURL="http://183.82.122.196:8080/PAYGTL_LORA_BLE/common/images/raychem.png";
+	public static final String ApplicationURL = "http://183.82.122.196:8080/PAYGTL_LORA_BLE";
+	public static final String LocalURL = "http://localhost:8080/PAYGTL_LORA_BLE";
+	//public static final String HANBITIMAGEURL=LocalURL+"/common/images/hanbit1.png";
+	public static final String HANBITIMAGEURL= ApplicationURL+"/common/images/hanbit1.png";
+	//public static final String CLIENTIMAGEURL= LocalURL+"/common/images/raychem.png";
+	public static final String CLIENTIMAGEURL=ApplicationURL+"/common/images/raychem.png";
 	public static final String fromEmail = "alert@hanbitsolutions.com";
 	public static final String fromEmailPassword = "hanbit@123"; 
 	public static final String TataGatewayURL =  "https://data.iot.tatacommunications.com/rest/nodes/";
@@ -32,7 +34,6 @@ public class ExtraConstants {
 	public static final String PaymentButtonText = "Proceed to Pay With Razorpay";
 	public static final String PaymentCurrency = "INR";
 	public static final String CompanyName = "HANBIT";
-	public static final String ApplicationURL = "http://183.82.122.196:8080/PAYGTL_LORA_BLE";
 	public static final int LowBalanceAlertCount  = 2;
 
 }

@@ -1,18 +1,23 @@
-\<html lang="en">
+<!DOCTYPE html 
+PUBLIC "-//W3C//DTD HTML 4.01//EN"
+      "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
 <head>
 	
 <title>Login</title>
+
+<link rel="icon" type="image/png" sizes="16x16" href="common/images/1-hanbit.png">
+
+
+	
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" type="image/ico" href="common/images/hanbit1.ico">
-<link rel="shortcut icon" type="image/x-icon" href="common/images/hanbit1.ico" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <link id="avast_os_ext_custom_font"
 	href="chrome-extension://eofcbnmajmjmplflapaojjnihcjkigck/common/ui/fonts/fonts.css"
 	rel="stylesheet" type="text/css">
-	
-
-<meta name="viewport"
-	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://mdbootstrap.com/api/snippets/static/download/MDB-Pro_4.8.1/css/mdb.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -45,13 +50,13 @@
                 <!-- Login Form -->
                 <div class="form-group md-form">
                   <i class="fas fa-envelope prefix icon_colors d-flex"></i>
-                  <input type="text" id="username" name="username" class="form-control">
+                  <input type="text" id="username" name="username" class="form-control" style = "color : #f0e3e3">
                   <label for="username" class="bmd-label-floating text-white">User ID</label>
                 </div>
 
                 <div class="form-group md-form">
                   <i class="fas fa-lock prefix icon_colors d-flex"></i>
-                  <input type="password" name="password" id="password" class="form-control">
+                  <input type="password" name="password" id="password" class="form-control" style = "color : #f0e3e3">
                   <label for="password" class="bmd-label-floating text-white">Your password</label>
                   <span toggle="#password" class="fa fa-fw fa-eye field-icon toggle-password"></span>
                 </div>

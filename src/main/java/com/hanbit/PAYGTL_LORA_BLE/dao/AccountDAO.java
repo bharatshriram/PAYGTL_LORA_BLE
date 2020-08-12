@@ -763,8 +763,11 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				cell10.add("Order ID: ");
 				cell10.setTextAlignment(TextAlignment.CENTER);
 				
+				System.out.println(rs.getString("RazorPayOrderID"));
+				
+				
 				Cell OrderID = new Cell();
-				OrderID.add(rs.getString("RazorPayOrderID"));
+				OrderID.add(rs.getString("RazorPayOrderID")==null?"---":rs.getString("RazorPayOrderID"));
 				OrderID.setTextAlignment(TextAlignment.CENTER);				
 				
 				datatable.addCell(cell10);
@@ -776,7 +779,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				cell11.setTextAlignment(TextAlignment.CENTER);
 				
 				Cell PaymentID = new Cell();
-				PaymentID.add(rs.getString("RazorPayPaymentID"));
+				PaymentID.add(rs.getString("RazorPayPaymentID")==null?"---":rs.getString("RazorPayPaymentID"));
 				PaymentID.setTextAlignment(TextAlignment.CENTER);				
 				
 				datatable.addCell(cell11);

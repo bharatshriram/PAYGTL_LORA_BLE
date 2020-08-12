@@ -499,7 +499,8 @@ public class DashboardDAO {
 			
 			con = getConnection();
 			
-			logger.debug( tataRequestVO.getDeveui());
+			logger.debug("Device ID: "+tataRequestVO.getDeveui());
+			logger.debug("Dataframe: "+tataRequestVO.getDataFrame());
 			
 				dashboardRequestVO.setMeterID(tataRequestVO.getDeveui());
 				byte[] decoded = Base64.getDecoder().decode(tataRequestVO.getDataFrame());
@@ -516,24 +517,23 @@ public class DashboardDAO {
 					// 0A 00 00 00 83 08 FF 03 00 00 00 00 41 A0 00 00 00 00 00 00 00 00 54 65 46 78 54 65 47 69 01 17  live frame
 					// 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23 45 67 89 01 23  count
 					//               10             20             30             40             50             60   
-					
 					dashboardRequestVO.setReading(DashboardDAO.hexDecimal(sb.substring(2, 10)));					
 					
 					// Bit 7 = good, 6 = low battery, 5 = Mag, 4 = Door open, 3 = Vacation 
 					// 0 = no tamper 1 = magnetic; 2 = door open; 3 = both
 					
 					String statusByte = new BigInteger(sb.substring(10, 12), 16).toString(2);
-					statusByte = String.format("%0"+ (8 - statusByte.length() )+"d%s",0 ,statusByte); 
+					
+					statusByte = String.format("%0"+ (9 - statusByte.length() )+"d%s",0 ,statusByte);
 					
 					dashboardRequestVO.setLowBattery(statusByte.charAt(6) == 49 ? 1 : 0);
 					dashboardRequestVO.setVacation(statusByte.charAt(3) == 49 ? 1 : 0);
 					dashboardRequestVO.setTamperStatus((statusByte.charAt(4) == 49 && statusByte.charAt(5) == 49) ? 3 : statusByte.charAt(4) == 49 ? 2 : statusByte.charAt(5) == 49 ? 1 : 0);
 //					dashboardRequestVO.setBatteryVoltage((int) (((DashboardDAO.hexDecimal(sb.substring(12, 14))) * 3.6) / 256));
 					dashboardRequestVO.setBatteryVoltage((int) ((DashboardDAO.hexDecimal(sb.substring(12, 14)))));
+					logger.debug("Battery Voltage: "+dashboardRequestVO.getBatteryVoltage());
 					dashboardRequestVO.setMeterType(DashboardDAO.hexDecimal(sb.substring(14, 16)));
 
-					logger.debug( dashboardRequestVO.toString());
-					
 					Long i = Long.parseLong(sb.substring(16, 24), 16);
 					dashboardRequestVO.setBalance(Float.intBitsToFloat(i.intValue()));
 					
@@ -579,12 +579,9 @@ public class DashboardDAO {
 			        
 			        LocalDateTime datetime2 = LocalDateTime.ofInstant(instant2, ZoneId.of("Asia/Kolkata"));
 			        dashboardRequestVO.setTimeStamp(datetime2.toString().replaceAll("T", " ").substring(0, 19));
-			        logger.debug( dashboardRequestVO.toString());
 					if (!dashboardRequestVO.getTimeStamp().equalsIgnoreCase(iot_Timestamp)) {
 						
 						responsevo.setResult(insertdashboard(dashboardRequestVO));
-						
-						logger.debug( dashboardRequestVO.getBalance());
 				
 				} else {
 
@@ -598,7 +595,6 @@ public class DashboardDAO {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		logger.debug( dashboardRequestVO.getBatteryVoltage());
 		return responsevo;
 	}
 
@@ -621,7 +617,6 @@ public class DashboardDAO {
 				if(rs.next()) {
 					
 					pstmt = con.prepareStatement("INSERT INTO balancelog (MeterID, Reading, Balance, CommunityID, BlockID, CustomerID, BatteryVoltage, TariffAmount, EmergencyCredit, MeterType, SolonideStatus, CreditStatus, TamperDetect, TamperTimeStamp, DoorOpenTimeStamp, LowBattery, Vacation, MeterSerialNumber, CRNNumber, Minutes, IoTTimeStamp) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
 					pstmt.setString(1, dashboardRequestVO.getMeterID());
 					pstmt.setFloat(2, dashboardRequestVO.getReading());
 					pstmt.setFloat(3, dashboardRequestVO.getBalance());// Balance Pending
@@ -657,7 +652,6 @@ public class DashboardDAO {
 							ResultSet rs1 = pstmt3.executeQuery();
 							
 							if(rs1.next()) {
-								
 								pstmt1 = con.prepareStatement("UPDATE displaybalancelog SET MainBalanceLogID = ?, MeterID = ?, Reading = ?, Balance = ?, CommunityID = ?, BlockID = ?, CustomerID = ?, BatteryVoltage = ?, TariffAmount = ?, EmergencyCredit = ?, MeterType = ?, SolonideStatus = ?, CreditStatus = ?, TamperDetect = ?, TamperTimeStamp = ?, DoorOpenTimeStamp = ?,  LowBattery = ?, Vacation = ?, Minutes = ?, IoTTimeStamp = ?, LogDate = NOW() WHERE MeterID = ? ");
 								pstmt1.setInt(1, rs2.getInt("ReadingID"));
 								pstmt1.setString(2, dashboardRequestVO.getMeterID());

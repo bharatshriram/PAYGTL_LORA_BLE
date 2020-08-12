@@ -6,6 +6,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link rel="icon" type="image/png" sizes="16x16" href="common/images/1-hanbit.png">
 <link href="common/css/materialize.fontawsome.css"
 	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
@@ -55,9 +56,9 @@
 			response.sendRedirect("login.jsp");
 		}else {
 	%>
-<div id="preloader">
-  <div id="status">&nbsp;</div>
-</div>
+	<div id="preloader">
+	  <div id="status">&nbsp;</div>
+	</div>
 
 	<jsp:include page="header.jsp" />
 	<div
