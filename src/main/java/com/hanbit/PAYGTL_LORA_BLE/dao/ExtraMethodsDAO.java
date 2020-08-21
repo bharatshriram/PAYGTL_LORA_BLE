@@ -197,8 +197,8 @@ public class ExtraMethodsDAO {
 }
 	
 	
-//	@Scheduled(cron="0 0 * ? * *")
-	@Scheduled(cron="0 0/2 * * * ?") 
+//	@Scheduled(cron="0 0 * ? * *") // scheduled for 1 hour
+	@Scheduled(cron="0 0/2 * * * ?") // scheduled for every 2 min
 	public void topupstatusupdatecall() throws SQLException {
 		
 		Connection con = null;

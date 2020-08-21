@@ -589,6 +589,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				Document document = new Document(pdfDocument);
 				Paragraph newLine = new Paragraph("\n");
 				Paragraph head = new Paragraph("Receipt");
+				Paragraph disclaimer = new Paragraph(ExtraConstants.Disclaimer);
 				Paragraph copyRight = new Paragraph("------------------------------------All  rights reserved by HANBIT ® Hyderabad-----------------------------------");
 				PdfFont font = new PdfFontFactory().createFont(FontConstants.TIMES_BOLD);
 
@@ -763,8 +764,11 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				cell10.add("Order ID: ");
 				cell10.setTextAlignment(TextAlignment.CENTER);
 				
+				System.out.println(rs.getString("RazorPayOrderID"));
+				
+				
 				Cell OrderID = new Cell();
-				OrderID.add(rs.getString("RazorPayOrderID"));
+				OrderID.add(rs.getString("RazorPayOrderID")==null?"---":rs.getString("RazorPayOrderID"));
 				OrderID.setTextAlignment(TextAlignment.CENTER);				
 				
 				datatable.addCell(cell10);
@@ -776,7 +780,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				cell11.setTextAlignment(TextAlignment.CENTER);
 				
 				Cell PaymentID = new Cell();
-				PaymentID.add(rs.getString("RazorPayPaymentID"));
+				PaymentID.add(rs.getString("RazorPayPaymentID")==null?"---":rs.getString("RazorPayPaymentID"));
 				PaymentID.setTextAlignment(TextAlignment.CENTER);				
 				
 				datatable.addCell(cell11);
@@ -784,7 +788,7 @@ public String inserttopup(TopUpRequestVO topUpRequestVO) {
 				datatable.startNewRow();
 				
 				document.add(datatable.setHorizontalAlignment(HorizontalAlignment.CENTER));
-				document.add(newLine);
+				document.add(disclaimer.setHorizontalAlignment(HorizontalAlignment.CENTER).setFont(font));	
 				document.add(newLine);
 				document.add(newLine);
 				document.add(newLine);

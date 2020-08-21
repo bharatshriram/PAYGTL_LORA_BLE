@@ -16,6 +16,9 @@ $(document).ready(function() {
 		
 	}
 	
+	//alert(sessionStorage.getItem("ID"));
+	
+	
 	$("#holidayTable1").hide();
 table = $('#holidayTable')
 .DataTable(
@@ -175,7 +178,10 @@ $("#customerFilter")
 					$("#filterselectcommunityName").val() == "-1" ? 
 					sessionStorage.getItem("roleID")+"/0/-1":sessionStorage.getItem("roleID")+"/0/"+$("#filterselectcommunityName").val():
 				"2/"+$("#filterselectBlockBasedonCommunity").val()+"/-1"
-					
+			
+				
+				//alert(url);
+				
 			$
 					.ajax({
 						type : "GET",

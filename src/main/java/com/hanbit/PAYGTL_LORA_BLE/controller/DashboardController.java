@@ -89,9 +89,7 @@ public class DashboardController {
 		
 		Gson gson = new Gson();
 		
-		String json = httpEntity.getBody( );
-		
-		logger.debug(json);
+		String json = httpEntity.getBody();
 		
 		TataRequestVO tataRequestVO = gson.fromJson(json, TataRequestVO.class);
 		

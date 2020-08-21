@@ -394,7 +394,7 @@ $(document)
 																					result) {
 																					
 																		//alert();
-																	//	window.location = "tariff.jsp";
+																		window.location = "tariff.jsp";
 																		return false
 																	});
 																	

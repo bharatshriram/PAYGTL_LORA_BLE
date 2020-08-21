@@ -31,6 +31,9 @@ $(document).ready(function () {
 				function() {
 					 //$("input:text").val("");
 					    $('input:text').not(':disabled').val('');
+					    
+					    $('.btn .btn-secondary .submit-button').attr('disabled',
+								true);
 
 				});	
 		

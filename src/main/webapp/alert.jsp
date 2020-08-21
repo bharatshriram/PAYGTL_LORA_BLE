@@ -6,6 +6,7 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
+<link rel="icon" type="image/png" sizes="16x16" href="common/images/1-hanbit.png">
 <link href="common/css/materialize.fontawsome.css"
 	rel="stylesheet">
 <!-- Material Design for Bootstrap CSS -->
@@ -71,7 +72,7 @@
 							<thead>
 								<tr>
 									<th>MIU ID Interval (Min)</th>
-									<th>Battery (%)</th>
+									<!-- <th>Battery (%)</th> -->
 									<th>Timeout</th>
 									<th>ReConnection Charge</th>
 									<th>Per Unit Value (KG)</th>
@@ -114,13 +115,13 @@
 										id="noamrintervalAdd">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div class="input-group form-group">
 									<label class="bmd-label-floating">Low Battery (%)</label> <input
 										type="text" class="form-control" name="lowbatteryvoltageAdd"
 										id="lowbatteryvoltageAdd">
 								</div>
-							</div>
+							</div> -->
 
 							<div class="col-md-6">
 								<div class="input-group form-group">
@@ -201,13 +202,13 @@
 										id="noamrintervalEdit">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								<div id="formlowbatteryvoltageEdit" class="input-group form-group">
 									<label class="bmd-label-floating">Low Battery (%)</label> <input
 										type="text" class="form-control" name="lowbatteryvoltageEdit1"
 										id="lowbatteryvoltageEdit1">
 								</div>
-							</div>
+							</div> -->
 
 							<div class="col-md-6">
 								<div id="formrechargetimeoutEdit" class="input-group form-group">
@@ -232,9 +233,9 @@
 										id="perUnitEdit1">
 								</div>
 							</div>
-							<div class="col-md-6">
+							<!-- <div class="col-md-6">
 								
-							</div>
+							</div> -->
 
 							<div class="col-md-4">
 									<button class="btn btn-secondary submit-button"

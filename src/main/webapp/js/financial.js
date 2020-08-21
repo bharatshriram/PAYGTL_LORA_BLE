@@ -219,31 +219,27 @@ $(document)
 																					{
 																						// extend:
 																						// 'excel',
-																						className : 'custom-btn fa fa-file-excel-o',
+																						extend: 'excel',
+																						//className : 'custom-btn fa fa-file-excel-o',
 																						footer : 'true',
 																					//	text : 'Excel',
 																						title : 'Financial Report'
 																					},
-
-																					{
-																						// extend:
-																						// 'pdf',
-																						className : 'custom-btn fa fa-file-excel-o',
-																						footer : 'true',
-																						exportOptions : {
-																							columns : [
-																									1,
-																									2,
-																									3,
-																									4,
-																									5,
-																									6,
-																									7 ]
-																						},
-																				//		text : 'pdf',
-																						orientation : 'landscape',
-																						title : 'Financial Report'
-																					} ]
+																					  {
+																					        extend: 'pdf',
+																					        footer: 'true',
+																					      //  className: 'custom-btn fa fa-file-pdf-o',
+																					        exportOptions: {
+																					            columns: [0,1,2,3,4,5]
+																					        },
+																					        //text: 'pdf',
+																					        orientation: 'landscape',
+																					        title : 'Financial Report' }
+																					
+																					], initComplete: function() {
+																						   $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+																						   $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+																						  }
 																		});
 
 														$("div.headname")

@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="common/css/bootstrap.min.css">
 <link href="common/css/materialize.fontawsome.css"
 	rel="stylesheet">
+	<link rel="icon" type="image/png" sizes="16x16" href="common/images/1-hanbit.png">
 <!-- Material Design for Bootstrap CSS -->
 <link rel="stylesheet"
 	href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
