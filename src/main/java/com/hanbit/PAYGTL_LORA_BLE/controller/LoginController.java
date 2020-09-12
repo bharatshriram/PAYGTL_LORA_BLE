@@ -34,6 +34,8 @@ public class LoginController {
 	ResponseVO validateUser(@RequestBody LoginVO loginvo)
 			throws ClassNotFoundException, BusinessException, SQLException {
 
+		System.out.println("@@");
+		
 		LoginBO loginbo = new LoginBO();
 		ResponseVO responsevo = new ResponseVO();
 

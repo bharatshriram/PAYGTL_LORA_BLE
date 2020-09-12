@@ -9,10 +9,10 @@ public class ExtraConstants {
 	public static final String key2 = "ThisIsASecretKet";
 	public static final String ApplicationURL = "http://183.82.122.196:8080/PAYGTL_LORA_BLE";
 	public static final String LocalURL = "http://localhost:8084/PAYGTL_LORA_BLE";
-//	public static final String HANBITIMAGEURL=LocalURL+"/common/images/1-hanbit.png";
-	public static final String HANBITIMAGEURL= ApplicationURL+"/common/images/1-hanbit.png";
-//	public static final String CLIENTIMAGEURL= LocalURL+"/common/images/raychem.png";
-	public static final String CLIENTIMAGEURL=ApplicationURL+"/common/images/raychem.png";
+	public static final String HANBITIMAGEURL=LocalURL+"/common/images/1-hanbit.png";
+//	public static final String HANBITIMAGEURL= ApplicationURL+"/common/images/1-hanbit.png";
+	public static final String CLIENTIMAGEURL= LocalURL+"/common/images/raychem.png";
+//	public static final String CLIENTIMAGEURL=ApplicationURL+"/common/images/raychem.png";
 	public static final String fromEmail = "alert@hanbitsolutions.com";
 	public static final String fromEmailPassword = "hanbit@123"; 
 	public static final String TataGatewayURL =  "https://data.iot.tatacommunications.com/rest/nodes/";
